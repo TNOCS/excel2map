@@ -1,0 +1,32 @@
+{
+  "name": "excel2map",
+  "version": "0.0.1",
+  "authors": [
+    "Erik Vullings",
+    "Arnoud de Jong",
+    "Rinze Bruining"
+  ],
+  "main": "../server.js",
+  "moduleType": [
+    "node"
+  ],
+  "keywords": [
+    "map"
+  ],
+  "license": "MIT",
+  "description": "Excel2map module for csWeb",
+  "homepage": "http://github.com/TNOCS/excel2map",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "csweb": "~0.2.16-rc1",
+    "font-awesome": "~4.4.0",
+    "angularUtils-pagination": "angular-utils-pagination#~0.9.2"
+  }
+}

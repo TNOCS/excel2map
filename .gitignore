@@ -1,0 +1,15 @@
+node_modules/
+public/bower_components/
+
+public/data/templates/
+
+public/**/*.js
+public/**/*.js.map
+
+.vscode
+
+server.js.map
+server.js
+dist/
+
+public/data/api/
