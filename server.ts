@@ -1,8 +1,8 @@
 import Winston = require('winston');
-import auth = require('basic-auth');
 import fs = require('fs');
 import path = require('path');
 import request = require('request');
+import auth = require('basic-auth');
 import * as csweb from "csweb";
 import * as BAG from "./public/BagDatabase/BagDatabase";
 

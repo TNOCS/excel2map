@@ -32,6 +32,7 @@
     "Scripts\\typings\\angularjs\\angular.d.ts",
     "Scripts\\typings\\angularLocalStorage\\angularLocalStorage.d.ts",
     "Scripts\\typings\\async\\async.d.ts",
+    "Scripts\\typings\\basic-auth\\basic-auth.d.ts",
     "Scripts\\typings\\bcrypt\\bcrypt.d.ts",
     "Scripts\\typings\\bcrypt\\bcryptjs.d.ts",
     "Scripts\\typings\\body-parser\\body-parser.d.ts",

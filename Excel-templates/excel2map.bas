@@ -129,6 +129,14 @@ Private Function range2json(namedRange As String, isStart As Boolean, isFinal As
         Range("Parameters").Cells(1, 2).Value = "Parameter2"
         Range("Parameters").Cells(1, 3).Value = "Parameter3"
         Range("Parameters").Cells(1, 4).Value = "Parameter4"
+        Dim file, key As String
+        file = Application.WorksheetFunction.VLookup(Range("GEOMETRY_TYPE").Cells(1, 1).Value, Range("GEOMETRY_DATA"), 6, False)
+        key = Application.WorksheetFunction.VLookup(Range("GEOMETRY_TYPE").Cells(1, 1).Value, Range("GEOMETRY_DATA"), 7, False)
+        Range("LD_GEOMETRY").Cells(1, 1).Value = "GeometryFile"
+        Range("LD_GEOMETRY").Cells(1, 2).Value = "GeometryKey"
+        Range("LD_GEOMETRY").Cells(2, 1).Value = file
+        Range("LD_GEOMETRY").Cells(2, 2).Value = key
+        
     End If
     Set rangeToExport = Range(namedRange)
     namedRange = LowerCaseFirstLetter(namedRange)
@@ -307,7 +315,7 @@ End Sub
 Sub SetNamedRangesOfData()
 'Set the named ranges 'HEADERS' and 'Properties' to their corresponding data
 '
-    ActiveWorkbook.Sheets("Data").Select
+    'ActiveWorkbook.Sheets("Data").Select
     Dim LR As Long, LC As Long
     LR = ActiveWorkbook.Sheets("Data").Range("A1").End(xlDown).Row
     LC = ActiveWorkbook.Sheets("Data").Range("A1").End(xlToRight).Column
@@ -324,7 +332,7 @@ Sub SetNamedRangesOfData()
     End If
     ActiveWorkbook.Names("HEADERS").RefersToR1C1 = Range(ActiveWorkbook.Sheets("Data").Range("A1"), ActiveWorkbook.Sheets("Data").Cells(1, LC))
     ActiveWorkbook.Names("Properties").RefersToR1C1 = Range(ActiveWorkbook.Sheets("Data").Range("A1"), ActiveWorkbook.Sheets("Data").Cells(LR, LC))
-    ActiveWorkbook.Sheets("Layer").Select
+    'ActiveWorkbook.Sheets("Layer").Select
 End Sub
 
 Sub CreateProject()
