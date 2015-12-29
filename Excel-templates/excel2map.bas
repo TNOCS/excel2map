@@ -9,6 +9,8 @@ Sub export2map()
     Dim cd, dest
     Dim passedCheck As Boolean
     
+    ActiveWorkbook.Sheets("Layer").Unprotect
+    
     Call ColourCells
     Call CreateProject
     Call SetNamedRangesOfData
@@ -18,8 +20,8 @@ Sub export2map()
     Call RemoveForbiddenCharacters("LayerDefinitionRow2")
     
     json = ""
-    json = json & range2json("LayerDefinition", True, False, True, False)
-    json = json & range2json("PropertyTypes", False, False, True, False)
+    json = json & range2json("LayerDefinition", True, False, True)
+    json = json & range2json("PropertyTypes", False, False, True)
         
     passedCheck = checkHost("HOST")
     If (Not passedCheck) Then Exit Sub
@@ -29,7 +31,7 @@ Sub export2map()
     If (Not passedCheck) Then Exit Sub
     Call UpdateProjectLink
     
-    json = json & range2json("Properties", False, False, False, True)
+    json = json & range2json("Properties", False, False, False)
     
     'Add the projectId and Icon (in base64)
     Dim icon As String
@@ -38,6 +40,8 @@ Sub export2map()
     
     Set projectId = Range("PROJECTID")
     json = json & """projectId"":""" & projectId.Cells(1, 1) & """}"
+
+    ActiveWorkbook.Sheets("Layer").Protect
 
     'Write output to file
     If (Not IsEmpty(Range("Debugging").Cells(1, 1).Value)) And (Range("Debugging").Cells(1, 1) > 0) Then
@@ -83,7 +87,7 @@ End Function
 
 ' Convert a named cell range to JSON.
 ' Parameters are whether the string should include the optional start { and end }.
-Private Function range2json(namedRange As String, isStart As Boolean, isFinal As Boolean, firstLetterToLower As Boolean, preventDuplicateHeaders As Boolean) As String
+Private Function range2json(namedRange As String, isStart As Boolean, isFinal As Boolean, firstLetterToLower As Boolean) As String
     Dim json As String ' New System.Text.StringBuilder()
     Dim rangeToExport As Range
     Dim rowCounter As Long
@@ -131,9 +135,6 @@ Private Function range2json(namedRange As String, isStart As Boolean, isFinal As
                 cellHeader = LowerCaseFirstLetter(rangeToExport.Cells(1, columnCounter))
             Else
                 cellHeader = rangeToExport.Cells(1, columnCounter)
-            End If
-            If (preventDuplicateHeaders) Then
-                cellHeader = cellHeader & Format(columnCounter, "000000")
             End If
             'cellHeader = LCase(Mid(cellHeader, 1, 1)) & Mid(cellHeader, 2, Len(cellHeader) - 1)
             If (Not IsError(cellValue)) Then
@@ -213,6 +214,9 @@ Sub SendJson(url As String, json As String)
     objHTTP.send json
     Debug.Print objHTTP.Status
     Debug.Print objHTTP.responseText
+    If objHTTP.Status = 401 Then
+        MsgBox "Either the projectID you are trying to create already exists, or you entered a wrong password.", vbOKOnly, "Authentication error"
+    End If
 End Sub
 ' Example subroutine - not used
 Sub range2json2(namedRange As String)
@@ -315,12 +319,28 @@ End Sub
 
 Sub FillPropertyTypes()
     Call SetNamedRangesOfData
+    Dim cellValue
     Dim columnCounter As Integer
     For columnCounter = 1 To Range("HEADERS").Cells.Count
         Range("PropertyTypes").Cells(columnCounter + 1, 1).Value = Range("HEADERS").Cells(1, columnCounter).Value
         Range("PropertyTypes").Cells(columnCounter + 1, 3).Value = Range("HEADERS").Cells(1, columnCounter).Value
         Range("PropertyTypes").Cells(columnCounter + 1, 10).Value = True
         Range("PropertyTypes").Cells(columnCounter + 1, 11).Value = True
+        cellValue = Range("Properties").Cells(2, columnCounter).Value
+        Range("PropertyTypes").Cells(columnCounter + 1, 5).Value = "text" 'Default = text
+        If (Not IsError(cellValue)) Then
+            If (Not cellValue = "") Then
+                If (IsNumber(cellValue) And Not TypeName(cellValue) = "String") Then
+                    Range("PropertyTypes").Cells(columnCounter + 1, 5).Value = "number"
+                ElseIf (TypeName(cellValue) = "Date") Then
+                    Range("PropertyTypes").Cells(columnCounter + 1, 5).Value = "date"
+                ElseIf (IsBoolean(cellValue)) Then
+                    Range("PropertyTypes").Cells(columnCounter + 1, 5).Value = "text"
+                ElseIf (Left(cellValue, 6) = "http://" Or Left(cellValue, 4) = "www.") Then
+                    Range("PropertyTypes").Cells(columnCounter + 1, 5).Value = "url"
+                End If
+            End If
+        End If
     Next
 End Sub
 
