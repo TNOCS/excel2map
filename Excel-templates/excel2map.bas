@@ -312,6 +312,17 @@ Sub ColourCells()
     Range("SelectedStrokeColor").Cells(1, 1).Interior.Color = RGB(Range("ColorHelpers").Cells(2, 7), Range("ColorHelpers").Cells(2, 8), Range("ColorHelpers").Cells(2, 9))
 End Sub
 
+Sub FillPropertyTypes()
+    Call SetNamedRangesOfData
+    Dim columnCounter As Integer
+    For columnCounter = 1 To Range("HEADERS").Cells.Count
+        Range("PropertyTypes").Cells(columnCounter + 1, 1).Value = Range("HEADERS").Cells(1, columnCounter).Value
+        Range("PropertyTypes").Cells(columnCounter + 1, 3).Value = Range("HEADERS").Cells(1, columnCounter).Value
+        Range("PropertyTypes").Cells(columnCounter + 1, 10).Value = True
+        Range("PropertyTypes").Cells(columnCounter + 1, 11).Value = True
+    Next
+End Sub
+
 Sub SetNamedRangesOfData()
 'Set the named ranges 'HEADERS' and 'Properties' to their corresponding data
 '
