@@ -12,6 +12,10 @@ Sub export2map()
     Call ColourCells
     Call CreateProject
     Call SetNamedRangesOfData
+    Call RemoveForbiddenCharacters("Properties")
+    Call RemoveForbiddenCharacters("PropertyTypes")
+    Call RemoveForbiddenCharacters("LayerDefinitionRow1")
+    Call RemoveForbiddenCharacters("LayerDefinitionRow2")
     
     json = ""
     json = json & range2json("LayerDefinition", True, False, True, False)
@@ -24,9 +28,6 @@ Sub export2map()
     passedCheck = checkProjectId("PROJECTID")
     If (Not passedCheck) Then Exit Sub
     Call UpdateProjectLink
-    
-    passedCheck = checkForQuotationMarks("Properties")
-    If (Not passedCheck) Then Exit Sub
     
     json = json & range2json("Properties", False, False, False, True)
     
@@ -78,31 +79,6 @@ Private Function checkHost(namedRange As String) As Boolean
     Else
         checkHost = True
     End If
-End Function
-
-' Check the data for quotation marks, and warn the user when found
-Private Function checkForQuotationMarks(namedRange As String) As Boolean
-
-    Dim rangeToExport As Range
-    Dim rowCounter As Long
-    Dim columnCounter As Long
-    Dim cellValue As String
-    Dim pos As Integer
-    
-    Set rangeToExport = Range(namedRange)
-    
-    For rowCounter = 1 To rangeToExport.Rows.Count
-        For columnCounter = 1 To rangeToExport.Columns.Count
-            cellValue = rangeToExport.Cells(rowCounter, columnCounter)
-            pos = InStr(1, cellValue, """", 1)
-            If pos > 0 Then
-                MsgBox "Found double quotation marks (""), please remove them or change them to single quotations (')."
-                checkForQuotationMarks = False
-                Exit Function
-            End If
-        Next
-    Next
-    checkForQuotationMarks = True
 End Function
 
 ' Convert a named cell range to JSON.
@@ -160,17 +136,19 @@ Private Function range2json(namedRange As String, isStart As Boolean, isFinal As
                 cellHeader = cellHeader & Format(columnCounter, "000000")
             End If
             'cellHeader = LCase(Mid(cellHeader, 1, 1)) & Mid(cellHeader, 2, Len(cellHeader) - 1)
-            If (Not cellValue = "") Then
-                If (IsNumber(cellValue) And Not TypeName(cellValue) = "String") Then
-                    lineData = lineData & """" & cellHeader & """" & ":" & Replace(cellValue, ",", ".") & ","
-                ElseIf (IsBoolean(cellValue)) Then
-                    Dim englishBooleanValue
-                    englishBooleanValue = rangeToExport.Cells(rowCounter, columnCounter).Formula
-                    lineData = lineData & """" & cellHeader & """" & ":" & LCase(Replace(englishBooleanValue, "''", "")) & ","
-                ElseIf (TypeName(cellValue) = "Date") Then
-                    lineData = lineData & """" & cellHeader & """" & ":" & """" & Format(cellValue, "yyyymmdd") & """" & ","
-                Else
-                    lineData = lineData & """" & cellHeader & """" & ":" & """" & cellValue & """" & ","
+            If (Not IsError(cellValue)) Then
+                If (Not cellValue = "") Then
+                    If (IsNumber(cellValue) And Not TypeName(cellValue) = "String") Then
+                        lineData = lineData & """" & cellHeader & """" & ":" & Replace(cellValue, ",", ".") & ","
+                    ElseIf (IsBoolean(cellValue)) Then
+                        Dim englishBooleanValue
+                        englishBooleanValue = rangeToExport.Cells(rowCounter, columnCounter).Formula
+                        lineData = lineData & """" & cellHeader & """" & ":" & LCase(Replace(englishBooleanValue, "''", "")) & ","
+                    ElseIf (TypeName(cellValue) = "Date") Then
+                        lineData = lineData & """" & cellHeader & """" & ":" & """" & Format(cellValue, "yyyymmdd") & """" & ","
+                    Else
+                        lineData = lineData & """" & cellHeader & """" & ":" & """" & cellValue & """" & ","
+                    End If
                 End If
             End If
         Next
@@ -310,6 +288,29 @@ Sub ColourCells()
     Range("FillColor").Cells(1, 1).Interior.Color = RGB(Range("ColorHelpers").Cells(2, 1), Range("ColorHelpers").Cells(2, 2), Range("ColorHelpers").Cells(2, 3))
     Range("StrokeColor").Cells(1, 1).Interior.Color = RGB(Range("ColorHelpers").Cells(2, 4), Range("ColorHelpers").Cells(2, 5), Range("ColorHelpers").Cells(2, 6))
     Range("SelectedStrokeColor").Cells(1, 1).Interior.Color = RGB(Range("ColorHelpers").Cells(2, 7), Range("ColorHelpers").Cells(2, 8), Range("ColorHelpers").Cells(2, 9))
+End Sub
+
+Sub RemoveForbiddenCharacters(namedRange As String)
+    Dim MyRange, RangeCounter As Range
+    Application.ScreenUpdating = False
+    Application.Calculation = xlCalculationManual
+    
+    Set MyRange = Range(namedRange)
+    For Each RangeCounter In MyRange
+        If Not (IsError(RangeCounter.Value)) Then
+            'hard returns
+            If 0 < InStr(RangeCounter, Chr(10)) Then
+                RangeCounter = Replace(RangeCounter, Chr(10), " ")
+            End If
+            'double quotes
+            If 0 < InStr(RangeCounter, """") Then
+                RangeCounter = Replace(RangeCounter, """", "'")
+            End If
+        End If
+    Next
+ 
+    Application.ScreenUpdating = True
+    Application.Calculation = xlCalculationAutomatic
 End Sub
 
 Sub FillPropertyTypes()
