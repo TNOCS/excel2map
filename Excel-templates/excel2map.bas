@@ -1,5 +1,7 @@
 Attribute VB_Name = "Excel2Map"
 Option Explicit
+Dim optionTypes As Object 'PropertyTypes that should be converted to options
+
 ' Export the data to the map application
 Sub export2map()
     Dim fs As Object
@@ -18,6 +20,8 @@ Sub export2map()
     Call RemoveForbiddenCharacters("PropertyTypes")
     Call RemoveForbiddenCharacters("LayerDefinitionRow1")
     Call RemoveForbiddenCharacters("LayerDefinitionRow2")
+    
+    Call PopulateOptionTypes
     
     json = ""
     json = json & range2json("LayerDefinition", True, False, True)
@@ -85,6 +89,43 @@ Private Function checkHost(namedRange As String) As Boolean
     End If
 End Function
 
+Private Sub PopulateOptionTypes()
+    'Find option types
+    Set optionTypes = CreateObject("scripting.dictionary")
+    Dim count As Integer
+    Dim typ As String
+    Dim ptRange As Range
+    Set ptRange = Range("PropertyTypes")
+    For count = 2 To ptRange.Rows.count
+        typ = ptRange.Cells(count, 5)
+        If typ = "options" Then
+            Set optionTypes.Item(ptRange.Cells(count, 1).Value) = findAllOptions(ptRange.Cells(count, 1).Value)
+        End If
+    Next
+End Sub
+
+Private Function findAllOptions(col As String) As Object
+    Set findAllOptions = CreateObject("scripting.dictionary")
+    Dim val As String
+    Dim count, colIndex, nrOptions As Integer
+    Dim pRange As Range
+    Set pRange = Range("Properties")
+    For count = 1 To pRange.Columns.count
+        val = pRange.Cells(1, count).Value
+        If val = col Then
+            colIndex = count
+        End If
+    Next
+    nrOptions = 0
+    For count = 2 To pRange.Rows.count
+        val = pRange.Cells(count, colIndex).Value
+        If Not findAllOptions.Exists(val) Then
+            findAllOptions.Item(val) = nrOptions
+            nrOptions = nrOptions + 1
+        End If
+    Next
+End Function
+
 ' Convert a named cell range to JSON.
 ' Parameters are whether the string should include the optional start { and end }.
 Private Function range2json(namedRange As String, isStart As Boolean, isFinal As Boolean, firstLetterToLower As Boolean) As String
@@ -96,13 +137,12 @@ Private Function range2json(namedRange As String, isStart As Boolean, isFinal As
     Dim cellValue
     Dim cellHeader As String
     
-    ' change range here
     ' LayerDefinition is split in two rows. To concatenate, copy both rows to the Helpers
     ' sheet and select the horizontally concatenated row as the final LayerDefinition range.
     ' Also, replace geometryType parameters to "Parameter 1, 2", etc.
     If namedRange = "LayerDefinition" Then
         Dim rowLength As Integer
-        rowLength = Range("LayerDefinitionRow1").Columns.Count
+        rowLength = Range("LayerDefinitionRow1").Columns.count
         Range("LayerDefinitionRow1").Copy Range("LayerDefinitionMerged").Cells(1, 1)
         Range("LayerDefinitionRow2").Copy Range("LayerDefinitionMerged").Cells(1, 1 + rowLength)
         Range("Parameters").Cells(1, 1).Value = "Parameter1"
@@ -116,8 +156,8 @@ Private Function range2json(namedRange As String, isStart As Boolean, isFinal As
         Range("LD_GEOMETRY").Cells(1, 2).Value = "GeometryKey"
         Range("LD_GEOMETRY").Cells(2, 1).Value = file
         Range("LD_GEOMETRY").Cells(2, 2).Value = key
-        
     End If
+    
     Set rangeToExport = Range(namedRange)
     namedRange = LowerCaseFirstLetter(namedRange)
     
@@ -127,9 +167,9 @@ Private Function range2json(namedRange As String, isStart As Boolean, isFinal As
         lineData = """" & namedRange & """: ["
     End If
     json = json & lineData
-    For rowCounter = 2 To rangeToExport.Rows.Count
+    For rowCounter = 2 To rangeToExport.Rows.count
         lineData = ""
-        For columnCounter = 1 To rangeToExport.Columns.Count
+        For columnCounter = 1 To rangeToExport.Columns.count
             cellValue = rangeToExport.Cells(rowCounter, columnCounter)
             If (firstLetterToLower) Then
                 cellHeader = LowerCaseFirstLetter(rangeToExport.Cells(1, columnCounter))
@@ -139,7 +179,18 @@ Private Function range2json(namedRange As String, isStart As Boolean, isFinal As
             'cellHeader = LCase(Mid(cellHeader, 1, 1)) & Mid(cellHeader, 2, Len(cellHeader) - 1)
             If (Not IsError(cellValue)) Then
                 If (Not cellValue = "") Then
-                    If (IsNumber(cellValue) And Not TypeName(cellValue) = "String") Then
+                    If optionTypes.Exists(cellHeader) And namedRange = "properties" Then
+                            lineData = lineData & """" & cellHeader & """" & ":" & optionTypes(cellHeader)(cellValue) & ","
+                    ElseIf cellValue = "options" And namedRange = "propertyTypes" Then
+                        lineData = lineData & """" & cellHeader & """" & ":" & """" & cellValue & """" & ","
+                        lineData = lineData & """options"":["
+                        Dim keyCount As Integer
+                        For keyCount = 1 To optionTypes(rangeToExport.Cells(rowCounter, 1).Value).count
+                            lineData = lineData & """" & optionTypes(rangeToExport.Cells(rowCounter, 1).Value).Keys()(keyCount - 1) & ""","
+                        Next
+                        lineData = Left(lineData, Len(lineData) - 1)
+                        lineData = lineData & "],"
+                    ElseIf (IsNumber(cellValue) And Not TypeName(cellValue) = "String") Then
                         lineData = lineData & """" & cellHeader & """" & ":" & Replace(cellValue, ",", ".") & ","
                     ElseIf (IsBoolean(cellValue)) Then
                         Dim englishBooleanValue
@@ -155,7 +206,7 @@ Private Function range2json(namedRange As String, isStart As Boolean, isFinal As
         Next
         If (Not lineData = "") Then
             lineData = Left(lineData, Len(lineData) - 1)
-            If rowCounter = rangeToExport.Rows.Count Then
+            If rowCounter = rangeToExport.Rows.count Then
                 lineData = "{" & lineData & "}"
             Else
                 lineData = "{" & lineData & "},"
@@ -237,13 +288,13 @@ Sub range2json2(namedRange As String)
     
     lineData = "{""LayerDefinition"": ["
     jsonFile.WriteLine lineData
-    For rowCounter = 2 To rangeToExport.Rows.Count
+    For rowCounter = 2 To rangeToExport.Rows.count
         lineData = ""
-        For columnCounter = 1 To rangeToExport.Columns.Count
+        For columnCounter = 1 To rangeToExport.Columns.count
             lineData = lineData & """" & rangeToExport.Cells(1, columnCounter) & """" & ":" & """" & rangeToExport.Cells(rowCounter, columnCounter) & """" & ","
         Next
         lineData = Left(lineData, Len(lineData) - 1)
-        If rowCounter = rangeToExport.Rows.Count Then
+        If rowCounter = rangeToExport.Rows.count Then
             lineData = "{" & lineData & "}"
         Else
             lineData = "{" & lineData & "},"
@@ -321,7 +372,7 @@ Sub FillPropertyTypes()
     Call SetNamedRangesOfData
     Dim cellValue
     Dim columnCounter As Integer
-    For columnCounter = 1 To Range("HEADERS").Cells.Count
+    For columnCounter = 1 To Range("HEADERS").Cells.count
         Range("PropertyTypes").Cells(columnCounter + 1, 1).Value = Range("HEADERS").Cells(1, columnCounter).Value
         Range("PropertyTypes").Cells(columnCounter + 1, 3).Value = Range("HEADERS").Cells(1, columnCounter).Value
         Range("PropertyTypes").Cells(columnCounter + 1, 10).Value = True
@@ -474,7 +525,8 @@ Function convertIconToBase64(iconpath As String) As String
     
     Set objFilesystem = CreateObject("Scripting.FileSystemObject")
     If Not objFilesystem.FileExists(path) Then
-        MsgBox "Icon not found: " & path, vbOKOnly, "Icon not found"
+        MsgBox "Icon not found: " & path & ". Default icon will be sent.", vbOKOnly, "Icon not found"
+        convertIconToBase64 = "iVBORw0KGgoAAAANSUhEUgAAABoAAAAcCAYAAAB/E6/TAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuM4zml1AAAAC3SURBVEhL7ZTRDcMgDEQZIaN0A36AORihI7BBRswIGaH1VQeykvSH+KeVn3QKOls2FoTgOM4fEmNccs5V1KgKj2EbpOhDtJVSXlrwEGPaPTjJp4l8d1GfaO/NTCaTQlVNMHaPtfIr7XmkyNoL0hqoRo3WPLoRpqB9nGilPU9K6akKns4IQg7T58FB94LfZHbNMcFVAwgxpt1HX/FDE5urrZGi+GnHuWANj2Fb2Ayvgd2L4Di/TghvwWuLojcu6DcAAAAASUVORK5CYII="
         Exit Function
     End If
         
