@@ -13,3 +13,4 @@ server.js
 dist/
 
 public/data/api/
+.users.htpasswd

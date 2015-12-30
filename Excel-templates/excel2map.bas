@@ -370,6 +370,13 @@ End Sub
 
 Sub FillPropertyTypes()
     Call SetNamedRangesOfData
+    If Not IsEmpty(Range("PropertyTypes").Cells(2, 1).Value) Then
+        Dim m As VbMsgBoxResult
+        m = MsgBox("Property types are not empty, are you sure you want to overwrite the existing definitions?", vbOKCancel, "Property types not empty")
+        If m = vbCancel Then
+            Exit Sub
+        End If
+    End If
     Dim cellValue
     Dim columnCounter As Integer
     For columnCounter = 1 To Range("HEADERS").Cells.count
@@ -484,6 +491,7 @@ End Sub
 
 'Updates the public link to the project
 Sub UpdateProjectLink()
+    ActiveWorkbook.Sheets("Layer").Unprotect
     Dim projectLink, projectId, host As Range
     Dim urlString As String
     Set projectLink = Range("PROJECTLINK")
@@ -493,6 +501,7 @@ Sub UpdateProjectLink()
     projectLink.Cells(1, 1) = urlString
     projectLink.Hyperlinks.Delete
     Application.Worksheets("Layer").Hyperlinks.Add Anchor:=projectLink, Address:=urlString, ScreenTip:=urlString, TextToDisplay:=host.Value
+    ActiveWorkbook.Sheets("Layer").Protect
 End Sub
 
 'Update the API url that is the entrance to the MapLayerFactory
