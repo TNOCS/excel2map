@@ -311,6 +311,7 @@ End Sub
 
 Sub ColourCells()
 'Convert hex values into cell background color
+    ActiveWorkbook.Sheets("Layer").Unprotect
     Dim helpers As Worksheet
     Dim layer As Worksheet
     Set helpers = ThisWorkbook.Sheets("Helpers")
@@ -343,6 +344,7 @@ Sub ColourCells()
     Range("FillColor").Cells(1, 1).Interior.Color = RGB(Range("ColorHelpers").Cells(2, 1), Range("ColorHelpers").Cells(2, 2), Range("ColorHelpers").Cells(2, 3))
     Range("StrokeColor").Cells(1, 1).Interior.Color = RGB(Range("ColorHelpers").Cells(2, 4), Range("ColorHelpers").Cells(2, 5), Range("ColorHelpers").Cells(2, 6))
     Range("SelectedStrokeColor").Cells(1, 1).Interior.Color = RGB(Range("ColorHelpers").Cells(2, 7), Range("ColorHelpers").Cells(2, 8), Range("ColorHelpers").Cells(2, 9))
+    ActiveWorkbook.Sheets("Layer").Protect
 End Sub
 
 Sub RemoveForbiddenCharacters(namedRange As String)
