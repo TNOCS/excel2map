@@ -25,7 +25,7 @@
     "tests"
   ],
   "dependencies": {
-    "csweb": "~0.2.16-rc1",
+    "csweb": "~0.2.15",
     "font-awesome": "~4.4.0",
     "angularUtils-pagination": "angular-utils-pagination#~0.9.2"
   }
