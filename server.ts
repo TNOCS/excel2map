@@ -99,6 +99,13 @@ function addPass(entry: string) {
                     return;
                 }
             });
+        } else {
+            fs.writeFile(pwfile, entry, {encoding: 'utf8'}, (err) => {
+                if (err) {
+                    console.log('Error writing htpasswd file');
+                    return;
+                }
+            });
         }
     });
 }
