@@ -251,7 +251,7 @@ Private Function IsBoolean(myVar As Variant)
 End Function
 'Send JSON string to an endpoint
 'Example: http://www.posttestserver.com/post.php
-Sub SendJson(url As String, json As String)
+Function SendJson(url As String, json As String) As Integer
     'Dim objHTTP As New MSXML2.XMLHTTP
     'Set objHTTP = New MSXML2.XMLHTTP60
     'Dim objHTTP As New MSXML2.XMLHTTP60
@@ -263,12 +263,13 @@ Sub SendJson(url As String, json As String)
     objHTTP.setRequestHeader "Authorization", "Basic " & hash
     objHTTP.setRequestHeader "Content-Type", "application/json"
     objHTTP.send json
-    Debug.Print objHTTP.Status
+    Debug.Print objHTTP.status
     Debug.Print objHTTP.responseText
-    If objHTTP.Status = 401 Then
+    SendJson = objHTTP.status
+    If objHTTP.status = 401 Then
         MsgBox "Either the projectID you are trying to create already exists, or you entered a wrong password.", vbOKOnly, "Authentication error"
     End If
-End Sub
+End Function
 ' Example subroutine - not used
 Sub range2json2(namedRange As String)
     Dim fs As Object
@@ -374,7 +375,7 @@ Sub FillPropertyTypes()
     Call SetNamedRangesOfData
     If Not IsEmpty(Range("PropertyTypes").Cells(2, 1).Value) Then
         Dim m As VbMsgBoxResult
-        m = MsgBox("Property types are not empty, are you sure you want to overwrite the existing definitions?", vbOKCancel, "Property types not empty")
+        m = MsgBox("Property types are not empty, are you sure you want to overwrite the existing definitions?", vbOKCancel + vbExclamation, "Property types not empty")
         If m = vbCancel Then
             Exit Sub
         End If
@@ -461,7 +462,7 @@ Sub RequestProjectId(Optional id As String = "")
         data = "{""id"":""" + id + """}"
         objHTTP.send (data)
     End If
-    Debug.Print objHTTP.Status
+    Debug.Print objHTTP.status
     Debug.Print objHTTP.responseText
     
     'Extract projectID from response
@@ -584,4 +585,45 @@ Sub FollowLink()
     Dim projectLink As Range
     Set projectLink = Range("PROJECTLINK")
     projectLink.Hyperlinks(1).Follow
+End Sub
+
+Sub ChangeGroupName()
+    Dim oldTitle As String
+    oldTitle = Range("GROUP_TITLE").Cells(1, 1).Value
+    If IsEmpty(oldTitle) Then
+        MsgBox "The group title you want to change should be entered in the 'Group title' cell", vbExclamation, "Current title not found"
+        Exit Sub
+    End If
+    Dim result As String
+    result = InputBox("New group title", "Group title", oldTitle)
+    If result <> "" And Not oldTitle = result Then
+       Call UpdateGroupTitle(oldTitle, result)
+    End If
+End Sub
+
+Sub UpdateGroupTitle(oldTitle As String, newTitle As String)
+    Dim hasHost, hasId As Boolean
+    hasHost = checkHost("HOST")
+    If (Not hasHost) Then
+        MsgBox ("Please enter a host address")
+        Exit Sub
+    End If
+    Call UpdateUrl
+    hasId = checkProjectId("PROJECTID")
+    If (Not hasId) Then
+        MsgBox "No projectID found"
+        Exit Sub
+    End If
+    
+    Dim host As String
+    Dim projectId As String
+    host = Range("HOST").Cells(1, 1).Value & "/updategrouptitle"
+    projectId = Range("PROJECTID").Cells(1, 1).Value
+    Dim data As String
+    data = "{""oldTitle"":""" + oldTitle + """,""newTitle"":""" + newTitle + """,""projectId"":""" + projectId + """}"
+    Dim status As Integer
+    status = SendJson(host, data)
+    If status = 200 Then
+        Range("GROUP_TITLE").Cells(1, 1).Value = newTitle
+    End If
 End Sub
