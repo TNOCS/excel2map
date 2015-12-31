@@ -1,0 +1,7 @@
+# Templates
+### Adressen
+* [excel2map_online_adressen.xlsm](data/excel2map_online_adressen.xlsm)
+### Regio's
+* [excel2map_online_regios.xlsm](data/excel2map_online_regios.xlsm)
+### Leeg
+* [excel2map_online_leeg.xlsm](data/excel2map_online_leeg.xlsm)

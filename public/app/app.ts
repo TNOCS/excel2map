@@ -220,7 +220,7 @@ module App {
         // Translations.English.locale['MAP_LABEL'] = 'MY AWESOME MAP';
         $translateProvider.translations('en', Translations.English.locale);
         $translateProvider.translations('nl', Translations.Dutch.locale);
-        $translateProvider.preferredLanguage('en');
+        $translateProvider.preferredLanguage('nl');
         // Enable escaping of HTML
         $translateProvider.useSanitizeValueStrategy('escape');
     })

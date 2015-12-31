@@ -1,0 +1,96 @@
+{
+    "id" : "excel2map",
+    "title" : "Excel2map",
+    "description" : "csMap is developed by the Dutch Research Organisation TNO, in first instance for the Dutch Ministry of Health (VWS).",
+    "logo" : "images/CommonSenseRound.png",
+    "url" : "https://github.com/TNOCS/csMap",
+    "connected" : false,
+    "timeLine" : {
+        "start" : 1375315200000,
+        "end" : 1425168000000,
+        "range" : 49852800000,
+        "zoomLevelName" : "weeks",
+        "isLive" : false,
+        "focus" : 66,
+        "zoomLevel" : 604800000
+    },
+    "dashboards" : [{
+            "id" : "main",
+            "name" : "Home",
+            "editMode" : false,
+            "showMap" : true,
+            "showTimeline" : false,
+            "showLeftmenu" : false,
+            "showLegend" : false,
+            "showBackgroundImage" : false,
+            "widgets" : [{
+                    "id" : "3654881f-0644-46ea-5133-f45c3dde8c9e",
+                    "directive" : "markdownwidget",
+                    "title" : "Welcome to Excel2map",
+                    "data" : {
+                        "useLanguagePrefix" : true,
+                        "url" : "data/projects/Excel2Map/welcome.txt"
+                    },
+                    "elementId" : "widget-3654881f-0644-46ea-5133-f45c3dde8c9e",
+                    "enabled" : true,
+                    "left" : "25%",
+                    "top" : "50px",
+                    "width" : "650px",
+                    "height" : "350px"
+                }
+            ]
+        }, {
+            "id" : "gettingstarted",
+            "name" : "Get started",
+            "editMode" : false,
+            "showMap" : true,
+            "showTimeline" : false,
+            "showLeftmenu" : false,
+            "showRightmenu" : false,
+            "widgets" : [{
+                    "id" : "9954881f-0644-46ea-5133-f45c3dde8c99",
+                    "directive" : "markdownwidget",
+                    "title" : "Welcome to Excel2map",
+                    "data" : {
+                        "useLanguagePrefix" : true,
+                        "url" : "data/projects/Excel2Map/getstarted.txt"
+                    },
+                    "elementId" : "widget-9954881f-0644-46ea-5133-f45c3dde8c99",
+                    "enabled" : true,
+                    "left" : "25%",
+                    "top" : "50px",
+                    "width" : "650px",
+                    "height" : "350px"
+                }
+            ]
+        }, {
+            "id" : "templates",
+            "name" : "Templates",
+            "editMode" : false,
+            "showMap" : true,
+            "showTimeline" : false,
+            "showLeftmenu" : false,
+            "showRightmenu" : false,
+            "showBackgroundImage" : false,
+            "widgets" : [{
+                    "id" : "8854881f-0644-46ea-5133-f45c3dde8c88",
+                    "directive" : "markdownwidget",
+                    "title" : "Welcome to Excel2map",
+                    "data" : {
+                        "useLanguagePrefix" : true,
+                        "url" : "data/projects/Excel2Map/templates.txt"
+                    },
+                    "elementId" : "widget-8854881f-0644-46ea-5133-f45c3dde8c88",
+                    "enabled" : true,
+                    "left" : "25%",
+                    "top" : "50px",
+                    "width" : "650px",
+                    "height" : "350px"
+                }
+            ]
+        }
+    ],
+    "expertMode" : 1,
+    "baselayers" : {},
+    "groups" : []
+}

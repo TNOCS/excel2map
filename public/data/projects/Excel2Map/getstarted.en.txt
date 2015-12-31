@@ -1,0 +1,2 @@
+# Getting started with Excel2map
+First download an Excel-file and the macros you need to create a map layer and save them in one folder: [excel2map_online_adressen.xlsm](data/excel2map_online_adressen.xlsm). Prepare the Excel-file by configuring all names, descriptions and styles. When you are ready, click the ' Upload to map '-button to upload the data from your Excel file to a map. To view the map you just created, click the ' Show map '-button in the excel sheet.
