@@ -1,7 +1,7 @@
 # Templates
 ### Adresses
-* [excel2map_online_adressen.xlsm](data/excel2map_online_adressen.xlsm)
+* <a href="data/excel2map_online_adressen.xlsm" target="_blank">Adresses example</a>
 ### Regions
-* [excel2map_online_regios.xlsm](data/excel2map_online_regios.xlsm)
+* <a href="data/excel2map_online_regios.xlsm" target="_blank">Regions example</a>
 ### Empty
-* [excel2map_online_leeg.xlsm](data/excel2map_online_leeg.xlsm)
+* <a href="data/excel2map_online_empty.xlsm" target="_blank">Empty example</a>
