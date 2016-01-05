@@ -16,10 +16,6 @@ Sub export2map()
     Call ColourCells
     Call CreateProject
     Call SetNamedRangesOfData
-    Call RemoveForbiddenCharacters("Properties")
-    Call RemoveForbiddenCharacters("PropertyTypes")
-    Call RemoveForbiddenCharacters("LayerDefinitionRow1")
-    Call RemoveForbiddenCharacters("LayerDefinitionRow2")
     
     Call PopulateOptionTypes
     
@@ -48,7 +44,7 @@ Sub export2map()
     ActiveWorkbook.Sheets("Layer").Protect
 
     'Write output to file
-    If (Not IsEmpty(Range("Debugging").Cells(1, 1).Value)) And (Range("Debugging").Cells(1, 1) > 0) Then
+    If (Not IsEmpty(Range("Debugging").Cells(1, 1).value)) And (Range("Debugging").Cells(1, 1) > 0) Then
         Set fs = CreateObject("Scripting.FileSystemObject")
         cd = fs.GetAbsolutePathName(".")
         dest = fs.BuildPath(cd, "debug-output.json")
@@ -68,7 +64,7 @@ End Sub
 Private Function checkProjectId(namedRange As String) As Boolean
     Dim idRange As Range
     Set idRange = Range(namedRange)
-    If IsEmpty(idRange.Cells(1, 1).Value) = True Then
+    If IsEmpty(idRange.Cells(1, 1).value) = True Then
         checkProjectId = False
     Else
         checkProjectId = True
@@ -78,7 +74,7 @@ End Function
 Private Function checkHost(namedRange As String) As Boolean
     Dim hostRange As Range
     Set hostRange = Range(namedRange)
-    If IsEmpty(hostRange.Cells(1, 1).Value) = True Then
+    If IsEmpty(hostRange.Cells(1, 1).value) = True Then
         MsgBox "No project ID found, please request an ID before uploading the data."
         checkHost = False
     ElseIf Right(hostRange.Cells(1, 1), 1) = "/" Then
@@ -99,7 +95,7 @@ Private Sub PopulateOptionTypes()
     For count = 2 To ptRange.Rows.count
         typ = ptRange.Cells(count, 5)
         If typ = "options" Then
-            Set optionTypes.Item(ptRange.Cells(count, 1).Value) = findAllOptions(ptRange.Cells(count, 1).Value)
+            Set optionTypes.Item(ptRange.Cells(count, 1).value) = findAllOptions(ptRange.Cells(count, 1).value)
         End If
     Next
 End Sub
@@ -111,14 +107,14 @@ Private Function findAllOptions(col As String) As Object
     Dim pRange As Range
     Set pRange = Range("Properties")
     For count = 1 To pRange.Columns.count
-        val = pRange.Cells(1, count).Value
+        val = pRange.Cells(1, count).value
         If val = col Then
             colIndex = count
         End If
     Next
     nrOptions = 0
     For count = 2 To pRange.Rows.count
-        val = pRange.Cells(count, colIndex).Value
+        val = pRange.Cells(count, colIndex).value
         If Not findAllOptions.Exists(val) Then
             findAllOptions.Item(val) = nrOptions
             nrOptions = nrOptions + 1
@@ -135,6 +131,7 @@ Private Function range2json(namedRange As String, isStart As Boolean, isFinal As
     Dim columnCounter As Long
     Dim lineData As String
     Dim cellValue
+    Dim cleanValue As String
     Dim cellHeader As String
     
     ' LayerDefinition is split in two rows. To concatenate, copy both rows to the Helpers
@@ -145,17 +142,17 @@ Private Function range2json(namedRange As String, isStart As Boolean, isFinal As
         rowLength = Range("LayerDefinitionRow1").Columns.count
         Range("LayerDefinitionRow1").Copy Range("LayerDefinitionMerged").Cells(1, 1)
         Range("LayerDefinitionRow2").Copy Range("LayerDefinitionMerged").Cells(1, 1 + rowLength)
-        Range("Parameters").Cells(1, 1).Value = "Parameter1"
-        Range("Parameters").Cells(1, 2).Value = "Parameter2"
-        Range("Parameters").Cells(1, 3).Value = "Parameter3"
-        Range("Parameters").Cells(1, 4).Value = "Parameter4"
+        Range("Parameters").Cells(1, 1).value = "Parameter1"
+        Range("Parameters").Cells(1, 2).value = "Parameter2"
+        Range("Parameters").Cells(1, 3).value = "Parameter3"
+        Range("Parameters").Cells(1, 4).value = "Parameter4"
         Dim file, key As String
-        file = Application.WorksheetFunction.VLookup(Range("GEOMETRY_TYPE").Cells(1, 1).Value, Range("GEOMETRY_DATA"), 6, False)
-        key = Application.WorksheetFunction.VLookup(Range("GEOMETRY_TYPE").Cells(1, 1).Value, Range("GEOMETRY_DATA"), 7, False)
-        Range("LD_GEOMETRY").Cells(1, 1).Value = "GeometryFile"
-        Range("LD_GEOMETRY").Cells(1, 2).Value = "GeometryKey"
-        Range("LD_GEOMETRY").Cells(2, 1).Value = file
-        Range("LD_GEOMETRY").Cells(2, 2).Value = key
+        file = Application.WorksheetFunction.VLookup(Range("GEOMETRY_TYPE").Cells(1, 1).value, Range("GEOMETRY_DATA"), 6, False)
+        key = Application.WorksheetFunction.VLookup(Range("GEOMETRY_TYPE").Cells(1, 1).value, Range("GEOMETRY_DATA"), 7, False)
+        Range("LD_GEOMETRY").Cells(1, 1).value = "GeometryFile"
+        Range("LD_GEOMETRY").Cells(1, 2).value = "GeometryKey"
+        Range("LD_GEOMETRY").Cells(2, 1).value = file
+        Range("LD_GEOMETRY").Cells(2, 2).value = key
     End If
     
     Set rangeToExport = Range(namedRange)
@@ -171,6 +168,7 @@ Private Function range2json(namedRange As String, isStart As Boolean, isFinal As
         lineData = ""
         For columnCounter = 1 To rangeToExport.Columns.count
             cellValue = rangeToExport.Cells(rowCounter, columnCounter)
+            cleanValue = RemoveForbiddenCharacters(cellValue)
             If (firstLetterToLower) Then
                 cellHeader = LowerCaseFirstLetter(rangeToExport.Cells(1, columnCounter))
             Else
@@ -185,8 +183,8 @@ Private Function range2json(namedRange As String, isStart As Boolean, isFinal As
                         lineData = lineData & """" & cellHeader & """" & ":" & """" & cellValue & """" & ","
                         lineData = lineData & """options"":["
                         Dim keyCount As Integer
-                        For keyCount = 1 To optionTypes(rangeToExport.Cells(rowCounter, 1).Value).count
-                            lineData = lineData & """" & optionTypes(rangeToExport.Cells(rowCounter, 1).Value).Keys()(keyCount - 1) & ""","
+                        For keyCount = 1 To optionTypes(rangeToExport.Cells(rowCounter, 1).value).count
+                            lineData = lineData & """" & optionTypes(rangeToExport.Cells(rowCounter, 1).value).Keys()(keyCount - 1) & ""","
                         Next
                         lineData = Left(lineData, Len(lineData) - 1)
                         lineData = lineData & "],"
@@ -229,14 +227,14 @@ End Function
 ' Test whether we are dealing with a number
 ' See also:
 ' http://www.mrexcel.com/forum/excel-questions/17013-isstring-isnumber-visual-basic-applications.html#post2802732
-Function IsNumber(ByVal Value As String) As Boolean
+Function IsNumber(ByVal value As String) As Boolean
   Dim DP As String
   '   Get local setting for decimal point
   DP = Format$(0, ".")
   '   Leave the next statement out if you don't
   '   want to provide for plus/minus signs
-  If Value Like "[+-]*" Then Value = Mid$(Value, 2)
-  IsNumber = Not Value Like "*[!0-9" & DP & "]*" And Not Value Like "*" & DP & "*" & DP & "*" And Len(Value) > 0 And Value <> DP And Not Value Like "*[a-zA-Z]"
+  If value Like "[+-]*" Then value = Mid$(value, 2)
+  IsNumber = Not value Like "*[!0-9" & DP & "]*" And Not value Like "*" & DP & "*" & DP & "*" And Len(value) > 0 And value <> DP And Not value Like "*[a-zA-Z]"
 End Function
 Function LowerCaseFirstLetter(text As String)
     LowerCaseFirstLetter = LCase(Mid(text, 1, 1)) & Mid(text, 2, Len(text) - 1)
@@ -256,7 +254,7 @@ Function SendJson(url As String, json As String) As Integer
     'Set objHTTP = New MSXML2.XMLHTTP60
     'Dim objHTTP As New MSXML2.XMLHTTP60
     Dim hash As String
-    hash = EncodeBase64(Range("PROJECTID").Value & ":" & Range("PASSWORD").Value)
+    hash = EncodeBase64(Range("PROJECTID").value & ":" & Range("PASSWORD").value)
     Dim objHTTP As New WinHttp.WinHttpRequest
     'url = "http://localhost:3002"
     objHTTP.Open "POST", url, False
@@ -348,32 +346,23 @@ Sub ColourCells()
     ActiveWorkbook.Sheets("Layer").Protect
 End Sub
 
-Sub RemoveForbiddenCharacters(namedRange As String)
-    Dim MyRange, RangeCounter As Range
-    Application.ScreenUpdating = False
-    Application.Calculation = xlCalculationManual
-    
-    Set MyRange = Range(namedRange)
-    For Each RangeCounter In MyRange
-        If Not (IsError(RangeCounter.Value)) Then
-            'hard returns
-            If 0 < InStr(RangeCounter, Chr(10)) Then
-                RangeCounter = Replace(RangeCounter, Chr(10), " ")
-            End If
-            'double quotes
-            If 0 < InStr(RangeCounter, """") Then
-                RangeCounter = Replace(RangeCounter, """", "'")
-            End If
+Function RemoveForbiddenCharacters(value As Variant) As String
+    If Not (IsError(value)) Then
+        'hard returns
+        If 0 < InStr(value, Chr(10)) Then
+            value = Replace(value, Chr(10), "\n")
         End If
-    Next
- 
-    Application.ScreenUpdating = True
-    Application.Calculation = xlCalculationAutomatic
-End Sub
+        'double quotes
+        If 0 < InStr(value, """") Then
+            value = Replace(value, """", "'")
+        End If
+    End If
+    RemoveForbiddenCharacters = value
+End Function
 
 Sub FillPropertyTypes()
     Call SetNamedRangesOfData
-    If Not IsEmpty(Range("PropertyTypes").Cells(2, 1).Value) Then
+    If Not IsEmpty(Range("PropertyTypes").Cells(2, 1).value) Then
         Dim m As VbMsgBoxResult
         m = MsgBox("Property types are not empty, are you sure you want to overwrite the existing definitions?", vbOKCancel + vbExclamation, "Property types not empty")
         If m = vbCancel Then
@@ -383,22 +372,22 @@ Sub FillPropertyTypes()
     Dim cellValue
     Dim columnCounter As Integer
     For columnCounter = 1 To Range("HEADERS").Cells.count
-        Range("PropertyTypes").Cells(columnCounter + 1, 1).Value = Range("HEADERS").Cells(1, columnCounter).Value
-        Range("PropertyTypes").Cells(columnCounter + 1, 3).Value = Range("HEADERS").Cells(1, columnCounter).Value
-        Range("PropertyTypes").Cells(columnCounter + 1, 10).Value = True
-        Range("PropertyTypes").Cells(columnCounter + 1, 11).Value = True
-        cellValue = Range("Properties").Cells(2, columnCounter).Value
-        Range("PropertyTypes").Cells(columnCounter + 1, 5).Value = "text" 'Default = text
+        Range("PropertyTypes").Cells(columnCounter + 1, 1).value = Range("HEADERS").Cells(1, columnCounter).value
+        Range("PropertyTypes").Cells(columnCounter + 1, 3).value = Range("HEADERS").Cells(1, columnCounter).value
+        Range("PropertyTypes").Cells(columnCounter + 1, 10).value = True
+        Range("PropertyTypes").Cells(columnCounter + 1, 11).value = True
+        cellValue = Range("Properties").Cells(2, columnCounter).value
+        Range("PropertyTypes").Cells(columnCounter + 1, 5).value = "text" 'Default = text
         If (Not IsError(cellValue)) Then
             If (Not cellValue = "") Then
                 If (IsNumber(cellValue) And Not TypeName(cellValue) = "String") Then
-                    Range("PropertyTypes").Cells(columnCounter + 1, 5).Value = "number"
+                    Range("PropertyTypes").Cells(columnCounter + 1, 5).value = "number"
                 ElseIf (TypeName(cellValue) = "Date") Then
-                    Range("PropertyTypes").Cells(columnCounter + 1, 5).Value = "date"
+                    Range("PropertyTypes").Cells(columnCounter + 1, 5).value = "date"
                 ElseIf (IsBoolean(cellValue)) Then
-                    Range("PropertyTypes").Cells(columnCounter + 1, 5).Value = "text"
+                    Range("PropertyTypes").Cells(columnCounter + 1, 5).value = "text"
                 ElseIf (Left(cellValue, 6) = "http://" Or Left(cellValue, 4) = "www.") Then
-                    Range("PropertyTypes").Cells(columnCounter + 1, 5).Value = "url"
+                    Range("PropertyTypes").Cells(columnCounter + 1, 5).value = "url"
                 End If
             End If
         End If
@@ -413,14 +402,14 @@ Sub SetNamedRangesOfData()
     LR = ActiveWorkbook.Sheets("Data").Range("A1").End(xlDown).Row
     LC = ActiveWorkbook.Sheets("Data").Range("A1").End(xlToRight).Column
     'When Data is empty, don't update ranges
-    If IsEmpty(ActiveWorkbook.Sheets("Data").Range("A1").Value) Then
+    If IsEmpty(ActiveWorkbook.Sheets("Data").Range("A1").value) Then
        Exit Sub
     End If
     'When Data has one column or row, edit cell count
-    If IsEmpty(ActiveWorkbook.Sheets("Data").Range("B1").Value) Then
+    If IsEmpty(ActiveWorkbook.Sheets("Data").Range("B1").value) Then
         LC = 1
     End If
-    If IsEmpty(ActiveWorkbook.Sheets("Data").Range("A2").Value) Then
+    If IsEmpty(ActiveWorkbook.Sheets("Data").Range("A2").value) Then
         LR = 1
     End If
     ActiveWorkbook.Names("HEADERS").RefersToR1C1 = Range(ActiveWorkbook.Sheets("Data").Range("A1"), ActiveWorkbook.Sheets("Data").Cells(1, LC))
@@ -439,7 +428,7 @@ Sub CreateProject()
     hasId = checkProjectId("PROJECTID")
     If (hasId) Then
         'MsgBox "A project ID was found. Excel2map will use that ID. If you want to create a new project instead, clear the content of the 'ProjectID'-cell.", vbOKOnly, "Project ID found"
-        Call RequestProjectId(Range("PROJECTID").Cells(1, 1).Value)
+        Call RequestProjectId(Range("PROJECTID").Cells(1, 1).value)
         Call UpdateProjectLink
     Else
         'MsgBox "No project ID was found. Excel2map will create a new ID. If you want to continue with a previous project instead, add its ID to the 'ProjectID'-cell.", vbOKOnly, "Project ID not found"
@@ -503,7 +492,7 @@ Sub UpdateProjectLink()
     urlString = host.Cells(1, 1) + "/?project=" + projectId.Cells(1, 1)
     projectLink.Cells(1, 1) = urlString
     projectLink.Hyperlinks.Delete
-    Application.Worksheets("Layer").Hyperlinks.Add Anchor:=projectLink, Address:=urlString, ScreenTip:=urlString, TextToDisplay:=host.Value
+    Application.Worksheets("Layer").Hyperlinks.Add Anchor:=projectLink, Address:=urlString, ScreenTip:=urlString, TextToDisplay:=host.value
     ActiveWorkbook.Sheets("Layer").Protect
 End Sub
 
@@ -589,7 +578,7 @@ End Sub
 
 Sub ChangeGroupName()
     Dim oldTitle As String
-    oldTitle = Range("GROUP_TITLE").Cells(1, 1).Value
+    oldTitle = Range("GROUP_TITLE").Cells(1, 1).value
     If IsEmpty(oldTitle) Then
         MsgBox "The group title you want to change should be entered in the 'Group title' cell", vbExclamation, "Current title not found"
         Exit Sub
@@ -617,13 +606,43 @@ Sub UpdateGroupTitle(oldTitle As String, newTitle As String)
     
     Dim host As String
     Dim projectId As String
-    host = Range("HOST").Cells(1, 1).Value & "/updategrouptitle"
-    projectId = Range("PROJECTID").Cells(1, 1).Value
+    host = Range("HOST").Cells(1, 1).value & "/updategrouptitle"
+    projectId = Range("PROJECTID").Cells(1, 1).value
     Dim data As String
     data = "{""oldTitle"":""" + oldTitle + """,""newTitle"":""" + newTitle + """,""projectId"":""" + projectId + """}"
     Dim status As Integer
     status = SendJson(host, data)
     If status = 200 Then
-        Range("GROUP_TITLE").Cells(1, 1).Value = newTitle
+        Range("GROUP_TITLE").Cells(1, 1).value = newTitle
     End If
+End Sub
+
+Sub ClearProject()
+    Dim hasHost, hasId As Boolean
+    hasHost = checkHost("HOST")
+    If (Not hasHost) Then
+        MsgBox ("Please enter a host address")
+        Exit Sub
+    End If
+    Call UpdateUrl
+    hasId = checkProjectId("PROJECTID")
+    If (Not hasId) Then
+        MsgBox "No projectID found"
+        Exit Sub
+    End If
+
+    Dim m As VbMsgBoxResult
+    m = MsgBox("This will delete ALL layers and groups from your project. Are you sure?", vbOKCancel + vbExclamation, "Cleaning project")
+    If m = vbCancel Then
+        Exit Sub
+    End If
+    
+    Dim host As String
+    Dim projectId As String
+    host = Range("HOST").Cells(1, 1).value & "/clearproject"
+    projectId = Range("PROJECTID").Cells(1, 1).value
+    Dim data As String
+    data = "{""projectId"":""" + projectId + """}"
+    Dim status As Integer
+    status = SendJson(host, data)
 End Sub

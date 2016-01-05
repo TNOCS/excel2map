@@ -80,6 +80,34 @@ cs.start(() => {
             }
         }
     });
+
+    cs.server.post('/clearproject', (req, res) => {
+        var creds = auth(req);
+        if (!creds || !passwords.hasOwnProperty(creds.name) || creds.pass !== passwords[creds.name]) {
+            console.log('Wrong password');
+            res.statusCode = 401;
+            res.end();
+        } else {
+            var data;
+            if (req.body) {
+                data = req.body;
+                if (!data.hasOwnProperty('projectId')) {
+                    res.statusCode = 404;
+                    res.end();
+                } else {
+                    cs.api.clearProject(data.projectId, {}, (result: csweb.CallbackResult) => {
+                        if (result && result.result === csweb.ApiResult.OK) {
+                            res.statusCode = 200;
+                            res.end();
+                        } else {
+                            res.statusCode = 404;
+                            res.end();
+                        }
+                    });
+                }
+            }
+        }
+    });
     console.log('Excel2map functions started');
 });
 

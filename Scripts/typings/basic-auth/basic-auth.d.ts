@@ -1,8 +1,8 @@
-declare module "basic-auth" {
-  interface Credentials {
+interface Credentials {
       name: string;
       pass: string;
-  }
-    /** Authenticate request */
-  export function auth(req: any): Credentials;
+}
+declare function auth(req: any): Credentials;
+declare module "basic-auth" {
+    export = auth;
 }
