@@ -3,7 +3,6 @@ import fs = require('fs');
 import path = require('path');
 import auth = require('basic-auth');
 import * as csweb from "csweb";
-import * as BAG from "./public/BagDatabase/BagDatabase";
 
 Winston.remove(Winston.transports.Console);
 Winston.add(Winston.transports.Console, <Winston.ConsoleTransportOptions>{
@@ -24,7 +23,7 @@ cs.start(() => {
 
     this.config = new csweb.ConfigurationService('./configuration.json');
     this.config.add('server', 'http://localhost:' + cs.options.port);
-    var bagDatabase = new BAG.BagDatabase(this.config);
+    var bagDatabase = new csweb.BagDatabase(this.config);
     var mapLayerFactory = new csweb.MapLayerFactory(<any>bagDatabase, cs.messageBus, cs.api);
 
     cs.server.post('/projecttemplate', (req, res) => {
