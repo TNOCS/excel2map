@@ -14,7 +14,7 @@ Winston.add(Winston.transports.Console, <Winston.ConsoleTransportOptions>{
 var cs = new csweb.csServer(__dirname, <csweb.csServerOptions>{
     port: 3004,
     swagger: false,
-    //connectors: { mqtt: { server: 'localhost', port: 1883 }, mongo: { server : '127.0.0.1', port: 27017} }
+    connectors: { }
 });
 
 var passwords = {};
@@ -107,6 +107,11 @@ cs.start(() => {
             }
         }
     });
+
+    cs.server.post('/bagsearchaddress', (req, res) => {
+        mapLayerFactory.processBagSearchQuery(req, res);
+    });
+    
     console.log('Excel2map functions started');
 });
 

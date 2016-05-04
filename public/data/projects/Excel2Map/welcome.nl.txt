@@ -3,3 +3,5 @@
 Om meteen te beginnen met het maken van je eigen kaarten, download je eenvoudigweg een <a href="data/excel2map_online_adressen.xlsm" target="_blank">voorbeeld Excel template</a>. Activeer de macros in dat bestand, en klik op de 'Upload data'-knop om de data te uploaden. Vervolgens kun je de kaart bekijken door op de 'Show map'-knop te klikken.
 ### Meer informatie
 Voor meer informatie en hulp bij het gebruikt van Excel2map, selecteert u het **Get started**-dashboard bovenin deze webpagina. Voor meer voorbeelden en lege Excel2map-bestanden, selecteert u het **Templates**-dashboard.
+
+<br>

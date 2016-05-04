@@ -3,3 +3,5 @@
 To start creating your own map, simply download an <a href="data/excel2map_online_adressen.xlsm" target="_blank">example Excel template</a>. Activate macros in that file, and click the 'Upload data'-buttonto upload the data. To view the map you just created, click the 'Show map'-button.
 ### More information
 If you're looking for more information or help on using Excel2map, select the **Get started**-dashboard above. For more example and empty Excel2map-files, select the **Templates**-dashboard.
+
+<br>

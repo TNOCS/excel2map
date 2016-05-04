@@ -34,9 +34,9 @@
                     "elementId" : "widget-3654881f-0644-46ea-5133-f45c3dde8c9e",
                     "enabled" : true,
                     "left" : "25%",
-                    "top" : "50px",
-                    "width" : "650px",
-                    "height" : "350px"
+                    "top" : "100px",
+                    "width" : "50%",
+                    "height" : ""
                 }
             ]
         }, {
@@ -58,9 +58,9 @@
                     "elementId" : "widget-9954881f-0644-46ea-5133-f45c3dde8c99",
                     "enabled" : true,
                     "left" : "25%",
-                    "top" : "50px",
-                    "width" : "650px",
-                    "height" : "350px"
+                    "top" : "100px",
+                    "width" : "50%",
+                    "height" : ""
                 }
             ]
         }, {
@@ -83,9 +83,9 @@
                     "elementId" : "widget-8854881f-0644-46ea-5133-f45c3dde8c88",
                     "enabled" : true,
                     "left" : "25%",
-                    "top" : "50px",
-                    "width" : "650px",
-                    "height" : "350px"
+                    "top" : "100px",
+                    "width" : "50%",
+                    "height" : ""
                 }
             ]
         }

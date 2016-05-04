@@ -2,14 +2,6 @@
 <html ng-app="csWebApp">
 
 <head>
-    <!--[if lt IE 9]>
-        <script>
-            alert("This application does not work on IE8 or below! Please obtain a newer browser, or try a portable version of Firefox.");
-            window.location = "https://github.com/TNOCS/csWeb";
-        </script>
-    <![endif]-->
-
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
@@ -19,6 +11,15 @@
     <meta name="author" content="Arnoud de Jong, Erik Vullings, Rinze Bruining">
     <meta name="color:Accent" content="#a98e2e" />
 
+    <meta property="og:title" content="Excel2Map">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://github.com/TNOCS/csWeb/">
+    <meta property="og:image" content="https://raw.githubusercontent.com/TNOCS/csWeb/gh-pages/images/CommonSenseRound.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="73">
+    <meta property="og:image:height" content="73">
+    <meta property="og:description" content="Excel2Map">
+
     <!--TODO Add your title here-->
     <title>Excel2Map</title>
 
@@ -26,158 +27,227 @@
 
     <!-- build:css css/csWeb.css -->
     <link rel="stylesheet" href="bower_components/csweb/dist-bower/csWeb-dep.css" />
-    <link rel="stylesheet" href="bower_components/csweb/dist-bower/css/csStyles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="bower_components/csweb/dist-bower/css/csStyles.css" />
 
     <link rel="stylesheet" href="css/style.css">
     <!-- endbuild -->
-    <link rel="shortcut icon" href="favicon.ico">
+
+    <style>
+        .toggle-icon {
+            background: red;
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            margin-left: 10px;
+        }
+    </style>
+
 </head>
 
 <body data-ng-controller="appCtrl" data-ng-cloak data-ng-init="showMap=true">
     <!--<script>L_PREFER_CANVAS = true;</script>-->
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.min.js" type="text/javascript" charset="utf-8"></script>
+    <!--<script src="/socket.io/socket.io.js"></script>-->
     <!-- build:js csWeb.js -->
     <script src="bower_components/csweb/dist-bower/csWeb-dep.js"></script>
+
     <script src="bower_components/angularUtils-pagination/dirPagination.js"></script>
     <script src="bower_components/csweb/dist-bower/csComp.js"></script>
     <script src="app/app.js"></script>
     <script src="bower_components/csweb/dist-bower/csTemplates.js"></script>
     <!-- endbuild -->
+    <link rel="shortcut icon" href="favicon.ico">
 
-    <div role="navigation" class="navbar navbar-inverse navbar-fixed-top">
+    <style>
+        .toggle-icon {
+            background: red;
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            margin-left: 10px;
+        }
+        
+        .highRisk {
+            background: red;
+        }
+        
+        .normalRisk {
+            background: lightblue;
+        }
+        
+        .lowRisk {
+            background: green;
+        }
+        /*.vis-timeline .podium {
+            background: lightblue;
+        }*/
+    </style>
 
-        <div class="navbar-header" data-ng-cloak>
-            <a class="menutoggle" ng-click="vm.$layerService.visual.leftPanelVisible = !vm.$layerService.visual.leftPanelVisible" uib-popover="{{'TOGGLE_MENU' | translate}}" popover-popup-delay="750" popover-placement="right" popover-trigger="mouseenter" popover-append-to-body="true"><i class="fa fa-bars"></i></a>
+    </head>
+
+    <body data-ng-controller="appCtrl" data-ng-cloak data-ng-init="showMap=true">
+        <!--<script>L_PREFER_CANVAS = true;</script>-->
+        <script src="/socket.io/socket.io.js"></script>
+        <!-- build:js csWeb.js -->
+        <script src="bower_components/csweb/dist-bower/csWeb-dep.js"></script>
+
+        <script src="bower_components/angularUtils-pagination/dirPagination.js"></script>
+        <script src="bower_components/csweb/dist-bower/csComp.js"></script>
+        <script src="app/app.js"></script>
+
+        <script src="bower_components/csweb/dist-bower/csTemplates.js"></script>
+
+        <link href="http://leaflet.github.io/Leaflet.draw/leaflet.draw.css" rel="stylesheet" />
+
+        <!-- endbuild -->
+
+        <div class="body" style="top:0">
+            <map mapid="main" class="map-main" ng-show="vm.$layerService.visual.mapVisible" ng-style="{width: vm.$layerService.visual.mapWidth ? vm.$layerService.visual.mapWidth : '100%', left: vm.$layerService.visual.alignMapRight ? vm.$layerService.visual.mapWidth : 0}"></map>
+
+
+            <!-- Link to views -->
+            <div class="navbar-collapse collapse">
+
+
+
+                <!-- Dashboard selection -->
+
+
+                <!-- Select renderer -->
+                <!--<ul ng-if="false" class="nav navbar-nav" style="float:right">
+                    <li data-ng-if="vm.$layerService.activeMapRenderer.title!='leaflet'"><a data-ng-click="vm.$layerService.selectRenderer('leaflet')">2D</a></li>
+                    <li data-ng-if="vm.$layerService.activeMapRenderer.title!='cesium'"><a data-ng-click="vm.$layerService.selectRenderer('cesium')">3D</a></li>
+                </ul>-->
+
+
+            </div>
         </div>
 
-        <!-- Link to views -->
-        <div class="navbar-collapse collapse">
-            <project-header-selection></project-header-selection>
+        <!--<div style="position: absolute;width: 100%;height:100%;pointer-events: none;display:table">-->
+        <div class="sidebar">
 
-            <!-- Dashboard selection -->
-            <dashboard-header-selection></dashboard-header-selection>
+            <div ng-show="vm.$layerService.visual.leftPanelVisible" class="leftpanel leftpanel-entrance" ng-cloak>
+                <div class="leftpanel-container">
+                    <!-- http://stackoverflow.com/questions/1575141/make-div-100-height-of-browser-window -->
+                    <div class="leftpanel-tab">
+                        <!-- required for floating -->
+                        <!-- Nav tabs -->
+                        <ul id="left_menu_headers" class="nav nav-pills">
+                            <li id="navigate_header" class="lp-tab" data-target="#navigate" ng-show="vm.showNavigation" data-toggle="tab">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 64 64">
+                                <path d="M61.3 51.2l-16.1-16c1.7-3.3 2.6-7 2.6-10.8 0-6.4-2.5-12.4-7-16.9C36.3 3 30.3.5 23.9.5 17.5.5 11.5 3 7 7.5 2.5 12 0 18 0 24.4c0 6.4 2.5 12.4 7 16.9 4.5 4.5 10.5 7 16.9 7 3.8 0 7.5-.9 10.8-2.6l16 16.1c1.5 1.5 3.4 2.2 5.3 2.2s3.8-.7 5.3-2.2c2.9-3 2.9-7.7 0-10.6zm-48-16.3c-2.8-2.8-4.4-6.6-4.4-10.6s1.6-7.8 4.4-10.6c2.8-2.8 6.6-4.4 10.6-4.4s7.8 1.6 10.6 4.4c2.8 2.8 4.4 6.6 4.4 10.6s-1.6 7.8-4.4 10.6c-2.8 2.8-6.6 4.4-10.6 4.4s-7.7-1.6-10.6-4.4zm0 0"
+                                />
+                            </svg>
+                            </li>
+                            <li class="lp-tab " data-target="#basestyles" data-toggle="tab">
+                                <svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 64 64">
+                                <style>
+                                    .st0 {
+                                        clip-path: url(#SVGID_2_)
+                                    }
+                                    
+                                    .st1 {
+                                        clip-path: url(#SVGID_4_)
+                                    }
+                                    
+                                    .st2 {
+                                        clip-path: url(#SVGID_6_)
+                                    }
+                                </style>
+                                <path d="M30.5 39.6c.4.4.9.5 1.4.5.5 0 1-.2 1.4-.5.5-.5 12.6-11.2 12.6-22.3 0-7.7-6.3-14-14-14s-14 6.3-14 14C18 28.4 30 39.1 30.5 39.6zm1.4-26c2 0 3.6 1.6 3.6 3.7 0 2-1.6 3.7-3.6 3.7s-3.6-1.6-3.6-3.7 1.6-3.7 3.6-3.7z"
+                                />
+                                <defs>
+                                    <path id="SVGID_1_" d="M0 3.3h64V60H0z" />
+                                </defs>
+                                <clipPath id="SVGID_2_">
+                                    <use xlink:href="#SVGID_1_" overflow="visible" />
+                                </clipPath>
+                                <path class="st0" d="M58.8 39.6l-1.6-5.7c-.3-.9-1.1-1.6-2.1-1.6H43.6c-.4.6-.9 1.2-1.3 1.9-3.2 4.4-6.5 7.3-6.9 7.6-.9.8-2.1 1.3-3.4 1.3-1.3 0-2.5-.5-3.4-1.3-.4-.3-3.7-3.3-6.9-7.6-.5-.6-.9-1.3-1.3-1.9H8.8c-1 0-1.8.6-2.1 1.6l-1.9 6.8 43.1 7.9 10.9-9z"
+                                />
+                                <g>
+                                    <defs>
+                                        <path id="SVGID_3_" d="M0 3.3h64V60H0z" />
+                                    </defs>
+                                    <clipPath id="SVGID_4_">
+                                        <use xlink:href="#SVGID_3_" overflow="visible" />
+                                    </clipPath>
+                                    <path class="st1" d="M63.8 57.1l-4.1-14.5-20.6 17.2h22.6c.7 0 1.3-.3 1.7-.9.5-.4.6-1.1.4-1.8z" />
+                                </g>
+                                <g>
+                                    <defs>
+                                        <path id="SVGID_5_" d="M0 3.3h64V60H0z" />
+                                    </defs>
+                                    <clipPath id="SVGID_6_">
+                                        <use xlink:href="#SVGID_5_" overflow="visible" />
+                                    </clipPath>
+                                    <path class="st2" d="M10.5 44.8L4 43.6.1 57.1c-.2.7-.1 1.4.3 1.9s1 .9 1.7.9h8.4V44.8z" />
+                                </g>
+                                <path d="M13.5 45.3v14.5h21L45 51l-31.5-5.7z" />
+                            </svg>
+                            </li>
+                            <li class="lp-tab active" data-target="#layers" data-toggle="tab">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 64 64">
+                                <g fill="#010002">
+                                    <path d="M64 19.4L32 2 0 19.4l32 17.4z" />
+                                    <path d="M32 42.4L5.9 28.2 0 31.5l32 17.4 32-17.4-5.9-3.3z" />
+                                    <path d="M32 54.5L5.9 40.3 0 43.5l32 17.4 32-17.4-5.9-3.2z" />
+                                </g>
+                            </svg>
+                            </li>
+                            <li class="lp-tab" id="style-tab" data-target="#styles" data-toggle="tab">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 64 64">
+                                <path d="M25.3 34.5c-1.2 1.3-1.5 2.3-3.1 4.8 1 .7 3 2.4 4.4 5.2 2.7-1.6 4-1.8 5.5-3C41.6 33.5 64.8 4.9 64 4c-.8-.8-30.3 21.4-38.7 30.5zm-5.8 7.1c-4.1-.7-8.2 1.9-10.9 8.4C5.9 56.5 1 59.1.1 59c5.1 1.8 20.5 6.5 24.4-11.3-1.7-4.4-5-6.1-5-6.1z"
+                                />
+                            </svg>
+                            </li>
 
-            <!-- Select renderer 
-            <ul class="nav navbar-nav" style="float:right">
-                <li data-ng-if="vm.$layerService.activeMapRenderer.title!='leaflet'"><a data-ng-click="vm.$layerService.selectRenderer('leaflet')">2D</a></li>
-                <li data-ng-if="vm.$layerService.activeMapRenderer.title!='cesium'"><a data-ng-click="vm.$layerService.selectRenderer('cesium')">3D</a></li>
-            </ul>
-            -->
+                            <li class="lp-tab" ng-hide="vm.$layerService.noFilters" data-target="#filters" data-toggle="tab">
+                                <svg version="1.1" id="Layer_11" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                    viewbox="0 0 64 64" style="enable-background:new 0 0 64 64;" xml:space="preserve">
+                                <g>
+                                    <path d="M24.1,30.3c0.7,0.7,1,1.7,1,2.7v29c0,1.7,2.1,2.6,3.4,1.4l8.1-9.3c1.1-1.3,1.7-1.9,1.7-3.2v-18c0-1,0.4-1.9,1-2.7L62.6,5
+		c1.7-1.9,0.4-5-2.2-5H3C0.4,0.1-1,3.1,0.8,5L24.1,30.3z" />
+                                </g>
+                            </svg>
+                            </li>
 
-            <!-- Search form -->
-            <!-- <offline-search class="navbar-form navbar-right" style="margin-right:0"></offline-search> -->
-            <!-- Expert mode switch -->
-            <expert-mode class="navbar-form navbar-right" style="outline:none; margin: 5px -10px 0 0; color: white"></expert-mode>
-            <!-- Language switch -->
-            <language-switch class="navbar-form navbar-right" style="margin: 0 -5px 0 8px;"></language-switch>
-        </div>
-    </div>
+                            <li class="lp-tab" data-target="#settings" data-toggle="tab">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 64 64">                                
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M63.6 28.4c-.1-.9-1.1-1.6-2-1.6-2.9 0-5.5-1.7-6.6-4.3-1.1-2.7-.4-5.8 1.8-7.8.7-.6.8-1.7.2-2.4-1.5-1.9-3.2-3.6-5-5.1-.7-.6-1.8-.5-2.4.2-1.9 2.1-5.3 2.9-7.9 1.8C39 8 37.2 5.3 37.4 2.3c.1-.9-.6-1.7-1.6-1.9-2.4-.3-4.8-.3-7.1 0-.9.1-1.6.9-1.6 1.8.1 2.9-1.6 5.7-4.3 6.8-2.6 1.1-6 .3-7.8-1.8-.6-.7-1.7-.8-2.4-.2-1.9 1.5-3.6 3.2-5.1 5.1-.6.7-.5 1.8.2 2.4 2.2 2 2.9 5.2 1.8 7.9-1.1 2.6-3.8 4.3-6.9 4.3-1 0-1.7.6-1.8 1.6-.3 2.4-.3 4.8 0 7.2 0 .8 1.1 1.5 2 1.5 2.8-.1 5.4 1.6 6.5 4.3 1.1 2.7.4 5.8-1.8 7.8-.7.6-.8 1.7-.2 2.4 1.5 1.9 3.2 3.6 5 5.1.7.6 1.8.5 2.4-.2 1.9-2.1 5.3-2.9 7.9-1.8 2.7 1.1 4.5 3.9 4.3 6.9-.1.9.6 1.7 1.6 1.9 1.2.1 2.4.2 3.6.2 1.2 0 2.3-.1 3.5-.2.9-.1 1.6-.9 1.6-1.8-.1-2.9 1.6-5.6 4.3-6.8 2.6-1.1 6-.3 7.8 1.8.6.7 1.7.8 2.4.2 1.9-1.5 3.6-3.2 5.1-5.1.6-.7.5-1.8-.2-2.4-2.2-2-2.9-5.2-1.8-7.9 1.1-2.6 3.7-4.3 6.5-4.3h.4c.9.1 1.7-.6 1.9-1.6.3-2.3.3-4.7 0-7.1zM32.2 42.6c-5.8 0-10.6-4.7-10.6-10.6 0-5.8 4.7-10.6 10.6-10.6 5.8 0 10.6 4.7 10.6 10.6 0 5.8-4.8 10.6-10.6 10.6zm0 0"
+                                />
+                            </svg>
+                            </li>
 
-    <map mapid="main" class="map-main" ng-show="vm.$layerService.visual.mapVisible"></map>
+                            <li class="lp-tab close-tab" ng-click="vm.$layerService.visual.leftPanelVisible = !vm.$layerService.visual.leftPanelVisible;vm.$messageBusService.publish('search','reset')">
+                                <div>
+                                    <i class="fa fa-times"></i>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
 
-    <div style="position: absolute;width: 100%;height:100%;pointer-events: none;display:table">
-
-        <div ng-show="vm.$layerService.visual.leftPanelVisible" class="leftpanel leftpanel-entrance" ng-cloak>
-            <div class="leftpanel-container">
-                <!-- http://stackoverflow.com/questions/1575141/make-div-100-height-of-browser-window -->
-                <div class="leftpanel-tab">
-                    <!-- required for floating -->
-                    <!-- Nav tabs -->
-                    <ul class="nav nav-tabs tabs-left" id="leftPanelTab">
-                        <li class="active" uib-popover="{{'NAVIGATE' | translate}}" popover-popup-delay="750" popover-placement="right" popover-trigger="mouseenter" popover-append-to-body="true">
-                            <a data-target="#navigate" data-toggle="tab">
-                                <div class="searchIcon"></div>
-                            </a>
-                        </li>                        
-                        <li uib-popover="{{'BASESTYLES' | translate}}" popover-popup-delay="750" popover-placement="right" popover-trigger="mouseenter" popover-append-to-body="true">
-                            <a data-target="#basestyles" data-toggle="tab" data-ng-if="vm.$mapService.isIntermediate">
-                                <div class="mapIcon"></div>
-                            </a>
-                        </li>
-                        <li uib-popover="{{'LAYERS' | translate}}" popover-popup-delay="750" popover-placement="right" popover-trigger="mouseenter" popover-append-to-body="true">
-                            <a data-target="#layers" data-toggle="tab">
-                                <div class="layersIcon"></div>
-                            </a>
-                        </li>
-                        <li uib-popover="{{'FILTERS' | translate}}" popover-popup-delay="750" popover-placement="right" popover-trigger="mouseenter" popover-append-to-body="true">
-                            <a data-target="#filters" data-toggle="tab">
-                                <div class="filtersIcon"></div>
-                            </a>
-                        </li>
-                        <li uib-popover="{{'STYLES' | translate}}" popover-popup-delay="750" popover-placement="right" popover-trigger="mouseenter" popover-append-to-body="true">
-                            <a data-target="#styles" data-toggle="tab">
-                                <div class="stylesIcon"></div>
-                            </a>
-                        </li>
-                        <li uib-popover="{{'MCA.NAME' | translate}}" popover-popup-delay="750" popover-placement="right" popover-trigger="mouseenter" popover-append-to-body="true">
-                            <a data-target="#mca" data-toggle="tab" data-ng-if="vm.$mapService.isExpert">
-                                <div class="mcaIcon"></div>
-                            </a>
-                        </li>
-                        <li uib-popover="{{'HEATMAP.NAME' | translate}}" popover-popup-delay="750" popover-placement="right" popover-trigger="mouseenter" popover-append-to-body="true">
-                            <a data-target="#heatmap" data-toggle="tab" data-ng-if="vm.$mapService.isExpert">
-                                <div class="heatmapIcon"></div>
-                            </a>
-                        </li>
-                        <li uib-popover="{{'FEATURES' | translate}}" popover-popup-delay="750" popover-placement="right" popover-trigger="mouseenter" popover-append-to-body="true">
-                            <a data-target="#features" data-toggle="tab">
-                                <div class="featuresIcon"></div>
-                            </a>
-                        </li>
-                        <li uib-popover="{{'LEGEND' | translate}}" popover-popup-delay="750" popover-placement="right" popover-trigger="mouseenter" popover-append-to-body="true">
-                            <a data-target="#legend" data-toggle="tab">
-                                <div class="mainLegendIcon"></div>
-                            </a>
-                        </li>
-                        <li uib-popover="{{'DASHBOARD_SELECTION' | translate}}" popover-popup-delay="750" popover-placement="right" popover-trigger="mouseenter" popover-append-to-body="true">
-                            <a data-target="#dashboardselection" data-ng-if="vm.$mapService.isExpert" data-toggle="tab"><i class="fa fa-tachometer fa-2x" style="color: black"></i>
-                      </a>
-                        </li>
-                        <li uib-popover="{{'SETTINGS' | translate}}" popover-popup-delay="750" popover-placement="right" popover-trigger="mouseenter" popover-append-to-body="true">
-                            <a data-target="#settings" data-toggle="tab" data-ng-if="vm.$mapService.isAdminExpert">
-                                <i class="fa fa-gear fa-2x" style="color: black"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="leftpanel-content">
-                    <!-- Tab panes -->
-                    <div class="tab-content ">                        
-
-                        <navigate class="tab-pane active" id="navigate" data-ng-if="!vm.$layerService.isMobile"></navigate>
-
-                        <base-map-list class="tab-pane" id="basestyles"></base-map-list>
-
-                        <layers-directive class="tab-pane" id="layers"></layers-directive>
-
-                        <filter-list class="tab-pane" id="filters"></filter-list>
-
-                        <style-list class="tab-pane" id="styles"></style-list>
-
-                        <mca class="tab-pane" id="mca"></mca>
-
-                        <heatmap class="tab-pane" id="heatmap"></heatmap>
-
-                        <feature-list class="tab-pane" id="features"></feature-list>
-
-                        <legend-list class="tab-pane" id="legend"></legend-list>
-
-                        <dashboard-selection class="tab-pane" id="dashboardselection"></dashboard-selection>
-
-                        <project-settings class="tab-pane" id="settings"></project-settings>
+                    <div class="leftpanel-content">
+                        <!-- Tab panes -->
+                        <div class="tab-content ">
+                            <navigate ng-show="vm.showNavigation" class="tab-pane" id="navigate"></navigate>
+                            <base-map-list class="tab-pane" id="basestyles"></base-map-list>
+                            <layers-directive class="tab-pane active" id="layers"></layers-directive>
+                            <filter-list ng-hide="vm.$layerService.noFilters" class="tab-pane" id="filters"></filter-list>
+                            <style-list class="tab-pane" id="styles"></style-list>
+                            <dashboard-selection class="tab-pane" id="dashboardselection"></dashboard-selection>
+                            <project-settings class="tab-pane" id="settings"></project-settings>
+                        </div>
                     </div>
                 </div>
             </div>
+            <dashboardirective container="main" class="dashboard-container" dashboard="vm.$dashboardService.mainDashboard"></dashboardirective>
         </div>
-        <dashboardirective container="main" style="display:table-cell;width:100%;vertical-align: top;" dashboard="vm.$dashboardService.mainDashboard"></dashboardirective>
 
         <div id="rightpanel" class="rightpanel">
             <div id="rightpanelTabContainer" class="tabbable tabs-left rightpanelContainer">
                 <!-- Nav tabs -->
                 <ul id="rightpanelTabs" class="nav nav-tabs rightpanelTabs" ng-class="{'rightpanelTabs-collapsed' : !vm.$layerService.visual.rightPanelVisible}">
-                    <li style="margin-top:5px" ng-style="!vm.$layerService.visual.rightPanelVisible && {'opacity':0}" ng-click="vm.$layerService.visual.rightPanelVisible = false" uib-popover="{{'HIDE_PANEL' | translate}}" popover-placement="left" popover-trigger="mouseenter" popover-append-to-body="true">
+                    <li style="margin-top:5px" ng-style="!vm.$layerService.visual.rightPanelVisible && {'opacity':0}" ng-click="vm.$layerService.visual.rightPanelVisible = false"
+                        uib-popover="{{'HIDE_PANEL' | translate}}" popover-placement="left" popover-trigger="mouseenter" popover-append-to-body="true">
                         <a class="rightpanel-hidetab">
                             <span class="fa fa-2x fa-chevron-right"></span>
                         </a>
@@ -188,18 +258,102 @@
             </div>
         </div>
 
-    </div>
-
-    <!--Loading spinner-->
-    <div data-ng-show="layersLoading>0" id="loadingspinner" style="margin:0px auto; width:200px; height:100px;">
-        <div class="spinner" style="position: initial; margin-top:60px;">
-            <div class="bounce1" style="width:16px; height:16px;"></div>
-            <div class="bounce2" style="width:16px; height:16px;"></div>
-            <div class="bounce3" style="width:16px; height:16px;"></div>
+        <!--Loading spinner-->
+        <div data-ng-show="layersLoading>0" id="loadingspinner" style="margin:0px auto; width:200px; height:100px;">
+            <div class="spinner" style="position: initial; margin-top:60px;">
+                <div class="bounce1" style="width:16px; height:16px;"></div>
+                <div class="bounce2" style="width:16px; height:16px;"></div>
+                <div class="bounce3" style="width:16px; height:16px;"></div>
+            </div>
         </div>
-    </div>
 
-    <timeline data-ng-show="vm.$mapService.timelineVisible && !vm.$layerService.isMobile" style="height: 100vh;"></timeline>
-</body>
 
+        <div id="header-box" class="header-box">
+            <a class="menutoggle" style="color:black" ng-click="vm.$layerService.visual.leftPanelVisible = !vm.$layerService.visual.leftPanelVisible;vm.$messageBusService.publish('search','reset')"
+                uib-tooltip="Open/sluit het menu" tooltip-placement="bottom" tooltip-popup-delay="500">
+                <i class="fa fa-bars"></i>
+            </a>
+
+            <search-header></search-header>
+            <!--<div class="fa fa-search search-icon" style="font-size:24px;margin-top:12px;float:left" ng-click="sv=!sv;vm.$layerService.visual.leftPanelVisible = true"></div>
+        <input type="text" style="margin-top:10px;float:left" ng-show="sv" />-->
+            <project-header-selection></project-header-selection>
+            <dashboard-header-selection></dashboard-header-selection>
+
+        </div>
+
+        <div class="righttab-box" style="padding-right:30px;display:none">
+
+
+            <!-- Search form -->
+            <!-- <offline-search class="navbar-form navbar-right" style="margin-right:0"></offline-search> -->
+            <!-- Expert mode switch -->
+            <div class="navbar-form navbar-right toggle-icon">
+                <expert-mode style="margin-left: -30px;margin-top: 4px;"></expert-mode>
+            </div>
+            <!-- Language switch -->
+            <div ng-if="vm.$layerService.touchMode" ng-click="vm.$layerService.touchMode=false" class="navbar-form navbar-right toggle-icon">
+                <img src="images/touch.png" style="width:30px;height:30px;margin-top:7px;margin-left:-13px" />
+            </div>
+
+            <div ng-if="!vm.$layerService.touchMode" ng-click="vm.$layerService.touchMode=true" class="navbar-form navbar-right toggle-icon">
+                <span class="fa fa-mouse-pointer" style="font-size:18px;margin-top:10px" />
+            </div>
+
+        </div>
+
+        <div id="bottom-panel">
+            <timeline data-ng-show="vm.$mapService.timelineVisible && !vm.$layerService.isMobile" style="height: 100vh;"></timeline>
+        </div>
+
+        <div style="position:absolute;left:400px;display:none">
+            <div id="menu" ng-click="vm.startSketch()">
+
+                <input type="checkbox" id="on-check" name="on-check" />
+
+                <label id="on-button" for="on-check">
+        <span><span class="fa fa-pencil"><!-- Put plus icon here if not using symbol set --></span></span>
+        <span><span class="fa fa-save"><!-- Put minus icon here if not using symbol set --></span></span>
+    </label>
+
+                <input type="radio" id="info-home" name="radio-check" />
+                <input type="radio" id="info-compass" name="radio-check" checked />
+                <input type="radio" id="info-heart" name="radio-check" />
+                <input type="radio" id="info-rss" name="radio-check" />
+                <input type="radio" id="info-refresh" name="radio-check" />
+                <input type="radio" id="info-star" name="radio-check" />
+
+                <div id="menu-items">
+                    <div class="middle">
+                        <div class="top">
+                            <span class="bg-piece"> </span>
+                            <label class="ss-home" for="info-home"><!-- Put home icon here if not using symbol set --></label>
+                            <span class="bg-piece"> </span>
+                            <label class="ss-compass" for="info-compass"><!-- Put compass icon here if not using symbol set --></label>
+                            <span class="bg-piece"> </span>
+                            <label class="ss-heart" for="info-heart"><!-- Put heart icon here if not using symbol set --></label>
+                        </div>
+                        <div class="bottom">
+                            <span class="bg-piece"> </span>
+                            <label class="ss-rss" for="info-rss"><!-- Put rss icon here if not using symbol set --></label>
+                            <span class="bg-piece"> </span>
+                            <label class="ss-refresh" for="info-refresh"><!-- Put refresh icon here if not using symbol set --></label>
+                            <span class="bg-piece"> </span>
+                            <label class="ss-star" for="info-star"><!-- Put icon here if not using symbol set --></label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="info home-info">Lets go home</div>
+                <div class="info compass-info">Want directions?</div>
+                <div class="info heart-info">Love</div>
+                <div class="info rss-info">RSS Feed</div>
+                <div class="info star-info">Galactic domination</div>
+                <div class="info refresh-info">Refreshing</div>
+
+                <div class="faux-shadow"> </div>
+            </div>
+        </div>
+    </body>
 </html>
