@@ -1,9 +1,21 @@
 # excel2map
 Convert an Excel table to a beautiful map using csWeb.
 
-## Getting started
-Download this repository with your git client or as a zipped file. Extract the contents into a folder on your local harddrive. Run the start-excel2map.bat script. This will run the excel2map-v*.exe excecutable, which is a packaged jx (nodejs) server, and open page http://localhost:3002 in your default webbrowser. Finally, open a sample Excel sheet (e.g. excel2map_voorbeeld_regios.xlsm). After enabling the macros in Excel, clicking the 'Upload data to map' button will upload the data in your worksheet. The resulting map can be shown by clicking the 'Show map' button in the Excel sheet. 
+## Installation instructions
 
-Now you can start creating your own maps! 
+### Required programs
 
-Note: to lookup adresses, you'll need a database that links the addresses to lat/lon coordinates. For Dutch addresses, a stripped version of the BAG-database can be downloaded here: [BAG](https://www.dropbox.com/s/oya8cv4wj7md04h/bagadres.db?dl=0) Place it in the public/data folder of the excel2map folder.
+The following programs are required to install Excel2Map, so install them first if you haven't already:
+* [Node.js (version 5)](https://nodejs.org/download)
+* [Git](https://git-scm.com/download/win)
+* [Python (version 2.7)](https://www.python.org/downloads/)
+* C++ Redistributable package ([32-bit](https://mapbox.s3.amazonaws.com/windows-builds/visual-studio-runtimes/vcredist-VS2015/vcredist_x86.exe) or [64-bit](https://mapbox.s3.amazonaws.com/windows-builds/visual-studio-runtimes/vcredist-VS2015/vcredist_x64.exe))
+* [.NET 2.0 Framework](https://www.microsoft.com/nl-nl/download/details.aspx?id=1639)
+
+When you are asked to add executables to the PATH variable, do so. At least, make sure that **npm**, **git** and **py** can be accessed from a console window. It might be required to restart your PC after the installations of the programs listed above. 
+
+Open a console window and install excel2map using: 
+
+    npm i -g excel2map
+
+Then open a web-browser (preferably Google Chrome) and browse to [http://localhost:3004](http://localhost:3004). The instructions to get started with Excel2Map can be found there.
