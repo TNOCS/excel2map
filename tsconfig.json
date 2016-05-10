@@ -54,6 +54,7 @@
     "Scripts\\typings\\mqtt\\mqtt-router.d.ts",
     "Scripts\\typings\\mqtt\\mqtt.d.ts",
     "Scripts\\typings\\node\\node.d.ts",
+    "Scripts\\typings\\opn\\opn.d.ts",
     "Scripts\\typings\\pg\\pg.d.ts",
     "Scripts\\typings\\proj4\\proj4.d.ts",
     "Scripts\\typings\\q\\Q.d.ts",

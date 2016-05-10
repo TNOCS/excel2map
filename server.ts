@@ -1,6 +1,7 @@
 import Winston = require('winston');
 import fs = require('fs');
 import path = require('path');
+import opn = require('opn');
 import auth = require('basic-auth');
 import * as csweb from "csweb";
 
@@ -21,10 +22,10 @@ var passwords = {};
 cs.start(() => {
     readPass();
 
-    this.config = new csweb.ConfigurationService('./configuration.json');
+    this.config = cs.config;
     this.config.add('server', 'http://localhost:' + cs.options.port);
     var bagDatabase = new csweb.BagDatabase(this.config);
-    var mapLayerFactory = new csweb.MapLayerFactory(<any>bagDatabase, cs.messageBus, cs.api);
+    var mapLayerFactory = new csweb.MapLayerFactory(<any>bagDatabase, cs.messageBus, cs.api, cs.dir);
 
     cs.server.post('/projecttemplate', (req, res) => {
         var creds = auth(req);
@@ -113,6 +114,8 @@ cs.start(() => {
     });
     
     console.log('Excel2map functions started');
+    // Open start webpage
+    opn('http://localhost:' + cs.options.port);
 });
 
 function generatePass() {
