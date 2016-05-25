@@ -81,7 +81,7 @@ module App {
             this.$layerService.openSolution('data/projects/projects.json', $location.$$search.layers);
         }
 
-        get showNavigation() { return this.$dashboardService.search.isActive; }
+        get showNavigation() { return this.$dashboardService._search.isActive; }
 
         /**
          * Publish a toggle request.
