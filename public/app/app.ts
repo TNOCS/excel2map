@@ -11,6 +11,7 @@ module App {
         showMenuRight: boolean;
         featureSelected: boolean;
         layersLoading: number;
+        showTabDropdown: boolean;
         sv: boolean;
     }
 
@@ -26,6 +27,7 @@ module App {
         // See http://docs.angularjs.org/guide/di
         static $inject = [
             '$scope',
+            '$timeout',
             '$location',
             'mapService',
             'layerService',
@@ -37,11 +39,13 @@ module App {
         public areaFilter: AreaFilter.AreaFilterModel;
         public contourAction: ContourAction.ContourActionModel;
         activeLayer: csComp.Services.ProjectLayer;
+        nrOfActiveTabs: number;
 
         // dependencies are injected via AngularJS $injector
         // controller's name is registered in Application.ts and specified from ng-controller attribute in index.html
         constructor(
             private $scope: IAppScope,
+            private $timeout: ng.ITimeoutService,
             private $location: IAppLocationService,
             private $mapService: csComp.Services.MapService,
             private $layerService: csComp.Services.LayerService,
@@ -55,6 +59,23 @@ module App {
             $scope.showMenuRight = false;
             $scope.featureSelected = false;
             $scope.layersLoading = 0;
+            $scope.showTabDropdown = false;
+            
+            $scope.$watch('vm.showNavigation', () => {
+                $timeout(() => {
+                    this.autocollapse();
+                }, 20);
+            });
+            $scope.$watch('vm.$layerService.noFilters', () => {
+                $timeout(() => {
+                    this.autocollapse();
+                }, 20);
+            });
+            $scope.$watch('vm.$layerService.project.mcas', () => {
+                $timeout(() => {
+                    this.autocollapse();
+                }, 20);
+            });
 
             $messageBusService.subscribe('project', (action: string) => {
                 if (action === 'loaded') {
@@ -62,6 +83,8 @@ module App {
                     this.$layerService.addActionService(this.areaFilter);
                     this.contourAction = new ContourAction.ContourActionModel();
                     this.$layerService.addActionService(this.contourAction);
+                    
+                    this.autocollapse();
 
                     // NOTE EV: You may run into problems here when calling this inside an angular apply cycle.
                     // Alternatively, check for it or use (dependency injected) $timeout.
@@ -81,7 +104,7 @@ module App {
             this.$layerService.openSolution('data/projects/projects.json', $location.$$search.layers);
         }
 
-        get showNavigation() { return this.$dashboardService._search.isActive; }
+        get showNavigation() { return this.$dashboardService._search && this.$dashboardService._search.isActive; }
 
         /**
          * Publish a toggle request.
@@ -107,6 +130,10 @@ module App {
                 case 'deactivate':
                     break;
             }
+            
+            this.$timeout(() => {
+                this.autocollapse();
+            }, 20);
 
             var $contextMenu = $('#contextMenu');
 
@@ -184,6 +211,24 @@ module App {
         isActive(viewLocation: string) {
             return viewLocation === this.$location.path();
         }
+        
+        autocollapse(): void{
+            var maxTabs = 7;
+            var tabs = $('#left_menu_headers');
+            $('#nav-collapsed-items').children('li').detach().insertBefore(tabs.children('li:last-child'));
+            var allTabs = tabs.children('li:not(:last-child)');
+            var allVisibleTabs = tabs.children('li:not(:last-child):not(.ng-hide)');
+            var nrVisibleTabs = allVisibleTabs.length;
+            if (nrVisibleTabs > maxTabs) {
+                while (nrVisibleTabs >= maxTabs) {
+                    $(allVisibleTabs[nrVisibleTabs - 1]).detach().prependTo('#nav-collapsed-items');
+                    nrVisibleTabs = nrVisibleTabs - 1;
+                }
+                this.$scope.showTabDropdown = true;
+            } else {
+                this.$scope.showTabDropdown = false;
+            }
+        };
     }
 
     // http://jsfiddle.net/mrajcok/pEq6X/
