@@ -1,0 +1,76 @@
+<div class="fill-height" style="margin: 20px 5px 2px 5px;overflow:auto;height:95%" id="drop-box">
+    <div style="display: inline-block; margin-left: 2px;" ng-hide="data.hideTitle">
+        <div style="display: inline-block; font-size:16px; font-weight:bold; margin-bottom:2px;">{{data.title}}</div>
+        <div style="display: inline-block; margin-right:5px; position: absolute; top: 2px; right: 0px;">
+            <a class="widget-min-max-close" ng-click="vm.close()" ng-if="vm.canClose()"><i class="fa fa-times"></i></a>
+            <a class="widget-min-max-close" ng-click="vm.minimize()" ng-show="vm.canMinimize() && minimized"> <i class="fa fa-plus"></i></a>
+            <a class="widget-min-max-close" ng-click="vm.minimize()" ng-show="vm.canMinimize() && !minimized"> <i class="fa fa-minus"></i></a>
+            <a class="widget-min-max-close" ng-click="vm.exportToPDF()"><i class="fa fa-save" uib-tooltip="{{'SAVE_AS_PDF' | translate}}" tooltip-trigger="mouseenter" tooltip-append-to-body="true" ng-show="vm.exporterAvailable&&!minimized"></i></a>
+        </div>
+        <!--<div class="display:inline-block; margin-right:10px; btn-group btn-group-sm" role="group">
+            <a ng-click="vm.minimize()">
+                <i class="makeNarrow fa fa-plus"></i>
+            </a>
+            <button type="button" class="btn btn-secondary makeNarrow fa fa-plus leftpanel-header-button" ng-click="vm.minimize()" ng-show="minimized" />
+            <button type="button" class="btn btn-secondary makeNarrow fa fa-minus leftpanel-header-button" ng-click="vm.minimize()" ng-hide="minimized" />
+            <button type="button" class="btn btn-secondary makeNarrow fa fa-times leftpanel-header-button" ng-if="vm.canClose()" ng-click="vm.close()" />
+        </div>-->
+    </div>
+    <div class="fill-height" style="padding:0px;font-size:12px;margin:0px;" ng-hide="minimized">
+        <div class="table fill-height">
+            <div class="row">
+                <div class="col-xs-12 fill-height">
+                    <h2>Upload your data from Excel2map</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 fill-height">
+                    <div>Uploading data can be performed in multiple ways. Unless your network configuration prevents it, you
+                        can simply press the upload-button in the Excel-templates to upload data automatically. When that
+                        doesn't work, use one of the options below to create your map.
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 fill-height">
+                    <h4>Option 1. Paste from clipboard.</h4>
+                    <div>Paste data from your clipboard to this textfield. Click the upload-button in the Excel-sheet first, to
+                        make sure the data has been copied to your clipboard.</div>
+                </div>
+                <div class="col-xs-6 fill-height" style="margin-top: 8px">
+                    <textarea rows="6" class="fill-height" id="clipboard-box" style="width:100%" placeholder="Paste content here" ng-model="vm.textContent" ng-change="vm.updatedContent()"></textarea>
+                </div>
+            </div>
+            <div class="row" ng-show="vm.uploadAvailable">
+                <div class="col-xs-6 fill-height">
+                    <h4>Option 2. Upload file.</h4>
+                    <div>Upload the *.json file that you saved on your computer.</div>
+                </div>
+                <div class="col-xs-6 fill-height" style="margin-top: 8px">
+                    <input type="file" id="file-upload" />
+                </div>
+            </div>
+            <div class="row" ng-show="vm.uploadAvailable">
+                <div class="col-xs-6 fill-height">
+                    <h4>Option 3. Drag the file onto this widget.</h4>
+                    <div>Drag the json-file from your explorer-program to this box.</div>
+                </div>
+                <div class="col-xs-6 fill-height">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3 fill-height" style="margin-top: 8px">
+                    <label for="projectid">Project ID:</label>
+                    <input type="text" class="fill-height" id="projectid">
+                </div>
+                <div class="col-xs-3 fill-height" style="margin-top: 8px">
+                    <label for="password">Password:</label>
+                    <input type="text" class="fill-height" id="password">
+                </div>
+                <div class="col-xs-6 fill-height">
+                    <input class="big-button" type="button" value="Convert!" ng-click="vm.convertData()" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -60,7 +60,7 @@ module App {
             $scope.featureSelected = false;
             $scope.layersLoading = 0;
             $scope.showTabDropdown = false;
-            
+
             $scope.$watch('vm.showNavigation', () => {
                 $timeout(() => {
                     this.autocollapse();
@@ -79,11 +79,17 @@ module App {
 
             $messageBusService.subscribe('project', (action: string) => {
                 if (action === 'loaded') {
+                    this.$dashboardService.widgetTypes['e2muploadwidget'] = <csComp.Services.IWidget>{
+                        id: 'e2muploadwidget',
+                        icon: 'bower_components/csweb/dist-bower/images/widgets/filter.png',
+                        description: 'A widget for uploading files/clipboard content to the web app.'
+                    };
+
                     this.areaFilter = new AreaFilter.AreaFilterModel();
                     this.$layerService.addActionService(this.areaFilter);
                     this.contourAction = new ContourAction.ContourActionModel();
                     this.$layerService.addActionService(this.contourAction);
-                    
+
                     this.autocollapse();
 
                     // NOTE EV: You may run into problems here when calling this inside an angular apply cycle.
@@ -130,7 +136,7 @@ module App {
                 case 'deactivate':
                     break;
             }
-            
+
             this.$timeout(() => {
                 this.autocollapse();
             }, 20);
@@ -211,8 +217,8 @@ module App {
         isActive(viewLocation: string) {
             return viewLocation === this.$location.path();
         }
-        
-        autocollapse(): void{
+
+        autocollapse(): void {
             var maxTabs = 7;
             var tabs = $('#left_menu_headers');
             $('#nav-collapsed-items').children('li').detach().insertBefore(tabs.children('li:last-child'));

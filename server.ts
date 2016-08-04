@@ -18,6 +18,8 @@ var cs = new csweb.csServer(__dirname, <csweb.csServerOptions>{
     connectors: { }
 });
 
+var debug = true;
+
 var passwords = {};
 cs.start(() => {
     readPass();
@@ -115,7 +117,7 @@ cs.start(() => {
     
     console.log('Excel2map functions started');
     // Open start webpage
-    opn('http://localhost:' + cs.options.port);
+    if (!debug) opn('http://localhost:' + cs.options.port);
 });
 
 function generatePass() {

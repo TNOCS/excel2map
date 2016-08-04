@@ -236,8 +236,8 @@ Function IsNumber(ByVal value As String) As Boolean
   If value Like "[+-]*" Then value = Mid$(value, 2)
   IsNumber = Not value Like "*[!0-9" & DP & "]*" And Not value Like "*" & DP & "*" & DP & "*" And Len(value) > 0 And value <> DP And Not value Like "*[a-zA-Z]"
 End Function
-Function LowerCaseFirstLetter(text As String)
-    LowerCaseFirstLetter = LCase(Mid(text, 1, 1)) & Mid(text, 2, Len(text) - 1)
+Function LowerCaseFirstLetter(Text As String)
+    LowerCaseFirstLetter = LCase(Mid(Text, 1, 1)) & Mid(Text, 2, Len(Text) - 1)
 End Function
 ' Test whether we are dealing with a boolean
 Private Function IsBoolean(myVar As Variant)
@@ -253,6 +253,9 @@ Function SendJson(url As String, json As String) As Integer
     'Dim objHTTP As New MSXML2.XMLHTTP
     'Set objHTTP = New MSXML2.XMLHTTP60
     'Dim objHTTP As New MSXML2.XMLHTTP60
+    
+    On Error GoTo ConnectionError
+    
     Dim hash As String
     hash = EncodeBase64(Range("PROJECTID").value & ":" & Range("PASSWORD").value)
     Dim objHTTP As New WinHttp.WinHttpRequest
@@ -267,6 +270,12 @@ Function SendJson(url As String, json As String) As Integer
     If objHTTP.status = 401 Then
         MsgBox "Either the projectID you are trying to create already exists, or you entered a wrong password.", vbOKOnly, "Authentication error"
     End If
+    
+ConnectionError:
+    MsgBox "The connection with the Excel2Map-server could not be established. The data in this Excel-sheet will be copied to the clipboard. Please use the manual upload mode on the Excel2Map website to create your map.", vbOKOnly, "Could not connect to server"
+    CopyText (json)
+    objHTTP.Abort
+    Set objHTTP = Nothing
 End Function
 ' Example subroutine - not used
 Sub range2json2(namedRange As String)
@@ -328,14 +337,14 @@ Sub ColourCells()
         .Add "Gray", "#808080"
         .Add "White", "#FFFFFF"
     
-        If .Exists(Range("FillColor").Cells(1, 1).text) Then
-            Range("FillColor").Cells(1, 1) = .Item(Range("FillColor").Cells(1, 1).text)
+        If .Exists(Range("FillColor").Cells(1, 1).Text) Then
+            Range("FillColor").Cells(1, 1) = .Item(Range("FillColor").Cells(1, 1).Text)
         End If
-        If .Exists(Range("StrokeColor").Cells(1, 1).text) Then
-            Range("StrokeColor").Cells(1, 1) = .Item(Range("StrokeColor").Cells(1, 1).text)
+        If .Exists(Range("StrokeColor").Cells(1, 1).Text) Then
+            Range("StrokeColor").Cells(1, 1) = .Item(Range("StrokeColor").Cells(1, 1).Text)
         End If
-        If .Exists(Range("SelectedStrokeColor").Cells(1, 1).text) Then
-            Range("SelectedStrokeColor").Cells(1, 1) = .Item(Range("SelectedStrokeColor").Cells(1, 1).text)
+        If .Exists(Range("SelectedStrokeColor").Cells(1, 1).Text) Then
+            Range("SelectedStrokeColor").Cells(1, 1) = .Item(Range("SelectedStrokeColor").Cells(1, 1).Text)
         End If
     
     End With
@@ -437,13 +446,18 @@ Sub CreateProject()
     
 End Sub
 
+
 'Request a new project from the server
 Sub RequestProjectId(Optional id As String = "")
     Dim host As String
     host = Range("HOST").Cells(1, 1) & "/requestproject"
+    
+    On Error GoTo ConnectionError
+    
     Dim objHTTP As New WinHttp.WinHttpRequest
     objHTTP.Open "POST", host, False
     objHTTP.setRequestHeader "Content-Type", "application/json"
+    objHTTP
     If (id = "") Then
         objHTTP.send "{}"
     Else
@@ -451,6 +465,7 @@ Sub RequestProjectId(Optional id As String = "")
         data = "{""id"":""" + id + """}"
         objHTTP.send (data)
     End If
+        
     Debug.Print objHTTP.status
     Debug.Print objHTTP.responseText
     
@@ -479,6 +494,11 @@ Sub RequestProjectId(Optional id As String = "")
         Set pw = Range("PASSWORD")
         pw.Cells(1, 1) = pwString
     End If
+    
+ConnectionError:
+    'MsgBox "The connection with the Excel2Map-server could not be established. The data in this Excel-sheet has been copied to the clipboard. Please use the manual upload mode on the Excel2Map website to create your map.", vbOKOnly, "Could not connect to server"
+    objHTTP.Abort
+    Set objHTTP = Nothing
 End Sub
 
 'Updates the public link to the project
@@ -543,7 +563,7 @@ Function convertIconToBase64(iconpath As String) As String
     objDocElem.nodeTypedValue = objStream.Read()
 
     ' Get base64 value
-    convertIconToBase64 = Replace(objDocElem.text, vbLf, "")
+    convertIconToBase64 = Replace(objDocElem.Text, vbLf, "")
 
     ' Clean all
     Set objXML = Nothing
@@ -552,9 +572,9 @@ Function convertIconToBase64(iconpath As String) As String
 
 End Function
 
-Function EncodeBase64(text As String) As String
+Function EncodeBase64(Text As String) As String
   Dim arrData() As Byte
-  arrData = StrConv(text, vbFromUnicode)
+  arrData = StrConv(Text, vbFromUnicode)
 
   Dim objXML
   Dim objNode
@@ -564,7 +584,7 @@ Function EncodeBase64(text As String) As String
 
   objNode.DataType = "bin.base64"
   objNode.nodeTypedValue = arrData
-  EncodeBase64 = Replace(objNode.text, vbLf, "")
+  EncodeBase64 = Replace(objNode.Text, vbLf, "")
 
   Set objNode = Nothing
   Set objXML = Nothing
@@ -645,4 +665,16 @@ Sub ClearProject()
     data = "{""projectId"":""" + projectId + """}"
     Dim status As Integer
     status = SendJson(host, data)
+End Sub
+
+'http://stackoverflow.com/a/25336423
+Sub CopyText(Text As String)
+    'VBA Macro using late binding to copy text to clipboard.
+    'By Justin Kay, 8/15/2014
+    'Thanks to http://akihitoyamashiro.com/en/VBA/LateBindingDataObject.htm
+    Dim MSForms_DataObject As Object
+    Set MSForms_DataObject = CreateObject("new:{1C3B4210-F441-11CE-B9EA-00AA006B1A69}")
+    MSForms_DataObject.SetText Text
+    MSForms_DataObject.PutInClipboard
+    Set MSForms_DataObject = Nothing
 End Sub

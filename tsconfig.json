@@ -6,7 +6,7 @@
     "noImplicitAny": false,
     "removeComments": false,
     "noLib": false,
-    "sourceMap": true
+    "sourceMap": false
   },
   "filesGlob": [
     "./**/*.ts",
@@ -17,6 +17,8 @@
   ],
   "files": [
     "server.ts",
+    "public\\widgets\\E2MUploadWidget.ts",
+    "public\\widgets\\E2MUploadWidgetCtrl.ts",
     "public\\app\\app.ts",
     "public\\app\\m.ts",
     "Scripts\\typings\\tsd.d.ts",

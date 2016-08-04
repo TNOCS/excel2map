@@ -88,6 +88,31 @@
                     "height" : ""
                 }
             ]
+        },
+        {
+            "id" : "manualmode",
+            "name" : "Manual upload mode",
+            "editMode" : false,
+            "showMap" : true,
+            "showTimeline" : false,
+            "showLeftmenu" : false,
+            "showLegend" : false,
+            "showBackgroundImage" : false,
+            "widgets" : [{
+                    "id" : "uploadwidget-id123",
+                    "directive" : "e2muploadwidget",
+                    "title" : "Upload excel2map data",
+                    "data" : {
+                        "useLanguagePrefix" : true,
+                        "url" : "data/projects/Excel2Map/welcome.txt"
+                    },
+                    "enabled" : true,
+                    "left" : "25%",
+                    "top" : "100px",
+                    "width" : "50%",
+                    "height" : "75%"
+                }
+            ]
         }
     ],
     "expertMode" : 1,
