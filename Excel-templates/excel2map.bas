@@ -22,15 +22,6 @@ Sub export2map()
     json = ""
     json = json & range2json("LayerDefinition", True, False, True)
     json = json & range2json("PropertyTypes", False, False, True)
-        
-    passedCheck = checkHost("HOST")
-    If (Not passedCheck) Then Exit Sub
-    Call UpdateUrl
-        
-    passedCheck = checkProjectId("PROJECTID")
-    If (Not passedCheck) Then Exit Sub
-    Call UpdateProjectLink
-    
     json = json & range2json("Properties", False, False, False)
     
     'Add the projectId and Icon (in base64)
@@ -40,6 +31,17 @@ Sub export2map()
     
     Set projectId = Range("PROJECTID")
     json = json & """projectId"":""" & projectId.Cells(1, 1) & """}"
+    
+    'Copy output to clipboard, in case uploading fails
+    CopyText (json)
+
+    passedCheck = checkHost("HOST")
+    If (Not passedCheck) Then Exit Sub
+    Call UpdateUrl
+        
+    passedCheck = checkProjectId("PROJECTID")
+    If (Not passedCheck) Then Exit Sub
+    Call UpdateProjectLink
 
     ActiveWorkbook.Sheets("Layer").Protect
 
@@ -271,6 +273,7 @@ Function SendJson(url As String, json As String) As Integer
         MsgBox "Either the projectID you are trying to create already exists, or you entered a wrong password.", vbOKOnly, "Authentication error"
     End If
     
+    Exit Function
 ConnectionError:
     MsgBox "The connection with the Excel2Map-server could not be established. The data in this Excel-sheet will be copied to the clipboard. Please use the manual upload mode on the Excel2Map website to create your map.", vbOKOnly, "Could not connect to server"
     CopyText (json)
@@ -457,7 +460,6 @@ Sub RequestProjectId(Optional id As String = "")
     Dim objHTTP As New WinHttp.WinHttpRequest
     objHTTP.Open "POST", host, False
     objHTTP.setRequestHeader "Content-Type", "application/json"
-    objHTTP
     If (id = "") Then
         objHTTP.send "{}"
     Else
@@ -495,8 +497,10 @@ Sub RequestProjectId(Optional id As String = "")
         pw.Cells(1, 1) = pwString
     End If
     
+    Exit Sub
+    
 ConnectionError:
-    'MsgBox "The connection with the Excel2Map-server could not be established. The data in this Excel-sheet has been copied to the clipboard. Please use the manual upload mode on the Excel2Map website to create your map.", vbOKOnly, "Could not connect to server"
+    MsgBox "The connection with the Excel2Map-server could not be established. The data in this Excel-sheet will be copied to the clipboard. Please use the manual upload mode on the Excel2Map website to create your map.", vbOKOnly, "Could not connect to server"
     objHTTP.Abort
     Set objHTTP = Nothing
 End Sub

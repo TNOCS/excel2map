@@ -20,6 +20,7 @@ module widgets {
         private textContent: string;
         private parsedContent: any;
         private projectId: string;
+        private password: string;
         private selectedFile: string;
         private uploadAvailable: boolean;
 
@@ -49,7 +50,7 @@ module widgets {
             this.parentWidget = $('#' + this.widget.elementId).parent();
 
             $("#file-upload").change(() => { this.readFile(); });
-            document.getElementById("drop-box").addEventListener("drop", (evt) => {this.fileDropped(evt);}, false);
+            document.getElementById("drop-box").addEventListener("drop", (evt) => { this.fileDropped(evt); }, false);
 
             // Check for the various File API support.
             if ((<any>window).File && (<any>window).FileReader) {
@@ -57,7 +58,6 @@ module widgets {
                 this.uploadAvailable = true;
             } else {
                 this.uploadAvailable = false;
-                this.$messageBus.notifyError('Cannot upload files', 'Try using a modern browser (Chrome, FireFox, Edge) to be able to upload files, or use the copy/past option.');
             }
         }
 
@@ -107,13 +107,27 @@ module widgets {
         }
 
         private readFile(file?: any) {
+            if (!this.uploadAvailable) {
+                this.$messageBus.notifyError('Cannot upload files', 'Try using a modern browser (Chrome, FireFox, Edge) to be able to upload files, or use the copy/paste option.');
+                return;
+            }
             if (!file) {
                 file = (<any>$('#file-upload')[0]).files[0];
+            }
+            if (!file || !file.name || file.name.indexOf('.') < 0) {
+                this.$messageBus.notifyError('Cannot upload this file', 'The file should have the .json-extension.');
+                return;
+            } else {
+                var ext = file.name.split('.').pop();
+                if (ext.toLowerCase() !== 'json') {
+                    this.$messageBus.notifyError('Cannot upload this file', 'The file should have the .json-extension.');
+                    return;
+                }
             }
             var reader = new FileReader();
 
             reader.onload = (e) => {
-                $("#clipboard-box").val(reader.result);
+                this.textContent = reader.result;
                 this.updatedContent();
             }
 
@@ -122,29 +136,62 @@ module widgets {
 
         // Extract the projectID from the json-data and set it in the projectId box
         private updatedContent() {
-            this.textContent = $("#clipboard-box").val();
             try {
                 this.parsedContent = JSON.parse(this.textContent);
-                if (this.parsedContent.hasOwnProperty('projectId')) {
+                if (this.parsedContent.hasOwnProperty('projectId') && this.parsedContent['projectId'].length > 0) {
                     this.projectId = this.parsedContent['projectId'];
-                    $("#projectid").val(this.projectId);
                 } else {
-                    console.log("Could not find projectId");
+                    this.projectId = null;
+                    this.password = null;
+                    console.log('No project id found');
                 }
             } catch (error) {
-                console.log("Error extracting projectId");
+                this.parsedContent = null;
             }
+            if (this.$scope.$root.$$phase !== '$apply' && this.$scope.$root.$$phase !== '$digest') { this.$scope.$apply(); }
         }
 
         private convertData() {
             this.updatedContent();
-            var pw = $("#password").val().trim();
+            if (!this.parsedContent) {
+                this.$messageBus.notifyError('Invalid data format', 'Could not find a project ID in the supplied data.');
+                return;
+            }
+            // If projectID is supplied, use it. Else request a new project instead. 
+            if (!this.projectId) {
+                this.$messageBus.notifyError('No project ID supplied', 'Could not find a project ID in the supplied data. Excel2Map will create a new project ID for you.');
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:3004/requestproject",
+                    data: {},
+                    success: (data) => {
+                        this.$timeout(() => {
+                            this.$messageBus.notify('Project ID acquired', 'A new project ID has been created successfully');
+                            this.password = data.password;
+                            this.projectId = data.id;
+                            this.parsedContent['projectId'] = data.id;
+                            this.textContent = JSON.stringify(this.parsedContent, null, 2);
+                        }, 0);
+                        this.$timeout(() => {
+                            this.uploadProject();
+                        }, 200);
+                    },
+                    error: (err, type, msg) => {
+                        this.$messageBus.notifyError('Error while creating project', 'An error occurred when creating your project: ' + type + ' ' + msg);
+                    }
+                });
+            } else {
+                this.uploadProject();
+            }
+        }
+
+        private uploadProject() {
             $.ajax({
                 type: "POST",
                 url: "http://localhost:3004/projecttemplate",
                 data: this.parsedContent,
                 headers: {
-                    "Authorization": "Basic " + btoa(this.projectId + ":" + pw)
+                    "Authorization": "Basic " + btoa(this.projectId + ":" + this.password)
                 },
                 success: () => {
                     this.$messageBus.notify('Project uploaded', 'Your data has been uploaded successfully');

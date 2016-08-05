@@ -36,39 +36,34 @@
                     <h4>Option 1. Paste from clipboard.</h4>
                     <div>Paste data from your clipboard to this textfield. Click the upload-button in the Excel-sheet first, to
                         make sure the data has been copied to your clipboard.</div>
-                </div>
-                <div class="col-xs-6 fill-height" style="margin-top: 8px">
-                    <textarea rows="6" class="fill-height" id="clipboard-box" style="width:100%" placeholder="Paste content here" ng-model="vm.textContent" ng-change="vm.updatedContent()"></textarea>
-                </div>
-            </div>
-            <div class="row" ng-show="vm.uploadAvailable">
-                <div class="col-xs-6 fill-height">
                     <h4>Option 2. Upload file.</h4>
                     <div>Upload the *.json file that you saved on your computer.</div>
-                </div>
-                <div class="col-xs-6 fill-height" style="margin-top: 8px">
                     <input type="file" id="file-upload" />
-                </div>
-            </div>
-            <div class="row" ng-show="vm.uploadAvailable">
-                <div class="col-xs-6 fill-height">
                     <h4>Option 3. Drag the file onto this widget.</h4>
                     <div>Drag the json-file from your explorer-program to this box.</div>
                 </div>
                 <div class="col-xs-6 fill-height">
+                    <textarea rows="16" class="fill-height" id="clipboard-box" style="width:95%;margin-top: 24px" placeholder="{{'PASTE_HERE' | translate}}" ng-model="vm.textContent" 
+                        ng-change="vm.updatedContent()"></textarea>
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-3 fill-height" style="margin-top: 8px">
-                    <label for="projectid">Project ID:</label>
-                    <input type="text" class="fill-height" id="projectid">
-                </div>
-                <div class="col-xs-3 fill-height" style="margin-top: 8px">
-                    <label for="password">Password:</label>
-                    <input type="text" class="fill-height" id="password">
-                </div>
-                <div class="col-xs-6 fill-height">
-                    <input class="big-button" type="button" value="Convert!" ng-click="vm.convertData()" />
+                <div class="col-xs-12 fill-height">
+                    <div style="margin-top: 8px">
+                        <label for="projectid">Project ID:</label>
+                        <input type="text" class="fill-height" id="projectid" ng-model="vm.projectId">
+                    </div>
+                    <div>
+                        <label for="password">Password:</label>
+                        <input type="text" class="fill-height" id="password" ng-model="vm.password">
+                    </div>
+                    <div>
+                        <input class="btn big-button" type="button" value="{{'CONVERT' | translate}}" ng-click="vm.convertData()" ng-disabled="!vm.textContent"
+                        />
+                    </div>
+                    <div ng-hide="!vm.projectId">
+                        <a class="btn" target="_blank" href="/?project={{vm.projectId}}" style="font-size:large">{{'VIEW_PROJECT' | translate}}</a>
+                    </div>
                 </div>
             </div>
         </div>
