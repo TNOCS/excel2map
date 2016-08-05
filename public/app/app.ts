@@ -286,9 +286,18 @@ module App {
         .config($translateProvider => {
             // TODO ADD YOUR LOCAL TRANSLATIONS HERE, OR ALTERNATIVELY, CHECK OUT
             // http://angular-translate.github.io/docs/#/guide/12_asynchronous-loading
-            // Translations.English.locale['MAP_LABEL'] = 'MY AWESOME MAP';
-            $translateProvider.translations('en', Translations.English.locale);
-            $translateProvider.translations('nl', Translations.Dutch.locale);
+            // Translations.English.locale['MAP_LABEL'] = 'MY AWESOME MAP';.
+            // Append local translations if present
+            if (Translations.DutchAdditional && Translations.DutchAdditional.locale) {
+                $translateProvider.translations('nl', $.extend(Translations.Dutch.locale, Translations.DutchAdditional.locale));
+            } else {
+                $translateProvider.translations('nl', Translations.Dutch.locale);
+            }
+            if (Translations.EnglishAdditional && Translations.EnglishAdditional.locale) {
+                $translateProvider.translations('en', $.extend(Translations.English.locale, Translations.EnglishAdditional.locale));
+            } else {
+                $translateProvider.translations('en', Translations.English.locale);
+            }
             $translateProvider.preferredLanguage('nl');
             // Enable escaping of HTML
             $translateProvider.useSanitizeValueStrategy('escape');

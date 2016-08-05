@@ -177,7 +177,7 @@ module widgets {
                         }, 200);
                     },
                     error: (err, type, msg) => {
-                        this.$messageBus.notifyError('Error while creating project', 'An error occurred when creating your project: ' + type + ' ' + msg);
+                        this.$messageBus.notifyError('Error while creating project', 'An error occurred when creating your project: ' + err.status + ' ' + msg);
                     }
                 });
             } else {
@@ -197,7 +197,11 @@ module widgets {
                     this.$messageBus.notify('Project uploaded', 'Your data has been uploaded successfully');
                 },
                 error: (err, type, msg) => {
-                    this.$messageBus.notifyError('Error while uploading project', 'An error occurred when uploading your data: ' + type + ' ' + msg);
+                    if (err.status == 401) {
+                        this.$messageBus.notifyWithTranslation('ERROR_UPLOADING_PROJECT', 'UNAUTHORIZED');
+                    } else {
+                        this.$messageBus.notifyWithTranslation('ERROR_UPLOADING_PROJECT', 'ERROR_MSG', { 'msg': err.status + ' ' + msg });
+                    }
                 }
             });
         }

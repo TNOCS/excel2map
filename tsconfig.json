@@ -19,6 +19,8 @@
     "server.ts",
     "public\\widgets\\E2MUploadWidget.ts",
     "public\\widgets\\E2MUploadWidgetCtrl.ts",
+    "public\\translations\\locale-nl.ts",
+    "public\\translations\\locale-en.ts",
     "public\\app\\app.ts",
     "public\\app\\m.ts",
     "Scripts\\typings\\tsd.d.ts",
