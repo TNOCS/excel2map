@@ -11,7 +11,8 @@ module Translations {
             DRAG_FILE_DESCRIPTION: 'Sleep het json-bestand van je bestandsverkenner naar dit blok.',
             ERROR_UPLOADING_PROJECT: 'Fout bij het uploaden van het project',
             UNAUTHORIZED: 'Je bent niet bevoegd om dit project te wijzigen. Heb je het goede wachtwoord ingevuld?',
-            ERROR_MSG: 'Foutmelding ontvangen bij het uploaden van de data: {{msg}}'
+            ERROR_MSG: 'Foutmelding ontvangen bij het uploaden van de data: {{msg}}',
+            MANUAL_UPLOAD_MODE: 'Handmatige upload mode'
         };
     }
 }

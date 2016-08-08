@@ -11,7 +11,8 @@ module Translations {
             DRAG_FILE_DESCRIPTION: 'Drag the json-file from your explorer-program to this box.',
             ERROR_UPLOADING_PROJECT: 'Error while uploading project',
             UNAUTHORIZED: 'You are not authorized to change the project. Did you enter the correct password?',
-            ERROR_MSG: 'An error occurred when uploading your data: {{msg}}'
+            ERROR_MSG: 'An error occurred when uploading your data: {{msg}}',
+            MANUAL_UPLOAD_MODE: 'Manual upload mode'
         };
     }
 }

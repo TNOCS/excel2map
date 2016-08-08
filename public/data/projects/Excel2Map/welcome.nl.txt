@@ -2,6 +2,8 @@
 ### Meteen beginnen
 Om meteen te beginnen met het maken van je eigen kaarten, download je eenvoudigweg een <a href="data/excel2map_online_adressen.xlsm" target="_blank">voorbeeld Excel template</a>. Activeer de macros in dat bestand, en klik op de 'Upload data'-knop om de data te uploaden. Vervolgens kun je de kaart bekijken door op de 'Show map'-knop te klikken.
 ### Meer informatie
-Voor meer informatie en hulp bij het gebruikt van Excel2map, selecteert u het **Get started**-dashboard bovenin deze webpagina. Voor meer voorbeelden en lege Excel2map-bestanden, selecteert u het **Templates**-dashboard.
+Download om te beginnen een Excel-bestand waarmee je een kaart kunt maken. Om alle beschikbare voorbeelden te tonen, selecteer je het **Templates**-dashboard. Pas de data, namen en stijlen in de gedownloade spreadsheet naar wens aan. Voor hulp bij het invullen van de data is een  <a href="data/excel2map.pdf" target="_blank">Excel2map handleiding</a> beschikbaar. Wanneer je klaar bent met het invullen van de data, kun je deze met de ' Upload to map '-knop vanuit het Excel-bestand naar een kaart exporteren. Om de kaart die je zojuist gemaakt hebt te bekijken, kun je klikken op de ' Show map '-knop in het Excel-blad.
+### Handleiding
+Een handleiding met de beschikbare parameters in de Excel template kan hier worden gedownload: <a href="data/excel2map.pdf" target="_blank">Excel2map handleiding</a>. Voor meer informatie over de functionaliteit van de interactieve kaart, neem een kijkje op de <a href="https://github.com/TNOCS/csWeb/wiki" target="_blank">csWeb wiki</a>. Hier kun je ook de contactgegevens van de ontwikkelaars vinden.
 
 <br>

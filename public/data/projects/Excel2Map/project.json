@@ -40,30 +40,6 @@
                 }
             ]
         }, {
-            "id" : "gettingstarted",
-            "name" : "Get started",
-            "editMode" : false,
-            "showMap" : true,
-            "showTimeline" : false,
-            "showLeftmenu" : false,
-            "showRightmenu" : false,
-            "widgets" : [{
-                    "id" : "9954881f-0644-46ea-5133-f45c3dde8c99",
-                    "directive" : "markdownwidget",
-                    "title" : "Welcome to Excel2map",
-                    "data" : {
-                        "useLanguagePrefix" : true,
-                        "url" : "data/projects/Excel2Map/getstarted.txt"
-                    },
-                    "elementId" : "widget-9954881f-0644-46ea-5133-f45c3dde8c99",
-                    "enabled" : true,
-                    "left" : "25%",
-                    "top" : "100px",
-                    "width" : "50%",
-                    "height" : ""
-                }
-            ]
-        }, {
             "id" : "templates",
             "name" : "Templates",
             "editMode" : false,
@@ -91,7 +67,7 @@
         },
         {
             "id" : "manualmode",
-            "name" : "Manual upload mode",
+            "name" : "MANUAL_UPLOAD_MODE",
             "editMode" : false,
             "showMap" : true,
             "showTimeline" : false,

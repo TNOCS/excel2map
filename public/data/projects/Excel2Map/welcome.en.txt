@@ -2,6 +2,8 @@
 ### Get started
 To start creating your own map, simply download an <a href="data/excel2map_online_adressen.xlsm" target="_blank">example Excel template</a>. Activate macros in that file, and click the 'Upload data'-buttonto upload the data. To view the map you just created, click the 'Show map'-button.
 ### More information
-If you're looking for more information or help on using Excel2map, select the **Get started**-dashboard above. For more example and empty Excel2map-files, select the **Templates**-dashboard.
+First download an Excel-file that has the macros you need to create a map layer and save them in one folder. The available examples are listen in the **Templates**-dashboard. Prepare the Excel-file by configuring all names, descriptions and styles. If you need help configuring your map, donwload the <a href="data/excel2map.pdf" target="_blank">Excel2map manual</a>. When you are ready, click the ' Upload to map '-button to upload the data from your Excel file to a map. To view the map you just created, click the ' Show map '-button in the Excel sheet.
+### Manual
+An explanation of all available parameters in the Excel template can be downloaded here: <a href="data/excel2map.pdf" target="_blank">Excel2map manual</a>. If you want more information on the functionality of the interactive map, take a look at the <a href="https://github.com/TNOCS/csWeb/wiki" target="_blank">csWeb wiki</a>. Here you can find the contact information of the developers too.
 
 <br>
