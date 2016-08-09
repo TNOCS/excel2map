@@ -48,7 +48,7 @@
                 <div class="col-xs-12 fill-height">
                     <div style="margin-top: 8px">
                         <label for="projectid">Project ID:</label>
-                        <input type="text" class="fill-height" id="projectid" ng-model="vm.projectId">
+                        <input type="text" class="fill-height" id="projectid" ng-model="vm.projectId" ng-model-options="{ debounce: 800 }" ng-change="vm.updateProjectId()">
                     </div>
                     <div>
                         <label for="password">{{'PASSWORD' | translate}}:</label>

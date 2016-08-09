@@ -140,6 +140,7 @@ module widgets {
                 this.parsedContent = JSON.parse(this.textContent);
                 if (this.parsedContent.hasOwnProperty('projectId') && this.parsedContent['projectId'].length > 0) {
                     this.projectId = this.parsedContent['projectId'];
+                    this.textContent = JSON.stringify(this.parsedContent, null, 2);
                 } else {
                     this.projectId = null;
                     this.password = null;
@@ -162,7 +163,7 @@ module widgets {
                 this.$messageBus.notifyError('No project ID supplied', 'Could not find a project ID in the supplied data. Excel2Map will create a new project ID for you.');
                 $.ajax({
                     type: "POST",
-                    url: "http://localhost:3004/requestproject",
+                    url: "/requestproject",
                     data: {},
                     success: (data) => {
                         this.$timeout(() => {
@@ -188,7 +189,7 @@ module widgets {
         private uploadProject() {
             $.ajax({
                 type: "POST",
-                url: "http://localhost:3004/projecttemplate",
+                url: "/projecttemplate",
                 data: this.parsedContent,
                 headers: {
                     "Authorization": "Basic " + btoa(this.projectId + ":" + this.password)
@@ -204,6 +205,13 @@ module widgets {
                     }
                 }
             });
+        }
+
+        private updateProjectId() {
+            if (this.parsedContent) {
+                this.parsedContent['projectId'] = this.projectId;
+                this.textContent = JSON.stringify(this.parsedContent, null, 2);
+            }
         }
     }
 }
