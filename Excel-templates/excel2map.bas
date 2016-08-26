@@ -1,6 +1,7 @@
 Attribute VB_Name = "Excel2Map"
 Option Explicit
-Dim optionTypes As Object 'PropertyTypes that should be converted to options
+Dim optionTypes As Object     'PropertyTypes that should be converted to options
+Dim labelDictionary As Object 'Shorten long label names
 
 ' Export the data to the map application
 Sub export2map()
@@ -17,7 +18,7 @@ Sub export2map()
     Call CreateProject
     Call SetNamedRangesOfData
     
-    Call PopulateOptionTypes
+    Call PopulateOptionTypesAndLabels
     
     json = ""
     json = json & range2json("LayerDefinition", True, False, True)
@@ -87,17 +88,26 @@ Private Function checkHost(namedRange As String) As Boolean
     End If
 End Function
 
-Private Sub PopulateOptionTypes()
+Private Sub PopulateOptionTypesAndLabels()
     'Find option types
     Set optionTypes = CreateObject("scripting.dictionary")
+    Set labelDictionary = CreateObject("scripting.dictionary")
     Dim count As Integer
     Dim typ As String
     Dim ptRange As Range
     Set ptRange = Range("PropertyTypes")
     For count = 2 To ptRange.Rows.count
-        typ = ptRange.Cells(count, 5)
-        If typ = "options" Then
-            Set optionTypes.Item(ptRange.Cells(count, 1).value) = findAllOptions(ptRange.Cells(count, 1).value)
+        'Convert label name to a, b, c, ..., aa, ab, etc.
+        If (Not IsEmpty(ptRange.Cells(count, 1))) Then
+            If (Not IsError(Application.Match(ptRange.Cells(count, 1).value, Range("LayerDefinition").Rows(2), 0))) Then
+                labelDictionary.Item(ptRange.Cells(count, 1).value) = ptRange.Cells(count, 1).value
+            Else
+                labelDictionary.Item(ptRange.Cells(count, 1).value) = (Chr(Int(((count - 2) / 26)) Mod 26 + 65) + Chr(Int((count - 2) Mod 26) + 65))
+                typ = ptRange.Cells(count, 5)
+                If typ = "options" Then
+                    Set optionTypes.Item(labelDictionary.Item(ptRange.Cells(count, 1).value)) = findAllOptions(ptRange.Cells(count, 1).value)
+                End If
+            End If
         End If
     Next
 End Sub
@@ -176,17 +186,24 @@ Private Function range2json(namedRange As String, isStart As Boolean, isFinal As
             Else
                 cellHeader = rangeToExport.Cells(1, columnCounter)
             End If
+            If (labelDictionary.Exists(cellHeader)) Then
+                cellHeader = labelDictionary.Item(cellHeader)
+            End If
+            If (cellHeader = "label" And labelDictionary.Exists(cellValue) And namedRange = "propertyTypes") Then
+                cellValue = labelDictionary.Item(cellValue)
+            End If
+            
             'cellHeader = LCase(Mid(cellHeader, 1, 1)) & Mid(cellHeader, 2, Len(cellHeader) - 1)
             If (Not IsError(cellValue)) Then
                 If (Not cellValue = "") Then
                     If optionTypes.Exists(cellHeader) And namedRange = "properties" Then
-                            lineData = lineData & """" & cellHeader & """" & ":" & optionTypes(cellHeader)(cellValue) & ","
+                        lineData = lineData & """" & cellHeader & """" & ":" & optionTypes(cellHeader)(cellValue) & ","
                     ElseIf cellValue = "options" And namedRange = "propertyTypes" Then
                         lineData = lineData & """" & cellHeader & """" & ":" & """" & cellValue & """" & ","
                         lineData = lineData & """options"":["
                         Dim keyCount As Integer
-                        For keyCount = 1 To optionTypes(rangeToExport.Cells(rowCounter, 1).value).count
-                            lineData = lineData & """" & optionTypes(rangeToExport.Cells(rowCounter, 1).value).Keys()(keyCount - 1) & ""","
+                        For keyCount = 1 To optionTypes(labelDictionary.Item(rangeToExport.Cells(rowCounter, 1).value)).count
+                            lineData = lineData & """" & optionTypes(labelDictionary.Item(rangeToExport.Cells(rowCounter, 1).value)).Keys()(keyCount - 1) & ""","
                         Next
                         lineData = Left(lineData, Len(lineData) - 1)
                         lineData = lineData & "],"
