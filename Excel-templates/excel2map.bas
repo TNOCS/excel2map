@@ -192,6 +192,9 @@ Private Function range2json(namedRange As String, isStart As Boolean, isFinal As
             If (cellHeader = "label" And labelDictionary.Exists(cellValue) And namedRange = "propertyTypes") Then
                 cellValue = labelDictionary.Item(cellValue)
             End If
+            If (cellHeader = "targetProperty" And labelDictionary.Exists(cellValue) And namedRange = "propertyTypes") Then
+                cellValue = labelDictionary.Item(cellValue)
+            End If
             
             'cellHeader = LCase(Mid(cellHeader, 1, 1)) & Mid(cellHeader, 2, Len(cellHeader) - 1)
             If (Not IsError(cellValue)) Then
