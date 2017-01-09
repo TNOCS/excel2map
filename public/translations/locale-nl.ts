@@ -2,6 +2,7 @@ module Translations {
     export class DutchAdditional {
         public static locale: ng.translate.ITranslationTable = {
             UPLOAD_FROM_EXCEL2MAP: 'Upload je data vanuit Excel2Map',
+            UPLOAD_TABULAR_DATA: 'Upload je tabulaire data van Excel, Matlab, R, etc.',
             UPLOAD_DESCRIPTION: 'De data kan op verschillende manieren geüpload worden. Mits de netwerkinstellingen het toelaten, is een simpele druk op de knop in het Excel-werkblad genoeg om de data automatisch te uploaden. Verschijnt er een foutmelding in Excel, gebruik dan één van de onderstaande opties om de kaart aan te maken.',
             PASTE_CLIPBOARD: 'Plakken vanaf het klembord',
             PASTE_CLIPBOARD_DESCRIPTION: 'Plak de data vanaf het klembord naar dit tekstveld. Klik daarvoor eerst op de upload-knop in het Excel-werkblad, om de benodigde data naar het klembord te kopiëren.',
@@ -12,7 +13,11 @@ module Translations {
             ERROR_UPLOADING_PROJECT: 'Fout bij het uploaden van het project',
             UNAUTHORIZED: 'Je bent niet bevoegd om dit project te wijzigen. Heb je het goede wachtwoord ingevuld?',
             ERROR_MSG: 'Foutmelding ontvangen bij het uploaden van de data: {{msg}}',
-            MANUAL_UPLOAD_MODE: 'Handmatige upload mode'
+            MANUAL_UPLOAD_MODE: 'Handmatige upload mode',
+            TABLE2MAP: 'Tabel naar kaart',
+            HAS_HEADER: 'Data bevat kopteksten',
+            DELIMITER: 'Scheidingsteken',
+            CSV_PARSE_SETTINGS: 'Data importeer configuratie'
         };
     }
 }

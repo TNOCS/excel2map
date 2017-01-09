@@ -1,0 +1,69 @@
+<div class="fill-height" style="margin: 20px 5px 2px 5px;overflow:auto;height:95%" id="drop-box">
+    <div style="display: inline-block; margin-left: 2px;" ng-hide="data.hideTitle">
+        <div style="display: inline-block; font-size:16px; font-weight:bold; margin-bottom:2px;">{{data.title}}</div>
+        <div style="display: inline-block; margin-right:5px; position: absolute; top: 2px; right: 0px;">
+            <a class="widget-min-max-close" ng-click="vm.close()" ng-if="vm.canClose()"><i class="fa fa-times"></i></a>
+            <a class="widget-min-max-close" ng-click="vm.minimize()" ng-show="vm.canMinimize() && minimized"> <i class="fa fa-plus"></i></a>
+            <a class="widget-min-max-close" ng-click="vm.minimize()" ng-show="vm.canMinimize() && !minimized"> <i class="fa fa-minus"></i></a>
+            <a class="widget-min-max-close" ng-click="vm.exportToPDF()"><i class="fa fa-save" uib-tooltip="{{'SAVE_AS_PDF' | translate}}" tooltip-trigger="mouseenter" tooltip-append-to-body="true" ng-show="vm.exporterAvailable&&!minimized"></i></a>
+        </div>
+    </div>
+    <ul uib-pagination ng-model="currentStep" total-items="numberOfSteps" items-per-page="1" previous-text="{{'PREVIOUS' | translate}}"
+        next-text="{{'NEXT' | translate}}"></ul>
+    <div class="fill-height" style="padding:0px;font-size:12px;margin:0px;" ng-hide="minimized">
+        <div class="row" ng-show="currentStep === 1">
+            <div class="row">
+                <div class="col-xs-12 fill-height">
+                    <h2>{{'UPLOAD_TABULAR_DATA' | translate}}</h2>
+                </div>
+            </div>
+            <div class="row" style="padding: 0 15px 0 15px">
+                <h5>{{'CSV_PARSE_SETTINGS' | translate}}</h3>
+                    <form class="form-inline" id="csv-settings">
+                        <div class="form-group">
+                            <label for="hasHeader">{{'HAS_HEADER' | translate}}: </label>
+                            <input id="hasHeader" type="checkbox" ng-model="vm.csvParseSettings.hasHeader" />
+                            <label for="delimiter">{{'DELIMITER' | translate}}: </label>
+                            <select class="form-control" id="delimiter" ng-options="name for (name, character) in delimiters" ng-model="vm.csvParseSettings.delimiter"
+                            />
+                        </div>
+                    </form>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-md-6 fill-height">
+                    <h4>{{'OPTION' | translate:'{ number: "1" }'}}. {{ 'DRAG_FILE' | translate}}.</h4>
+                    <h4>{{'OPTION' | translate:'{ number: "2" }'}}. {{ 'UPLOAD_FILE' | translate}}.</h4>
+                    <input type="file" id="file-upload" style="margin-top:8px" />
+                    <h4>{{'OPTION' | translate:'{ number: "3" }'}}. {{ 'PASTE_CLIPBOARD' | translate}}.</h4>
+                </div>
+                <div class="col-xs-12 col-md-6 fill-height">
+                    <textarea rows="16" class="fill-height" id="clipboard-box" style="width:95%;margin-top: 24px" placeholder="{{'PASTE_HERE' | translate}}"
+                        ng-model="vm.textContent"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 fill-height">
+                    <input class="btn big-button" type="button" value="{{'CONVERT' | translate}}" ng-click="vm.convertData()" ng-disabled="!vm.textContent"
+                    />
+                </div>
+            </div>
+        </div>
+        <!-- PARSED DATA TABLE -->
+        <div class="row" ng-show="currentStep === 2" style="overflow: auto; max-height:500px;" ;>
+            <table st-table="displayedCollection" st-safe-src="vm.rowCollection" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th st-sort="{{col}}" ng-repeat="col in vm.headerCollection" uib-popover="{{$parent.vm.originalHeaders[$index]}}" popover-trigger="'mouseenter'"
+                            popover-append-to-body="true">{{col}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="row in displayedCollection | limitTo: 20">
+                        <td ng-repeat="col in vm.headerCollection">{{row[col]}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div>Showing 20 of {{vm.rowCollection.length}} rows</div>
+        </div>
+    </div>
+</div>

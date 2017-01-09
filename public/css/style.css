@@ -25,3 +25,7 @@ h4 {
      min-height: 64px;
      min-width: 164px;
  }
+
+ #csv-settings input {
+     margin-right: 16px;
+ }

@@ -89,6 +89,31 @@
                     "height" : "75%"
                 }
             ]
+        },
+        {
+            "id" : "table2map",
+            "name" : "TABLE2MAP",
+            "editMode" : false,
+            "showMap" : true,
+            "showTimeline" : false,
+            "showLeftmenu" : false,
+            "showLegend" : false,
+            "showBackgroundImage" : false,
+            "widgets" : [{
+                    "id" : "table2mapwidget-id123",
+                    "directive" : "table-to-map",
+                    "title" : "Upload tabular data",
+                    "data" : {
+                        "hideTitle": false,
+                        "fileExtensions": ["csv", "mat"],
+                        "canMinimize": true
+                    },
+                    "enabled" : true,
+                    "inGridContainer" : true,
+                    "top" : "100px",
+                    "bottom" : "70px"
+                }
+            ]
         }
     ],
     "expertMode" : 1,

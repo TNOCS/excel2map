@@ -56,6 +56,7 @@ module App {
             sffjs.setCulture('nl-NL');
 
             $scope.vm = this;
+            $scope.sv = false;
             $scope.showMenuRight = false;
             $scope.featureSelected = false;
             $scope.layersLoading = 0;
@@ -252,7 +253,8 @@ module App {
         'ngCookies',
         'angularSpectrumColorpicker',
         'wiz.markdown',
-        'ngAnimate'
+        'ngAnimate',
+        'smart-table'
     ])
         .config(localStorageServiceProvider => {
             localStorageServiceProvider.prefix = 'csMap';
