@@ -33,10 +33,19 @@ module Table2Map {
         numberOfSteps: number;
         displayedCollection: Dictionary < any > [];
         delimiters: Dictionary < string > ;
+        decimalCharacters: Dictionary < string > ;
+        propertyTypeTypes: Dictionary < string > ;
+        stringFormats: Dictionary < string > ;
+        metaData: {
+            nr: number,
+            total: number
+        };
+        scrollTo: Function;
     }
 
     export interface ICSVParseSettings {
         delimiter: string;
+        decimalCharacter: string;
         hasHeader: boolean;
     }
 
@@ -49,16 +58,49 @@ module Table2Map {
     export enum ConversionStep {
         UploadData_1 = 1,
             SetColumnTypes_2 = 2,
-            IconFormatting_3 = 3
+            IconFormatting_3 = 3,
+            LayerSettings_4 = 4
     }
 
     /** Assumption of the number of columns before table is parsed. */
     export var MAX_NR_COLUMNS = 100;
+    /** Number of columns to show in the widget. */
+    export var SHOW_NR_COLUMNS = 20;
+    export var NUMBER_OF_STEPS = Object.keys(ConversionStep).length / 2;
     export var DELIMITERS = {
         ';': ';',
         ',': ',',
         'tab': '\t'
     };
+    export var DECIMAL_CHARS = {
+        '.': '.',
+        ',': ','
+    };
+    export var PROPERTY_TYPES = {
+        text: 'string',
+        number: 'number',
+        options: 'options',
+        date: 'date',
+        url: 'url',
+        textarea: 'textarea'
+    };
+    export var STRING_FORMATS = {
+        'No_decimals': '{0:#,#}',
+        'One_decimal': '{0:#,#.#}',
+        'Two_decimals': '{0:#,#.##}',
+        'Euro_no_decimals': '€{0:#,#}',
+        'Euro_two_decimals': '€{0:#,#.00}',
+        'Percentage_no_decimals': '{0:#,#}%',
+        'Percentage_one_decimal': '{0:#,#.#}%',
+        'Percentage_two_decimals': '{0:#,#.##}%',
+        'Percentage_four_decimals': '{0:#,#.####}%'
+    };
+
+    import Project = csComp.Services.Project;
+    import IProjectLayer = csComp.Services.IProjectLayer;
+    import ProjectGroup = csComp.Services.ProjectGroup;
+    import IFeatureType = csComp.Services.IFeatureType;
+    import IFeature = csComp.Services.IFeature;
 
     export class Table2MapCtrl {
         private widget: csComp.Services.IWidget;
@@ -79,9 +121,20 @@ module Table2Map {
         private rowCollection: Dictionary < any > [] = [];
         private headerCollection: string[] = [];
         private originalHeaders: string[] = [];
+        private sections: string[] = [];
+        private project: Project = < Project > {
+            groups: [{
+                title: 'My group',
+                id: 'ae34f6'
+            }]
+        };
+        private layer: IProjectLayer = < IProjectLayer > {};
+        private featureType: IFeatureType = < IFeatureType > {};
+        private selectedGroup: ProjectGroup = < ProjectGroup > {};
         private csvParseSettings: ICSVParseSettings = {
             hasHeader: true,
-            delimiter: ';'
+            delimiter: ';',
+            decimalCharacter: '.'
         };
 
         public static $inject = [
@@ -109,9 +162,22 @@ module Table2Map {
 
             $scope.data = < Table2MapData > this.widget.data || < Table2MapData > {};
             $scope.isOpen = true;
-            $scope.numberOfSteps = 3;
+            $scope.numberOfSteps = NUMBER_OF_STEPS;
             $scope.currentStep = ConversionStep.UploadData_1;
             $scope.delimiters = Table2Map.DELIMITERS;
+            $scope.decimalCharacters = Table2Map.DECIMAL_CHARS;
+            $scope.propertyTypeTypes = Table2Map.PROPERTY_TYPES;
+            $scope.stringFormats = Table2Map.STRING_FORMATS;
+            $scope.metaData = {
+                nr: 0,
+                total: this.rowCollection.length
+            };
+            $scope.scrollTo = (parent, id) => {
+                $(`#${parent}`).animate({
+                        scrollTop: $(`#${id}`).offset().top
+                    },
+                    'slow');
+            };
 
             /* File uploads */
             this.fileExtensions = $scope.data.fileExtensions || [];
@@ -249,6 +315,10 @@ module Table2Map {
                                 this.originalHeaders = this.headerCollection;
                             }
                             this.rowCollection = jsonArr;
+                            this.$scope.metaData = {
+                                nr: Math.min(SHOW_NR_COLUMNS, this.rowCollection.length),
+                                total: this.rowCollection.length
+                            };
                             this.$scope.currentStep = ConversionStep.SetColumnTypes_2;
                         }, 0);
                     })
@@ -272,10 +342,9 @@ module Table2Map {
             }
         }
 
-        private updateProjectId() {
-            if (this.parsedContent) {
-                this.parsedContent['projectId'] = this.projectId;
-                this.textContent = JSON.stringify(this.parsedContent, null, 2);
+        public selectRow(row: Dictionary < any > ) {
+            if (row && row['isSelected']) {
+                console.log(`Selected row ${JSON.stringify(row)}`);
             }
         }
 

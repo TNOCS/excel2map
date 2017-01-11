@@ -285,7 +285,7 @@
             <!-- Nav tabs -->
             <ul id="rightpanelTabs" class="nav nav-tabs rightpanelTabs" ng-class="{'rightpanelTabs-collapsed' : !vm.$layerService.visual.rightPanelVisible}">
                 <li style="margin-top:5px" ng-style="!vm.$layerService.visual.rightPanelVisible && {'opacity':0}" ng-click="vm.$layerService.visual.rightPanelVisible = false"
-                    uib-popover="{{'HIDE_PANEL' | translate}}" popover-placement="left" popover-trigger="mouseenter" popover-append-to-body="true">
+                    uib-popover="{{'HIDE_PANEL' | translate}}" popover-placement="left" popover-trigger="'mouseenter'" popover-append-to-body="true">
                     <a class="rightpanel-hidetab">
                         <span class="fa fa-2x fa-chevron-right"></span>
                     </a>

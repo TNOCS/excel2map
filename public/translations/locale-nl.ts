@@ -17,7 +17,12 @@ module Translations {
             TABLE2MAP: 'Tabel naar kaart',
             HAS_HEADER: 'Data bevat kopteksten',
             DELIMITER: 'Scheidingsteken',
-            CSV_PARSE_SETTINGS: 'Data importeer configuratie'
+            CSV_PARSE_SETTINGS: 'Data importeer configuratie',
+            SEARCH_IN_DATA: 'Zoek in de data',
+            SHOW_NR_OF_TOTAL: 'Toon {{nr}} van de {{total}} rijen.',
+            CSV_PARSE_SETTINGS_HELP: 'Geef aan of de data kopteksten bevat en wat voor scheidingstekens worden gebruikt tussen de kolommen.',
+            DECIMAL_CHARACTER: 'Decimaal teken',
+            NO_DATA_TABLE: 'Geen tabulaire data gevonden. Ga terug naar stap 1.'
         };
     }
 }

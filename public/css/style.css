@@ -7,7 +7,7 @@
     overflow: hidden;
 }
 
-.rightpanel-tabs > .row {
+.rightpanel-tabs>.row {
     overflow: visible;
 }
 
@@ -20,12 +20,58 @@ h4 {
     margin-top: 24px;
 }
 
- .big-button{
-     margin: 8px 0;
-     min-height: 64px;
-     min-width: 164px;
- }
+.big-button {
+    margin: 8px 0;
+    min-height: 64px;
+    min-width: 164px;
+}
 
- #csv-settings input {
-     margin-right: 16px;
- }
+.grey-border {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 4px;
+}
+
+.csv-settings input,select {
+    margin-right: 16px;
+}
+
+.csv-table-header {
+    cursor: pointer;
+}
+
+.st-sort-ascent:before {
+    content: '\25B2';
+}
+
+.st-sort-descent:before {
+    content: '\25BC';
+}
+
+.csv-sort-hint {
+    display: none;
+}
+
+.csv-sort-hint:hover {
+    display: inline;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+table.table.table-striped tr.st-selected td {
+    background: blue;
+}
+
+tr.st-selected {
+    background: blue;
+}
+
+.no-margin {
+    margin: 0;
+}
+
+.no-padding {
+    padding: 0;
+}

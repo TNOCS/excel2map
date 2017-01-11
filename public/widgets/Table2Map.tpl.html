@@ -1,4 +1,4 @@
-<div class="fill-height" style="margin: 20px 5px 2px 5px;overflow:auto;height:95%" id="drop-box">
+<div class="fill-height" style="margin: 20px 5px 2px 5px;overflow:auto;height:75%" id="drop-box">
     <div style="display: inline-block; margin-left: 2px;" ng-hide="data.hideTitle">
         <div style="display: inline-block; font-size:16px; font-weight:bold; margin-bottom:2px;">{{data.title}}</div>
         <div style="display: inline-block; margin-right:5px; position: absolute; top: 2px; right: 0px;">
@@ -8,26 +8,33 @@
             <a class="widget-min-max-close" ng-click="vm.exportToPDF()"><i class="fa fa-save" uib-tooltip="{{'SAVE_AS_PDF' | translate}}" tooltip-trigger="mouseenter" tooltip-append-to-body="true" ng-show="vm.exporterAvailable&&!minimized"></i></a>
         </div>
     </div>
-    <ul uib-pagination ng-model="currentStep" total-items="numberOfSteps" items-per-page="1" previous-text="{{'PREVIOUS' | translate}}"
-        next-text="{{'NEXT' | translate}}"></ul>
+    <div class="row text-center no-margin">
+        <ul uib-pagination ng-model="currentStep" total-items="numberOfSteps" items-per-page="1" previous-text="{{'PREVIOUS' | translate}}"
+            next-text="{{'NEXT' | translate}}" style="margin: 4px 0"></ul>
+    </div>
     <div class="fill-height" style="padding:0px;font-size:12px;margin:0px;" ng-hide="minimized">
-        <div class="row" ng-show="currentStep === 1">
+        <div class="row" ng-show="currentStep === 1" style="max-height:500px;overflow:auto;">
             <div class="row">
                 <div class="col-xs-12 fill-height">
-                    <h2>{{'UPLOAD_TABULAR_DATA' | translate}}</h2>
+                    <h3>{{'UPLOAD_TABULAR_DATA' | translate}}</h3>
                 </div>
             </div>
             <div class="row" style="padding: 0 15px 0 15px">
-                <h5>{{'CSV_PARSE_SETTINGS' | translate}}</h3>
-                    <form class="form-inline" id="csv-settings">
+                <div class="grey-border">
+                    <h5>{{'CSV_PARSE_SETTINGS' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'CSV_PARSE_SETTINGS_HELP' | translate}}"></i></span></h5>
+                    <form class="form-inline csv-settings">
                         <div class="form-group">
                             <label for="hasHeader">{{'HAS_HEADER' | translate}}: </label>
                             <input id="hasHeader" type="checkbox" ng-model="vm.csvParseSettings.hasHeader" />
                             <label for="delimiter">{{'DELIMITER' | translate}}: </label>
                             <select class="form-control" id="delimiter" ng-options="name for (name, character) in delimiters" ng-model="vm.csvParseSettings.delimiter"
                             />
+                            <label for="decimalChar">{{'DECIMAL_CHARACTER' | translate}}: </label>
+                            <select class="form-control" id="decimalChar" ng-options="name for (name, character) in decimalCharacters" ng-model="vm.csvParseSettings.decimalCharacter"
+                            />
                         </div>
                     </form>
+                </div>
             </div>
             <div class="row">
                 <div class="col-xs-12 col-md-6 fill-height">
@@ -37,7 +44,7 @@
                     <h4>{{'OPTION' | translate:'{ number: "3" }'}}. {{ 'PASTE_CLIPBOARD' | translate}}.</h4>
                 </div>
                 <div class="col-xs-12 col-md-6 fill-height">
-                    <textarea rows="16" class="fill-height" id="clipboard-box" style="width:95%;margin-top: 24px" placeholder="{{'PASTE_HERE' | translate}}"
+                    <textarea rows="12" class="fill-height" id="clipboard-box" style="width:95%;margin-top: 24px" placeholder="{{'PASTE_HERE' | translate}}"
                         ng-model="vm.textContent"></textarea>
                 </div>
             </div>
@@ -49,21 +56,208 @@
             </div>
         </div>
         <!-- PARSED DATA TABLE -->
-        <div class="row" ng-show="currentStep === 2" style="overflow: auto; max-height:500px;" ;>
-            <table st-table="displayedCollection" st-safe-src="vm.rowCollection" class="table table-striped">
-                <thead>
-                    <tr>
-                        <th st-sort="{{col}}" ng-repeat="col in vm.headerCollection" uib-popover="{{$parent.vm.originalHeaders[$index]}}" popover-trigger="'mouseenter'"
-                            popover-append-to-body="true">{{col}}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="row in displayedCollection | limitTo: 20">
-                        <td ng-repeat="col in vm.headerCollection">{{row[col]}}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div>Showing 20 of {{vm.rowCollection.length}} rows</div>
+        <div class="row" ng-show="currentStep === 2">
+            <div ng-hide="vm.rowCollection.length > 0">{{'NO_DATA_TABLE' | translate}}</div>
+            <div class="col-sm-4">
+                <form id="propertySettingsForm" style="overflow: auto; max-height:500px;">
+                    <div class="form-group">
+                        <h4>{{'PROPERTY_SETTINGS' | translate}}</h4>
+                    </div>
+                    <div class="form-group">
+                        <label for="p-title">{{'PROPERTY_TITLE' | translate}}</label>
+                        <input type="text" data-ng-model="pType.name" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="p-description">{{'PROPERTY_DESCRIPTION' | translate}}</label>
+                        <input type="text" id="p-description" data-ng-model="pType.description" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="p-type">{{'PROPERTY_TYPE' | translate}}</label>
+                        <select data-ng-model="pType.type" id="p-type" ng-options="name for (name, type) in propertyTypeTypes" class="form-control"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="p-sf">{{'STRINGFORMAT' | translate}}</label>
+                        <select data-ng-model="pType.stringFormat" id="p-sf" ng-options="name for (name, type) in stringFormats" class="form-control"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-xs-9 no-padding">
+                                <label for="p-section">{{'SECTION' | translate}}</label>
+                                <select data-ng-model="pType.section" id="p-section" ng-options="vm.sections" class="form-control" />
+                            </div>
+                            <div class="col-xs-3 no-padding">
+                                <label for="p-add">{{'NEW' | translate}}</label>
+                                <button type="button" id="p-add" ng-click="addSectionMode=!addSectionMode;scrollTo('propertySettingsForm', 'addSectionDiv')" class="btn btn-primary form-control"><i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="row" id="addSectionDiv" ng-init="addSectionMode = false" ng-show="addSectionMode">
+                            <div class="col-xs-10 col-xs-offset-2 no-padding">
+                                <div class="input-group"><input type="text" placeholder="Add new section" ng-model="newSection" class="form-control">
+                                    <span class="input-group-btn"><button class="btn btn-primary" type="button" ng-click="vm.addSection(newSection)">{{'ADD' | translate}}</button></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-xs-6 no-padding">
+                                <label for="p-callout">{{'VISIBLE_IN_CALLOUT' | translate}}</label>
+                                <input type="checkbox" data-ng-model="pType.visibleInCallout" id="p-callout" />
+                            </div>
+                            <!--<div class="col-xs-6 no-padding">
+                                <label for="p-edit">{{'EDIT' | translate}}</label>
+                                <input type="checkbox" data-ng-model="pType.canEdit" id="p-edit" />
+                            </div>-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-xs-6 no-padding">
+                                <label for="p-min">{{'STATS.MIN' | translate}}</label>
+                                <input type="number" data-ng-model="pType.min" id="p-min" />
+                            </div>
+                            <div class="col-xs-6 no-padding">
+                                <label for="p-max">{{'STATS.MAX' | translate}}</label>
+                                <input type="number" data-ng-model="pType.max" id="p-mimaxn" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-8">
+                <table st-table="displayedCollection" st-safe-src="vm.rowCollection" class="table table-striped" ng-show="vm.rowCollection.length > 0"
+                    style="max-height:500px" ;overflow:auto;>
+                    <thead>
+                        <tr class="csv-table-header">
+                            <th st-sort="{{col}}" ng-repeat="col in vm.headerCollection" uib-popover="{{$parent.vm.originalHeaders[$index]}}" popover-trigger="'mouseenter'"
+                                popover-append-to-body="true">
+                                {{col}}</th>
+                        </tr>
+                        <tr>
+                            <th colspan="{{vm.headerCollection.length}}">
+                                <input st-search placeholder="{{'SEARCH_IN_DATA' | translate}}" class="input-sm form-control" type="search" />
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr st-select-row="row" ng-click="vm.selectRow(row)" ng-repeat="row in displayedCollection | limitTo: 20">
+                            <td ng-repeat="col in vm.headerCollection">{{row[col]}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div>{{'SHOW_NR_OF_TOTAL' | translate:metaData}}</div>
+            </div>
+        </div>
+        <!-- Style settings -->
+        <div class="row" ng-show="currentStep === 3" style="overflow: auto; max-height:500px;">
+            <div class="row">
+                <h5>{{'STYLE_SETTINGS' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'STYLE_SETTINGS_HELP' | translate}}"></i></span></h5>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <form>
+                        <div class="form-group">
+                            <label for="f-icon">Icon Image</label>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <img ng-src="{{ featureType.style['iconUri'] }}" err-src="images/error.png" width="32" height="32" class="img-responsive"
+                                    />
+                                </div>
+                                <div class="col-md-10">
+                                    <input type="text" data-ng-model="featureType.style['iconUri']" class="form-control">
+                                </div>
+                            </div>
+                            <div ng-show="featureType.style['drawingMode'] == 'Point'">
+                                <div class="row">
+                                    <div class="col-md-6" ng-class="{ 'has-error': featureTypeForm.iconHeight.$invalid }">
+                                        <div class="rightpanel-label">Icon height</div>
+                                        <input type="number" name="iconHeight" data-ng-model="featureType.style['iconHeight']" min="0" class="form-control" required>
+                                    </div>
+                                    <div class="col-md-6" ng-class="{ 'has-error': featureTypeForm.iconWidth.$invalid }">
+                                        <div class="rightpanel-label">Icon width</div>
+                                        <input type="number" name="iconWidth" data-ng-model="featureType.style['iconWidth']" min="0" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="rightpanel-label">Fill color</div>
+                                    <spectrum-colorpicker data-ng-model="featureType.style['fillColor']" options="{ cancelText: 'Cancel', chooseText: 'Select', preferredFormat: 'hex' }"></spectrum-colorpicker>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="rightpanel-label">Stroke</div>
+                                    <spectrum-colorpicker data-ng-model="featureType.style['strokeColor']" options="{cancelText: 'Cancel', chooseText: 'Select',preferredFormat: 'hex'}"></spectrum-colorpicker>
+                                </div>
+                                <div class="col-md-6" ng-class="{ 'has-error': featureTypeForm.strokeWidth.$invalid }">
+                                    <div class="rightpanel-label">Stroke width</div>
+                                    <input type="number" name="stroke" data-ng-model="featureType.style['strokeWidth']" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6" ng-class="{ 'has-error': featureTypeForm.cornerRadius.$invalid }">
+                                    <div class="rightpanel-label">Corner radius (%)</div>
+                                    <input type="number" name="cornerRadius" data-ng-model="featureType.style['cornerRadius']" class="form-control">
+                                </div>
+                                <div class="col-md-6" ng-class="{ 'has-error': featureTypeForm.opacity.$invalid }">
+                                    <div class="rightpanel-label">Opacity</div>
+                                    <input type="number" name="opacity" data-ng-model="featureType.style['opacity']" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 checkbox dashboard-edit-checkbox" style="margin-left: 20px">
+                                    <input ng-disabled="vm.noLayerSelected" type="checkbox" id="showAllProperties-{{featureType.id}}" ng-model="featureType.showAllProperties">
+                                    <label for="showAllProperties-{{featureType.id}}">Show all properties</label>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary rightpanel-button" data-ng-click="vm.updateFeatureTypes(featureType)">Opslaan</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm-6">STYLE PREVIEW</div>
+            </div>
+        </div>
+        <!-- Layer settings -->
+        <div class="row" ng-show="currentStep === 4" style="overflow: auto; max-height:500px;">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h5>{{'LAYER_SETTINGS' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'LAYER_SETTINGS_HELP' | translate}}"></i></span></h5>
+                    <form>
+                        <div class="form-group">
+                            <label for="l-title">{{'LAYER_TITLE' | translate}}</label>
+                            <input type="text" id="l-title" data-ng-model="layer.title" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="l-group">{{'GROUP' | translate}}</label>
+                            <select class="form-control" id="l-group" ng-options="id for (id, title) in vm.project.groups" ng-model="vm.selectedGroup"
+                            />
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm-6">LAYER MENU PREVIEW
+                    <div class="scrolling leftpanel-scroll">
+                        <div data-ng-repeat="group in vm.project.groups" style="margin-left: 5px;position:relative;cursor:pointer">
+                            <div id="layergroupStyle" style="float: left; margin-left: 10px; margin-top: 5px;margin-right:5px;cursor:pointer" data-toggle="collapse"
+                                data-target="#layergroup_{{group.id}}"><i class="fa fa-chevron-down togglebutton toggle-arrow-down"></i><i class="fa fa-chevron-up togglebutton toggle-arrow-up"></i></div>
+                            <div uib-popover="{{(group.description) ? group.description : ''}}" popover-placement="right" popover-width="400" popover-trigger="'mouseenter'"
+                                popover-append-to-body="true" class="group-title">{{group.title}}</div>
+                            <div id="layergroup_{{group.id}}" class="collapse in">
+                                <div ng-class="{false : '', true:'layer-more'}[layer._gui.more==true]" uib-popover="{{(layer.description) ? layer.description : ''}}"
+                                    popover-append-to-body="true" popover-placement="right" popover-trigger="'mouseenter'" data-ng-repeat="layer in group.layers">
+                                    <div class="layer" style="list-style-type: none;" data-ng-class="{indent: layer.isSublayer}">
+                                        <div ng-class="{false : 'checkbox checkbox-primary', true:'radio radio-primary'}[group.oneLayerActive==true]" style="margin-top: 0px;margin-bottom: 0px;">
+                                            <input ng-if="!group.oneLayerActive" type="checkbox" id="cblayer{{layer.id}}" ng-checked="layer.enabled">
+                                            <input ng-if="group.oneLayerActive" type="radio" ng-value="true" id="cblayer{{layer.id}}" ng-checked="layer.enabled">
+                                            <label class="layer-list-title" for="cblayer{{layer.id}}">{{layer.title}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

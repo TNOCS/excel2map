@@ -17,7 +17,12 @@ module Translations {
             TABLE2MAP: 'Table to map',
             HAS_HEADER: 'Data contains headers',
             DELIMITER: 'Delimiter',
-            CSV_PARSE_SETTINGS: 'Input data configuration'
+            CSV_PARSE_SETTINGS: 'Input data configuration',
+            SEARCH_IN_DATA: 'Search in the data',
+            SHOW_NR_OF_TOTAL: 'Show {{nr}} of {{total}} rows.',
+            CSV_PARSE_SETTINGS_HELP: '',
+            DECIMAL_CHARACTER: 'Decimal character',
+            NO_DATA_TABLE: 'No tabular data found. Return to step 1'
         };
     }
 }

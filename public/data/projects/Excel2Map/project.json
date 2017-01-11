@@ -109,9 +109,10 @@
                         "canMinimize": true
                     },
                     "enabled" : true,
-                    "inGridContainer" : true,
-                    "top" : "100px",
-                    "bottom" : "70px"
+                    "inGridContainer" : false,
+                    "top" : "80px",
+                    "bottom" : "1px",
+                    "width" : "100%"
                 }
             ]
         }
