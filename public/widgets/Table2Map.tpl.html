@@ -63,62 +63,78 @@
                         <div class="form-group">
                             <label for="geo-col">{{'SELECT_GEOMETRY_COLUMNS' | translate}}</label>
                             <button if="geo-col" ng-click="vm.openTable()" class="fa fa-table btn"></button>
-                            <ul ng-show="vm.geometryColumns.length > 0">
-                                <li ng-repeat="col in vm.geometryColumns">{{col}}</li>
+                            <ul ng-show="Object.keys(vm.geometryColumns).length > 0">
+                                <li ng-repeat="key as val for (key, val) in vm.geometryColumns">{{key}}</li>
                             </ul>
-                            <div ng-hide="vm.geometryColumns.length > 0">{{'SELECT_GEOMETRY_COLUMNS_HINT' | translate}}</div>
+                            <div ng-hide="Object.keys(vm.geometryColumns).length > 0">{{'SELECT_GEOMETRY_COLUMNS_HINT' | translate}}</div>
                         </div>
                     </div>
                     <div class="grey-border" style="margin: 6px 0 0 0;">
                         <div class="row">
-                            <div class="col-sm-6 form-group">
+                            <div class="col-xs-5 form-group">
                                 <label for="f-icon">{{'ICON_IMAGE' | translate}}</label>
                                 <label id="f-icon" class="file-upload-label btn btn-primary" for="icon-upload"><i class="fa fa-picture-o small-padding" aria-hidden="true"></i><span>{{ 'UPLOAD_ICON' | translate}}</span>
-                                <input type="file" accept="image/png" id="icon-upload" style="margin-top:8px" />
-                            </label>
+                                    <input type="file" accept="image/png" id="icon-upload" style="margin-top:8px" />
+                                </label>
                             </div>
-                            <div class="col-sm-6" ng-show="vm.featureType.style['drawingMode'] == 'Point'">
+                            <div class="col-xs-1 grey-border">
+                                <img id="iconImage" />
+                            </div>
+                            <div class="col-sm-6">
                                 <div class="row">
                                     <div class="col-sm-6 form-group">
                                         <label for="iconHeight">{{'ICON_HEIGHT' | translate}}</label>
                                         <input type="number" min="0" max="320" name="iconHeight" data-ng-model="vm.featureType.style['iconHeight']" class="form-control"
-                                            required>
+                                            ng-disabled="vm.featureType.style['drawingMode'] != 'Point'">
                                     </div>
                                     <div class="col-sm-6 form-group">
                                         <label for="iconWeight">{{'ICON_WIDTH' | translate}}</label>
-                                        <input type="number" name="iconWidth" data-ng-model="vm.featureType.style['iconWidth']" min="0" class="form-control" required>
+                                        <input type="number" name="iconWidth" data-ng-model="vm.featureType.style['iconWidth']" min="0" class="form-control" ng-disabled="vm.featureType.style['drawingMode'] != 'Point'">
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-3">
-                                <div class="rightpanel-label">Fill color</div>
-                                <spectrum-colorpicker data-ng-model="vm.featureType.style['fillColor']" options="{ cancelText: 'Cancel', chooseText: 'Select', preferredFormat: 'hex' }"></spectrum-colorpicker>
+                            <div class="col-md-2">
+                                <label>{{'FILL_COLOR' | translate}}</label>
+                                <spectrum-colorpicker data-ng-model="vm.featureType.style['fillColor']" options="{ cancelText: 'Cancel', chooseText: 'OK', preferredFormat: 'hex' }"></spectrum-colorpicker>
+                            </div>
+                            <div class="col-md-2">
+                                <label>{{'STROKE_COLOR' | translate}}</label>
+                                <spectrum-colorpicker data-ng-model="vm.featureType.style['strokeColor']" options="{cancelText: 'Cancel', chooseText: 'OK', preferredFormat: 'hex'}"></spectrum-colorpicker>
+                            </div>
+                            <div class="col-md-2">
+                                <label>{{'SELECTED_STROKE_COLOR' | translate}}</label>
+                                <spectrum-colorpicker data-ng-model="vm.featureType.style['selectedStrokeColor']" options="{cancelText: 'Cancel', chooseText: 'OK', preferredFormat: 'hex'}"></spectrum-colorpicker>
                             </div>
                             <div class="col-md-3">
-                                <div class="rightpanel-label">Stroke</div>
-                                <spectrum-colorpicker data-ng-model="vm.featureType.style['strokeColor']" options="{cancelText: 'Cancel', chooseText: 'Select',preferredFormat: 'hex'}"></spectrum-colorpicker>
+                                <label>{{'STROKE_WIDTH' | translate}}</label>
+                                <input type="number" name="strokeWidth" min="0" max="32" data-ng-model="vm.featureType.style['strokeWidth']" class="form-control">
                             </div>
-                            <div class="col-md-6" ng-class="{ 'has-error': featureTypeForm.strokeWidth.$invalid }">
-                                <div class="rightpanel-label">Stroke width</div>
-                                <input type="number" name="stroke" data-ng-model="vm.featureType.style['strokeWidth']" class="form-control">
+                            <div class="col-md-3">
+                                <label>{{'SELECTED_STROKE_WIDTH' | translate}}</label>
+                                <input type="number" name="selStrokeWidth" min="0" max="32" data-ng-model="vm.featureType.style['selectedStrokeWidth']" class="form-control">
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6" ng-class="{ 'has-error': featureTypeForm.cornerRadius.$invalid }">
-                                <div class="rightpanel-label">Corner radius (%)</div>
-                                <input type="number" name="cornerRadius" data-ng-model="vm.featureType.style['cornerRadius']" class="form-control">
+                            <div class="col-sm-6">
+                                <label>{{'CORNER_RADIUS' | translate}}</label>
+                                <input type="number" name="cornerRadius" data-ng-model="vm.featureType.style['cornerRadius']" class="form-control" ng-disabled="vm.featureType.style['drawingMode'] != 'Point'">
                             </div>
-                            <div class="col-md-6" ng-class="{ 'has-error': featureTypeForm.opacity.$invalid }">
-                                <div class="rightpanel-label">Opacity</div>
-                                <input type="number" name="opacity" data-ng-model="featureType.style['opacity']" class="form-control">
+                            <div class="col-sm-6">
+                                <label>{{'OPACITY' | translate}}</label>
+                                <input type="number" step="0.01" min="0" max="1" name="opacity" ng-change="vm.featureType.style['fillOpacity']=vm.featureType.style['opacity']"
+                                    data-ng-model="vm.featureType.style['opacity']" class="form-control">
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6 checkbox dashboard-edit-checkbox" style="margin-left: 20px">
-                                <input ng-disabled="vm.noLayerSelected" type="checkbox" id="showAllProperties-{{featureType.id}}" ng-model="featureType.showAllProperties">
-                                <label for="showAllProperties-{{featureType.id}}">Show all properties</label>
+                            <div class="col-sm-6">
+                                <label for="clustering">{{'CLUSTERING' | translate}}</label>
+                                <input type="checkbox" id="clustering" data-ng-model="vm.clusterOptions.clustering" class="checkbox-primary" ng-disabled="vm.featureType.style['drawingMode'] != 'Point'">
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="clusterLevel">{{'CLUSTER_LEVEL' | translate}}</label>
+                                <input type="number" id="clusterLevel" data-ng-model="vm.clusterOptions.clusterLevel"  min="0" max="24" class="form-control" ng-disabled="vm.featureType.style['drawingMode'] != 'Point'">
                             </div>
                         </div>
                         <button class="btn btn-primary" data-ng-click="currentStep = 3">{{'NEXT' | translate}}</button>
@@ -161,7 +177,7 @@
                         <div class="row">
                             <div class="col-xs-9 no-padding">
                                 <label for="p-section">{{'SECTION' | translate}}</label>
-                                <select data-ng-model="pType.section" id="p-section" ng-options="vm.sections" class="form-control" />
+                                <select data-ng-model="pType.section" id="p-section" ng-options="section in vm.sections" class="form-control" />
                             </div>
                             <div class="col-xs-3 no-padding">
                                 <label for="p-add">{{'NEW' | translate}}</label>

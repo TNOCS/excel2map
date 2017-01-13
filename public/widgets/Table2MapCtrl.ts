@@ -52,14 +52,20 @@ module Table2Map {
     }
 
     export interface Table2MapData {
-        fileExtensions: string[];
+        dataExtensions: string[];
+        iconExtensions: string[];
         hideTitle: boolean;
         canMinimize: boolean;
     }
 
+    export interface ITable2MapClusterOptions {
+        clustering: boolean;
+        clusterLevel: number;
+    }
+
     export interface ITable2MapGeometryType {
         name: string;
-        nrCols: number;
+        cols: string[];
         drawingMode: 'Point' | 'Polygon';
     }
 
@@ -132,24 +138,29 @@ module Table2Map {
         private password: string;
         private selectedFile: string;
         private uploadAvailable: boolean;
-        private fileExtensions: string[];
+        private fileExtensions: Dictionary < string[] > ;
         private numberOfCols: number;
         private numberOfRows: number;
         private rowCollection: Dictionary < any > [] = [];
         private headerCollection: string[] = [];
         private originalHeaders: string[] = [];
         private sections: string[] = [];
-        private geometryColumns: string[] = [];
+        private geometryColumns: Dictionary < string > ;
         private project: Project = < Project > {
             groups: [{
                 title: 'My group',
                 id: 'ae34f6'
             }]
         };
+        private clusterOptions: ITable2MapClusterOptions = {
+            clustering: true,
+            clusterLevel: 14
+        };
         private layer: IProjectLayer = < IProjectLayer > {};
         private featureType: IFeatureType = < IFeatureType > {};
         private feature: IGeoFeature = < IGeoFeature > {};
         private marker: L.Marker | L.GeoJSON;
+
         private selectedGroup: ProjectGroup = < ProjectGroup > {};
         private csvParseSettings: ICSVParseSettings = {
             hasHeader: true,
@@ -210,10 +221,13 @@ module Table2Map {
             });
 
             /* File uploads */
-            this.fileExtensions = $scope.data.fileExtensions || [];
+            this.fileExtensions = {
+                'data': $scope.data.dataExtensions || [],
+                'icon': $scope.data.iconExtensions || []
+            };
             $('#file-upload').change(() => {
                 let file = ( < any > $('#file-upload')[0]).files[0];
-                this.readFile(file);
+                this.readFile(file, 'data');
             });
             document.getElementById('drop-box').addEventListener('drop', (evt) => {
                 this.fileDropped(evt);
@@ -245,7 +259,7 @@ module Table2Map {
                 } else if (!file.size || file.size > MAX_ICON_SIZE) {
                     this.$messageBus.notifyWithTranslation('FILE_TOO_LARGE', 'FILE_TOO_LARGE_MSG');
                 } else {
-                    this.readFile(file);
+                    this.readFile(file, 'icon');
                 }
             });
 
@@ -263,7 +277,7 @@ module Table2Map {
         private fileDropped(evt) {
             evt.stopPropagation();
             evt.preventDefault();
-            this.readFile(evt.dataTransfer.files[0]);
+            this.readFile(evt.dataTransfer.files[0], 'data');
         }
 
         private canMinimize() {
@@ -310,29 +324,39 @@ module Table2Map {
         }
 
         /** Reads a file */
-        private readFile(file: any) {
+        private readFile(file: any, fileType: 'data' | 'icon') {
             if (!this.uploadAvailable) {
                 this.$messageBus.notifyError('Cannot upload files', 'Try using a modern browser (Chrome, FireFox, Edge) to be able to upload files, or use the copy/paste option.');
                 return;
             }
             if (!file || !file.name || file.name.indexOf('.') < 0) {
-                this.$messageBus.notifyError('Cannot upload this file', 'The file should have one of these extensions: ' + this.printExtensions(this.fileExtensions));
+                this.$messageBus.notifyError('Cannot upload this file', 'The file should have one of these extensions: ' + this.printExtensions(this.fileExtensions[fileType]));
                 return;
             } else {
                 var ext = file.name.split('.').pop();
-                if (!_.contains(this.fileExtensions, ext.toLowerCase())) {
-                    this.$messageBus.notifyError('Cannot upload this file', 'The file should have one of these extensions: ' + this.printExtensions(this.fileExtensions));
+                if (!_.contains(this.fileExtensions[fileType], ext.toLowerCase())) {
+                    this.$messageBus.notifyError('Cannot upload this file', 'The file should have one of these extensions: ' + this.printExtensions(this.fileExtensions[fileType]));
                     return;
                 }
             }
             var reader = new FileReader();
 
             reader.onload = (e) => {
-                this.textContent = reader.result;
-                this.updatedContent();
+                if (fileType === 'data') {
+                    this.textContent = reader.result;
+                    this.updatedContent();
+                } else {
+                    $('#iconImage').attr('src', reader.result);
+                    this.featureType.style.iconUri = file.name;
+                    this.updateMarker();
+                }
             };
 
-            reader.readAsText(file);
+            if (fileType === 'data') {
+                reader.readAsText(file);
+            } else {
+                reader.readAsDataURL(file);
+            }
         }
 
         private resetVariables() {
@@ -343,9 +367,11 @@ module Table2Map {
                 iconUri: '',
                 iconWidth: 24,
                 iconHeight: 24,
+                cornerRadius: 0,
                 drawingMode: 'Point',
                 stroke: true,
                 strokeWidth: 2,
+                selectedStrokeWidth: 3,
                 strokeColor: '#000',
                 selectedStrokeColor: '#00f',
                 fillColor: '#ff0',
@@ -475,7 +501,7 @@ module Table2Map {
                             return;
                         }
                         let type = GEOMETRY_TYPES[this.featureType.name];
-                        selectionAmount = (type ? type.nrCols : 1);
+                        selectionAmount = (type ? type.cols.length : 1);
                         break;
                     case ConversionStep.FeatureProps:
                         selectionOption = 'row';
@@ -507,7 +533,7 @@ module Table2Map {
                 if (selectionOption === 'col') {
                     console.log(`Selected ${JSON.stringify(selectedRowCol)}`);
                     if (this.$scope.currentStep === ConversionStep.StyleSettings) {
-                        this.geometryColumns = _.clone(selectedRowCol);
+                        this.geometryColumns = < Dictionary < string >> _.object(GEOMETRY_TYPES[this.featureType.name].cols, selectedRowCol);
                     }
                 } else if (selectionOption === 'row') {
                     console.log(`Selected ${JSON.stringify(selectedRowCol)}`);
@@ -544,7 +570,7 @@ module Table2Map {
             this.updateMarker();
         }
 
-        private updateMarker = _.throttle(this.updateMarkerDebounced, 500, {
+        public updateMarker = _.throttle(this.updateMarkerDebounced, 500, {
             leading: false,
             trailing: true
         });

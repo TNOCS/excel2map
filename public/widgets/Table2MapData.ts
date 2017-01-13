@@ -31,34 +31,49 @@ module Table2Map {
         'Percentage_four_decimals': '{0:#,#.####}%'
     };
     export var GEOMETRY_TYPES: Dictionary < ITable2MapGeometryType > = {
-        'Provincie': {
-            name: 'Provincie',
-            nrCols: 1,
+        'ProvincieNaam': {
+            name: 'Provincie op naam',
+            cols: ['Provincie-naam'],
             drawingMode: 'Polygon'
         },
-        'Gemeente': {
-            name: 'Gemeente',
-            nrCols: 1,
+        'ProvincieCode': {
+            name: 'Provincie op code',
+            cols: ['Provincie-code'],
+            drawingMode: 'Polygon'
+        },
+        'GemeenteNaam': {
+            name: 'Gemeente op naam',
+            cols: ['Gemeente-naam'],
+            drawingMode: 'Polygon'
+        },
+        'GemeenteCode': {
+            name: 'Gemeente op code',
+            cols: ['Gemeente-code'],
             drawingMode: 'Polygon'
         },
         'Adres': {
             name: 'Adres',
-            nrCols: 4,
+            cols: ['Postcode 6', 'Huisnummer', 'Huisletter', 'Huisnummertoevoeging'],
+            drawingMode: 'Point'
+        },
+        'OpenStreetMap': {
+            name: 'OpenStreetMap zoek',
+            cols: ['Zoekveld'],
             drawingMode: 'Point'
         },
         'WMO': {
             name: 'WMO-regio',
-            nrCols: 1,
+            cols: ['WMO regionaam'],
             drawingMode: 'Polygon'
         },
         'latlong': {
             name: 'Lat-long coordinaten',
-            nrCols: 2,
+            cols: ['lat', 'lng'],
             drawingMode: 'Point'
         },
         'RD': {
             name: 'RD coordinaten',
-            nrCols: 2,
+            cols: ['X', 'Y'],
             drawingMode: 'Point'
         },
     };

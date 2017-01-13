@@ -105,7 +105,8 @@
                     "title" : "Upload tabular data",
                     "data" : {
                         "hideTitle": false,
-                        "fileExtensions": ["csv", "mat"],
+                        "dataExtensions": ["csv", "mat"],
+                        "iconExtensions": ["png"],
                         "canMinimize": true
                     },
                     "enabled" : true,
