@@ -1,0 +1,42 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{'TABLE_LABEL' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'TABLE_HELP' | translate}}" tooltip-placement="bottom"></i></span></h4>
+</div>
+<div class="modal-body scrollable-xy-table">
+    <table id="st-datatable" st-table="displayedCollection" st-safe-src="vm.rowCollection" class="table table-striped" ng-show="vm.rowCollection.length > 0"
+        style="max-height:500px" ;overflow:auto;>
+        <thead>
+            <tr class="csv-table-header">
+                <!--st-sort="{{col}}"-->
+                <th ng-click="vm.selectCol(col, $index)" ng-repeat="col in vm.headerCollection" uib-popover="{{$parent.vm.originalHeaders[$index]}}" popover-trigger="'mouseenter'"
+                    popover-append-to-body="true">
+                    {{col}}</th>
+            </tr>
+            <tr>
+                <th colspan="{{vm.headerCollection.length}}">
+                    <input st-search placeholder="{{'SEARCH_IN_DATA' | translate}}" class="input-sm form-control" type="search" />
+                </th>
+            </tr>
+        </thead>
+        <tbody ng-if="selectionOption == 'row'">
+            <tr st-select-row="row" ng-click="vm.selectRow(row)" ng-repeat="row in displayedCollection | limitTo: 20">
+                <td ng-repeat="col in vm.headerCollection">{{row[col]}}</td>
+            </tr>
+        </tbody>
+        <tbody ng-if="selectionOption != 'row'">
+            <tr ng-repeat="row in displayedCollection | limitTo: 20">
+                <td ng-repeat="col in vm.headerCollection">{{row[col]}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal-footer" ng-show="vm.selectionOption === 'none'">
+    <button type="button" class="btn btn-primary" ng-click="vm.cancel()">{{'CLOSE' | translate}}</button>
+</div>
+<div class="modal-footer" ng-show="vm.selectionOption.indexOf('col') >= 0">
+    <button type="button" class="btn btn-default" ng-click="vm.cancel()">{{'CLOSE' | translate}}</button>
+    <button type="button" class="btn btn-primary" ng-click="vm.ok()">{{'SELECT_COLS' | translate}}</button>
+</div>
+<div class="modal-footer" ng-show="vm.selectionOption.indexOf('row') >= 0">
+    <button type="button" class="btn btn-default" ng-click="vm.cancel()">{{'CLOSE' | translate}}</button>
+    <button type="button" class="btn btn-primary" ng-click="vm.ok()">{{'SELECT_ROW' | translate}}</button>
+</div>

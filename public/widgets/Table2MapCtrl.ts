@@ -36,11 +36,13 @@ module Table2Map {
         decimalCharacters: Dictionary < string > ;
         propertyTypeTypes: Dictionary < string > ;
         stringFormats: Dictionary < string > ;
+        geometryTypes: Dictionary < ITable2MapGeometryType > ;
         metaData: {
             nr: number,
             total: number
         };
         scrollTo: Function;
+        currentZoom: number;
     }
 
     export interface ICSVParseSettings {
@@ -55,11 +57,17 @@ module Table2Map {
         canMinimize: boolean;
     }
 
+    export interface ITable2MapGeometryType {
+        name: string;
+        nrCols: number;
+        drawingMode: 'Point' | 'Polygon';
+    }
+
     export enum ConversionStep {
-        UploadData_1 = 1,
-            SetColumnTypes_2 = 2,
-            IconFormatting_3 = 3,
-            LayerSettings_4 = 4
+        UploadData = 1,
+            StyleSettings = 2,
+            FeatureProps = 3,
+            LayerSettings = 4
     }
 
     /** Assumption of the number of columns before table is parsed. */
@@ -67,44 +75,53 @@ module Table2Map {
     /** Number of columns to show in the widget. */
     export var SHOW_NR_COLUMNS = 20;
     export var NUMBER_OF_STEPS = Object.keys(ConversionStep).length / 2;
-    export var DELIMITERS = {
-        ';': ';',
-        ',': ',',
-        'tab': '\t'
-    };
-    export var DECIMAL_CHARS = {
-        '.': '.',
-        ',': ','
-    };
-    export var PROPERTY_TYPES = {
-        text: 'string',
-        number: 'number',
-        options: 'options',
-        date: 'date',
-        url: 'url',
-        textarea: 'textarea'
-    };
-    export var STRING_FORMATS = {
-        'No_decimals': '{0:#,#}',
-        'One_decimal': '{0:#,#.#}',
-        'Two_decimals': '{0:#,#.##}',
-        'Euro_no_decimals': '€{0:#,#}',
-        'Euro_two_decimals': '€{0:#,#.00}',
-        'Percentage_no_decimals': '{0:#,#}%',
-        'Percentage_one_decimal': '{0:#,#.#}%',
-        'Percentage_two_decimals': '{0:#,#.##}%',
-        'Percentage_four_decimals': '{0:#,#.####}%'
-    };
+    export var MAX_ICON_SIZE = 20 * 1024; // 20kB
+    export var PREVIEW_ZOOMLEVEL = 15;
+    export var PREVIEW_COORDINATES_POINT = [52.079855, 4.320966];
+    export var PREVIEW_COORDINATES_POLYGON = [
+        [
+            [
+                4.31496620,
+                52.0788598
+            ],
+            [
+                4.31887149,
+                52.0789785
+            ],
+            [
+                4.31917190,
+                52.0765915
+            ],
+            [
+                4.3251800,
+                52.07845
+            ],
+            [
+                4.32256221,
+                52.0817609
+            ],
+            [
+                4.317498,
+                52.08046
+            ],
+            [
+                4.314966,
+                52.078859
+            ]
+        ]
+    ];
 
     import Project = csComp.Services.Project;
     import IProjectLayer = csComp.Services.IProjectLayer;
     import ProjectGroup = csComp.Services.ProjectGroup;
     import IFeatureType = csComp.Services.IFeatureType;
     import IFeature = csComp.Services.IFeature;
+    import IGeoFeature = csComp.Helpers.IGeoFeature;
 
     export class Table2MapCtrl {
         private widget: csComp.Services.IWidget;
         private parentWidget: JQuery;
+        private parentWidgetId: string;
         private dataProperties: {
             [key: string]: any
         };
@@ -122,6 +139,7 @@ module Table2Map {
         private headerCollection: string[] = [];
         private originalHeaders: string[] = [];
         private sections: string[] = [];
+        private geometryColumns: string[] = [];
         private project: Project = < Project > {
             groups: [{
                 title: 'My group',
@@ -130,12 +148,15 @@ module Table2Map {
         };
         private layer: IProjectLayer = < IProjectLayer > {};
         private featureType: IFeatureType = < IFeatureType > {};
+        private feature: IGeoFeature = < IGeoFeature > {};
+        private marker: L.Marker | L.GeoJSON;
         private selectedGroup: ProjectGroup = < ProjectGroup > {};
         private csvParseSettings: ICSVParseSettings = {
             hasHeader: true,
-            delimiter: ';',
+            delimiter: 'auto',
             decimalCharacter: '.'
         };
+        private previewMap: L.Map;
 
         public static $inject = [
             '$scope',
@@ -144,7 +165,8 @@ module Table2Map {
             'messageBusService',
             'actionService',
             '$timeout',
-            '$sce'
+            '$sce',
+            '$uibModal'
         ];
 
         constructor(
@@ -154,20 +176,24 @@ module Table2Map {
             private $messageBus: csComp.Services.MessageBusService,
             private actionService: csComp.Services.ActionService,
             private $timeout: ng.ITimeoutService,
-            private $sce: ng.ISCEService
+            private $sce: ng.ISCEService,
+            private $uibModal: ng.ui.bootstrap.IModalService
         ) {
             $scope.vm = this;
             var par = < any > $scope.$parent;
             this.widget = par.widget;
+            this.parentWidgetId = `${this.widget.elementId}-parent`;
+            this.parentWidget = $(`#${this.parentWidgetId}`);
 
             $scope.data = < Table2MapData > this.widget.data || < Table2MapData > {};
             $scope.isOpen = true;
             $scope.numberOfSteps = NUMBER_OF_STEPS;
-            $scope.currentStep = ConversionStep.UploadData_1;
+            $scope.currentStep = ConversionStep.UploadData;
             $scope.delimiters = Table2Map.DELIMITERS;
             $scope.decimalCharacters = Table2Map.DECIMAL_CHARS;
             $scope.propertyTypeTypes = Table2Map.PROPERTY_TYPES;
             $scope.stringFormats = Table2Map.STRING_FORMATS;
+            $scope.geometryTypes = Table2Map.GEOMETRY_TYPES;
             $scope.metaData = {
                 nr: 0,
                 total: this.rowCollection.length
@@ -179,6 +205,10 @@ module Table2Map {
                     'slow');
             };
 
+            $scope.$watchCollection('vm.featureType.style', () => {
+                this.updateMarker();
+            });
+
             /* File uploads */
             this.fileExtensions = $scope.data.fileExtensions || [];
             $('#file-upload').change(() => {
@@ -187,7 +217,37 @@ module Table2Map {
             });
             document.getElementById('drop-box').addEventListener('drop', (evt) => {
                 this.fileDropped(evt);
+                ( < HTMLElement > event.target).style.background = '';
+                ( < HTMLElement > event.target).style.borderWidth = '';
             }, false);
+
+            document.getElementById('drop-box').addEventListener('dragenter', (event) => {
+                ( < HTMLElement > event.target).style.background = 'rgba(100, 255, 100, 0.3)';
+                ( < HTMLElement > event.target).style.borderWidth = '3px';
+            }, false);
+
+            document.getElementById('drop-box').addEventListener('dragleave', (event) => {
+                // reset background of potential drop target when the draggable element leaves it
+                ( < HTMLElement > event.target).style.background = '';
+                ( < HTMLElement > event.target).style.borderWidth = '';
+            }, false);
+
+            document.getElementById('drop-box').addEventListener('dragend', (event) => {
+                // reset background of potential drop target when the dragevent ends
+                ( < HTMLElement > event.target).style.background = '';
+                ( < HTMLElement > event.target).style.borderWidth = '';
+            }, false);
+
+            $('#icon-upload').change(() => {
+                let file: File = ( < any > $('#icon-upload')[0]).files[0];
+                if (!file.type || file.type !== 'image/png') {
+                    this.$messageBus.notifyWithTranslation('UNKNOWN_FORMAT', 'UNKNOWN_FORMAT_MSG');
+                } else if (!file.size || file.size > MAX_ICON_SIZE) {
+                    this.$messageBus.notifyWithTranslation('FILE_TOO_LARGE', 'FILE_TOO_LARGE_MSG');
+                } else {
+                    this.readFile(file);
+                }
+            });
 
             // Check for the various File API support.
             if (( < any > window).File && ( < any > window).FileReader) {
@@ -196,6 +256,8 @@ module Table2Map {
             } else {
                 this.uploadAvailable = false;
             }
+
+            this.initPreviewMap();
         }
 
         private fileDropped(evt) {
@@ -247,7 +309,7 @@ module Table2Map {
             return str.replace(new RegExp(this.escapeRegExp(find), 'g'), replace);
         }
 
-        /** Reads a  */
+        /** Reads a file */
         private readFile(file: any) {
             if (!this.uploadAvailable) {
                 this.$messageBus.notifyError('Cannot upload files', 'Try using a modern browser (Chrome, FireFox, Edge) to be able to upload files, or use the copy/paste option.');
@@ -273,13 +335,42 @@ module Table2Map {
             reader.readAsText(file);
         }
 
+        private resetVariables() {
+            this.headerCollection = Table2MapCtrl.defaultHeaders(MAX_NR_COLUMNS);
+            this.rowCollection.length = 0;
+            this.featureType = {};
+            this.featureType.style = {
+                iconUri: '',
+                iconWidth: 24,
+                iconHeight: 24,
+                drawingMode: 'Point',
+                stroke: true,
+                strokeWidth: 2,
+                strokeColor: '#000',
+                selectedStrokeColor: '#00f',
+                fillColor: '#ff0',
+                opacity: 1,
+                fillOpacity: 1,
+                nameLabel: ''
+            };
+            this.feature = {
+                type: 'Feature',
+                geometry: {
+                    coordinates: null,
+                    type: null
+                },
+                properties: {}
+            };
+            this.layer = < IProjectLayer > {};
+        }
+
         /** Parse the uploaded csv data to JSON format, for displaying it in a html table. */
         private updatedContent() {
-            this.headerCollection = Table2MapCtrl.defaultHeaders(MAX_NR_COLUMNS);
+            this.resetVariables();
             try {
                 ( < any > window).csvtojson({
                         noheader: true, //parse header too, manually extract it from the data afterwards
-                        delimiter: [this.csvParseSettings.delimiter],
+                        delimiter: this.csvParseSettings.delimiter,
                         quote: null,
                         trim: false,
                         headers: this.headerCollection,
@@ -319,7 +410,7 @@ module Table2Map {
                                 nr: Math.min(SHOW_NR_COLUMNS, this.rowCollection.length),
                                 total: this.rowCollection.length
                             };
-                            this.$scope.currentStep = ConversionStep.SetColumnTypes_2;
+                            this.$scope.currentStep = ConversionStep.StyleSettings;
                         }, 0);
                     })
                     .on('error', (err) => {
@@ -346,6 +437,168 @@ module Table2Map {
             if (row && row['isSelected']) {
                 console.log(`Selected row ${JSON.stringify(row)}`);
             }
+        }
+
+        public openParseSettings() {
+            var modalInstance = this.$uibModal.open({
+                templateUrl: 'modals/CsvSettingsModal.tpl.html',
+                controller: 'CsvSettingsModalCtrl',
+                resolve: {
+                    delimiters: () => this.$scope.delimiters,
+                    decimalCharacters: () => this.$scope.decimalCharacters,
+                    csvParseSettings: () => JSON.parse(JSON.stringify(this.csvParseSettings))
+                }
+            });
+
+            modalInstance.result.then((csvParseSettings: ICSVParseSettings) => {
+                if (!csvParseSettings) return;
+                this.csvParseSettings = csvParseSettings;
+                this.convertData();
+            }, () => {
+                console.log('Modal dismissed at: ' + new Date());
+            });
+        }
+
+        /** Provide option 'none' | 'row' | 'col' */
+        public openTable(justShow ? : boolean) {
+            // First determine whether to just show the table, or add selection options for rows/cols
+            let selectionOption, selectionAmount;
+            if (justShow) {
+                selectionOption = 'none';
+                selectionAmount = 0;
+            } else {
+                switch (this.$scope.currentStep) {
+                    case ConversionStep.StyleSettings:
+                        selectionOption = 'col';
+                        if (!this.featureType.name) {
+                            this.$messageBus.notifyWithTranslation('SELECT_GEOMETRYTYPE_FIRST', '');
+                            return;
+                        }
+                        let type = GEOMETRY_TYPES[this.featureType.name];
+                        selectionAmount = (type ? type.nrCols : 1);
+                        break;
+                    case ConversionStep.FeatureProps:
+                        selectionOption = 'row';
+                        selectionAmount = 1;
+                        break;
+                    case ConversionStep.LayerSettings:
+                        selectionOption = 'none';
+                        break;
+                    default:
+                        selectionOption = 'none';
+                }
+            }
+            // Create the modal containing the table
+            var modalInstance = this.$uibModal.open({
+                templateUrl: 'modals/TableViewModal.tpl.html',
+                controller: 'TableViewModalCtrl',
+                size: 'lg',
+                resolve: {
+                    rowCollection: () => this.rowCollection,
+                    headerCollection: () => this.headerCollection,
+                    originalHeaders: () => this.originalHeaders,
+                    selectionOption: () => selectionOption,
+                    selectionAmount: () => selectionAmount
+                }
+            });
+
+            modalInstance.result.then((selectedRowCol: any[]) => {
+                if (!selectedRowCol) return;
+                if (selectionOption === 'col') {
+                    console.log(`Selected ${JSON.stringify(selectedRowCol)}`);
+                    if (this.$scope.currentStep === ConversionStep.StyleSettings) {
+                        this.geometryColumns = _.clone(selectedRowCol);
+                    }
+                } else if (selectionOption === 'row') {
+                    console.log(`Selected ${JSON.stringify(selectedRowCol)}`);
+                }
+                /** Do something with the selected row */
+            }, (reason ? : string) => {
+                console.log(`TableViewModal dismissed. ${reason || ''}`);
+            });
+        }
+
+        private initPreviewMap() {
+            this.previewMap = L.map('previewMap').setView(PREVIEW_COORDINATES_POINT, PREVIEW_ZOOMLEVEL);
+            let baseLayer = new L.TileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+                subdomains: ['a', 'b', 'c', 'd'],
+                minZoom: 6,
+                maxZoom: 21
+            });
+            this.previewMap.on('zoomend', (evt: L.LeafletEvent) => {
+                this.updateZoom();
+            });
+            baseLayer.addTo(this.previewMap);
+            this.updateZoom();
+        }
+
+        private updateZoom() {
+            this.$timeout(() => {
+                this.$scope.currentZoom = this.previewMap.getZoom();
+            }, 0);
+        }
+
+        private selectGeoType() {
+            let type = GEOMETRY_TYPES[this.featureType.name];
+            this.featureType.style.drawingMode = type.drawingMode;
+            this.updateMarker();
+        }
+
+        private updateMarker = _.throttle(this.updateMarkerDebounced, 500, {
+            leading: false,
+            trailing: true
+        });
+
+        private updateMarkerDebounced() {
+            if (!this.feature || !this.feature.geometry || !this.featureType || !this.featureType.style || !this.featureType.style.drawingMode) return;
+            let drawingMode = this.featureType.style.drawingMode;
+            if (this.marker) this.previewMap.removeLayer(this.marker);
+            this.feature['effectiveStyle'] = this.featureType.style;
+            this.feature.geometry.type = drawingMode;
+            if (drawingMode === 'Point') {
+                this.feature.geometry.coordinates = PREVIEW_COORDINATES_POINT;
+                let icon: L.DivIcon = this.getPointIcon( < IFeature > this.feature);
+                this.marker = new L.Marker(new L.LatLng(this.feature.geometry.coordinates[0], this.feature.geometry.coordinates[1]), {
+                    icon: icon
+                });
+            } else {
+                this.feature.geometry.coordinates = PREVIEW_COORDINATES_POLYGON;
+                this.marker = new L.GeoJSON( < any > this.feature);
+                this.marker.setStyle(this.getLeafletStyle(this.feature['effectiveStyle']));
+            }
+            this.marker.addTo(this.previewMap);
+        }
+
+        public getPointIcon(feature: IFeature): any {
+            var icon: L.DivIcon;
+            if (feature.htmlStyle != null) {
+                icon = new L.DivIcon({
+                    className: '',
+                    iconSize: new L.Point(feature.effectiveStyle.iconWidth, feature.effectiveStyle.iconHeight),
+                    html: feature.htmlStyle
+                });
+            } else {
+                var iconHtml = csComp.Helpers.createIconHtml(feature);
+                icon = new L.DivIcon({
+                    className: '',
+                    iconSize: new L.Point(iconHtml['iconPlusBorderWidth'], iconHtml['iconPlusBorderHeight']),
+                    html: iconHtml['html']
+                });
+            }
+            return icon;
+        }
+
+        private getLeafletStyle(style: any) {
+            var s = {
+                fillColor: style.fillColor,
+                weight: style.strokeWidth,
+                opacity: style.strokeOpacity,
+                fillOpacity: style.fillOpacity
+            };
+            s['color'] = (typeof style.stroke !== 'undefined' && style.stroke === false) ?
+                style.fillColor :
+                style.strokeColor;
+            return s;
         }
 
         public static defaultHeaders(total: number): string[] {

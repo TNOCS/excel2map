@@ -11,11 +11,6 @@
     overflow: visible;
 }
 
-.row [class*="col-"] {
-    margin-bottom: -99999px;
-    padding-bottom: 99999px;
-}
-
 h4 {
     margin-top: 24px;
 }
@@ -32,7 +27,12 @@ h4 {
     padding: 4px;
 }
 
-.csv-settings input,select {
+.csv-settings {
+    padding: 32px;
+}
+
+.csv-settings input,
+select {
     margin-right: 16px;
 }
 
@@ -61,11 +61,13 @@ h4 {
 }
 
 table.table.table-striped tr.st-selected td {
-    background: blue;
+    background: cornflowerblue;
 }
 
-tr.st-selected {
-    background: blue;
+tr.st-selected,
+th.st-selected,
+td.st-selected {
+    background: cornflowerblue;
 }
 
 .no-margin {
@@ -74,4 +76,108 @@ tr.st-selected {
 
 .no-padding {
     padding: 0;
+}
+
+.small-padding {
+    padding: 4px;
+}
+
+.all-widget-content {
+    position: relative;
+}
+
+.fixed-widget-header {
+    height: 70px;
+}
+
+.widget-footer-spacing {
+    height: 70px;
+}
+
+.scrollable-widget-content {
+    height: 100%;
+    overflow: auto;
+}
+
+.fa-question-circle {
+    font-size: 16px;
+    padding-left: 16px;
+}
+
+.file-upload-label {
+    overflow: hidden;
+    position: relative;
+}
+
+.file-upload-label [type=file] {
+    cursor: inherit;
+    display: block;
+    font-size: 999px;
+    filter: alpha(opacity=0);
+    min-height: 100%;
+    min-width: 100%;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    text-align: right;
+    top: 0;
+    cursor: pointer;
+}
+
+.modal-backdrop.in {
+    display: block;
+}
+
+.pagination {
+    margin: 4px 0;
+}
+
+.scrollable-xy-table {
+    height: 80%;
+    width: 100%;
+    overflow: auto;
+}
+
+.modal-dialog {
+    height: 100%;
+    padding-bottom: 50px;
+}
+
+.modal-header {
+    height: 10%;
+}
+
+.modal-content {
+    height: 100%;
+}
+
+.modal-footer {
+    height: 10%;
+}
+
+.modal {
+    overflow-y: hidden!important;
+}
+
+.inline-select {
+    display: inline-block;
+    max-width: 360px;
+}
+
+#previewMap {
+    height: 400px;
+}
+
+.leaflet-control-zoom-display {
+    background-color: #fff;
+    border-bottom: 1px solid #ccc;
+    width: 26px;
+    height: 26px;
+    line-height: 26px;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: black;
+    padding-top: 0.3em;
+    font: bold 12px/20px Tahoma, Verdana, sans-serif;
 }

@@ -119,5 +119,6 @@
     ],
     "expertMode" : 1,
     "baselayers" : {},
-    "groups" : []
+    "groups" : [],
+    "disableDrop": true
 }
