@@ -186,3 +186,9 @@ td.st-selected {
     padding-top: 0.3em;
     font: bold 12px/20px Tahoma, Verdana, sans-serif;
 }
+
+.swap-arrows {
+    height: 20px;
+    width: 20px;
+    padding: 8px 4px 0px 4px;
+}

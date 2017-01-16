@@ -12,7 +12,7 @@ module Table2Map {
         ',': ','
     };
     export var PROPERTY_TYPES = {
-        text: 'string',
+        text: 'text',
         number: 'number',
         options: 'options',
         date: 'date',

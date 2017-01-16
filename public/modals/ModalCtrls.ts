@@ -51,10 +51,11 @@ module ModalCtrls {
             'headerCollection',
             'originalHeaders',
             'selectionOption',
-            'selectionAmount'
+            'selectionAmount',
+            'itemsToSelect'
         ];
 
-        private selectedColumns = [];
+        private selectedColumns: Table2Map.IHeaderObject[] = [];
         private selectedRows = [];
 
         constructor(
@@ -62,10 +63,11 @@ module ModalCtrls {
             private $messageBusService: csComp.Services.MessageBusService,
             private $uibModalInstance: any,
             private rowCollection: Dictionary < any > [] = [],
-            private headerCollection: string[] = [],
+            private headerCollection: Table2Map.IHeaderObject[] = [],
             private originalHeaders: string[] = [],
             private selectionOption: 'none' | 'row' | 'col',
-            private selectionAmount: number
+            private selectionAmount: number,
+            private itemsToSelect: string[]
         ) {
             $scope.vm = this;
         }
@@ -76,11 +78,11 @@ module ModalCtrls {
             }
         }
 
-        public selectCol(col: string, index: number) {
+        public selectCol(col: Table2Map.IHeaderObject, index: number) {
             index += 1;
             if (this.selectionOption === 'col') {
                 if (this.selectedColumns.indexOf(col) >= 0) {
-                    console.log(`Deselect col ${col} (${index})`);
+                    console.log(`Deselect col ${col.code} / ${col.title} (${index})`);
                     this.selectedColumns.splice(this.selectedColumns.indexOf(col), 1);
                     $(`#st-datatable th:nth-child(${index}), #st-datatable td:nth-child(${index})`).toggleClass('st-selected', false);
                     return;
@@ -88,7 +90,7 @@ module ModalCtrls {
                     this.$messageBusService.notifyWithTranslation('TOO_MANY_COLS', 'TOO_MANY_COLS_MSG');
                     return;
                 } else {
-                    console.log(`Select col ${col} (${index})`);
+                    console.log(`Select col ${col.code} (${index})`);
                     this.selectedColumns.push(col);
                     $(`#st-datatable th:nth-child(${index}), #st-datatable td:nth-child(${index})`).toggleClass('st-selected', true);
                 }

@@ -2,14 +2,23 @@
     <h4 class="modal-title">{{'TABLE_LABEL' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'TABLE_HELP' | translate}}" tooltip-placement="bottom"></i></span></h4>
 </div>
 <div class="modal-body scrollable-xy-table">
+    <div class="small-padding" ng-show="vm.itemsToSelect">
+        <div class="small-padding">{{'SELECT_THESE_ITEMS' | translate}}:</div>
+        <ul class="small-padding">
+            <li ng-repeat="item in vm.itemsToSelect">{{item}}</li>
+        </ul>
+    </div>
+    <div class="small-padding" ng-hide="vm.itemsToSelect">
+        <div class="small-padding">{{'NOTHING_TO_SELECT' | translate}}</div>        
+    </div>
     <table id="st-datatable" st-table="displayedCollection" st-safe-src="vm.rowCollection" class="table table-striped" ng-show="vm.rowCollection.length > 0"
-        style="max-height:500px" ;overflow:auto;>
+        style="max-height:500px;overflow:auto;margin-top: 16px;">
         <thead>
             <tr class="csv-table-header">
                 <!--st-sort="{{col}}"-->
-                <th ng-click="vm.selectCol(col, $index)" ng-repeat="col in vm.headerCollection" uib-popover="{{$parent.vm.originalHeaders[$index]}}" popover-trigger="'mouseenter'"
-                    popover-append-to-body="true">
-                    {{col}}</th>
+                <th ng-click="vm.selectCol(headerObj, $index)" ng-repeat="headerObj in vm.headerCollection" uib-popover="{{headerObj.title}}"
+                    popover-trigger="'mouseenter'" popover-append-to-body="true">
+                    {{headerObj.code}}</th>
             </tr>
             <tr>
                 <th colspan="{{vm.headerCollection.length}}">
@@ -19,12 +28,12 @@
         </thead>
         <tbody ng-if="selectionOption == 'row'">
             <tr st-select-row="row" ng-click="vm.selectRow(row)" ng-repeat="row in displayedCollection | limitTo: 20">
-                <td ng-repeat="col in vm.headerCollection">{{row[col]}}</td>
+                <td ng-repeat="headerObj in vm.headerCollection">{{row[headerObj.code]}}</td>
             </tr>
         </tbody>
         <tbody ng-if="selectionOption != 'row'">
             <tr ng-repeat="row in displayedCollection | limitTo: 20">
-                <td ng-repeat="col in vm.headerCollection">{{row[col]}}</td>
+                <td ng-repeat="headerObj in vm.headerCollection">{{row[headerObj.code]}}</td>
             </tr>
         </tbody>
     </table>

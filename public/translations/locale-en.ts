@@ -24,7 +24,15 @@ module Translations {
             DECIMAL_CHARACTER: 'Decimal character',
             NO_DATA_TABLE: 'No tabular data found. Return to step 1',
             UPLOAD_HELP: 'Drag the file from your PC to the textarea below. Alternatively, paste the file content from the clipboard.',
-            STYLE_PREVIEW: 'Preview'
+            STYLE_PREVIEW: 'Preview',
+            SELECT_GEOMETRY_COLUMNS: 'Select geo columns',
+            SELECT_GEOMETRY_COLUMNS_HELP: 'Select the columns that specify the location of an object on the map. This could for example be the province name, the combination of a zip code and house number, a set of coordinates, etc.',
+            COLUMN: 'Column',
+            SWAP_ROWS: 'Swap rows',
+            SELECT_THESE_ITEMS: 'Select the following items',
+            SELECT_COLS: 'Select column(s)',
+            EDIT_PROPERTYTYPE: 'Edit the way this property is displayed (title, nr. of decimals, etc).',
+            PROPERTY_SETTINGS_HELP: 'Select a property title in the right preview panel to edit the settings for that property'
         };
     }
 }

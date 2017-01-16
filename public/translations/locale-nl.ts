@@ -24,7 +24,15 @@ module Translations {
             DECIMAL_CHARACTER: 'Decimaal teken',
             NO_DATA_TABLE: 'Geen tabulaire data gevonden. Ga terug naar stap 1.',
             UPLOAD_HELP: 'Sleep een bestand naar het tekstvak hieronder. Een andere optie is om de data via het klembord in het tekstvak te plakken.',
-            STYLE_PREVIEW: 'Preview'
+            STYLE_PREVIEW: 'Preview',
+            SELECT_GEOMETRY_COLUMNS: 'Selecteer geo kolommen',
+            SELECT_GEOMETRY_COLUMNS_HELP: 'Selecteer de kolommen die bepalen waar een object op de kaart moet komen te staan. Dit kan bijvoorbeeld de provincienaam zijn, de combinatie van postcode en huisnummer, een set coordinaten, enz.',
+            COLUMN: 'Kolom',
+            SWAP_ROWS: 'Verwissel de twee rijen',
+            SELECT_THESE_ITEMS: 'Selecteer de volgende data',
+            SELECT_COLS: 'Selecteer kolom(men)',
+            EDIT_PROPERTYTYPE: 'Bewerk hoe deze eigenschap getoond wordt',
+            PROPERTY_SETTINGS_HELP: 'Selecteer de titel van een eigenschap in het rechter voorbeeld paneel om aan te passen hoe die eigenschap wordt getoond (titel, afronding, enz).'
         };
     }
 }

@@ -43,6 +43,7 @@ module Table2Map {
         };
         scrollTo: Function;
         currentZoom: number;
+        addSectionMode: boolean;
     }
 
     export interface ICSVParseSettings {
@@ -69,6 +70,12 @@ module Table2Map {
         drawingMode: 'Point' | 'Polygon';
     }
 
+    export interface IHeaderObject {
+        title: string; // Title text
+        code: string; // A, B, C etc.
+        index: number;
+    }
+
     export enum ConversionStep {
         UploadData = 1,
             StyleSettings = 2,
@@ -82,6 +89,7 @@ module Table2Map {
     export var SHOW_NR_COLUMNS = 20;
     export var NUMBER_OF_STEPS = Object.keys(ConversionStep).length / 2;
     export var MAX_ICON_SIZE = 20 * 1024; // 20kB
+    export var DEFAULT_MARKER_ICON = 'images/marker.png';
     export var PREVIEW_ZOOMLEVEL = 15;
     export var PREVIEW_COORDINATES_POINT = [52.079855, 4.320966];
     export var PREVIEW_COORDINATES_POLYGON = [
@@ -142,10 +150,10 @@ module Table2Map {
         private numberOfCols: number;
         private numberOfRows: number;
         private rowCollection: Dictionary < any > [] = [];
-        private headerCollection: string[] = [];
+        private headerCollection: IHeaderObject[] = [];
         private originalHeaders: string[] = [];
-        private sections: string[] = [];
-        private geometryColumns: Dictionary < string > ;
+        private sections: Dictionary < string > = {};
+        private geometryColumns: Dictionary < IHeaderObject > = {};
         private project: Project = < Project > {
             groups: [{
                 title: 'My group',
@@ -159,8 +167,9 @@ module Table2Map {
         private layer: IProjectLayer = < IProjectLayer > {};
         private featureType: IFeatureType = < IFeatureType > {};
         private feature: IGeoFeature = < IGeoFeature > {};
+        private pType: IPropertyType = < IPropertyType > {};
         private marker: L.Marker | L.GeoJSON;
-
+        private selectedRowIndex = 0;
         private selectedGroup: ProjectGroup = < ProjectGroup > {};
         private csvParseSettings: ICSVParseSettings = {
             hasHeader: true,
@@ -177,7 +186,8 @@ module Table2Map {
             'actionService',
             '$timeout',
             '$sce',
-            '$uibModal'
+            '$uibModal',
+            '$translate'
         ];
 
         constructor(
@@ -188,7 +198,8 @@ module Table2Map {
             private actionService: csComp.Services.ActionService,
             private $timeout: ng.ITimeoutService,
             private $sce: ng.ISCEService,
-            private $uibModal: ng.ui.bootstrap.IModalService
+            private $uibModal: ng.ui.bootstrap.IModalService,
+            private $translate: ng.translate.ITranslateService
         ) {
             $scope.vm = this;
             var par = < any > $scope.$parent;
@@ -218,6 +229,21 @@ module Table2Map {
 
             $scope.$watchCollection('vm.featureType.style', () => {
                 this.updateMarker();
+            });
+
+            $scope.$watch('currentStep', () => {
+                console.log(`Select step ${this.$scope.currentStep}`);
+                if (this.$scope.currentStep === ConversionStep.FeatureProps) {
+                    this.$messageBus.publish('table2map', 'update-rightpanel', this.feature);
+                }
+            });
+
+            this.$messageBus.subscribe('table2map', (title, data) => {
+                switch (title) {
+                    case 'editPropertyType':
+                        this.pType = < IPropertyType > data;
+                        break;
+                };
             });
 
             /* File uploads */
@@ -360,7 +386,14 @@ module Table2Map {
         }
 
         private resetVariables() {
-            this.headerCollection = Table2MapCtrl.defaultHeaders(MAX_NR_COLUMNS);
+            this.headerCollection.length = 0;
+            this.headerCollection = _.map(Table2MapCtrl.defaultHeaders(MAX_NR_COLUMNS), (code: string, index: number) => {
+                return {
+                    code: code,
+                    title: '',
+                    index: index
+                };
+            });
             this.rowCollection.length = 0;
             this.featureType = {};
             this.featureType.style = {
@@ -388,6 +421,7 @@ module Table2Map {
                 properties: {}
             };
             this.layer = < IProjectLayer > {};
+            $('#iconImage').attr('src', DEFAULT_MARKER_ICON);
         }
 
         /** Parse the uploaded csv data to JSON format, for displaying it in a html table. */
@@ -399,7 +433,7 @@ module Table2Map {
                         delimiter: this.csvParseSettings.delimiter,
                         quote: null,
                         trim: false,
-                        headers: this.headerCollection,
+                        headers: _.pluck(this.headerCollection, 'code'),
                         flatKeys: true,
                         maxRowLength: 65535
                     })
@@ -425,13 +459,19 @@ module Table2Map {
                             } else if (this.numberOfCols < this.headerCollection.length) {
                                 this.headerCollection = this.headerCollection.slice(0, this.numberOfCols);
                             }
-                            // Store header row if present
+                            // Store header row if present, otherwise use column code as title
                             if (this.csvParseSettings.hasHeader) {
-                                this.originalHeaders = _.values(jsonArr.splice(0, 1)[0]);
+                                let titles = _.values(jsonArr.splice(0, 1)[0]);
+                                _.each(titles, (title, index) => {
+                                    this.headerCollection[index].title = title;
+                                });
                             } else {
-                                this.originalHeaders = this.headerCollection;
+                                _.each(this.headerCollection, (headerObj: IHeaderObject) => {
+                                    headerObj.title = headerObj.code;
+                                });
                             }
                             this.rowCollection = jsonArr;
+                            this.generateFeatureType();
                             this.$scope.metaData = {
                                 nr: Math.min(SHOW_NR_COLUMNS, this.rowCollection.length),
                                 total: this.rowCollection.length
@@ -485,14 +525,11 @@ module Table2Map {
             });
         }
 
-        /** Provide option 'none' | 'row' | 'col' */
-        public openTable(justShow ? : boolean) {
+        /** Provide option 'none' | 'row' | 'col' and number of selectable items */
+        public openTable(selectionOption ? : string, selectionAmount ? : number, isNameLabel ? : boolean) {
+            let itemsToSelect: string[];
             // First determine whether to just show the table, or add selection options for rows/cols
-            let selectionOption, selectionAmount;
-            if (justShow) {
-                selectionOption = 'none';
-                selectionAmount = 0;
-            } else {
+            if (selectionOption == null || selectionAmount == null) {
                 switch (this.$scope.currentStep) {
                     case ConversionStep.StyleSettings:
                         selectionOption = 'col';
@@ -502,17 +539,23 @@ module Table2Map {
                         }
                         let type = GEOMETRY_TYPES[this.featureType.name];
                         selectionAmount = (type ? type.cols.length : 1);
+                        itemsToSelect = type.cols;
                         break;
                     case ConversionStep.FeatureProps:
                         selectionOption = 'row';
                         selectionAmount = 1;
+                        itemsToSelect = [this.$translate.instant('SELECT_ROW_FOR_PREVIEW')];
                         break;
                     case ConversionStep.LayerSettings:
                         selectionOption = 'none';
+                        itemsToSelect = [this.$translate.instant('SELECT_ROW_FOR_PREVIEW')];
                         break;
                     default:
                         selectionOption = 'none';
                 }
+            }
+            if (isNameLabel) {
+                itemsToSelect = [this.$translate.instant('SELECT_NAMELABEL')];
             }
             // Create the modal containing the table
             var modalInstance = this.$uibModal.open({
@@ -524,16 +567,21 @@ module Table2Map {
                     headerCollection: () => this.headerCollection,
                     originalHeaders: () => this.originalHeaders,
                     selectionOption: () => selectionOption,
-                    selectionAmount: () => selectionAmount
+                    selectionAmount: () => selectionAmount,
+                    itemsToSelect: () => itemsToSelect
                 }
             });
 
             modalInstance.result.then((selectedRowCol: any[]) => {
                 if (!selectedRowCol) return;
+                if (isNameLabel) {
+                    this.featureType.style.nameLabel = selectedRowCol[0].code;
+                    return;
+                }
                 if (selectionOption === 'col') {
                     console.log(`Selected ${JSON.stringify(selectedRowCol)}`);
                     if (this.$scope.currentStep === ConversionStep.StyleSettings) {
-                        this.geometryColumns = < Dictionary < string >> _.object(GEOMETRY_TYPES[this.featureType.name].cols, selectedRowCol);
+                        this.geometryColumns = < Dictionary < IHeaderObject >> _.object(GEOMETRY_TYPES[this.featureType.name].cols, selectedRowCol);
                     }
                 } else if (selectionOption === 'row') {
                     console.log(`Selected ${JSON.stringify(selectedRowCol)}`);
@@ -570,6 +618,68 @@ module Table2Map {
             this.updateMarker();
         }
 
+        private swapRows(rowIndex) {
+            let keys = Object.keys(this.geometryColumns);
+            let hObjToSwap = JSON.parse(JSON.stringify(this.geometryColumns[keys[rowIndex]]));
+            this.geometryColumns[keys[rowIndex]] = this.geometryColumns[keys[rowIndex + 1]];
+            this.geometryColumns[keys[rowIndex + 1]] = hObjToSwap;
+            console.log(`Swapped row ${keys[rowIndex]} with row ${keys[rowIndex + 1]}`);
+        }
+
+        private getColumnTitle(col: string): string {
+            let hObj = _.findWhere(this.headerCollection, {code: col});
+            if (hObj) {
+                return hObj.title;
+            } else {
+                return col;
+            }
+        }
+
+        private updatePropertyPreview = _.debounce(this.updatePropertyPreviewDebounced, 1000);
+
+        private updatePropertyPreviewDebounced() {
+            this.$messageBus.publish('table2map', 'editPropertyType', this.feature);
+        }
+
+        private addSection(newSection: string) {
+            this.$timeout(() => {
+                if (newSection !== 'Default') {
+                    this.sections[newSection] = newSection;
+                }
+                this.pType.section = this.sections[newSection];
+                this.$scope.addSectionMode = false;
+                $('#new-section-input').val('');
+            }, 0);
+            this.updatePropertyPreview();
+        }
+
+        private toggleAddSectionWindow() {
+            this.$timeout(() => {
+                this.$scope.addSectionMode = !this.$scope.addSectionMode;
+            }, 0);
+            this.$timeout(() => {
+                $('#new-section-input').focus();
+            }, 50);
+        }
+
+        private generateFeatureType() {
+            this.featureType._propertyTypeData = [];
+            let properties = _.pluck(this.headerCollection, 'code');
+            this.featureType.propertyTypeKeys = properties.join(';');
+            this.headerCollection.forEach((hObj: IHeaderObject) => {
+                this.featureType._propertyTypeData.push( < IPropertyType > {
+                    label: hObj.code,
+                    title: hObj.title,
+                    type: 'text',
+                    description: '',
+                    visibleInCallOut: true
+                });
+            });
+            this.sections = {
+                'Default': null
+            };
+        }
+
         public updateMarker = _.throttle(this.updateMarkerDebounced, 500, {
             leading: false,
             trailing: true
@@ -581,6 +691,8 @@ module Table2Map {
             if (this.marker) this.previewMap.removeLayer(this.marker);
             this.feature['effectiveStyle'] = this.featureType.style;
             this.feature.geometry.type = drawingMode;
+            this.feature.properties = this.rowCollection[this.selectedRowIndex];
+            this.feature['fType'] = this.featureType;
             if (drawingMode === 'Point') {
                 this.feature.geometry.coordinates = PREVIEW_COORDINATES_POINT;
                 let icon: L.DivIcon = this.getPointIcon( < IFeature > this.feature);
