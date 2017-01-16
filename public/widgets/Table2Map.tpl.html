@@ -20,7 +20,7 @@
             </ul>
         </div>
     </div>
-    <div class="scrollable-widget-content" style="padding:0px;font-size:12px;margin:0px;" ng-hide="minimized">
+    <div class="scrollable-widget-content" style="padding:0px;font-size:12px;margin:0px;" ng-hide="minimized" resize resize-y="150">
         <!-- UPLOAD-PAGE -->
         <div class="row" ng-show="currentStep === 1">
             <div class="row">
@@ -51,7 +51,7 @@
             </div>
         </div>
         <!-- STYLE PAGE -->
-        <div class="row" ng-show="currentStep === 2" style="overflow: auto; max-height:500px;">
+        <div class="row" ng-show="currentStep === 2">
             <div class="col-sm-6">
                 <div class="row">
                     <h5>{{'STYLE_SETTINGS' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'STYLE_SETTINGS_HELP' | translate}}"></i></span></h5>
@@ -69,7 +69,7 @@
                             <table ng-show="'Object.keys(vm.geometryColumns).length > 0'">
                                 <tbody>
                                     <tr class="row no-margin" ng-repeat="(geoInputTitle, headerObj) in vm.geometryColumns">
-                                        <td class="small-padding">{{geoInputTitle}}</td>
+                                        <td class="small-padding bold">{{geoInputTitle}}</td>
                                         <td class="small-padding">{{headerObj.title}}</td>
                                         <td class="small-padding">({{'COLUMN' | translate}} {{headerObj.code}})</td>
                                         <td ng-hide="$last" class="pointer" ng-click="vm.swapRows($index)" uib-tooltip="{{'SWAP_ROWS' | translate}}"><img class="swap-arrows" src="images/swap-arrows.png" /> </td>
@@ -82,7 +82,7 @@
                             <label for="namelabel-col">{{'SELECT_NAMELABEL_COLUMN' | translate}}</label>
                             <button if="namelabel-col" class="btn small-margin" ng-click="vm.openTable('col', 1, true)"><i class="fa fa-table small-padding"></i><span>{{'CHOOSE_DROPDOWN' | translate}}</span></button>
                             <span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'SELECT_NAMELABEL_COLUMN_HELP' | translate}}" tooltip-append-to-body="true"></i></span>
-                            <table ng-show="vm.featureType.style.nameLabel">>
+                            <table ng-show="vm.featureType.style.nameLabel">
                                 <tbody>
                                     <tr class="row no-margin">
                                         <td class="small-padding">{{vm.getColumnTitle(vm.featureType.style.nameLabel)}}</td>

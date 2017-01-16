@@ -95,7 +95,6 @@ td.st-selected {
 }
 
 .scrollable-widget-content {
-    height: 100%;
     overflow: auto;
 }
 
@@ -191,4 +190,8 @@ td.st-selected {
     height: 20px;
     width: 20px;
     padding: 8px 4px 0px 4px;
+}
+
+.bold {
+    font-weight: bold;
 }

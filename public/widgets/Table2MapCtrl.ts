@@ -90,6 +90,12 @@ module Table2Map {
     export var NUMBER_OF_STEPS = Object.keys(ConversionStep).length / 2;
     export var MAX_ICON_SIZE = 20 * 1024; // 20kB
     export var DEFAULT_MARKER_ICON = 'images/marker.png';
+    export var NAME_LABELS = ['naam', 'name'];
+    export var POSTCODE_LABELS = ['postcode', 'postal', 'zip'];
+    export var LAT_LABELS = ['latitude', 'lat'];
+    export var LNG_LABELS = ['longitude', 'long', 'lng'];
+    export var RDX_LABELS = ['rdx', 'rd-x', 'x'];
+    export var RDY_LABELS = ['rdy', 'rd-y', 'y'];
     export var PREVIEW_ZOOMLEVEL = 15;
     export var PREVIEW_COORDINATES_POINT = [52.079855, 4.320966];
     export var PREVIEW_COORDINATES_POLYGON = [
@@ -472,6 +478,7 @@ module Table2Map {
                             }
                             this.rowCollection = jsonArr;
                             this.generateFeatureType();
+                            this.interpretDataColumns();
                             this.$scope.metaData = {
                                 nr: Math.min(SHOW_NR_COLUMNS, this.rowCollection.length),
                                 total: this.rowCollection.length
@@ -503,6 +510,66 @@ module Table2Map {
             if (row && row['isSelected']) {
                 console.log(`Selected row ${JSON.stringify(row)}`);
             }
+        }
+
+        /** Try to interpret the data, in order to select the geometry type and name label */
+        private interpretDataColumns() {
+            let titles = _.pluck(this.headerCollection, 'title');
+            let rows = this.rowCollection;
+            // Find namelabel
+            let hObj = this.findHeader(NAME_LABELS);
+            if (hObj) {
+                this.featureType.style.nameLabel = hObj.code;
+            } else {
+                this.featureType.style.nameLabel = this.headerCollection[0].code;
+            }
+            // Find geometry type
+            hObj = this.findHeader(POSTCODE_LABELS);
+            if (hObj) {
+                this.featureType.name = 'Adres';
+                this.selectGeoType();
+                this.geometryColumns = < Dictionary < IHeaderObject >> _.object(GEOMETRY_TYPES[this.featureType.name].cols, [hObj]);
+                return;
+            }
+            // Find geometry type
+            hObj = this.findHeader(LAT_LABELS);
+            if (hObj) {
+                let hObj2 = this.findHeader(LNG_LABELS);
+                if (hObj2) {
+                    this.featureType.name = 'latlong';
+                    this.selectGeoType();
+                    this.geometryColumns = < Dictionary < IHeaderObject >> _.object(GEOMETRY_TYPES[this.featureType.name].cols, [hObj, hObj2]);
+                    return;
+                }
+            }
+            // Find geometry type
+            hObj = this.findHeader(RDX_LABELS, true);
+            if (hObj) {
+                let hObj2 = this.findHeader(RDY_LABELS, true);
+                if (hObj2) {
+                    this.featureType.name = 'RD';
+                    this.selectGeoType();
+                    this.geometryColumns = < Dictionary < IHeaderObject >> _.object(GEOMETRY_TYPES[this.featureType.name].cols, [hObj, hObj2]);
+                    return;
+                }
+            }
+        }
+
+        /** Search in the provided list of possible headers, whether there is a matching header in the data.
+         * When the exact flag is provided, the headers should match exactly, otherwise a partial match suffices.
+         */
+        public findHeader(options: string[], exact: boolean = false): IHeaderObject {
+            let result;
+            options.some((label) => {
+                return this.headerCollection.some((hObj) => {
+                    let title = hObj.title.toLowerCase().trim();
+                    if (title === label || (title.indexOf(label) >= 0 && !exact)) {
+                        result = hObj;
+                        return true;
+                    }
+                });
+            });
+            return (result ? result : null);
         }
 
         public openParseSettings() {
@@ -627,7 +694,9 @@ module Table2Map {
         }
 
         private getColumnTitle(col: string): string {
-            let hObj = _.findWhere(this.headerCollection, {code: col});
+            let hObj = _.findWhere(this.headerCollection, {
+                code: col
+            });
             if (hObj) {
                 return hObj.title;
             } else {
