@@ -11,10 +11,6 @@
     overflow: visible;
 }
 
-h4 {
-    margin-top: 24px;
-}
-
 .big-button {
     margin: 8px 0;
     min-height: 64px;
@@ -24,6 +20,12 @@ h4 {
 .grey-border {
     border: 1px solid #ddd;
     border-radius: 4px;
+    padding: 4px;
+}
+
+.leftpanel-border {
+    border: 2px solid black;
+    border-radius: 2px;
     padding: 4px;
 }
 
@@ -194,4 +196,13 @@ td.st-selected {
 
 .bold {
     font-weight: bold;
+}
+
+.callout-icon {
+    height: 32px;
+    width: 32px;
+}
+
+.rightpanel-content {
+    max-height: 50%;
 }

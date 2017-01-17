@@ -61,6 +61,7 @@ module Table2Map {
         tabScrollDelta: number;
         featureTabActivated(sectionTitle: string, section: CallOutSection);
         autocollapse(init: boolean): void;
+        update: boolean;
     }
 
     export interface ICorrelationResult {
@@ -308,7 +309,8 @@ module Table2Map {
             'layerService',
             'messageBusService',
             '$translate',
-            '$compile'
+            '$compile',
+            '$timeout'
         ];
 
         // dependencies are injected via AngularJS $injector
@@ -321,7 +323,8 @@ module Table2Map {
             private $layerService: csComp.Services.LayerService,
             private $messageBusService: csComp.Services.MessageBusService,
             private $translate: ng.translate.ITranslateService,
-            private $compile: ng.ICompileService
+            private $compile: ng.ICompileService,
+            private $timeout: ng.ITimeoutService
         ) {
             this.setDropdownTitle();
             //this.$layerService.addLayer();
@@ -331,10 +334,12 @@ module Table2Map {
             this.$messageBusService.subscribe('table2map', (title, data) => {
                 switch (title) {
                     case 'update-rightpanel':
-                        this.displayFeature( < IFeature > data);
+                        this.$timeout(() => {
+                            this.displayFeature( < IFeature > data);
+                        }, 0);
                         break;
                 }
-            })
+            });
         }
 
         public addSparkline(item: ICallOutProperty) {
@@ -393,7 +398,7 @@ module Table2Map {
             try {
                 if (html === undefined || html === null)
                     return this.$sce.trustAsHtml(html);
-                if (typeof html === 'string' && (html.indexOf('http') === 0 || html.indexOf('www') === 0) )
+                if (typeof html === 'string' && (html.indexOf('http') === 0 || html.indexOf('www') === 0))
                     return this.$sce.trustAsHtml(`<a href=${html} target="_blank">${html.substring(0,32)}</a>`);
                 return this.$sce.trustAsHtml(html.toString());
             } catch (e) {

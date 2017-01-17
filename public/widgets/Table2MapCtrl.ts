@@ -92,6 +92,9 @@ module Table2Map {
     export var DEFAULT_MARKER_ICON = 'images/marker.png';
     export var NAME_LABELS = ['naam', 'name'];
     export var POSTCODE_LABELS = ['postcode', 'postal', 'zip'];
+    export var H_NR_LABELS = ['huisnummer', 'huisnr', 'nr'];
+    export var H_LTR_LABELS = ['huisletter', 'huisltr', 'letter'];
+    export var H_TOEV_LABELS = ['huisnummertoevoeging', 'huisnrtoev', 'toevoeging'];
     export var LAT_LABELS = ['latitude', 'lat'];
     export var LNG_LABELS = ['longitude', 'long', 'lng'];
     export var RDX_LABELS = ['rdx', 'rd-x', 'x'];
@@ -379,7 +382,7 @@ module Table2Map {
                     this.updatedContent();
                 } else {
                     $('#iconImage').attr('src', reader.result);
-                    this.featureType.style.iconUri = file.name;
+                    this.featureType.style.iconUri = reader.result;
                     this.updateMarker();
                 }
             };
@@ -403,7 +406,7 @@ module Table2Map {
             this.rowCollection.length = 0;
             this.featureType = {};
             this.featureType.style = {
-                iconUri: '',
+                iconUri: Table2Map.getDefaultIconUri(),
                 iconWidth: 24,
                 iconHeight: 24,
                 cornerRadius: 0,
@@ -526,10 +529,24 @@ module Table2Map {
             // Find geometry type
             hObj = this.findHeader(POSTCODE_LABELS);
             if (hObj) {
-                this.featureType.name = 'Adres';
-                this.selectGeoType();
-                this.geometryColumns = < Dictionary < IHeaderObject >> _.object(GEOMETRY_TYPES[this.featureType.name].cols, [hObj]);
-                return;
+                let hObj2 = this.findHeader(H_NR_LABELS);
+                if (hObj2) {
+                    this.featureType.name = 'Adres';
+                    let hObj3 = this.findHeader(H_LTR_LABELS);
+                    if (hObj3) {
+                        let hObj4 = this.findHeader(H_TOEV_LABELS);
+                        if (hObj4) {
+                            this.geometryColumns = < Dictionary < IHeaderObject >> _.object(GEOMETRY_TYPES[this.featureType.name].cols, [hObj, hObj2, hObj3, hObj4]);
+                        } else {
+                            this.geometryColumns = < Dictionary < IHeaderObject >> _.object(GEOMETRY_TYPES[this.featureType.name].cols, [hObj, hObj2, hObj3]);
+                        }
+                    } else {
+                        this.geometryColumns = < Dictionary < IHeaderObject >> _.object(GEOMETRY_TYPES[this.featureType.name].cols, [hObj, hObj2]);
+                    }
+                    // 2 headers required, more are optional
+                    this.selectGeoType();
+                    return;
+                }
             }
             // Find geometry type
             hObj = this.findHeader(LAT_LABELS);
@@ -685,6 +702,11 @@ module Table2Map {
             this.updateMarker();
         }
 
+        private selectRowIndex(ind: number) {
+            this.updateMarkerDebounced();
+            this.$messageBus.publish('table2map', 'update-rightpanel', this.feature);
+        }
+
         private swapRows(rowIndex) {
             let keys = Object.keys(this.geometryColumns);
             let hObjToSwap = JSON.parse(JSON.stringify(this.geometryColumns[keys[rowIndex]]));
@@ -707,7 +729,7 @@ module Table2Map {
         private updatePropertyPreview = _.debounce(this.updatePropertyPreviewDebounced, 1000);
 
         private updatePropertyPreviewDebounced() {
-            this.$messageBus.publish('table2map', 'editPropertyType', this.feature);
+            this.$messageBus.publish('table2map', 'update-rightpanel', this.feature);
         }
 
         private addSection(newSection: string) {
