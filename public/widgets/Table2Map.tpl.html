@@ -6,14 +6,14 @@
                 <a class="widget-min-max-close" ng-click="vm.close()" ng-if="vm.canClose()"><i class="fa fa-times"></i></a>
                 <a class="widget-min-max-close" ng-click="vm.minimize()" ng-show="vm.canMinimize() && minimized"> <i class="fa fa-plus"></i></a>
                 <a class="widget-min-max-close" ng-click="vm.minimize()" ng-show="vm.canMinimize() && !minimized"> <i class="fa fa-minus"></i></a>
-                <a class="widget-min-max-close" ng-click="vm.exportToPDF()"><i class="fa fa-save" uib-tooltip="{{'SAVE_AS_PDF' | translate}}" tooltip-trigger="mouseenter" tooltip-append-to-body="true" ng-show="vm.exporterAvailable&&!minimized"></i></a>
+                <a class="widget-min-max-close" ng-click="vm.exportToPDF()"><i class="fa fa-save" uib-tooltip="{{'SAVE_AS_PDF' | translate}}" tooltip-trigger="mouseenter" ng-show="vm.exporterAvailable&&!minimized"></i></a>
             </div>
         </div>
         <div class="row text-center no-margin">
             <ul uib-pagination ng-model="currentStep" total-items="numberOfSteps" items-per-page="1" previous-text="{{'PREVIOUS' | translate}}"
                 next-text="{{'NEXT' | translate}}"></ul>
             <ul ng-show="vm.rowCollection.length > 0" class="pagination pointer" aria-hidden="true" uib-tooltip="{{'SHOW_TABLE' | translate}}"
-                tooltip-append-to-body="true" tooltip-placement="bottom" style="margin-left: 32px;">
+                tooltip-placement="bottom" style="margin-left: 32px;">
                 <li>
                     <a class="fa fa-table" style="text-transform: uppercase;" ng-click="vm.openTable('none', 0)">&nbsp;&nbsp;{{'TABLE_LABEL' | translate}}</a>
                 </li>
@@ -25,7 +25,7 @@
         <div class="row" ng-show="currentStep === 1">
             <div class="row">
                 <div class="col-xs-12 col-md-offset-3 col-md-6 fill-height">
-                    <h3>{{'UPLOAD_TABULAR_DATA' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'UPLOAD_HELP' | translate}}" tooltip-append-to-body="true"></i></span></h3>
+                    <h3>{{'UPLOAD_TABULAR_DATA' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'UPLOAD_HELP' | translate}}"></i></span></h3>
                 </div>
             </div>
             <div class="row">
@@ -40,7 +40,7 @@
                         <input type="file" id="file-upload" style="margin-top:8px" />
                     </label>
                     <i class="fa fa-cog btn small-padding pointer" style="padding-left: 24px;" aria-hidden="true" uib-tooltip="{{'CSV_PARSE_SETTINGS' | translate}}"
-                        tooltip-append-to-body="true" ng-click="vm.openParseSettings()"></i>
+                        ng-click="vm.openParseSettings()"></i>
                 </div>
             </div>
             <div class="row">
@@ -65,7 +65,7 @@
                         <div class="form-group">
                             <label for="geo-col">{{'SELECT_GEOMETRY_COLUMNS' | translate}}</label>
                             <button if="geo-col" class="btn small-margin" ng-click="vm.openTable()"><i class="fa fa-table small-padding"></i><span>{{'CHOOSE_DROPDOWN' | translate}}</span></button>
-                            <span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'SELECT_GEOMETRY_COLUMNS_HELP' | translate}}" tooltip-append-to-body="true"></i></span>
+                            <span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'SELECT_GEOMETRY_COLUMNS_HELP' | translate}}"></i></span>
                             <table ng-show="'Object.keys(vm.geometryColumns).length > 0'">
                                 <tbody>
                                     <tr class="row no-margin" ng-repeat="(geoInputTitle, headerObj) in vm.geometryColumns">
@@ -81,7 +81,7 @@
                         <div class="form-group">
                             <label for="namelabel-col">{{'SELECT_NAMELABEL_COLUMN' | translate}}</label>
                             <button if="namelabel-col" class="btn small-margin" ng-click="vm.openTable('col', 1, true)"><i class="fa fa-table small-padding"></i><span>{{'CHOOSE_DROPDOWN' | translate}}</span></button>
-                            <span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'SELECT_NAMELABEL_COLUMN_HELP' | translate}}" tooltip-append-to-body="true"></i></span>
+                            <span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'SELECT_NAMELABEL_COLUMN_HELP' | translate}}"></i></span>
                             <table ng-show="vm.featureType.style.nameLabel">
                                 <tbody>
                                     <tr class="row no-margin">
@@ -261,7 +261,7 @@
         <!-- Layer settings -->
         <div class="row" ng-show="currentStep === 4">
             <div class="col-sm-6">
-                <h5>{{'LAYER_SETTINGS' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'LAYER_SETTINGS_HELP' | translate}}" tooltip-append-to-body="true"></i></span></h5>
+                <h5>{{'LAYER_SETTINGS' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'LAYER_SETTINGS_HELP' | translate}}"></i></span></h5>
                 <form>
                     <div class="form-group">
                         <label for="l-title">{{'LAYER_TITLE' | translate}}</label>
