@@ -23,6 +23,14 @@ module Table2Map {
         };
     }]);
 
+    import Helpers = csComp.Helpers;
+    import Project = csComp.Services.Project;
+    import ProjectLayer = csComp.Services.ProjectLayer;
+    import ProjectGroup = csComp.Services.ProjectGroup;
+    import IFeatureType = csComp.Services.IFeatureType;
+    import IFeature = csComp.Services.IFeature;
+    import IGeoFeature = Helpers.IGeoFeature;
+
     export interface ITable2MapScope extends ng.IScope {
         vm: Table2MapCtrl;
         data: Table2MapData;
@@ -44,6 +52,7 @@ module Table2Map {
         scrollTo: Function;
         currentZoom: number;
         addSectionMode: boolean;
+        addGroupMode: boolean;
     }
 
     export interface ICSVParseSettings {
@@ -134,14 +143,6 @@ module Table2Map {
         ]
     ];
 
-    import Helpers = csComp.Helpers;
-    import Project = csComp.Services.Project;
-    import IProjectLayer = csComp.Services.IProjectLayer;
-    import ProjectGroup = csComp.Services.ProjectGroup;
-    import IFeatureType = csComp.Services.IFeatureType;
-    import IFeature = csComp.Services.IFeature;
-    import IGeoFeature = Helpers.IGeoFeature;
-
     export class Table2MapCtrl {
         private widget: csComp.Services.IWidget;
         private parentWidget: JQuery;
@@ -152,7 +153,6 @@ module Table2Map {
         private msgBusHandle: csComp.Services.MessageBusHandle;
         private textContent: string;
         private parsedContent: any;
-        private projectId: string;
         private password: string;
         private selectedFile: string;
         private uploadAvailable: boolean;
@@ -164,17 +164,12 @@ module Table2Map {
         private originalHeaders: string[] = [];
         private sections: Dictionary < string > = {};
         private geometryColumns: Dictionary < IHeaderObject > = {};
-        private project: Project = < Project > {
-            groups: [{
-                title: 'My group',
-                id: 'ae34f6'
-            }]
-        };
+        private project: Project = < Project > {};
         private clusterOptions: ITable2MapClusterOptions = {
             clustering: true,
             clusterLevel: 14
         };
-        private layer: IProjectLayer = < IProjectLayer > {};
+        private layer: ProjectLayer = < ProjectLayer > {};
         private featureType: IFeatureType = < IFeatureType > {};
         private feature: IFeature = < IFeature > {};
         private pType: IPropertyType = < IPropertyType > {};
@@ -352,12 +347,47 @@ module Table2Map {
             return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1');
         }
 
+        private cleanRegExp(str: string) {
+            return str.replace(/([.*+?^=!:${}()|\[\]\/\\\"\'\`\~\&\#\@\;])/g, '');
+        }
+
         private printExtensions(exts: string[]): string {
             return '*.' + exts.join(', *.');
         }
 
         private replaceAll(str: string, find: string, replace: string) {
             return str.replace(new RegExp(this.escapeRegExp(find), 'g'), replace);
+        }
+
+        private requestProject() {
+            let url = '/requestproject';
+            this.$http.post(url, {
+                    id: this.project.id
+                }, {
+                    timeout: 20000
+                })
+                .then((res: {
+                    data: Project
+                }) => {
+                    this.project = res.data;
+                    this.password = this.project['password'];
+                })
+                .catch((err) => {
+                    console.warn(`Error requesting project ${this.project.id}. ${err}`);
+                    let url = `/api/projects/${this.project.id}`;
+                    this.$http.get(url, {
+                            timeout: 20000
+                        })
+                        .then((res: {
+                            data: Project
+                        }) => {
+                            this.project = res.data;
+                            this.password = this.project['password'];
+                        })
+                        .catch((err) => {
+                            console.warn(`Error requesting project ${this.project.id}. ${err}`);
+                        });
+                });
         }
 
         /** Reads a file */
@@ -433,7 +463,9 @@ module Table2Map {
                 _gui: {},
                 isSelected: false
             };
-            this.layer = < IProjectLayer > {};
+            this.layer = < ProjectLayer > {
+                enabled: true
+            };
             $('#iconImage').attr('src', DEFAULT_MARKER_ICON);
         }
 
@@ -505,7 +537,17 @@ module Table2Map {
             }
         }
 
-        private convertData() {
+        /** Send the data and configuration to the server for conversion */
+        private convert() {
+            let allData = {
+                rows: this.rowCollection,
+                featureType: this.featureType,
+                layer: this.layer,
+                group: this.selectedGroup
+            }
+        }
+
+        private parseData() {
             this.updatedContent();
             if (!this.rowCollection) {
                 this.$messageBus.notifyError('Invalid data format', 'Could not extract a table from the supplied data.');
@@ -607,7 +649,7 @@ module Table2Map {
             modalInstance.result.then((csvParseSettings: ICSVParseSettings) => {
                 if (!csvParseSettings) return;
                 this.csvParseSettings = csvParseSettings;
-                this.convertData();
+                this.parseData();
             }, () => {
                 console.log('Modal dismissed at: ' + new Date());
             });
@@ -700,7 +742,11 @@ module Table2Map {
             }, 0);
         }
 
-        private selectGeoType() {
+        /** When the geometry type is changed manually by the user, clear 
+         * the selected geometry columns. Otherwise, keep them.
+         */
+        private selectGeoType(clearSelectedColumns: boolean = false) {
+            if (clearSelectedColumns) this.geometryColumns = {};
             let type = GEOMETRY_TYPES[this.featureType.name];
             this.featureType.style.drawingMode = type.drawingMode;
             this.updateMarker();
@@ -753,7 +799,61 @@ module Table2Map {
                 this.$scope.addSectionMode = !this.$scope.addSectionMode;
             }, 0);
             this.$timeout(() => {
-                $('#new-section-input').focus();
+                if (this.$scope.addSectionMode) {
+                    $('#new-section-input').focus();
+                }
+            }, 50);
+        }
+
+        private updateLayerListPreview = _.debounce(this.updateLayerListPreviewDebounced, 1000);
+
+        private updateLayerListPreviewDebounced() {
+            this.$messageBus.publish('table2map', 'update-layerlist', this.project);
+        }
+
+        private selectGroup() {
+            _.each(this.project.groups, (group) => {
+                group.layers = group.layers.filter((layer) => {
+                    return layer.id;
+                });
+            });
+            this.selectedGroup.layers.push(this.layer);
+            this.updateLayerListPreview();
+        }
+
+        private addGroup(newGroup: string) {
+            let cleanId = this.cleanRegExp(newGroup).toLowerCase();
+            let found = _.find(this.project.groups, (g) => {
+                return g.id === cleanId;
+            });
+            let g: ProjectGroup;
+            if (found) {
+                g = found;
+            } else {
+                g = < ProjectGroup > {
+                    id: cleanId,
+                    title: newGroup,
+                    layers: []
+                };
+                if (!this.project.groups) this.project.groups = [];
+                this.project.groups.push(g);
+            }
+            this.$timeout(() => {
+                this.selectedGroup = g;
+                this.selectGroup();
+                this.$scope.addGroupMode = false;
+                $('#new-group-input').val('');
+            }, 0);
+        }
+
+        private toggleAddGroupWindow() {
+            this.$timeout(() => {
+                this.$scope.addGroupMode = !this.$scope.addGroupMode;
+            }, 0);
+            this.$timeout(() => {
+                if (this.$scope.addGroupMode) {
+                    $('#new-group-input').focus();
+                }
             }, 50);
         }
 
@@ -804,7 +904,9 @@ module Table2Map {
                 mouseout: (s) => this.hideFeatureTooltip(s),
                 mousemove: (d) => this.updateFeatureTooltip(d),
                 click: (e) => {
-                    this.selectFeature( < IFeature > this.feature);
+                    this.$timeout(() => {
+                        this.selectFeature( < IFeature > this.feature);
+                    }, 0);
                 }
             });
             this.marker.addTo(this.previewMap);

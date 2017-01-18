@@ -1,0 +1,18 @@
+<div data-ng-repeat="group in vm.project.groups" style="margin-left: 5px;position:relative;cursor:pointer">
+    <div id="layergroupStyle" style="float: left; margin-left: 10px; margin-top: 5px;margin-right:5px;cursor:pointer" data-toggle="collapse"
+        data-target="#layergroup_{{group.id}}"><i class="fa fa-chevron-down togglebutton toggle-arrow-down"></i><i class="fa fa-chevron-up togglebutton toggle-arrow-up"></i></div>
+    <div uib-popover="{{(group.description) ? group.description : ''}}" popover-placement="right" popover-width="400" popover-trigger="'mouseenter'"
+        popover-append-to-body="true" class="group-title">{{group.title}}</div>
+    <div id="layergroup_{{group.id}}" class="collapse in">
+        <div ng-class="{false : '', true:'layer-more'}[layer._gui.more==true]" uib-popover="{{(layer.description) ? layer.description : ''}}"
+            popover-append-to-body="true" popover-placement="right" popover-trigger="'mouseenter'" data-ng-repeat="layer in group.layers">
+            <div class="layer" style="list-style-type: none;" data-ng-class="{indent: layer.isSublayer}">
+                <div ng-class="{false : 'checkbox checkbox-primary', true:'radio radio-primary'}[group.oneLayerActive==true]" style="margin-top: 0px;margin-bottom: 0px;">
+                    <input ng-if="!group.oneLayerActive" type="checkbox" id="cblayer{{layer.id}}" ng-checked="layer.enabled">
+                    <input ng-if="group.oneLayerActive" type="radio" ng-value="true" id="cblayer{{layer.id}}" ng-checked="layer.enabled">
+                    <label class="layer-list-title" for="cblayer{{layer.id}}">{{layer.title}}</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

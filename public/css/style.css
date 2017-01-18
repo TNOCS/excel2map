@@ -23,10 +23,11 @@
     padding: 4px;
 }
 
-.leftpanel-border {
+.panel-border {
     border: 2px solid black;
     border-radius: 2px;
     padding: 4px;
+    max-width: 360px;
 }
 
 .csv-settings {
@@ -92,8 +93,8 @@ td.st-selected {
     height: 70px;
 }
 
-.widget-footer-spacing {
-    height: 70px;
+.fixed-widget-footer {
+    height: 10px;
 }
 
 .scrollable-widget-content {
@@ -204,5 +205,9 @@ td.st-selected {
 }
 
 .rightpanel-content {
-    max-height: 50%;
+    height: 100%;
+}
+
+.tab-pane {
+    width: 100%;
 }

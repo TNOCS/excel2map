@@ -20,7 +20,8 @@
             </ul>
         </div>
     </div>
-    <div class="scrollable-widget-content" style="padding:0px;font-size:12px;margin:0px;" ng-hide="minimized" resize resize-y="150">
+    <div class="scrollable-widget-content" style="padding:0px;font-size:12px;margin:0px;" ng-hide="minimized" resize resize-y="80"
+        resize-relative-to-parent="true">
         <!-- UPLOAD-PAGE -->
         <div class="row" ng-show="currentStep === 1">
             <div class="row">
@@ -30,8 +31,29 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 col-md-offset-3 col-md-6 fill-height">
+                    <div>{{'LOAD_OR_CREATE_PROJECT' | translate}}</div>
+                    <form class="form">
+                        <div class="row">
+                            <div class="col-md-7 form-group">
+                                <label for="projectid">{{'PROJECT_ID' | translate}}</label>
+                                <input type="text" class="form-control" ng-model="vm.project.id" id="project-id" placeholder="Project id">
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="pw">{{'PASSWORD' | translate}}</label>
+                                <input type="password" class="form-control" id="project-password" ng-model="vm.password" placeholder="Password">
+                            </div>
+                            <div class="col-md-2 form-group">
+                                <label for="project-button" style="color: rgba(0,0,0,0)">{{'CREATE' | translate}}</label>
+                                <button class="btn btn-primary" id="project-button" ng-click="vm.requestProject()">{{'CREATE' | translate}}</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-md-offset-3 col-md-6 fill-height">
                     <textarea rows="12" class="fill-height" id="drop-box" style="width:95%;margin-top: 24px" placeholder="{{'DROP_HERE' | translate}}"
-                        ng-model="vm.textContent"></textarea>
+                        ng-model="vm.textContent" autofocus></textarea>
                 </div>
             </div>
             <div class="row">
@@ -45,7 +67,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 col-md-offset-3 col-md-6 fill-height text-center">
-                    <input class="btn big-button" type="button" value="{{'NEXT' | translate}}" ng-click="vm.convertData()" ng-disabled="!vm.textContent"
+                    <input class="btn btn-primary" type="button" value="{{'NEXT' | translate}}" ng-click="vm.convertData()" ng-disabled="!vm.textContent"
                     />
                 </div>
             </div>
@@ -60,7 +82,8 @@
                     <div class="grey-border">
                         <div class="form-group">
                             <label for="geo-type">{{'GEOMETRY_TYPE' | translate}}</label>
-                            <select class="form-control inline-select" if="geo-type" ng-change="vm.selectGeoType()" ng-model="vm.featureType.name" ng-options="id as type.name for (id, type) in geometryTypes"></select>
+                            <select class="form-control inline-select" if="geo-type" ng-change="vm.selectGeoType(true)" ng-model="vm.featureType.name"
+                                ng-options="id as type.name for (id, type) in geometryTypes"></select>
                         </div>
                         <div class="form-group">
                             <label for="geo-col">{{'SELECT_GEOMETRY_COLUMNS' | translate}}</label>
@@ -169,6 +192,10 @@
                 <div class="row">
                     <h4>{{'STYLE_PREVIEW' | translate}}</h4>
                     <label>{{'CURRENT_ZOOM' | translate}}: {{currentZoom}}</label>
+                    <span style="margin-left: 32px;">
+                        <label ng-show="vm.feature.isSelected">{{'FEATURE_SELECTED' | translate}}</label>
+                        <label ng-hide="vm.feature.isSelected">{{'FEATURE_DESELECTED' | translate}}</label>
+                    </span>
                     <div id="previewMap"></div>
                 </div>
                 <div class="row no-margin" style="max-width: 400px;">
@@ -213,8 +240,8 @@
                         <div class="row">
                             <div class="col-xs-9 no-padding">
                                 <label for="p-section">{{'SECTION' | translate}}</label>
-                                <select data-ng-model="vm.pType.section" id="p-section" ng-options="section for (section, id) in vm.sections" class="form-control"
-                                />
+                                <select data-ng-model="vm.pType.section" id="p-section" ng-change="vm.updatePropertyPreview()" ng-options="section for (section, id) in vm.sections"
+                                    class="form-control" />
                             </div>
                             <div class="col-xs-3 no-padding">
                                 <label for="p-add">{{'NEW' | translate}}</label>
@@ -224,7 +251,7 @@
                         <div class="row" id="addSectionDiv" ng-init="addSectionMode = false" ng-show="addSectionMode">
                             <div class="col-xs-10 col-xs-offset-2 no-padding">
                                 <div class="input-group"><input type="text" id="new-section-input" placeholder="Add new section" ng-model="newSection"
-                                        class="form-control" ng-keyup="$event.keyCode == 13 && vm.addSection(newSection)" autofocus>
+                                        class="form-control" ng-keyup="$event.keyCode == 13 && vm.addSection(newSection)">
                                     <span class="input-group-btn"><button class="btn btn-primary" type="button" ng-click="vm.addSection(newSection)">{{'ADD' | translate}}</button></span>
                                 </div>
                             </div>
@@ -257,10 +284,10 @@
                     <button class="btn btn-primary" data-ng-click="currentStep = 4">{{'NEXT' | translate}}</button>
                 </form>
             </div>
-            <div class="col-sm-4 text-center">
+            <div class="col-sm-6 col-md-4 text-center">
                 <rightpanelpreview style="text-align: left;"></rightpanelpreview>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-6 col-md-2">
                 <div class="form-group">
                     <label for="select-preview-f">{{'SELECT_FEATURE_TO_PREVIEW' | translate}}</label>
                     <select class="form-control" id="select-preview-f" ng-options="vm.rowCollection.indexOf(row) as row[vm.featureType.style.nameLabel] for row in vm.rowCollection"
@@ -274,39 +301,54 @@
                 <h5>{{'LAYER_SETTINGS' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'LAYER_SETTINGS_HELP' | translate}}"></i></span></h5>
                 <form>
                     <div class="form-group">
-                        <label for="l-title">{{'LAYER_TITLE' | translate}}</label>
-                        <input type="text" id="l-title" data-ng-model="layer.title" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label for="l-group">{{'GROUP' | translate}}</label>
-                        <select class="form-control" id="l-group" ng-options="id for (id, title) in vm.project.groups" ng-model="vm.selectedGroup"
-                        />
-                    </div>
-                </form>
-            </div>
-            <div class="col-sm-6">LAYER MENU PREVIEW
-                <div class="leftpanel-border">
-                    <div data-ng-repeat="group in vm.project.groups" style="margin-left: 5px;position:relative;cursor:pointer">
-                        <div id="layergroupStyle" style="float: left; margin-left: 10px; margin-top: 5px;margin-right:5px;cursor:pointer" data-toggle="collapse"
-                            data-target="#layergroup_{{group.id}}"><i class="fa fa-chevron-down togglebutton toggle-arrow-down"></i><i class="fa fa-chevron-up togglebutton toggle-arrow-up"></i></div>
-                        <div uib-popover="{{(group.description) ? group.description : ''}}" popover-placement="right" popover-width="400" popover-trigger="'mouseenter'"
-                            popover-append-to-body="true" class="group-title">{{group.title}}</div>
-                        <div id="layergroup_{{group.id}}" class="collapse in">
-                            <div ng-class="{false : '', true:'layer-more'}[layer._gui.more==true]" uib-popover="{{(layer.description) ? layer.description : ''}}"
-                                popover-append-to-body="true" popover-placement="right" popover-trigger="'mouseenter'" data-ng-repeat="layer in group.layers">
-                                <div class="layer" style="list-style-type: none;" data-ng-class="{indent: layer.isSublayer}">
-                                    <div ng-class="{false : 'checkbox checkbox-primary', true:'radio radio-primary'}[group.oneLayerActive==true]" style="margin-top: 0px;margin-bottom: 0px;">
-                                        <input ng-if="!group.oneLayerActive" type="checkbox" id="cblayer{{layer.id}}" ng-checked="layer.enabled">
-                                        <input ng-if="group.oneLayerActive" type="radio" ng-value="true" id="cblayer{{layer.id}}" ng-checked="layer.enabled">
-                                        <label class="layer-list-title" for="cblayer{{layer.id}}">{{layer.title}}</label>
-                                    </div>
+                        <div class="row">
+                            <div class="col-xs-9 no-padding">
+                                <label for="l-group">{{'GROUP' | translate}}</label>
+                                <select id="l-group" ng-options="group as group.title for group in vm.project.groups" ng-model="vm.selectedGroup" ng-change="vm.selectGroup()"
+                                    class="form-control" />
+                            </div>
+                            <div class="col-xs-3 no-padding">
+                                <label for="l-add">{{'NEW' | translate}}</label>
+                                <button type="button" id="l-add" ng-click="vm.toggleAddGroupWindow()" class="btn btn-primary form-control"><i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="row" id="addGroupDiv" ng-init="addGroupMode = false" ng-show="addGroupMode">
+                            <div class="col-xs-10 col-xs-offset-2 no-padding">
+                                <div class="input-group"><input type="text" id="new-group-input" placeholder="Add new group" ng-model="newGroup" class="form-control"
+                                        ng-keyup="$event.keyCode == 13 && vm.addGroup(newGroup)">
+                                    <span class="input-group-btn"><button class="btn btn-primary" type="button" ng-click="vm.addGroup(newGroup)">{{'ADD' | translate}}</button></span>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="l-title">{{'LAYER_TITLE' | translate}}</label>
+                        <input type="text" id="l-title" ng-model="vm.layer.title" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="l-descr">{{'LAYER_DESCRIPTION' | translate}}</label>
+                        <input type="text" id="l-descr" ng-model="vm.layer.description" class="form-control" />
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 form-group">
+                            <label for="fitmap">{{'FIT_TO_MAP' | translate}}</label>
+                            <input type="checkbox" id="fitmap" data-ng-model="vm.layer.fitToMap" class="checkbox-primary">
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label for="l-enabled">{{'ENABLED' | translate}}</label>
+                            <input type="checkbox" id="l-enabled" data-ng-model="vm.layer.enabled" class="checkbox-primary">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-6">LAYER MENU PREVIEW
+                <div class="panel-border">
+                    <layerlistpreview></layerlistpreview>
                 </div>
+                <button class="btn btn-primary" data-ng-click="vm.convert()">{{'CONVERT' | translate}}</button>
             </div>
         </div>
         <!--<div class="widget-footer-spacing"></div>-->
     </div>
-</div>
+    <div class="fixed-widget-footer">
+    </div>
