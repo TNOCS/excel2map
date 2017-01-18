@@ -104,7 +104,7 @@
                                 <img id="iconImage" />
                             </div>
                             <div class="col-sm-6">
-                                <div class="row">
+                                <div class="row no-margin">
                                     <div class="col-sm-6 form-group">
                                         <label for="iconHeight">{{'ICON_HEIGHT' | translate}}</label>
                                         <input type="number" min="0" max="320" name="iconHeight" data-ng-model="vm.featureType.style['iconHeight']" class="form-control"
@@ -166,9 +166,18 @@
                 </form>
             </div>
             <div class="col-sm-6">
-                <h4>{{'STYLE_PREVIEW' | translate}}</h4>
-                <label>{{'CURRENT_ZOOM' | translate}}: {{currentZoom}}</label>
-                <div id="previewMap"></div>
+                <div class="row">
+                    <h4>{{'STYLE_PREVIEW' | translate}}</h4>
+                    <label>{{'CURRENT_ZOOM' | translate}}: {{currentZoom}}</label>
+                    <div id="previewMap"></div>
+                </div>
+                <div class="row no-margin" style="max-width: 400px;">
+                    <div class="form-group">
+                        <label for="select-preview-f-2">{{'SELECT_FEATURE_TO_PREVIEW' | translate}}</label>
+                        <select class="form-control" id="select-preview-f-2" ng-options="vm.rowCollection.indexOf(row) as row[vm.featureType.style.nameLabel] for row in vm.rowCollection"
+                            ng-model="vm.selectedRowIndex" ng-change="vm.selectRowIndex(vm.selectedRowIndex)"></select>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- PROPERTY TYPES -->
@@ -225,12 +234,12 @@
                         <div class="row">
                             <div class="col-xs-6 no-padding">
                                 <label for="p-callout">{{'VISIBLE_IN_CALLOUT' | translate}}</label>
-                                <input type="checkbox" data-ng-model="vm.pType.visibleInCallout" id="p-callout" />
+                                <input type="checkbox" data-ng-model="vm.pType.visibleInCallOut" id="p-callout" />
                             </div>
-                            <!--<div class="col-xs-6 no-padding">
-                                <label for="p-edit">{{'EDIT' | translate}}</label>
-                                <input type="checkbox" data-ng-model="vm.pType.canEdit" id="p-edit" />
-                            </div>-->
+                            <div class="col-xs-6 no-padding">
+                                <label for="p-tooltip">{{'VISIBLE_IN_TOOLTIP' | translate}}</label>
+                                <input type="checkbox" data-ng-model="vm.pType.visibleInTooltip" id="p-tooltip" />
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -254,7 +263,8 @@
             <div class="col-sm-2">
                 <div class="form-group">
                     <label for="select-preview-f">{{'SELECT_FEATURE_TO_PREVIEW' | translate}}</label>
-                    <select class="form-control" id="select-preview-f" ng-options="vm.rowCollection.indexOf(row) as row[vm.featureType.style.nameLabel] for row in vm.rowCollection" ng-model="vm.selectedRowIndex" ng-change="vm.selectRowIndex(vm.selectedRowIndex)"></select>
+                    <select class="form-control" id="select-preview-f" ng-options="vm.rowCollection.indexOf(row) as row[vm.featureType.style.nameLabel] for row in vm.rowCollection"
+                        ng-model="vm.selectedRowIndex" ng-change="vm.selectRowIndex(vm.selectedRowIndex)"></select>
                 </div>
             </div>
         </div>

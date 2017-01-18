@@ -134,12 +134,13 @@ module Table2Map {
         ]
     ];
 
+    import Helpers = csComp.Helpers;
     import Project = csComp.Services.Project;
     import IProjectLayer = csComp.Services.IProjectLayer;
     import ProjectGroup = csComp.Services.ProjectGroup;
     import IFeatureType = csComp.Services.IFeatureType;
     import IFeature = csComp.Services.IFeature;
-    import IGeoFeature = csComp.Helpers.IGeoFeature;
+    import IGeoFeature = Helpers.IGeoFeature;
 
     export class Table2MapCtrl {
         private widget: csComp.Services.IWidget;
@@ -175,9 +176,10 @@ module Table2Map {
         };
         private layer: IProjectLayer = < IProjectLayer > {};
         private featureType: IFeatureType = < IFeatureType > {};
-        private feature: IGeoFeature = < IGeoFeature > {};
+        private feature: IFeature = < IFeature > {};
         private pType: IPropertyType = < IPropertyType > {};
         private marker: L.Marker | L.GeoJSON;
+        private popup: L.Popup;
         private selectedRowIndex = 0;
         private selectedGroup: ProjectGroup = < ProjectGroup > {};
         private csvParseSettings: ICSVParseSettings = {
@@ -421,13 +423,15 @@ module Table2Map {
                 fillOpacity: 1,
                 nameLabel: ''
             };
-            this.feature = {
+            this.feature = < IFeature > {
                 type: 'Feature',
                 geometry: {
                     coordinates: null,
                     type: null
                 },
-                properties: {}
+                properties: {},
+                _gui: {},
+                isSelected: false
             };
             this.layer = < IProjectLayer > {};
             $('#iconImage').attr('src', DEFAULT_MARKER_ICON);
@@ -780,10 +784,10 @@ module Table2Map {
             if (!this.feature || !this.feature.geometry || !this.featureType || !this.featureType.style || !this.featureType.style.drawingMode) return;
             let drawingMode = this.featureType.style.drawingMode;
             if (this.marker) this.previewMap.removeLayer(this.marker);
-            this.feature['effectiveStyle'] = this.featureType.style;
             this.feature.geometry.type = drawingMode;
             this.feature.properties = this.rowCollection[this.selectedRowIndex];
             this.feature['fType'] = this.featureType;
+            this.layerService.calculateFeatureStyle(this.feature);
             if (drawingMode === 'Point') {
                 this.feature.geometry.coordinates = PREVIEW_COORDINATES_POINT;
                 let icon: L.DivIcon = this.getPointIcon( < IFeature > this.feature);
@@ -795,7 +799,26 @@ module Table2Map {
                 this.marker = new L.GeoJSON( < any > this.feature);
                 this.marker.setStyle(this.getLeafletStyle(this.feature['effectiveStyle']));
             }
+            this.marker.on({
+                mouseover: (a) => this.showFeatureTooltip(a, < IFeature > this.feature),
+                mouseout: (s) => this.hideFeatureTooltip(s),
+                mousemove: (d) => this.updateFeatureTooltip(d),
+                click: (e) => {
+                    this.selectFeature( < IFeature > this.feature);
+                }
+            });
             this.marker.addTo(this.previewMap);
+        }
+
+        private selectFeature(f: IFeature) {
+            f.isSelected = !f.isSelected;
+            f._gui['title'] = Helpers.getFeatureTitle(f);
+            this.layerService.calculateFeatureStyle(f);
+            if (f.geometry.type === 'Point') {
+                ( < L.Marker > this.marker).setIcon(this.getPointIcon(f));
+            } else {
+                ( < L.GeoJSON > this.marker).setStyle(this.getLeafletStyle(f.effectiveStyle));
+            }
         }
 
         public getPointIcon(feature: IFeature): any {
@@ -807,7 +830,7 @@ module Table2Map {
                     html: feature.htmlStyle
                 });
             } else {
-                var iconHtml = csComp.Helpers.createIconHtml(feature);
+                var iconHtml = Helpers.createIconHtml(feature);
                 icon = new L.DivIcon({
                     className: '',
                     iconSize: new L.Point(iconHtml['iconPlusBorderWidth'], iconHtml['iconPlusBorderHeight']),
@@ -828,6 +851,86 @@ module Table2Map {
                 style.fillColor :
                 style.strokeColor;
             return s;
+        }
+
+        private generateTooltipContent(e: L.LeafletMouseEvent, feature: IFeature) {
+            var layer = e.target;
+            // add title
+            var title = Helpers.getFeatureTooltipTitle(feature);
+            var rowLength = (title) ? title.length : 1;
+            var content = '<td colspan=\'3\'>' + title + '</td></tr>';
+            // add values for properties with a "visibleInTooltip = true" propertyType, only in case they haven't been added already as filter or style
+            let fType = this.featureType;
+            if (fType) {
+                let pTypes = fType._propertyTypeData.forEach((mi: IPropertyType) => {
+                    if (mi.visibleInTooltip) {
+                        if (feature.properties.hasOwnProperty(mi.label)) {
+                            let entry = this.addEntryToTooltip(content, feature, mi.label, null, mi.title, 'fa-info');
+                            content = entry.content;
+                            var tl = mi.title ? mi.title.length : 10;
+                            rowLength = Math.max(rowLength, entry.length + tl);
+                        }
+                    }
+                });
+            }
+            var widthInPixels = Math.max(Math.min(rowLength * 7 + 15, 250), 130);
+            return {
+                content: '<table style=\'width:' + widthInPixels + 'px;\'>' + content + '</table>',
+                widthInPixels: widthInPixels
+            };
+        }
+
+        private addEntryToTooltip(content: string, feature: IFeature, property: string, meta: IPropertyType, title: string, faLabel: string = 'fa-paint-brush') {
+            if (!title || title.length === 0) return {
+                length: 0,
+                content: content
+            };
+            var value = feature.properties[property];
+            if (typeof value === 'undefined' || value === null) return {
+                length: 0,
+                content: content
+            };
+            var valueLength = value.toString().length;
+            if (meta) {
+                value = Helpers.convertPropertyInfo(meta, value);
+                if (meta.type !== 'bbcode') valueLength = value.toString().length;
+            } else {
+                let pt = this.layerService.getPropertyType(feature, property);
+                if (pt) {
+                    meta = pt;
+                    value = Helpers.convertPropertyInfo(pt, value);
+                }
+            }
+            return {
+                length: valueLength + title.length,
+                content: content + `<tr><td><div class="fa ${faLabel}"></td><td>${title}</td><td>${value}</td></tr>`
+            };
+        }
+
+        /**
+         * Show tooltip with name, styles & filters.
+         */
+        private showFeatureTooltip(e: L.LeafletMouseEvent, feature: IFeature) {
+            var layer = e.target;
+            var tooltip = this.generateTooltipContent(e, feature);
+
+            this.popup = L.popup({
+                offset: new L.Point(-tooltip.widthInPixels / 2 - 40, -5),
+                closeOnClick: true,
+                autoPan: false,
+                className: 'featureTooltip'
+            }).setLatLng(e.latlng).setContent(tooltip.content).openOn(this.previewMap);
+        }
+
+        hideFeatureTooltip(e: L.LeafletMouseEvent) {
+            if (this.popup && this.previewMap) {
+                ( < any > this.previewMap).closePopup(this.popup);
+                this.popup = null;
+            }
+        }
+
+        private updateFeatureTooltip(e: L.LeafletMouseEvent) {
+            if (this.popup != null && e.latlng != null) this.popup.setLatLng(e.latlng);
         }
 
         public static defaultHeaders(total: number): string[] {
