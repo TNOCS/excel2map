@@ -37,7 +37,11 @@ module Translations {
             SELECT_THESE_ITEMS: 'Select the following items',
             SELECT_COLS: 'Select column(s)',
             EDIT_PROPERTYTYPE: 'Edit the way this property is displayed (title, nr. of decimals, etc).',
-            PROPERTY_SETTINGS_HELP: 'Select a property title in the right preview panel to edit the settings for that property'
+            PROPERTY_SETTINGS_HELP: 'Select a property title in the right preview panel to edit the settings for that property',
+            SELECT_NAMELABEL_COLUMN: 'Select the column with names',
+            SELECT_NAMELABEL_COLUMN_HELP: 'Select the column with names',
+            PREVIOUS_STEP: 'Previous step',
+            NEXT_STEP: 'Next step'
         };
     }
 }

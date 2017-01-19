@@ -37,7 +37,11 @@ module Translations {
             SELECT_THESE_ITEMS: 'Selecteer de volgende data',
             SELECT_COLS: 'Selecteer kolom(men)',
             EDIT_PROPERTYTYPE: 'Bewerk hoe deze eigenschap getoond wordt',
-            PROPERTY_SETTINGS_HELP: 'Selecteer de titel van een eigenschap in het rechter voorbeeld paneel om aan te passen hoe die eigenschap wordt getoond (titel, afronding, enz).'
+            PROPERTY_SETTINGS_HELP: 'Selecteer de titel van een eigenschap in het rechter voorbeeld paneel om aan te passen hoe die eigenschap wordt getoond (titel, afronding, enz).',
+            SELECT_NAMELABEL_COLUMN: 'Selecteer de kolom met titels',
+            SELECT_NAMELABEL_COLUMN_HELP: 'Selecteer de kolom waarin de titel van elk object staat, bijv. de provincie- of ziekenhuisnaam. Deze titel zal worden getoond als een object door de gebruiker wordt geselecteerd, of er overheen beweegt met de muis.',
+            PREVIOUS_STEP: 'Vorige stap',
+            NEXT_STEP: 'Volgende stap'
         };
     }
 }

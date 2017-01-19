@@ -464,7 +464,8 @@ module Table2Map {
                 isSelected: false
             };
             this.layer = < ProjectLayer > {
-                enabled: true
+                enabled: true,
+                id: Helpers.getGuid()
             };
             $('#iconImage').attr('src', DEFAULT_MARKER_ICON);
         }
@@ -539,12 +540,58 @@ module Table2Map {
 
         /** Send the data and configuration to the server for conversion */
         private convert() {
-            let allData = {
-                rows: this.rowCollection,
-                featureType: this.featureType,
-                layer: this.layer,
-                group: this.selectedGroup
-            }
+            let geometryParams = _.values(this.geometryColumns);
+            let layerDefinition: Table2MapLayerDefinition = {
+                projectTitle: this.project.title,
+                reference: this.layer.id,
+                group: this.selectedGroup.id,
+                layerTitle: this.layer.title,
+                description: this.layer.description,
+                featureType: this.featureType.name,
+                geometryType: 'Internationaal', //TODO
+                parameter1: geometryParams.getKeyAt(0, 'code'),
+                parameter2: geometryParams.getKeyAt(1, 'code'),
+                parameter3: geometryParams.getKeyAt(2, 'code'),
+                parameter4: geometryParams.getKeyAt(3, 'code'),
+                iconUri: `${this.layer.id}.png`,
+                iconSize: this.featureType.style.iconHeight,
+                drawingMode: this.featureType.style.drawingMode,
+                fillColor: this.featureType.style.fillColor,
+                strokeColor: this.featureType.style.strokeColor,
+                selectedStrokeColor: this.featureType.style.selectedStrokeColor,
+                strokeWidth: this.featureType.style.strokeWidth,
+                isEnabled: this.layer.enabled,
+                clusterLevel: this.selectedGroup.clusterLevel,
+                useClustering: this.selectedGroup.clustering,
+                opacity: this.featureType.style.opacity,
+                nameLabel: this.featureType.style.nameLabel,
+                includeOriginalProperties: false, //TODO
+                defaultFeatureType: this.featureType.name,
+                geometryFile: '', //TODO
+                geometryKey: '' //TODO
+            };
+            let layerTemplate: Table2MapLayerTemplate = {
+                iconBase64: this.featureType.style.iconUri,
+                projectId: this.project.id,
+                layerDefinition: [layerDefinition],
+                properties: this.rowCollection,
+                propertyTypes: this.featureType._propertyTypeData
+            };
+            let url = '/projecttemplate';
+            this.$http.post(url, layerTemplate, {
+                    timeout: 30000,
+                    headers: {
+                        Authorization: `Basic ${btoa(this.project.id + ':' + this.password)}`
+                    }
+                })
+                .then((res: {
+                    data: any
+                }) => {
+                    console.log(res.data);
+                })
+                .catch((err) => {
+                    console.warn(`Error requesting project ${this.project.id}. ${err}`);
+                });
         }
 
         private parseData() {

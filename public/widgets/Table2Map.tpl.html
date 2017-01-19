@@ -67,7 +67,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 col-md-offset-3 col-md-6 fill-height text-center">
-                    <input class="btn btn-primary" type="button" value="{{'NEXT' | translate}}" ng-click="vm.convertData()" ng-disabled="!vm.textContent"
+                    <input class="btn btn-primary" type="button" value="{{'NEXT_STEP' | translate}}" ng-click="vm.convertData()" ng-disabled="!vm.textContent"
                     />
                 </div>
             </div>
@@ -78,113 +78,141 @@
                 <div class="row">
                     <h5>{{'STYLE_SETTINGS' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'STYLE_SETTINGS_HELP' | translate}}"></i></span></h5>
                 </div>
-                <form>
+                <form class="form-horizontal" id="style-settings-form">
                     <div class="grey-border">
                         <div class="form-group">
-                            <label for="geo-type">{{'GEOMETRY_TYPE' | translate}}</label>
-                            <select class="form-control inline-select" if="geo-type" ng-change="vm.selectGeoType(true)" ng-model="vm.featureType.name"
-                                ng-options="id as type.name for (id, type) in geometryTypes"></select>
+                            <label for="geo-type" class="col-sm-3">{{'GEOMETRY_TYPE' | translate}}</label>
+                            <div class="col-sm-9">
+                                <select class="form-control inline-select" if="geo-type" ng-change="vm.selectGeoType(true)" ng-model="vm.featureType.name"
+                                    ng-options="id as type.name for (id, type) in geometryTypes"></select>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="geo-col">{{'SELECT_GEOMETRY_COLUMNS' | translate}}</label>
-                            <button if="geo-col" class="btn small-margin" ng-click="vm.openTable()"><i class="fa fa-table small-padding"></i><span>{{'CHOOSE_DROPDOWN' | translate}}</span></button>
-                            <span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'SELECT_GEOMETRY_COLUMNS_HELP' | translate}}"></i></span>
-                            <table ng-show="'Object.keys(vm.geometryColumns).length > 0'">
-                                <tbody>
-                                    <tr class="row no-margin" ng-repeat="(geoInputTitle, headerObj) in vm.geometryColumns">
-                                        <td class="small-padding bold">{{geoInputTitle}}</td>
-                                        <td class="small-padding">{{headerObj.title}}</td>
-                                        <td class="small-padding">({{'COLUMN' | translate}} {{headerObj.code}})</td>
-                                        <td ng-hide="$last" class="pointer" ng-click="vm.swapRows($index)" uib-tooltip="{{'SWAP_ROWS' | translate}}"><img class="swap-arrows" src="images/swap-arrows.png" /> </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div ng-hide="'Object.keys(vm.geometryColumns).length > 0'">{{'SELECT_GEOMETRY_COLUMNS_HINT' | translate}}</div>
+                            <label for="geo-col" class="col-sm-3">{{'SELECT_GEOMETRY_COLUMNS' | translate}}</label>
+                            <div class="col-sm-9">
+                                <button if="geo-col" class="btn small-margin" ng-click="vm.openTable()"><i class="fa fa-table small-padding"></i><span>{{'CHOOSE_DROPDOWN' | translate}}</span></button>
+                                <span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'SELECT_GEOMETRY_COLUMNS_HELP' | translate}}"></i></span>
+                                <table ng-show="'Object.keys(vm.geometryColumns).length > 0'">
+                                    <tbody>
+                                        <tr class="row no-margin" ng-repeat="(geoInputTitle, headerObj) in vm.geometryColumns">
+                                            <td class="small-padding bold">{{geoInputTitle}}</td>
+                                            <td class="small-padding">{{headerObj.title}}</td>
+                                            <td class="small-padding">({{'COLUMN' | translate}} {{headerObj.code}})</td>
+                                            <td ng-hide="$last" class="pointer" ng-click="vm.swapRows($index)" uib-tooltip="{{'SWAP_ROWS' | translate}}"><img class="swap-arrows" src="images/swap-arrows.png" /> </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div ng-hide="'Object.keys(vm.geometryColumns).length > 0'">{{'SELECT_GEOMETRY_COLUMNS_HINT' | translate}}</div>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="namelabel-col">{{'SELECT_NAMELABEL_COLUMN' | translate}}</label>
-                            <button if="namelabel-col" class="btn small-margin" ng-click="vm.openTable('col', 1, true)"><i class="fa fa-table small-padding"></i><span>{{'CHOOSE_DROPDOWN' | translate}}</span></button>
-                            <span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'SELECT_NAMELABEL_COLUMN_HELP' | translate}}"></i></span>
-                            <table ng-show="vm.featureType.style.nameLabel">
-                                <tbody>
-                                    <tr class="row no-margin">
-                                        <td class="small-padding">{{vm.getColumnTitle(vm.featureType.style.nameLabel)}}</td>
-                                        <td class="small-padding">({{'COLUMN' | translate}} {{vm.featureType.style.nameLabel}})</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <label for="namelabel-col" class="col-sm-3">{{'SELECT_NAMELABEL_COLUMN' | translate}}</label>
+                            <div class="col-sm-9">
+                                <button if="namelabel-col" class="btn small-margin" ng-click="vm.openTable('col', 1, true)"><i class="fa fa-table small-padding"></i><span>{{'CHOOSE_DROPDOWN' | translate}}</span></button>
+                                <span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'SELECT_NAMELABEL_COLUMN_HELP' | translate}}"></i></span>
+                                <table ng-show="vm.featureType.style.nameLabel">
+                                    <tbody>
+                                        <tr class="row no-margin">
+                                            <td class="small-padding">{{vm.getColumnTitle(vm.featureType.style.nameLabel)}}</td>
+                                            <td class="small-padding">({{'COLUMN' | translate}} {{vm.featureType.style.nameLabel}})</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                    <div class="grey-border" style="margin: 6px 0 0 0;">
-                        <div class="row">
-                            <div class="col-xs-5 form-group">
-                                <label for="f-icon">{{'ICON_IMAGE' | translate}}</label>
-                                <button id="f-icon" class="file-upload-label btn" for="icon-upload"><i class="fa fa-picture-o small-padding" aria-hidden="true"></i><span>{{ 'UPLOAD_ICON' | translate}}</span>
+                    <div class="grey-border" style="margin: 6px 0 0 0;" id="style-settings-section">
+                        <div class="form-group">
+                            <label for="f-icon" class="col-sm-3">{{'ICON_IMAGE' | translate}}</label>
+                            <div class="col-sm-9">
+                                <div class="row form-inline">
+                                    <div class="col-sm-5 form-group">
+                                        <button id="f-icon" class="file-upload-label btn" for="icon-upload"><i class="fa fa-picture-o small-padding" aria-hidden="true"></i><span>{{ 'UPLOAD_ICON' | translate}}</span>
                                     <input type="file" accept="image/png" id="icon-upload" style="margin-top:8px" />
                                 </button>
+                                    </div>
+                                    <div class="col-sm-1 text-center">
+                                        <img class="grey-border" id="iconImage" />
+                                    </div>
+                                    <div class="col-sm-6 form-group">
+                                        <label for="corner-radius">{{'CORNER_RADIUS' | translate}}</label>
+                                        <input type="number" name="corner-radius" data-ng-model="vm.featureType.style['cornerRadius']" class="form-control" ng-disabled="vm.featureType.style['drawingMode'] != 'Point'">
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-xs-1 grey-border">
-                                <img id="iconImage" />
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="row no-margin">
+                        </div>
+                        <div class="form-group">
+                            <label for="iconDimensions" class="col-sm-3">{{'ICON_DIMENSIONS' | translate}}</label>
+                            <div class="col-sm-9" id="iconDimensions">
+                                <div class="row form-inline">
                                     <div class="col-sm-6 form-group">
                                         <label for="iconHeight">{{'ICON_HEIGHT' | translate}}</label>
                                         <input type="number" min="0" max="320" name="iconHeight" data-ng-model="vm.featureType.style['iconHeight']" class="form-control"
                                             ng-disabled="vm.featureType.style['drawingMode'] != 'Point'">
                                     </div>
                                     <div class="col-sm-6 form-group">
-                                        <label for="iconWeight">{{'ICON_WIDTH' | translate}}</label>
-                                        <input type="number" name="iconWidth" data-ng-model="vm.featureType.style['iconWidth']" min="0" class="form-control" ng-disabled="vm.featureType.style['drawingMode'] != 'Point'">
+                                        <label for="iconWidth">{{'ICON_WIDTH' | translate}}</label>
+                                        <input type="number" min="0" max="320" name="iconWidth" data-ng-model="vm.featureType.style['iconWidth']" min="0" class="form-control"
+                                            ng-disabled="vm.featureType.style['drawingMode'] != 'Point'">
+                                    </div>
+                                </div>
+                                <div class="row form-inline">
+                                    <div class="col-sm-6 form-group">
+                                        <label for="fill-col">{{'FILL_COLOR' | translate}}</label>
+                                        <spectrum-colorpicker name="fill-col" data-ng-model="vm.featureType.style['fillColor']" options="{ cancelText: 'Cancel', chooseText: 'OK', preferredFormat: 'hex' }"></spectrum-colorpicker>
+                                    </div>
+                                    <div class="col-sm-6 form-group">
+                                        <label for="opacity">{{'OPACITY' | translate}}</label>
+                                        <input type="number" step="0.01" min="0" max="1" name="opacity" ng-change="vm.featureType.style['fillOpacity']=vm.featureType.style['opacity']"
+                                            data-ng-model="vm.featureType.style['opacity']" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row form-inline">
+                                    <div class="col-sm-6 form-group">
+                                        <label for="stroke-col">{{'STROKE_COLOR' | translate}}</label>
+                                        <spectrum-colorpicker name="stroke-col" data-ng-model="vm.featureType.style['strokeColor']" options="{cancelText: 'Cancel', chooseText: 'OK', preferredFormat: 'hex'}"></spectrum-colorpicker>
+                                    </div>
+                                    <div class="col-sm-6 form-group">
+                                        <label for="stroke-w">{{'STROKE_WIDTH' | translate}}</label>
+                                        <input type="number" name="stroke-w" min="0" max="32" data-ng-model="vm.featureType.style['strokeWidth']" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row form-inline">
+                                    <div class="col-sm-6 form-group">
+                                        <label for="sel-stroke-col">{{'SELECTED_STROKE_COLOR' | translate}}</label>
+                                        <spectrum-colorpicker name="sel-stroke-col" data-ng-model="vm.featureType.style['selectedStrokeColor']" options="{cancelText: 'Cancel', chooseText: 'OK', preferredFormat: 'hex'}"></spectrum-colorpicker>
+                                    </div>
+                                    <div class="col-sm-6 form-group">
+                                        <label for="sel-stroke-w">{{'SELECTED_STROKE_WIDTH' | translate}}</label>
+                                        <input type="number" name="sel-stroke-w" min="0" max="32" data-ng-model="vm.featureType.style['selectedStrokeWidth']" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="clustering-group" class="col-sm-3">{{'CLUSTERING' | translate}}</label>
+                            <div class="col-sm-9" id="clustering-group">
+                                <div class="row form-inline">
+                                    <div class="col-sm-6 form-group">
+                                        <label for="clustering">{{'CLUSTERING' | translate}}</label>
+                                        <input type="checkbox" id="clustering" data-ng-model="vm.clusterOptions.clustering" class="checkbox-primary" ng-disabled="vm.featureType.style['drawingMode'] != 'Point'">
+                                    </div>
+                                    <div class="col-sm-6 form-group">
+                                        <label for="clusterLevel">{{'CLUSTER_LEVEL' | translate}}</label>
+                                        <input type="number" id="clusterLevel" data-ng-model="vm.clusterOptions.clusterLevel" min="0" max="24" class="form-control"
+                                            ng-disabled="vm.featureType.style['drawingMode'] != 'Point'">
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-2">
-                                <label>{{'FILL_COLOR' | translate}}</label>
-                                <spectrum-colorpicker data-ng-model="vm.featureType.style['fillColor']" options="{ cancelText: 'Cancel', chooseText: 'OK', preferredFormat: 'hex' }"></spectrum-colorpicker>
+                            <div class="col-xs-6">
+                                <button class="btn btn-primary" data-ng-click="currentStep = 1">{{'PREVIOUS_STEP' | translate}}</button>
                             </div>
-                            <div class="col-md-2">
-                                <label>{{'STROKE_COLOR' | translate}}</label>
-                                <spectrum-colorpicker data-ng-model="vm.featureType.style['strokeColor']" options="{cancelText: 'Cancel', chooseText: 'OK', preferredFormat: 'hex'}"></spectrum-colorpicker>
-                            </div>
-                            <div class="col-md-2">
-                                <label>{{'SELECTED_STROKE_COLOR' | translate}}</label>
-                                <spectrum-colorpicker data-ng-model="vm.featureType.style['selectedStrokeColor']" options="{cancelText: 'Cancel', chooseText: 'OK', preferredFormat: 'hex'}"></spectrum-colorpicker>
-                            </div>
-                            <div class="col-md-3">
-                                <label>{{'STROKE_WIDTH' | translate}}</label>
-                                <input type="number" name="strokeWidth" min="0" max="32" data-ng-model="vm.featureType.style['strokeWidth']" class="form-control">
-                            </div>
-                            <div class="col-md-3">
-                                <label>{{'SELECTED_STROKE_WIDTH' | translate}}</label>
-                                <input type="number" name="selStrokeWidth" min="0" max="32" data-ng-model="vm.featureType.style['selectedStrokeWidth']" class="form-control">
+                            <div class="col-xs-6 text-right">
+                                <button class="btn btn-primary" data-ng-click="currentStep = 3">{{'NEXT_STEP' | translate}}</button>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <label>{{'CORNER_RADIUS' | translate}}</label>
-                                <input type="number" name="cornerRadius" data-ng-model="vm.featureType.style['cornerRadius']" class="form-control" ng-disabled="vm.featureType.style['drawingMode'] != 'Point'">
-                            </div>
-                            <div class="col-sm-6">
-                                <label>{{'OPACITY' | translate}}</label>
-                                <input type="number" step="0.01" min="0" max="1" name="opacity" ng-change="vm.featureType.style['fillOpacity']=vm.featureType.style['opacity']"
-                                    data-ng-model="vm.featureType.style['opacity']" class="form-control">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <label for="clustering">{{'CLUSTERING' | translate}}</label>
-                                <input type="checkbox" id="clustering" data-ng-model="vm.clusterOptions.clustering" class="checkbox-primary" ng-disabled="vm.featureType.style['drawingMode'] != 'Point'">
-                            </div>
-                            <div class="col-sm-6">
-                                <label for="clusterLevel">{{'CLUSTER_LEVEL' | translate}}</label>
-                                <input type="number" id="clusterLevel" data-ng-model="vm.clusterOptions.clusterLevel" min="0" max="24" class="form-control"
-                                    ng-disabled="vm.featureType.style['drawingMode'] != 'Point'">
-                            </div>
-                        </div>
-                        <button class="btn btn-primary" data-ng-click="currentStep = 3">{{'NEXT' | translate}}</button>
                     </div>
                 </form>
             </div>
@@ -211,77 +239,106 @@
         <div class="row" ng-show="currentStep === 3">
             <div ng-hide="vm.rowCollection.length > 0">{{'NO_DATA_TABLE' | translate}}</div>
             <div class="col-sm-6">
-                <form id="propertySettingsForm">
-                    <div class="form-group">
+                <form id="propertySettingsForm" class="form-horizontal">
+                    <div class="form-group form-header">
                         <h4>{{'PROPERTY_SETTINGS' | translate}}
                             <span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'PROPERTY_SETTINGS_HELP' | translate}}"></i></span>
                         </h4>
                     </div>
-                    <div class="form-group">
-                        <label for="p-title">{{'PROPERTY_TITLE' | translate}}</label>
-                        <input type="text" data-ng-model="vm.pType.title" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label for="p-description">{{'PROPERTY_DESCRIPTION' | translate}}</label>
-                        <input type="text" id="p-description" data-ng-model="vm.pType.description" data-ng-change="vm.updatePropertyPreview()" class="form-control"
-                        />
-                    </div>
-                    <div class="form-group">
-                        <label for="p-type">{{'PROPERTY_TYPE' | translate}}</label>
-                        <select data-ng-model="vm.pType.type" id="p-type" ng-options="name for (name, type) in propertyTypeTypes" class="form-control"
-                        />
-                    </div>
-                    <div class="form-group">
-                        <label for="p-sf">{{'STRINGFORMAT' | translate}}</label>
-                        <select data-ng-model="vm.pType.stringFormat" id="p-sf" ng-options="name for (name, type) in stringFormats" class="form-control"
-                        />
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-xs-9 no-padding">
-                                <label for="p-section">{{'SECTION' | translate}}</label>
-                                <select data-ng-model="vm.pType.section" id="p-section" ng-change="vm.updatePropertyPreview()" ng-options="section for (section, id) in vm.sections"
-                                    class="form-control" />
-                            </div>
-                            <div class="col-xs-3 no-padding">
-                                <label for="p-add">{{'NEW' | translate}}</label>
-                                <button type="button" id="p-add" ng-click="vm.toggleAddSectionWindow()" class="btn btn-primary form-control"><i class="fa fa-plus"></i></button>
-                            </div>
+                    <div class="form-group larger-font bold">
+                        <label for="p-title" class="col-sm-3">{{'SELECTED_PROPERTY' | translate}}</label>
+                        <div class="col-sm-9">
+                            <div ng-show="vm.pType.title">{{vm.pType.title}}</div>
+                            <div ng-hide="vm.pType.title">{{'NO_PROPERTY_SELECTED' | translate}}</div>
                         </div>
-                        <div class="row" id="addSectionDiv" ng-init="addSectionMode = false" ng-show="addSectionMode">
-                            <div class="col-xs-10 col-xs-offset-2 no-padding">
-                                <div class="input-group"><input type="text" id="new-section-input" placeholder="Add new section" ng-model="newSection"
-                                        class="form-control" ng-keyup="$event.keyCode == 13 && vm.addSection(newSection)">
-                                    <span class="input-group-btn"><button class="btn btn-primary" type="button" ng-click="vm.addSection(newSection)">{{'ADD' | translate}}</button></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="p-title" class="col-sm-3">{{'PROPERTY_TITLE' | translate}}</label>
+                        <div class="col-sm-9">
+                            <input type="text" data-ng-model="vm.pType.title" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="p-description" class="col-sm-3">{{'PROPERTY_DESCRIPTION' | translate}}</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="p-description" data-ng-model="vm.pType.description" data-ng-change="vm.updatePropertyPreview()" class="form-control"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="p-type" class="col-sm-3">{{'PROPERTY_TYPE' | translate}}</label>
+                        <div class="col-sm-9">
+                            <select data-ng-model="vm.pType.type" id="p-type" ng-options="name for (name, type) in propertyTypeTypes" class="form-control"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="p-sf" class="col-sm-3">{{'STRINGFORMAT' | translate}}</label>
+                        <div class="col-sm-9">
+                            <select data-ng-model="vm.pType.stringFormat" id="p-sf" ng-options="name for (name, type) in stringFormats" class="form-control"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="p-section" class="col-sm-3">{{'SECTION' | translate}}</label>
+                        <div class="col-sm-9">
+                            <div class="row">
+                                <div class="col-xs-9 no-padding">
+                                    <select data-ng-model="vm.pType.section" id="p-section" ng-change="vm.updatePropertyPreview()" ng-options="section for (section, id) in vm.sections"
+                                        class="form-control" />
+                                </div>
+                                <div class="col-xs-3 no-padding">
+                                    <button type="button" id="p-add" ng-click="vm.toggleAddSectionWindow()" class="btn btn-primary form-control"><i class="fa fa-plus" style="padding-left: 12px"></i><span>{{'NEW' | translate}}</span></button>
+                                </div>
+                            </div>
+                            <div class="row" id="addSectionDiv" ng-init="addSectionMode = false" ng-show="addSectionMode">
+                                <div class="col-xs-10 col-xs-offset-2 no-padding">
+                                    <div class="input-group"><input type="text" id="new-section-input" placeholder="Add new section" ng-model="newSection"
+                                            class="form-control" ng-keyup="$event.keyCode == 13 && vm.addSection(newSection)">
+                                        <span class="input-group-btn"><button class="btn btn-primary" type="button" ng-click="vm.addSection(newSection)">{{'ADD' | translate}}</button></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="row">
-                            <div class="col-xs-6 no-padding">
-                                <label for="p-callout">{{'VISIBLE_IN_CALLOUT' | translate}}</label>
-                                <input type="checkbox" data-ng-model="vm.pType.visibleInCallOut" id="p-callout" />
-                            </div>
-                            <div class="col-xs-6 no-padding">
-                                <label for="p-tooltip">{{'VISIBLE_IN_TOOLTIP' | translate}}</label>
-                                <input type="checkbox" data-ng-model="vm.pType.visibleInTooltip" id="p-tooltip" />
+                        <label for="p-visibility" class="col-sm-3">{{'VISIBILITY' | translate}}</label>
+                        <div class="col-sm-9">
+                            <div class="row">
+                                <div class="col-xs-6 no-padding">
+                                    <label for="p-callout">{{'VISIBLE_IN_CALLOUT' | translate}}</label>
+                                    <input type="checkbox" data-ng-model="vm.pType.visibleInCallOut" id="p-callout" />
+                                </div>
+                                <div class="col-xs-6 no-padding">
+                                    <label for="p-tooltip">{{'VISIBLE_IN_TOOLTIP' | translate}}</label>
+                                    <input type="checkbox" data-ng-model="vm.pType.visibleInTooltip" id="p-tooltip" />
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="row">
-                            <div class="col-xs-6 no-padding">
-                                <label for="p-min">{{'STATS.MIN' | translate}}</label>
-                                <input type="number" data-ng-model="vm.pType.min" id="p-min" />
-                            </div>
-                            <div class="col-xs-6 no-padding">
-                                <label for="p-max">{{'STATS.MAX' | translate}}</label>
-                                <input type="number" data-ng-model="vm.pType.max" id="p-mimaxn" />
+                        <label for="p-visibility" class="col-sm-3">{{'DATA_RANGE' | translate}}</label>
+                        <div class="col-sm-9 form-inline">
+                            <div class="row">
+                                <div class="col-xs-6 no-padding">
+                                    <label for="p-min">{{'STATS.MIN' | translate}}</label>
+                                    <input type="number" class="form-control" data-ng-model="vm.pType.min" id="p-min" />
+                                </div>
+                                <div class="col-xs-6 no-padding">
+                                    <label for="p-max">{{'STATS.MAX' | translate}}</label>
+                                    <input type="number" class="form-control" data-ng-model="vm.pType.max" id="p-max" />
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-primary" data-ng-click="currentStep = 4">{{'NEXT' | translate}}</button>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <button class="btn btn-primary" data-ng-click="currentStep = 2">{{'PREVIOUS_STEP' | translate}}</button>
+                        </div>
+                        <div class="col-xs-6 text-right">
+                            <button class="btn btn-primary" data-ng-click="currentStep = 4">{{'NEXT_STEP' | translate}}</button>
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="col-sm-6 col-md-4 text-center">

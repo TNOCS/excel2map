@@ -173,6 +173,8 @@ td.st-selected {
 #iconImage {
     width: 100%;
     height: 100%;
+    max-width: 30px;
+    min-width: 30px;
 }
 
 .leaflet-control-zoom-display {
@@ -210,4 +212,28 @@ td.st-selected {
 
 .tab-pane {
     width: 100%;
+}
+
+.form-header {
+    margin: 0 0 12px 0 !important;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.larger-font {
+    font-size: 110%;
+}
+
+.form-horizontal .form-group>label {
+    text-align: right;
+}
+
+#style-settings-section div {
+    text-align: right;
+}
+
+#style-settings-section input {
+    width: 72px;
 }
