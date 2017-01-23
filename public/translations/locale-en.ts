@@ -25,9 +25,11 @@ module Translations {
             NO_DATA_TABLE: 'No tabular data found. Return to step 1',
             UPLOAD_HELP: 'Drag the file from your PC to the textarea below. Alternatively, paste the file content from the clipboard.',
             STYLE_PREVIEW: 'Preview',
+            SELECTED_PROPERTY: 'Selected property',
             FEATURE_SELECTED: 'Feature is selected',
             FEATURE_DESELECTED: 'Feature is not selected',
             CURRENT_ZOOM: 'Current zoomlevel',
+            GEOMETRY_TYPE: 'Geometry type',
             SELECT_GEOMETRY_COLUMNS: 'Select geo columns',
             SELECT_GEOMETRY_COLUMNS_HELP: 'Select the columns that specify the location of an object on the map. This could for example be the province name, the combination of a zip code and house number, a set of coordinates, etc.',
             COLUMN: 'Column',
@@ -41,7 +43,12 @@ module Translations {
             SELECT_NAMELABEL_COLUMN: 'Select the column with names',
             SELECT_NAMELABEL_COLUMN_HELP: 'Select the column with names',
             PREVIOUS_STEP: 'Previous step',
-            NEXT_STEP: 'Next step'
+            NEXT_STEP: 'Next step',
+            LOAD_OR_CREATE_PROJECT: 'Load or create a project',
+            PROJECT_ID: 'Project ID',
+            DATA_TO_MAP: 'Data to map',
+            STYLE_SETTINGS: 'Style settings',
+            ADDITIONAL_INFO: 'Additional information'
         };
     }
 }

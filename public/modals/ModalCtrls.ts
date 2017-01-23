@@ -67,9 +67,14 @@ module ModalCtrls {
             private originalHeaders: string[] = [],
             private selectionOption: 'none' | 'row' | 'col',
             private selectionAmount: number,
-            private itemsToSelect: string[]
+            private itemsToSelect: string[],
+            private showTooltips: boolean = false
         ) {
             $scope.vm = this;
+        }
+
+        public toggleTooltips() {
+            this.showTooltips = !this.showTooltips;
         }
 
         public selectRow(row: Dictionary < any > ) {

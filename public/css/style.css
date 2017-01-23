@@ -237,3 +237,17 @@ td.st-selected {
 #style-settings-section input {
     width: 72px;
 }
+
+.small-padding-left {
+    padding-left: 6px;
+}
+
+h4 {
+    color: rgb(0, 112, 192);
+    font-style: bold;
+}
+
+label {
+    color: rgb(0, 112, 192);
+    font-size: 14px;
+}

@@ -6,16 +6,16 @@ import auth = require('basic-auth');
 import * as csweb from "csweb";
 
 Winston.remove(Winston.transports.Console);
-Winston.add(Winston.transports.Console, <Winston.ConsoleTransportOptions>{
+Winston.add(Winston.transports.Console, < Winston.ConsoleTransportOptions > {
     colorize: true,
     label: 'csWeb',
     prettyPrint: true
 });
 
-var cs = new csweb.csServer(__dirname, <csweb.csServerOptions>{
+var cs = new csweb.csServer(__dirname, < csweb.csServerOptions > {
     port: 3004,
     swagger: false,
-    connectors: { }
+    connectors: {}
 });
 
 var debug = true;
@@ -27,7 +27,8 @@ cs.start(() => {
     this.config = cs.config;
     this.config.add('server', 'http://localhost:' + cs.options.port);
     var bagDatabase = new csweb.BagDatabase(this.config);
-    var mapLayerFactory = new csweb.MapLayerFactory(<any>bagDatabase, cs.messageBus, cs.api, cs.dir);
+    var osmDatabase = new csweb.NominatimSource(this.config);
+    var mapLayerFactory = new csweb.MapLayerFactory(osmDatabase, cs.messageBus, cs.api, cs.dir);
 
     cs.server.post('/projecttemplate', (req, res) => {
         var creds = auth(req);
@@ -52,11 +53,19 @@ cs.start(() => {
                 } else {
                     console.log('Password already exists');
                 }
+                res.statusCode = result.result;
+                res.send(result.project);
             } else {
                 console.log('ID already exists');
+                cs.api.getProject(project.id, {}, (result: csweb.CallbackResult) => {
+                    if (result.result !== csweb.ApiResult.OK) {
+                        console.log('Could not find project.');
+                    }
+                    console.log('Found project.');
+                    res.statusCode = result.result;
+                    res.send(result.project);
+                });
             }
-            res.statusCode = result.result;
-            res.send(result.project);
         });
     });
 
@@ -70,7 +79,10 @@ cs.start(() => {
             var data;
             if (req.body) {
                 data = req.body;
-                cs.api.updateGroup(data.projectId, data.oldTitle, <any>{ id: data.newTitle, title: data.newTitle }, {}, (result: csweb.CallbackResult) => {
+                cs.api.updateGroup(data.projectId, data.oldTitle, < any > {
+                    id: data.newTitle,
+                    title: data.newTitle
+                }, {}, (result: csweb.CallbackResult) => {
                     if (result && result.result === csweb.ApiResult.OK) {
                         res.statusCode = 200;
                         res.end();
@@ -114,7 +126,7 @@ cs.start(() => {
     cs.server.post('/bagsearchaddress', (req, res) => {
         mapLayerFactory.processBagSearchQuery(req, res);
     });
-    
+
     console.log('Excel2map functions started');
     // Open start webpage
     if (!debug) opn('http://localhost:' + cs.options.port);
@@ -148,14 +160,18 @@ function addPass(entry: string) {
     var pwfile = path.join(__dirname, '.users.htpasswd');
     fs.exists(pwfile, (exists) => {
         if (exists) {
-            fs.appendFile(pwfile, '\n' + entry, { encoding: 'utf8' }, (err) => {
+            fs.appendFile(pwfile, '\n' + entry, {
+                encoding: 'utf8'
+            }, (err) => {
                 if (err) {
                     console.log('Error adding htpasswd');
                     return;
                 }
             });
         } else {
-            fs.writeFile(pwfile, entry, { encoding: 'utf8' }, (err) => {
+            fs.writeFile(pwfile, entry, {
+                encoding: 'utf8'
+            }, (err) => {
                 if (err) {
                     console.log('Error writing htpasswd file');
                     return;

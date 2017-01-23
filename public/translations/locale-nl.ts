@@ -25,10 +25,12 @@ module Translations {
             NO_DATA_TABLE: 'Geen tabulaire data gevonden. Ga terug naar stap 1.',
             UPLOAD_HELP: 'Sleep een bestand naar het tekstvak hieronder. Een andere optie is om de data via het klembord in het tekstvak te plakken.',
             STYLE_PREVIEW: 'Preview',
+            SELECTED_PROPERTY: 'Geselecteerde eigenschap',
             FEATURE_SELECTED: 'Object is geselecteerd',
             FEATURE_DESELECTED: 'Object is niet geselecteerd',
             CURRENT_ZOOM: 'Huidig zoomniveau',
-            SELECT_GEOMETRY_COLUMNS: 'Selecteer geo kolommen',
+            SELECT_GEOMETRY_COLUMNS: 'Selecteer de geometrie-kolommen',
+            GEOMETRY_TYPE: 'Geometrie / indeling',
             SELECT_GEOMETRY_COLUMNS_HELP: 'Selecteer de kolommen die bepalen waar een object op de kaart moet komen te staan. Dit kan bijvoorbeeld de provincienaam zijn, de combinatie van postcode en huisnummer, een set coordinaten, enz.',
             COLUMN: 'Kolom',
             SELECT_FEATURE_TO_PREVIEW: 'Selecteer een item voor de voorvertoning',
@@ -41,7 +43,12 @@ module Translations {
             SELECT_NAMELABEL_COLUMN: 'Selecteer de kolom met titels',
             SELECT_NAMELABEL_COLUMN_HELP: 'Selecteer de kolom waarin de titel van elk object staat, bijv. de provincie- of ziekenhuisnaam. Deze titel zal worden getoond als een object door de gebruiker wordt geselecteerd, of er overheen beweegt met de muis.',
             PREVIOUS_STEP: 'Vorige stap',
-            NEXT_STEP: 'Volgende stap'
+            NEXT_STEP: 'Volgende stap',
+            LOAD_OR_CREATE_PROJECT: 'Laad of creëer een project',
+            PROJECT_ID: 'Project ID',
+            DATA_TO_MAP: 'Data naar de kaart',
+            STYLE_SETTINGS: 'Stijl instellingen',
+            ADDITIONAL_INFO: 'Extra informatie'
         };
     }
 }

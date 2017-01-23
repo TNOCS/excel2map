@@ -31,7 +31,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 col-md-offset-3 col-md-6 fill-height">
-                    <div>{{'LOAD_OR_CREATE_PROJECT' | translate}}</div>
+                    <h4 class="bold">{{'LOAD_OR_CREATE_PROJECT' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'UPLOAD_HELP' | translate}}"></i></span></h4>
                     <form class="form">
                         <div class="row">
                             <div class="col-md-7 form-group">
@@ -67,23 +67,24 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 col-md-offset-3 col-md-6 fill-height text-center">
-                    <input class="btn btn-primary" type="button" value="{{'NEXT_STEP' | translate}}" ng-click="vm.convertData()" ng-disabled="!vm.textContent"
+                    <input class="btn btn-primary" type="button" value="{{'NEXT_STEP' | translate}}" ng-click="vm.parseData()" ng-disabled="!vm.textContent"
                     />
                 </div>
             </div>
         </div>
         <!-- STYLE PAGE -->
         <div class="row" ng-show="currentStep === 2">
-            <div class="col-sm-6">
+            <h4 ng-hide="vm.rowCollection.length > 0">{{'NO_DATA_TABLE' | translate}}</h4>
+            <div class="col-sm-6" ng-show="vm.rowCollection.length > 0">
                 <div class="row">
-                    <h5>{{'STYLE_SETTINGS' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'STYLE_SETTINGS_HELP' | translate}}"></i></span></h5>
+                    <h4>{{'STYLE_SETTINGS' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'STYLE_SETTINGS_HELP' | translate}}"></i></span></h4>
                 </div>
                 <form class="form-horizontal" id="style-settings-form">
                     <div class="grey-border">
                         <div class="form-group">
                             <label for="geo-type" class="col-sm-3">{{'GEOMETRY_TYPE' | translate}}</label>
                             <div class="col-sm-9">
-                                <select class="form-control inline-select" if="geo-type" ng-change="vm.selectGeoType(true)" ng-model="vm.featureType.name"
+                                <select class="form-control inline-select" if="geo-type" ng-change="vm.selectGeoType(true)" ng-model="vm.geometryTypeId"
                                     ng-options="id as type.name for (id, type) in geometryTypes"></select>
                             </div>
                         </div>
@@ -120,6 +121,13 @@
                                 </table>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="add-info" class="col-sm-3">{{'ADDITIONAL_INFO' | translate}}</label>
+                            <div class="col-sm-9" ng-show="vm.geometryType">
+                                <select class="form-control inline-select" id="add-info" ng-model="vm.additionalInfo" ng-options="info for info in vm.geometryType.additionalInfo"
+                                    ng-disabled="!vm.geometryType || vm.geometryType.additionalInfo.length < 1"></select>
+                            </div>
+                        </div>
                     </div>
                     <div class="grey-border" style="margin: 6px 0 0 0;" id="style-settings-section">
                         <div class="form-group">
@@ -132,7 +140,7 @@
                                 </button>
                                     </div>
                                     <div class="col-sm-1 text-center">
-                                        <img class="grey-border" id="iconImage" />
+                                        <img class="grey-border" id="iconImage" ng-src="{{vm.iconData}}" />
                                     </div>
                                     <div class="col-sm-6 form-group">
                                         <label for="corner-radius">{{'CORNER_RADIUS' | translate}}</label>
@@ -163,7 +171,7 @@
                                     </div>
                                     <div class="col-sm-6 form-group">
                                         <label for="opacity">{{'OPACITY' | translate}}</label>
-                                        <input type="number" step="0.01" min="0" max="1" name="opacity" ng-change="vm.featureType.style['fillOpacity']=vm.featureType.style['opacity']"
+                                        <input type="number" step="0.05" min="0" max="1" name="opacity" ng-change="vm.featureType.style['strokeOpacity']=vm.featureType.style['opacity'];vm.featureType.style['fillOpacity']=vm.featureType.style['opacity']"
                                             data-ng-model="vm.featureType.style['opacity']" class="form-control">
                                     </div>
                                 </div>
@@ -216,7 +224,7 @@
                     </div>
                 </form>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-6" ng-show="vm.rowCollection.length > 0">
                 <div class="row">
                     <h4>{{'STYLE_PREVIEW' | translate}}</h4>
                     <label>{{'CURRENT_ZOOM' | translate}}: {{currentZoom}}</label>
@@ -237,8 +245,8 @@
         </div>
         <!-- PROPERTY TYPES -->
         <div class="row" ng-show="currentStep === 3">
-            <div ng-hide="vm.rowCollection.length > 0">{{'NO_DATA_TABLE' | translate}}</div>
-            <div class="col-sm-6">
+            <h4 ng-hide="vm.rowCollection.length > 0">{{'NO_DATA_TABLE' | translate}}</h4>
+            <div ng-show="vm.rowCollection.length > 0" class="col-sm-6">
                 <form id="propertySettingsForm" class="form-horizontal">
                     <div class="form-group form-header">
                         <h4>{{'PROPERTY_SETTINGS' | translate}}
@@ -275,8 +283,8 @@
                     <div class="form-group">
                         <label for="p-sf" class="col-sm-3">{{'STRINGFORMAT' | translate}}</label>
                         <div class="col-sm-9">
-                            <select data-ng-model="vm.pType.stringFormat" id="p-sf" ng-options="name for (name, type) in stringFormats" class="form-control"
-                            />
+                            <select data-ng-model="vm.pType.stringFormat" id="p-sf" ng-options="name for (name, type) in stringFormats" data-ng-change="vm.updatePropertyPreview()"
+                                class="form-control" ng-disabled="vm.pType.type !== 'number'" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -288,7 +296,7 @@
                                         class="form-control" />
                                 </div>
                                 <div class="col-xs-3 no-padding">
-                                    <button type="button" id="p-add" ng-click="vm.toggleAddSectionWindow()" class="btn btn-primary form-control"><i class="fa fa-plus" style="padding-left: 12px"></i><span>{{'NEW' | translate}}</span></button>
+                                    <button type="button" id="p-add" ng-click="vm.toggleAddSectionWindow()" class="btn btn-primary form-control"><i class="fa fa-plus"></i><span class="small-padding-left">{{'NEW' | translate}}</span></button>
                                 </div>
                             </div>
                             <div class="row" id="addSectionDiv" ng-init="addSectionMode = false" ng-show="addSectionMode">
@@ -341,10 +349,10 @@
                     </div>
                 </form>
             </div>
-            <div class="col-sm-6 col-md-4 text-center">
+            <div class="col-sm-6 col-md-4 text-center" ng-show="vm.rowCollection.length > 0">
                 <rightpanelpreview style="text-align: left;"></rightpanelpreview>
             </div>
-            <div class="col-sm-6 col-md-2">
+            <div class="col-sm-6 col-md-2" ng-show="vm.rowCollection.length > 0">
                 <div class="form-group">
                     <label for="select-preview-f">{{'SELECT_FEATURE_TO_PREVIEW' | translate}}</label>
                     <select class="form-control" id="select-preview-f" ng-options="vm.rowCollection.indexOf(row) as row[vm.featureType.style.nameLabel] for row in vm.rowCollection"
@@ -355,54 +363,106 @@
         <!-- Layer settings -->
         <div class="row" ng-show="currentStep === 4">
             <div class="col-sm-6">
-                <h5>{{'LAYER_SETTINGS' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'LAYER_SETTINGS_HELP' | translate}}"></i></span></h5>
-                <form>
+                <h4>{{'LAYER_SETTINGS' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'LAYER_SETTINGS_HELP' | translate}}"></i></span></h4>
+                <form class="form-horizontal">
                     <div class="form-group">
-                        <div class="row">
-                            <div class="col-xs-9 no-padding">
-                                <label for="l-group">{{'GROUP' | translate}}</label>
-                                <select id="l-group" ng-options="group as group.title for group in vm.project.groups" ng-model="vm.selectedGroup" ng-change="vm.selectGroup()"
-                                    class="form-control" />
+                        <label for="l-group" class="col-sm-3">{{'GROUP' | translate}}</label>
+                        <div class="col-sm-9">
+                            <div class="row">
+                                <div class="col-xs-9 no-padding">
+                                    <select id="l-group" ng-options="group as group.title for group in vm.project.groups" ng-model="vm.selectedGroup" ng-change="vm.selectGroup()"
+                                        class="form-control" />
+                                </div>
+                                <div class="col-xs-3 no-padding">
+                                    <button type="button" id="l-add" ng-click="vm.toggleAddGroupWindow()" class="btn btn-primary form-control"><i class="fa fa-plus"></i><span class="small-padding-left">{{'NEW' | translate}}</span></button>
+                                </div>
                             </div>
-                            <div class="col-xs-3 no-padding">
-                                <label for="l-add">{{'NEW' | translate}}</label>
-                                <button type="button" id="l-add" ng-click="vm.toggleAddGroupWindow()" class="btn btn-primary form-control"><i class="fa fa-plus"></i></button>
-                            </div>
-                        </div>
-                        <div class="row" id="addGroupDiv" ng-init="addGroupMode = false" ng-show="addGroupMode">
-                            <div class="col-xs-10 col-xs-offset-2 no-padding">
-                                <div class="input-group"><input type="text" id="new-group-input" placeholder="Add new group" ng-model="newGroup" class="form-control"
-                                        ng-keyup="$event.keyCode == 13 && vm.addGroup(newGroup)">
-                                    <span class="input-group-btn"><button class="btn btn-primary" type="button" ng-click="vm.addGroup(newGroup)">{{'ADD' | translate}}</button></span>
+                            <div class="row" id="addGroupDiv" ng-init="addGroupMode = false" ng-show="addGroupMode">
+                                <div class="col-xs-10 col-xs-offset-2 no-padding">
+                                    <div class="input-group"><input type="text" id="new-group-input" placeholder="Add new group" ng-model="newGroup"
+                                            class="form-control" ng-keyup="$event.keyCode == 13 && vm.addGroup(newGroup)">
+                                        <span class="input-group-btn"><button class="btn btn-primary" type="button" ng-click="vm.addGroup(newGroup)">{{'ADD' | translate}}</button></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="l-title">{{'LAYER_TITLE' | translate}}</label>
-                        <input type="text" id="l-title" ng-model="vm.layer.title" class="form-control" />
+                        <label for="l-title" class="col-sm-3">{{'LAYER_TITLE' | translate}}</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="l-title" ng-model="vm.layer.title" class="form-control" />
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="l-descr">{{'LAYER_DESCRIPTION' | translate}}</label>
-                        <input type="text" id="l-descr" ng-model="vm.layer.description" class="form-control" />
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6 form-group">
-                            <label for="fitmap">{{'FIT_TO_MAP' | translate}}</label>
-                            <input type="checkbox" id="fitmap" data-ng-model="vm.layer.fitToMap" class="checkbox-primary">
+                        <label for="l-descr" class="col-sm-3">{{'LAYER_DESCRIPTION' | translate}}</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="l-descr" ng-model="vm.layer.description" class="form-control" />
                         </div>
-                        <div class="col-sm-6 form-group">
-                            <label for="l-enabled">{{'ENABLED' | translate}}</label>
-                            <input type="checkbox" id="l-enabled" data-ng-model="vm.layer.enabled" class="checkbox-primary">
+                    </div>
+                    <div class="form-group">
+                        <label for="l-checkboxes" class="col-sm-3"></label>
+                        <div id="l-checkboxes" class="col-sm-9">
+                            <div class="row">
+                                <div class="col-sm-6 form-group">
+                                    <label for="fitmap">{{'FIT_TO_MAP' | translate}}</label>
+                                    <input type="checkbox" id="fitmap" data-ng-model="vm.layer.fitToMap" class="checkbox-primary">
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <label for="l-enabled">{{'ENABLED' | translate}}</label>
+                                    <input type="checkbox" id="l-enabled" data-ng-model="vm.layer.enabled" class="checkbox-primary">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>
+                <h4>{{'PROJECT_SETTINGS' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'PROJECT_SETTINGS_HELP' | translate}}"></i></span></h4>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="pj-title" class="col-sm-3">{{'PROJECT_TITLE' | translate}}</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="pj-title" ng-model="vm.project.title" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="pj-logo" class="col-sm-3">{{'PROJECT_LOGO' | translate}}</label>
+                        <div class="col-sm-9" id="pj-logo">
+                            <div class="row fill-height">
+                                <div class="col-sm-5 form-group">
+                                    <button class="file-upload-label btn" for="logo-upload"><i class="fa fa-picture-o small-padding" aria-hidden="true"></i><span>{{ 'UPLOAD_ICON' | translate}}</span>
+                                    <input type="file" accept="image/png" id="logo-upload" style="margin-top:8px" />
+                                </button>
+                                </div>
+                                <div class="col-sm-1 text-center fill-height">
+                                    <img class="grey-border" id="logoImage" ng-src="{{vm.logoData}}" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="form-group">
+                        <label for="pj-nothing" class="col-sm-3"></label>
+                        <div class="col-sm-9">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label for="pj-legendtab">{{'SHOW_LEGEND_TAB' | translate}}</label>
+                                    <input type="checkbox" id="pj-legendtab" data-ng-model="vm.project.legendTab" class="checkbox-primary">
+                                </div>
+                            </div>
+                        </div>
+                    </div>-->
+                </form>
             </div>
             <div class="col-sm-6">LAYER MENU PREVIEW
-                <div class="panel-border">
+                <div class="panel-border" style="min-height: 200px; margin-bottom: 24px">
                     <layerlistpreview></layerlistpreview>
                 </div>
-                <button class="btn btn-primary" data-ng-click="vm.convert()">{{'CONVERT' | translate}}</button>
+                <div class="form-group">
+                    <label for="convert-btn">{{'DATA_TO_MAP' | translate}}</label>
+                    <button id="convert-btn" class="btn btn-primary big-button" data-ng-click="vm.convert()">{{'CONVERT' | translate}}</button>
+                </div>
+                <div class="form-group">
+                    <label for="show-project">{{'SHOW_PROJECT' | translate}}</label>
+                    <a id="show-project" target="_blank" ng-href="{{'http://localhost:3004/?project='+vm.project.id}}">{{'SHOW_PROJECT' | translate}}</a>
+                </div>
             </div>
         </div>
         <!--<div class="widget-footer-spacing"></div>-->

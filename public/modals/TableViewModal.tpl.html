@@ -3,21 +3,26 @@
 </div>
 <div class="modal-body scrollable-xy-table">
     <div class="small-padding" ng-show="vm.itemsToSelect">
-        <div class="small-padding">{{'SELECT_THESE_ITEMS' | translate}}:</div>
+        <div class="small-padding bold">{{'SELECT_THESE_ITEMS' | translate}}:</div>
         <ul class="small-padding">
             <li ng-repeat="item in vm.itemsToSelect">{{item}}</li>
         </ul>
     </div>
     <div class="small-padding" ng-hide="vm.itemsToSelect">
-        <div class="small-padding">{{'NOTHING_TO_SELECT' | translate}}</div>        
+        <div class="small-padding">{{'NOTHING_TO_SELECT' | translate}}</div>
+    </div>
+    <div class="small-padding pointer" ng-click="vm.toggleTooltips()">
+        <i class="fa fa-eye-slash" aria-hidden="true"></i><span class="small-padding-left">{{'SHOW_HIDE_COLUMN_TITLES' | translate}}</span>
     </div>
     <table id="st-datatable" st-table="displayedCollection" st-safe-src="vm.rowCollection" class="table table-striped" ng-show="vm.rowCollection.length > 0"
         style="max-height:500px;overflow:auto;margin-top: 16px;">
         <thead>
+            <tr ng-show="vm.showTooltips">
+                <th ng-repeat="headerObj in vm.headerCollection">{{headerObj.title}}</th>
+            </tr>
             <tr class="csv-table-header">
                 <!--st-sort="{{col}}"-->
-                <th ng-click="vm.selectCol(headerObj, $index)" ng-repeat="headerObj in vm.headerCollection" uib-popover="{{headerObj.title}}"
-                    popover-trigger="'mouseenter'" popover-append-to-body="true">
+                <th ng-click="vm.selectCol(headerObj, $index)" ng-repeat="headerObj in vm.headerCollection" uib-tooltip="{{headerObj.title}}">
                     {{headerObj.code}}</th>
             </tr>
             <tr>

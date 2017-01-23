@@ -77,6 +77,7 @@ module Table2Map {
         name: string;
         cols: string[];
         drawingMode: 'Point' | 'Polygon';
+        additionalInfo: string[]; // E.g. statistical information of geographical regions
     }
 
     export interface IHeaderObject {
@@ -163,6 +164,8 @@ module Table2Map {
         private headerCollection: IHeaderObject[] = [];
         private originalHeaders: string[] = [];
         private sections: Dictionary < string > = {};
+        private geometryType: ITable2MapGeometryType;
+        private geometryTypeId: string;
         private geometryColumns: Dictionary < IHeaderObject > = {};
         private project: Project = < Project > {};
         private clusterOptions: ITable2MapClusterOptions = {
@@ -183,6 +186,8 @@ module Table2Map {
             decimalCharacter: '.'
         };
         private previewMap: L.Map;
+        private iconData: string; // Icon in base64 format
+        private logoData: string; // Project logo in base64 format
 
         public static $inject = [
             '$scope',
@@ -255,7 +260,8 @@ module Table2Map {
             /* File uploads */
             this.fileExtensions = {
                 'data': $scope.data.dataExtensions || [],
-                'icon': $scope.data.iconExtensions || []
+                'icon': $scope.data.iconExtensions || [],
+                'logo': $scope.data.iconExtensions || []
             };
             $('#file-upload').change(() => {
                 let file = ( < any > $('#file-upload')[0]).files[0];
@@ -285,14 +291,10 @@ module Table2Map {
             }, false);
 
             $('#icon-upload').change(() => {
-                let file: File = ( < any > $('#icon-upload')[0]).files[0];
-                if (!file.type || file.type !== 'image/png') {
-                    this.$messageBus.notifyWithTranslation('UNKNOWN_FORMAT', 'UNKNOWN_FORMAT_MSG');
-                } else if (!file.size || file.size > MAX_ICON_SIZE) {
-                    this.$messageBus.notifyWithTranslation('FILE_TOO_LARGE', 'FILE_TOO_LARGE_MSG');
-                } else {
-                    this.readFile(file, 'icon');
-                }
+                this.imageSelected('icon');
+            });
+            $('#logo-upload').change(() => {
+                this.imageSelected('logo');
             });
 
             // Check for the various File API support.
@@ -304,6 +306,24 @@ module Table2Map {
             }
 
             this.initPreviewMap();
+        }
+
+        private imageSelected(type: 'icon' | 'logo') {
+            let file: File;
+            if (type === 'icon') {
+                file = ( < any > $('#icon-upload')[0]).files[0];
+            } else if (type === 'logo') {
+                file = ( < any > $('#logo-upload')[0]).files[0];
+            } else {
+                return;
+            }
+            if (!file.type || file.type !== 'image/png') {
+                this.$messageBus.notifyWithTranslation('UNKNOWN_FORMAT', 'UNKNOWN_FORMAT_MSG');
+            } else if (!file.size || file.size > MAX_ICON_SIZE) {
+                this.$messageBus.notifyWithTranslation('FILE_TOO_LARGE', 'FILE_TOO_LARGE_MSG');
+            } else {
+                this.readFile(file, type);
+            }
         }
 
         private fileDropped(evt) {
@@ -370,7 +390,7 @@ module Table2Map {
                     data: Project
                 }) => {
                     this.project = res.data;
-                    this.password = this.project['password'];
+                    this.password = this.project['password'] || this.password;
                 })
                 .catch((err) => {
                     console.warn(`Error requesting project ${this.project.id}. ${err}`);
@@ -391,7 +411,7 @@ module Table2Map {
         }
 
         /** Reads a file */
-        private readFile(file: any, fileType: 'data' | 'icon') {
+        private readFile(file: any, fileType: 'data' | 'icon' | 'logo') {
             if (!this.uploadAvailable) {
                 this.$messageBus.notifyError('Cannot upload files', 'Try using a modern browser (Chrome, FireFox, Edge) to be able to upload files, or use the copy/paste option.');
                 return;
@@ -412,10 +432,17 @@ module Table2Map {
                 if (fileType === 'data') {
                     this.textContent = reader.result;
                     this.updatedContent();
+                } else if (fileType === 'icon') {
+                    this.$timeout(() => {
+                        this.featureType.style.iconUri = file.name;
+                        this.iconData = reader.result;
+                        this.updateMarker();
+                    }, 0);
                 } else {
-                    $('#iconImage').attr('src', reader.result);
-                    this.featureType.style.iconUri = reader.result;
-                    this.updateMarker();
+                    this.$timeout(() => {
+                        this.project.logo = file.name;
+                        this.logoData = reader.result;
+                    }, 0);
                 }
             };
 
@@ -524,6 +551,8 @@ module Table2Map {
                                 total: this.rowCollection.length
                             };
                             this.$scope.currentStep = ConversionStep.StyleSettings;
+                            let msg = `Delimiter: ${this.csvParseSettings.delimiter}, Headers: ${(this.csvParseSettings.hasHeader ? 'yes' : 'no')}\nResult: ${_.size(this.headerCollection)} columns & ${this.rowCollection.length} rows.`;
+                            this.$messageBus.notifyWithTranslation('DATA_PARSED_CORRECTLY', msg);
                         }, 0);
                     })
                     .on('error', (err) => {
@@ -553,7 +582,7 @@ module Table2Map {
                 parameter2: geometryParams.getKeyAt(1, 'code'),
                 parameter3: geometryParams.getKeyAt(2, 'code'),
                 parameter4: geometryParams.getKeyAt(3, 'code'),
-                iconUri: `${this.layer.id}.png`,
+                iconUri: this.featureType.style.iconUri,
                 iconSize: this.featureType.style.iconHeight,
                 drawingMode: this.featureType.style.drawingMode,
                 fillColor: this.featureType.style.fillColor,
@@ -571,7 +600,8 @@ module Table2Map {
                 geometryKey: '' //TODO
             };
             let layerTemplate: Table2MapLayerTemplate = {
-                iconBase64: this.featureType.style.iconUri,
+                iconBase64: this.iconData,
+                logoBase64: this.logoData,
                 projectId: this.project.id,
                 layerDefinition: [layerDefinition],
                 properties: this.rowCollection,
@@ -624,17 +654,20 @@ module Table2Map {
             if (hObj) {
                 let hObj2 = this.findHeader(H_NR_LABELS);
                 if (hObj2) {
-                    this.featureType.name = 'Adres';
                     let hObj3 = this.findHeader(H_LTR_LABELS);
                     if (hObj3) {
+                        this.geometryTypeId = 'Adres';
+                        this.geometryType = GEOMETRY_TYPES['Adres'];
                         let hObj4 = this.findHeader(H_TOEV_LABELS);
                         if (hObj4) {
-                            this.geometryColumns = < Dictionary < IHeaderObject >> _.object(GEOMETRY_TYPES[this.featureType.name].cols, [hObj, hObj2, hObj3, hObj4]);
+                            this.geometryColumns = < Dictionary < IHeaderObject >> _.object(this.geometryType.cols, [hObj, hObj2, hObj3, hObj4]);
                         } else {
-                            this.geometryColumns = < Dictionary < IHeaderObject >> _.object(GEOMETRY_TYPES[this.featureType.name].cols, [hObj, hObj2, hObj3]);
+                            this.geometryColumns = < Dictionary < IHeaderObject >> _.object(this.geometryType.cols, [hObj, hObj2, hObj3]);
                         }
                     } else {
-                        this.geometryColumns = < Dictionary < IHeaderObject >> _.object(GEOMETRY_TYPES[this.featureType.name].cols, [hObj, hObj2]);
+                        this.geometryTypeId = 'Adres_simple';
+                        this.geometryType = GEOMETRY_TYPES['Adres_simple'];
+                        this.geometryColumns = < Dictionary < IHeaderObject >> _.object(this.geometryType.cols, [hObj, hObj2]);
                     }
                     // 2 headers required, more are optional
                     this.selectGeoType();
@@ -646,9 +679,9 @@ module Table2Map {
             if (hObj) {
                 let hObj2 = this.findHeader(LNG_LABELS);
                 if (hObj2) {
-                    this.featureType.name = 'latlong';
+                    this.geometryTypeId = 'latlong';
                     this.selectGeoType();
-                    this.geometryColumns = < Dictionary < IHeaderObject >> _.object(GEOMETRY_TYPES[this.featureType.name].cols, [hObj, hObj2]);
+                    this.geometryColumns = < Dictionary < IHeaderObject >> _.object(this.geometryType.cols, [hObj, hObj2]);
                     return;
                 }
             }
@@ -657,9 +690,9 @@ module Table2Map {
             if (hObj) {
                 let hObj2 = this.findHeader(RDY_LABELS, true);
                 if (hObj2) {
-                    this.featureType.name = 'RD';
+                    this.geometryTypeId = 'RD';
                     this.selectGeoType();
-                    this.geometryColumns = < Dictionary < IHeaderObject >> _.object(GEOMETRY_TYPES[this.featureType.name].cols, [hObj, hObj2]);
+                    this.geometryColumns = < Dictionary < IHeaderObject >> _.object(this.geometryType.cols, [hObj, hObj2]);
                     return;
                 }
             }
@@ -672,7 +705,7 @@ module Table2Map {
             let result;
             options.some((label) => {
                 return this.headerCollection.some((hObj) => {
-                    let title = hObj.title.toLowerCase().trim();
+                    let title = hObj.title.toString().toLowerCase().trim();
                     if (title === label || (title.indexOf(label) >= 0 && !exact)) {
                         result = hObj;
                         return true;
@@ -710,11 +743,11 @@ module Table2Map {
                 switch (this.$scope.currentStep) {
                     case ConversionStep.StyleSettings:
                         selectionOption = 'col';
-                        if (!this.featureType.name) {
+                        if (!this.geometryType) {
                             this.$messageBus.notifyWithTranslation('SELECT_GEOMETRYTYPE_FIRST', '');
                             return;
                         }
-                        let type = GEOMETRY_TYPES[this.featureType.name];
+                        let type = this.geometryType;
                         selectionAmount = (type ? type.cols.length : 1);
                         itemsToSelect = type.cols;
                         break;
@@ -758,7 +791,7 @@ module Table2Map {
                 if (selectionOption === 'col') {
                     console.log(`Selected ${JSON.stringify(selectedRowCol)}`);
                     if (this.$scope.currentStep === ConversionStep.StyleSettings) {
-                        this.geometryColumns = < Dictionary < IHeaderObject >> _.object(GEOMETRY_TYPES[this.featureType.name].cols, selectedRowCol);
+                        this.geometryColumns = < Dictionary < IHeaderObject >> _.object(this.geometryType.cols, selectedRowCol);
                     }
                 } else if (selectionOption === 'row') {
                     console.log(`Selected ${JSON.stringify(selectedRowCol)}`);
@@ -794,8 +827,8 @@ module Table2Map {
          */
         private selectGeoType(clearSelectedColumns: boolean = false) {
             if (clearSelectedColumns) this.geometryColumns = {};
-            let type = GEOMETRY_TYPES[this.featureType.name];
-            this.featureType.style.drawingMode = type.drawingMode;
+            this.geometryType = GEOMETRY_TYPES[this.geometryTypeId];
+            this.featureType.style.drawingMode = this.geometryType.drawingMode;
             this.updateMarker();
         }
 
@@ -932,7 +965,7 @@ module Table2Map {
             let drawingMode = this.featureType.style.drawingMode;
             if (this.marker) this.previewMap.removeLayer(this.marker);
             this.feature.geometry.type = drawingMode;
-            this.feature.properties = this.rowCollection[this.selectedRowIndex];
+            this.feature.properties = this.rowCollection[this.selectedRowIndex || 0];
             this.feature['fType'] = this.featureType;
             this.layerService.calculateFeatureStyle(this.feature);
             if (drawingMode === 'Point') {

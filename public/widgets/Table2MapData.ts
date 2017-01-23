@@ -34,50 +34,53 @@ module Table2Map {
         'Percentage_four_decimals': '{0:#,#.####}%'
     };
     export var GEOMETRY_TYPES: Dictionary < ITable2MapGeometryType > = {
-        'ProvincieNaam': {
-            name: 'Provincie op naam',
-            cols: ['Provincie-naam'],
-            drawingMode: 'Polygon'
+        'Provincie': {
+            name: 'Provincie',
+            cols: ['Provincienaam of -code'],
+            drawingMode: 'Polygon',
+            additionalInfo: ['', 'CBS']
         },
-        'ProvincieCode': {
-            name: 'Provincie op code',
-            cols: ['Provincie-code'],
-            drawingMode: 'Polygon'
-        },
-        'GemeenteNaam': {
-            name: 'Gemeente op naam',
-            cols: ['Gemeente-naam'],
-            drawingMode: 'Polygon'
-        },
-        'GemeenteCode': {
-            name: 'Gemeente op code',
-            cols: ['Gemeente-code'],
-            drawingMode: 'Polygon'
+        'Gemeente': {
+            name: 'Gemeente',
+            cols: ['Gemeentenaam of -code'],
+            drawingMode: 'Polygon',
+            additionalInfo: ['', 'CBS']
         },
         'Adres': {
-            name: 'Adres',
+            name: 'Postcode 6 / huisnummer / letter / toevoeging',
             cols: ['Postcode 6', 'Huisnummer', 'Huisletter', 'Huisnummertoevoeging'],
-            drawingMode: 'Point'
+            drawingMode: 'Point',
+            additionalInfo: ['', 'Bouwjaar']
+        },
+        'Adres_simple': {
+            name: 'Postcode 6 / huisnummer (+ toevoeging)',
+            cols: ['Postcode 6', 'Huisnummer (+ toevoeging)'],
+            drawingMode: 'Point',
+            additionalInfo: ['', 'Bouwjaar']
         },
         'OpenStreetMap': {
-            name: 'OpenStreetMap zoek',
+            name: 'Vrij zoeken (OpenStreetMap)',
             cols: ['Zoekveld'],
-            drawingMode: 'Point'
+            drawingMode: 'Point',
+            additionalInfo: []
         },
         'WMO': {
             name: 'WMO-regio',
             cols: ['WMO regionaam'],
-            drawingMode: 'Polygon'
+            drawingMode: 'Polygon',
+            additionalInfo: []
         },
         'latlong': {
             name: 'Lat-long coordinaten',
             cols: ['lat', 'lng'],
-            drawingMode: 'Point'
+            drawingMode: 'Point',
+            additionalInfo: []
         },
         'RD': {
             name: 'RD coordinaten',
             cols: ['X', 'Y'],
-            drawingMode: 'Point'
+            drawingMode: 'Point',
+            additionalInfo: []
         },
     };
 
@@ -143,6 +146,7 @@ module Table2Map {
         sensors ? : IProperty[];
         projectId ? : string;
         iconBase64 ? : string;
+        logoBase64 ? : string;
     }
 
     export function getDefaultIconUri() {
