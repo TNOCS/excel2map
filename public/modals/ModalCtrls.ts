@@ -47,30 +47,52 @@ module ModalCtrls {
             '$scope',
             'messageBusService',
             '$uibModalInstance',
+            '$timeout',
             'rowCollection',
             'headerCollection',
             'originalHeaders',
             'selectionOption',
             'selectionAmount',
-            'itemsToSelect'
+            'itemsToSelect',
+            'selectedColumns'
         ];
 
-        private selectedColumns: Table2Map.IHeaderObject[] = [];
         private selectedRows = [];
 
         constructor(
             private $scope: ITableViewModalScope,
             private $messageBusService: csComp.Services.MessageBusService,
             private $uibModalInstance: any,
+            private $timeout: ng.ITimeoutService,
             private rowCollection: Dictionary < any > [] = [],
             private headerCollection: Table2Map.IHeaderObject[] = [],
             private originalHeaders: string[] = [],
             private selectionOption: 'none' | 'row' | 'col',
             private selectionAmount: number,
             private itemsToSelect: string[],
+            private selectedColumns: Table2Map.IHeaderObject[],
             private showTooltips: boolean = false
         ) {
             $scope.vm = this;
+            if (!this.selectedColumns) this.selectedColumns = [];
+            $timeout(() => {
+                this.preselectColumns();
+            }, 0);
+        }
+
+        private preselectColumns() {
+            this.selectedColumns.forEach((col) => {
+                if (col && col.hasOwnProperty('index')) {
+                    $(`#st-datatable th:nth-child(${col.index + 1}), #st-datatable td:nth-child(${col.index + 1})`).toggleClass('st-selected', true);
+                }
+            });
+        }
+
+        public swapRows(rowIndex: number) {
+            let keys = Object.keys(this.selectedColumns);
+            let hObjToSwap = JSON.parse(JSON.stringify(this.selectedColumns[keys[rowIndex]]));
+            this.selectedColumns[keys[rowIndex]] = this.selectedColumns[keys[rowIndex + 1]];
+            this.selectedColumns[keys[rowIndex + 1]] = hObjToSwap;
         }
 
         public toggleTooltips() {
@@ -79,16 +101,21 @@ module ModalCtrls {
 
         public selectRow(row: Dictionary < any > ) {
             if (row && row['isSelected']) {
-                this.selectedRows.push(row);
+                this.$timeout(() => {
+                    this.selectedRows.push(row);
+                }, 0);
             }
         }
 
         public selectCol(col: Table2Map.IHeaderObject, index: number) {
             index += 1;
             if (this.selectionOption === 'col') {
-                if (this.selectedColumns.indexOf(col) >= 0) {
+                let foundIndex = this.selectedColumns.findIndex((selCol) => {
+                    return selCol.code === col.code;
+                });
+                if (foundIndex >= 0) {
                     console.log(`Deselect col ${col.code} / ${col.title} (${index})`);
-                    this.selectedColumns.splice(this.selectedColumns.indexOf(col), 1);
+                    this.selectedColumns.splice(foundIndex, 1);
                     $(`#st-datatable th:nth-child(${index}), #st-datatable td:nth-child(${index})`).toggleClass('st-selected', false);
                     return;
                 } else if (this.selectedColumns.length >= this.selectionAmount) {

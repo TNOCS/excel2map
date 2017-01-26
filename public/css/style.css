@@ -219,7 +219,7 @@ td.st-selected {
 }
 
 .form-group {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .larger-font {
@@ -243,11 +243,26 @@ td.st-selected {
 }
 
 h4 {
-    color: rgb(0, 112, 192);
+    color: rgb(57, 84, 96);
     font-style: bold;
 }
 
 label {
-    color: rgb(0, 112, 192);
-    font-size: 14px;
+    color: rgb(57, 84, 96);
+    font-size: 13px;
+}
+
+a[aria-expanded=true] .fa-chevron-down {
+    display: none;
+}
+
+a[aria-expanded=false] .fa-chevron-up {
+    display: none;
+}
+
+.property-edit-pencil {
+    position: absolute;
+    font-size: 130%;
+    top: 8px;
+    right: -8px;
 }

@@ -288,7 +288,6 @@ module Table2Map {
 
     export class RightPanelPreviewCtrl {
         private scope: IRightPanelPreviewScope;
-        public lastSelectedProperty: IPropertyType;
         private defaultDropdownTitle: string;
 
         // list of active stats/charts properties, used when switching between features to keep active stats open
@@ -296,6 +295,7 @@ module Table2Map {
         private showChart = [];
         private featureType;
         private callOut: CallOut;
+        private selectedProp: ICallOutProperty;
 
         // $inject annotation.
         // It provides $injector with information about dependencies to be injected into constructor
@@ -378,19 +378,23 @@ module Table2Map {
                 feature.timestamps = this.$layerService.findLayer(feature.layerId).timestamps;
 
             this.callOut = new CallOut(this.featureType, feature, this.$layerService.propertyTypeData, this.$layerService, this.$mapService);
-            if (this.showMore.length > 0 || this.showChart.length > 0) {
-                for (var s in this.callOut.sections) {
-                    var sec = this.callOut.sections[s];
-                    sec.properties.forEach((p: ICallOutProperty) => {
-                        p.showMore = this.showMore.indexOf(p.property) >= 0;
-                        p.showChart = this.showChart.indexOf(p.property) >= 0;
-                        if (p.showChart) this.addSparkline(p);
-                    });
-                }
+            if (!this.selectedProp && this.callOut.hasInfoSection) {
+                this.editPropertyType(this.callOut.sections['Aaa Info'].properties[0]);
             }
+            // if (this.showMore.length > 0 || this.showChart.length > 0) {
+            //     for (var s in this.callOut.sections) {
+            //         var sec = this.callOut.sections[s];
+            //         sec.properties.forEach((p: ICallOutProperty) => {
+            //             p.showMore = this.showMore.indexOf(p.property) >= 0;
+            //             p.showChart = this.showChart.indexOf(p.property) >= 0;
+            //             if (p.showChart) this.addSparkline(p);
+            //         });
+            //     }
+            // }
         }
 
-        private editPropertyType(item: CallOutProperty) {
+        private editPropertyType(item: ICallOutProperty) {
+            this.selectedProp = item;
             this.$messageBusService.publish('table2map', 'editPropertyType', item.propertyType);
         }
 

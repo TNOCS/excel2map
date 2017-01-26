@@ -45,16 +45,14 @@
             <div class="panel-group" id="accordion">
                 <form name="form" class="css-form" style="padding-bottom:40px" novalidate>
                     <div class="panel feature-prop-property" uib-popover="{{(item.description) ? item.description : ''}}" popover-placement="left"
-                        popover-trigger="'mouseenter'" popover-append-to-body="true" data-ng-repeat="item in vm.callOut.sections[key].properties">
+                        popover-trigger="'mouseenter'" popover-append-to-body="true" data-ng-repeat="item in vm.callOut.sections[key].properties"
+                        style="position: relative">
                         <!-- Currently-styled-property background gray -->
-                        <div class="panel-heading feature-prop-item" ng-style="(item.feature._gui['style'][item.property]) && {'border':'1px solid blue', 'background': 'lightgray'}"
+                        <div class="panel-heading feature-prop-item" ng-style="(item.property === vm.selectedProp.property) && {'border':'1px solid blue', 'background': 'lightgray'}"
                             ng-click="vm.editPropertyType(item)">
                             <div data-ng-switch="item.propertyType.type">
-                                <div ng-switch-when="layer">
-                                    <a ng-click="vm.openLayer(item)">{{item.propertyType.title}}</a>
-                                </div>
                                 <div ng-switch-default>
-                                    <div ng-style="item.isDraft && {'opacity':0.5}" class="feature-prop-title">{{item.propertyType.title}}</div>
+                                    <div class="feature-prop-title">{{item.propertyType.title}}</div>
                                     <div data-ng-switch="item.propertyType.type" class="feature-prop-value">
                                         <div ng-switch-when="date" class="feature-prop-value-align-right clickable-feature-prop" ng-click="vm.zoomToDate(item.feature.properties[item.property])">
                                             {{item.value}}</div>
@@ -78,16 +76,17 @@
                                         </div>
                                         <div ng-switch-default class="feature-prop-value-align-right" data-ng-bind-html="vm.toTrusted(item.value)"></div>
                                     </div>
-                                    <div class="feature-prop-content">
+                                    <!--<div class="feature-prop-content">
                                         <div class="icons-on-hover">
-                                            <div class="property-action" style="left:60px" uib-tooltip="{{'EDIT_PROPERTYTYPE' | translate}}" tooltip-placement="top">
-                                                <a class="fa fa-cog makeNarrow pointer" data-toggle="collapse" ng-click="vm.editPropertyType(item)"></a>
+                                            <div class="property-action" style="left:10px" uib-tooltip="{{'EDIT_PROPERTYTYPE' | translate}}" tooltip-placement="top">
+                                                <a class="fa fa-pencil makeNarrow pointer" data-toggle="collapse" ng-click="vm.editPropertyType(item)"></a>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>-->
                                 </div>
                             </div>
                         </div>
+                        <a ng-hide="item.property === vm.selectedProp.property" class="fa fa-pencil pointer property-edit-pencil" data-toggle="collapse" ng-click="vm.editPropertyType(item)"></a>
                     </div>
                 </form>
             </div>

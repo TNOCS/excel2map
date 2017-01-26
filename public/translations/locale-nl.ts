@@ -48,7 +48,10 @@ module Translations {
             PROJECT_ID: 'Project ID',
             DATA_TO_MAP: 'Data naar de kaart',
             STYLE_SETTINGS: 'Stijl instellingen',
-            ADDITIONAL_INFO: 'Extra informatie'
+            ADDITIONAL_INFO: 'Extra informatie',
+            PROJECT_SETTINGS: 'Project instellingen',
+            DATA_PARSED_CORRECTLY: 'Data is goed verwerkt',
+            SELECT_NR_COLUMNS: '{{nr}} kolommen geselecteerd'
         };
     }
 }

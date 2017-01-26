@@ -33,7 +33,8 @@ module App {
             'layerService',
             'messageBusService',
             'dashboardService',
-            'geoService'
+            'geoService',
+            'tableToMapSvc'
         ];
 
         public areaFilter: AreaFilter.AreaFilterModel;
@@ -51,7 +52,8 @@ module App {
             private $layerService: csComp.Services.LayerService,
             private $messageBusService: csComp.Services.MessageBusService,
             private $dashboardService: csComp.Services.DashboardService,
-            private geoService: csComp.Services.GeoService
+            private geoService: csComp.Services.GeoService,
+            private tableToMapSvc: Table2Map.Table2MapSvc
         ) {
             sffjs.setCulture('nl-NL');
 

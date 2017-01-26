@@ -48,7 +48,10 @@ module Translations {
             PROJECT_ID: 'Project ID',
             DATA_TO_MAP: 'Data to map',
             STYLE_SETTINGS: 'Style settings',
-            ADDITIONAL_INFO: 'Additional information'
+            ADDITIONAL_INFO: 'Additional information',
+            PROJECT_SETTINGS: 'Project settings',
+            DATA_PARSED_CORRECTLY: 'Data was loaded correctly',
+            SELECT_NR_COLUMNS: 'Selected {{nr}} columns'
         };
     }
 }
