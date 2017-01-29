@@ -1,4 +1,7 @@
 # excel2map
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/548cb9ed97024929b219d0f730fbd74c)](https://www.codacy.com/app/erikvullings/excel2map?utm_source=github.com&utm_medium=referral&utm_content=TNOCS/excel2map&utm_campaign=badger)
+
 Convert an Excel table to a beautiful map using csWeb.
 
 ## Installation instructions
