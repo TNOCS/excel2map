@@ -211,14 +211,21 @@ Private Function range2json(namedRange As String, isStart As Boolean, isFinal As
                         lineData = Left(lineData, Len(lineData) - 1)
                         lineData = lineData & "],"
                     ElseIf (IsNumber(cellValue) And Not TypeName(cellValue) = "String") Then
+                        'Numbers
+                        lineData = lineData & """" & cellHeader & """" & ":" & Replace(cellValue, ",", ".") & ","
+                    ElseIf (IsNumeric(cellValue) And InStr(CStr(cellValue), "E") >= 1) Then
+                        'Scientific notation
                         lineData = lineData & """" & cellHeader & """" & ":" & Replace(cellValue, ",", ".") & ","
                     ElseIf (IsBoolean(cellValue)) Then
+                        'Boolean
                         Dim englishBooleanValue
                         englishBooleanValue = rangeToExport.Cells(rowCounter, columnCounter).Formula
                         lineData = lineData & """" & cellHeader & """" & ":" & LCase(Replace(englishBooleanValue, "''", "")) & ","
                     ElseIf (TypeName(cellValue) = "Date") Then
+                        'Date
                         lineData = lineData & """" & cellHeader & """" & ":" & """" & Format(cellValue, "yyyymmdd") & """" & ","
                     Else
+                        'Default (string)
                         lineData = lineData & """" & cellHeader & """" & ":" & """" & cellValue & """" & ","
                     End If
                 End If
