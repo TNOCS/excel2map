@@ -56,5 +56,9 @@
     "winston": "registry:dt/winston#0.0.0+20160417152829",
     "xbbcode": "github:rinzeb/DefinitelyTyped/xbbcode/xbbcode.d.ts#09e844c1ef5a2b4b5bda6c672453cc7f1fdfe0c6",
     "xml2js": "registry:dt/xml2js#0.0.0+20160317120654"
+  },
+  "dependencies": {
+    "basic-auth": "registry:npm/basic-auth#1.0.4+20160811001003",
+    "opn": "registry:npm/opn#4.0.0+20160326092750"
   }
 }
