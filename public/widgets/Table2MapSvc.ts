@@ -319,7 +319,7 @@ module Table2Map {
                 fillOpacity: 1,
                 nameLabel: ''
             };
-            this.feature = < IFeature > {
+            this.feature = < csComp.Services.Feature > {
                 type: 'Feature',
                 geometry: {
                     coordinates: null,
@@ -667,7 +667,7 @@ module Table2Map {
             }, 0);
         }
 
-        /** When the geometry type is changed manually by the user, clear 
+        /** When the geometry type is changed manually by the user, clear
          * the selected geometry columns. Otherwise, keep them.
          */
         private selectGeoType(clearSelectedColumns: boolean = false) {
