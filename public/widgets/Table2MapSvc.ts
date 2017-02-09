@@ -721,11 +721,14 @@ module Table2Map {
             this.updatePropertyPreview();
         }
 
-        private checkSections() {
-            if (_.pluck(this.sections, 'val').indexOf(this.pType.section) < 0) {
+        private checkSections(newSection ? : string) {
+            let section = newSection || this.pType.section;
+            if (!section) return;
+            if (_.pluck(this.sections, 'val').indexOf(section) >= 0) {
                 this.updatePropertyPreview();
             } else {
-                this.addSection(this.pType.section);
+                this.pType.section = section;
+                this.addSection(section);
             }
         }
 
@@ -972,7 +975,7 @@ module Table2Map {
 
     myModule.service('tableToMapSvc', Table2Map.Table2MapSvc);
 
-    myModule.directive('selectOnBlur', () => {
+    myModule.directive('selectGroupOnBlur', () => {
         return {
             require: 'uiSelect',
             link: ($scope, $element, attrs, $select) => {
@@ -986,6 +989,23 @@ module Table2Map {
                             // $scope.$parent.vm.t2mSvc.checkGroups(item.title);
                         } else {
                             $scope.$parent.vm.t2mSvc.checkGroups(searchInput.val());
+                        }
+                    });
+                });
+            }
+        };
+    });
+
+    myModule.directive('selectSectionOnBlur', () => {
+        return {
+            require: 'uiSelect',
+            link: ($scope, $element, attrs, $select) => {
+                var searchInput = $element.querySelectorAll('input.ui-select-search');
+                if (searchInput.length !== 1) throw Error('Multiple input detected');
+                searchInput.on('blur', () => {
+                    $scope.$apply(() => {
+                        if ($select.items.length <= $select.activeIndex) {
+                            $scope.$parent.vm.t2mSvc.checkSections(searchInput.val());
                         }
                     });
                 });

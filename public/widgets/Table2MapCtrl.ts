@@ -23,6 +23,23 @@ module Table2Map {
         };
     }]);
 
+    myModule.directive('objectToValue', () => {
+        return {
+            restrict: 'A',
+            require: 'ngModel',
+            link: (scope, element, attrs, ngModel) => {
+                if (ngModel) {
+                    ngModel.$parsers.push((value) => {
+                        return (value ? value.val : value);
+                    });
+                    ngModel.$formatters.push((value) => {
+                        return ({val: value, name: value || 'Default'});
+                    });
+                }
+            }
+        };
+    });
+
     import Helpers = csComp.Helpers;
     import Project = csComp.Services.Project;
     import ProjectLayer = csComp.Services.ProjectLayer;
@@ -120,9 +137,6 @@ module Table2Map {
 
             $scope.$watch('vm.t2mSvc.currentStep', () => {
                 console.log(`Select step ${this.t2mSvc.currentStep}`);
-                if (this.t2mSvc.currentStep === ConversionStep.StyleSettings) {
-                    this.t2mSvc.updatedContent();
-                }
                 if (this.t2mSvc.currentStep === ConversionStep.FeatureProps) {
                     this.$messageBus.publish('table2map', 'update-rightpanel', this.t2mSvc.feature);
                 }

@@ -44,7 +44,7 @@
                             <input type="password" class="form-control" id="project-password" ng-model="vm.t2mSvc.password" placeholder="Password">
                         </div>
                         <div class="col-sm-3">
-                            <button class="btn btn-primary" ng-click="vm.t2mSvc.requestProject()">{{'CREATE' | translate}}</button>
+                            <button class="btn btn-primary" ng-click="vm.t2mSvc.requestProject()">{{'LOAD_OR_CREATE_BUTTON' | translate}}</button>
                         </div>
                     </div>
                 </form>
@@ -52,13 +52,13 @@
                     <h4>{{'PROJECT_SETTINGS' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'PROJECT_SETTINGS_HELP' | translate}}"></i></span></h4>
                     <form name="projectSettingsForm" class="form-horizontal">
                         <div class="form-group">
-                            <label for="pj-title" class="col-sm-3">{{'PROJECT_TITLE' | translate}}</label>
+                            <label for="pj-title" class="col-sm-3">{{'TITLE' | translate}}</label>
                             <div class="col-sm-9">
                                 <input type="text" id="pj-title" ng-model="vm.t2mSvc.project.title" class="form-control" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="pj-logo" class="col-sm-3">{{'PROJECT_LOGO' | translate}}</label>
+                            <label for="pj-logo" class="col-sm-3">{{'LOGO' | translate}}</label>
                             <div class="col-sm-9" id="pj-logo">
                                 <div class="row fill-height">
                                     <div class="col-sm-5 form-group">
@@ -78,7 +78,7 @@
                         <div class="form-group">
                             <label for="l-group" class="col-sm-3">{{'GROUP' | translate}}</label>
                             <div class="col-sm-9">
-                                <ui-select select-on-blur ng-model="vm.t2mSvc.selectedGroup" ng-blur="vm.t2mSvc.checkGroups()" ng-keyup="$event.keyCode == 13 && vm.t2mSvc.checkGroups()"
+                                <ui-select select-group-on-blur ng-model="vm.t2mSvc.selectedGroup" ng-blur="vm.t2mSvc.checkGroups()" ng-keyup="$event.keyCode == 13 && vm.t2mSvc.checkGroups()"
                                     ng-class="{'ng-valid': vm.t2mSvc.selectedGroup.title, 'ng-invalid': !vm.t2mSvc.selectedGroup.title}">
                                     <ui-select-match placeholder="{{'SELECT_OR_CREATE_GROUP' | translate}}">
                                         <span ng-bind="$select.selected.title"></span>
@@ -92,13 +92,13 @@
                             <input type="text" id="dummy" ng-model="vm.t2mSvc.selectedGroup.title" style="display: none" required>
                         </div>
                         <div class="form-group">
-                            <label for="l-title" class="col-sm-3">{{'LAYER_TITLE' | translate}}</label>
+                            <label for="l-title" class="col-sm-3">{{'TITLE' | translate}}</label>
                             <div class="col-sm-9">
                                 <input type="text" id="l-title" ng-model="vm.t2mSvc.layer.title" class="form-control" required/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="l-descr" class="col-sm-3">{{'LAYER_DESCRIPTION' | translate}}</label>
+                            <label for="l-descr" class="col-sm-3">{{'DESCRIPTION' | translate}}</label>
                             <div class="col-sm-9">
                                 <input type="text" id="l-descr" ng-model="vm.t2mSvc.layer.description" class="form-control" />
                             </div>
@@ -108,11 +108,11 @@
                             <div id="l-checkboxes" class="col-sm-9">
                                 <div class="row">
                                     <div class="col-sm-6 form-group">
-                                        <label for="fitmap">{{'FIT_TO_MAP' | translate}}</label>
+                                        <label for="fitmap" uib-tooltip="{{'FIT_TO_MAP_HELP' | translate}}">{{'FIT_TO_MAP' | translate}}</label>
                                         <input type="checkbox" id="fitmap" data-ng-model="vm.t2mSvc.layer.fitToMap" class="checkbox-primary">
                                     </div>
                                     <div class="col-sm-6 form-group">
-                                        <label for="l-enabled">{{'ENABLED' | translate}}</label>
+                                        <label for="l-enabled" uib-tooltip="{{'ENABLED_HELP' | translate}}">{{'ENABLED' | translate}}</label>
                                         <input type="checkbox" id="l-enabled" data-ng-model="vm.t2mSvc.layer.enabled" class="checkbox-primary">
                                     </div>
                                 </div>
@@ -126,7 +126,7 @@
                     <div class="col-xs-12 text-center">
                         <form name="dropBox">
                             <textarea rows="16" class="fill-height" id="drop-box" style="width:95%;margin-top: 24px" placeholder="{{'DROP_HERE' | translate}}"
-                                ng-model="vm.t2mSvc.textContent" autofocus required></textarea>
+                                ng-model="vm.t2mSvc.textContent" ng-model-options='{ debounce: 1000 }' ng-change="vm.t2mSvc.updatedContent()" autofocus required></textarea>
                         </form>
                     </div>
                 </div>
@@ -275,7 +275,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="clustering-group" class="col-sm-3">{{'CLUSTERING' | translate}}</label>
+                                <label for="clustering-group" class="col-sm-3">{{'CLUSTERING_OPTIONS' | translate}}</label>
                                 <div class="col-sm-9" id="clustering-group">
                                     <div class="row form-inline">
                                         <div class="col-sm-6 form-group">
@@ -386,12 +386,12 @@
                         <div class="form-group">
                             <label for="p-section" class="col-sm-3">{{'SECTION' | translate}}</label>
                             <div class="col-sm-9 ">
-                                <ui-select select-on-blur ng-model="vm.t2mSvc.pType.section" ng-blur="vm.t2mSvc.checkSections()" ng-keyup="$event.keyCode == 13 && vm.t2mSvc.checkSections()">
+                                <ui-select select-section-on-blur object-to-value ng-model="vm.t2mSvc.pType.section" ng-blur="vm.t2mSvc.checkSections()" ng-keyup="$event.keyCode == 13 && vm.t2mSvc.checkSections()" >
                                     <ui-select-match placeholder="{{'SELECT_OR_CREATE_SECTION' | translate}}">
-                                        <span ng-bind="$select.selected"></span>
+                                        <span ng-bind="$select.selected.name"></span>
                                     </ui-select-match>
-                                    <ui-select-choices repeat="section in (vm.t2mSvc.sections | filter: $select.search) track by section">
-                                        <span ng-bind="section"></span>
+                                    <ui-select-choices repeat="section in vm.t2mSvc.sections | filter: $select.search track by section.name">
+                                        <span ng-bind="section.name"></span>
                                     </ui-select-choices>
                                 </ui-select>
                                 <!--<div class="input-group">
