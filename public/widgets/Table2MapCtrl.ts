@@ -214,9 +214,9 @@ module Table2Map {
                 return;
             }
             if (!file.type || file.type !== 'image/png') {
-                this.$messageBus.notifyWithTranslation('UNKNOWN_FORMAT', 'UNKNOWN_FORMAT_MSG');
+                this.$messageBus.notifyWithTranslation('UNKNOWN_FORMAT', 'UNKNOWN_FORMAT_MSG', {type: 'png'});
             } else if (!file.size || file.size > MAX_ICON_SIZE) {
-                this.$messageBus.notifyWithTranslation('FILE_TOO_LARGE', 'FILE_TOO_LARGE_MSG');
+                this.$messageBus.notifyWithTranslation('FILE_TOO_LARGE', 'FILE_TOO_LARGE_MSG', {size: (MAX_ICON_SIZE / 1024).toFixed(1)});
             } else {
                 this.t2mSvc.readFile(file, type);
             }

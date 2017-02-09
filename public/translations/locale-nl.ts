@@ -83,6 +83,12 @@ module Translations {
             DATA_RANGE: 'Data bereik',
             ADVANCED_SETTIGNS: 'Geavanceerde instellingen',
             SHOW_PROJECT: 'Open het aangemaakte project',
+            TOO_MANY_COLS: 'Teveel kolommen',
+            TOO_MANY_COLS_MSG: 'Er zijn teveel kolommen geselecteerd. Deselecteer een kolom voordat een nieuwe kolom geselecteerd kan worden.',
+            FILE_TOO_LARGE: 'Bestand is te groot',
+            FILE_TOO_LARGE_MSG: 'De bestandsgrootte overschrijdt de limiet van {{size}} kB. Kies een kleiner bestand.',
+            UNKNOWN_FORMAT: 'Onbekend bestandstype',
+            UNKNOWN_FORMAT_MSG: 'Kies een ondersteund bestandstype ({{type}})',
             VISIBILITY: 'Zichtbaarheid',
             VISIBILE_IN_TOOLTIP: 'Toon eigenschap in tooltip'
         };

@@ -302,6 +302,7 @@ module Table2Map {
                 };
             });
             this.rowCollection.length = 0;
+            this.iconData = Table2Map.getDefaultIconData();
             this.featureType = {};
             this.featureType.style = {
                 iconUri: Table2Map.getDefaultIconUri(),
@@ -315,8 +316,8 @@ module Table2Map {
                 strokeColor: '#000',
                 selectedStrokeColor: '#00f',
                 fillColor: '#ff0',
-                opacity: 1,
-                fillOpacity: 1,
+                opacity: 100,
+                fillOpacity: 100,
                 nameLabel: ''
             };
             this.feature = < csComp.Services.Feature > {
@@ -441,8 +442,8 @@ module Table2Map {
                 geometryKey: '' //TODO
             };
             let layerTemplate: Table2MapLayerTemplate = {
-                iconBase64: this.iconData,
-                logoBase64: this.logoData,
+                iconBase64: (this.iconData ? this.iconData.replace(/^data:image\/\w+;base64,/, '') : this.iconData),
+                logoBase64: (this.logoData ? this.logoData.replace(/^data:image\/\w+;base64,/, '') : this.logoData),
                 projectId: this.project.id,
                 layerDefinition: [layerDefinition],
                 properties: this.rowCollection,
@@ -1013,7 +1014,7 @@ module Table2Map {
         };
     });
 
-    /** Converts opacity values [0, 1] to transparency percentage [100, 0]*/
+    /** Converts opacity percentage [0, 100] to transparency percentage [100, 0]*/
     myModule.directive('transparencyToOpacity', () => {
         return {
             restrict: 'A',
@@ -1021,10 +1022,10 @@ module Table2Map {
             link: (scope, element, attrs, ngModel) => {
                 if (ngModel) {
                     ngModel.$parsers.push((value) => {
-                        return (1 - (value / 100));
+                        return (100 - value);
                     });
                     ngModel.$formatters.push((value) => {
-                        return ((1 - value) * 100);
+                        return (100 - value);
                     });
                 }
             }
