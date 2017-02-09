@@ -329,14 +329,13 @@ module Table2Map {
                 _gui: {},
                 isSelected: false
             };
-            this.layer = < ProjectLayer > {
-                enabled: true
-            };
+            if (!this.layer) this.layer = < ProjectLayer > {};
+            if (!this.layer.id) this.layer.id = csComp.Helpers.getGuid();
             $('#iconImage').attr('src', DEFAULT_MARKER_ICON);
         }
 
         /** Parse the uploaded csv data to JSON format, for displaying it in a html table. */
-        private updatedContent() {
+        public updatedContent() {
             this.resetVariables();
             try {
                 ( < any > window).csvtojson({
@@ -580,6 +579,7 @@ module Table2Map {
         /** Provide option 'none' | 'row' | 'col' and number of selectable items */
         public openTable(selectionOption ? : string, selectionAmount ? : number, isNameLabel ? : boolean) {
             let itemsToSelect: string[];
+            let selectedColumns: {}[];
             // First determine whether to just show the table, or add selection options for rows/cols
             if (selectionOption == null || selectionAmount == null) {
                 switch (this.currentStep) {
@@ -592,6 +592,9 @@ module Table2Map {
                         let type = this.geometryType;
                         selectionAmount = (type ? type.cols.length : 1);
                         itemsToSelect = type.cols;
+                        selectedColumns = _.toArray(this.geometryColumns).filter(col => {
+                            return col != undefined;
+                        });
                         break;
                     case ConversionStep.FeatureProps:
                         selectionOption = 'row';
@@ -608,6 +611,7 @@ module Table2Map {
             }
             if (isNameLabel) {
                 itemsToSelect = [this.$translate.instant('SELECT_NAMELABEL')];
+                selectedColumns = [_.find(this.headerCollection, (hObj) => { return this.featureType.style.nameLabel === hObj.code; })];
             }
             // Create the modal containing the table
             var modalInstance = this.$uibModal.open({
@@ -621,9 +625,7 @@ module Table2Map {
                     selectionOption: () => selectionOption,
                     selectionAmount: () => selectionAmount,
                     itemsToSelect: () => itemsToSelect,
-                    selectedColumns: () => _.toArray(this.geometryColumns).filter(col => {
-                        return col != undefined;
-                    })
+                    selectedColumns: () => selectedColumns
                 }
             });
 

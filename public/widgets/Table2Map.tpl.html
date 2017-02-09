@@ -11,7 +11,7 @@
         </div>
         <div class="row text-center no-margin">
             <ul uib-pagination ng-model="vm.t2mSvc.currentStep" total-items="vm.t2mSvc.numberOfSteps" items-per-page="1" previous-text="{{'PREVIOUS_STEP' | translate}}"
-                next-text="{{'NEXT_STEP' | translate}}"></ul>
+                next-text="{{'NEXT_STEP' | translate}}" ng-disabled="(dropBox.$invalid||loadProjectForm.$invalid||projectSettingsForm.$invalid||layerSettingsForm.$invalid)"></ul>
             <ul ng-show="vm.t2mSvc.rowCollection.length > 0" class="pagination pointer" aria-hidden="true" uib-tooltip="{{'SHOW_TABLE' | translate}}"
                 tooltip-placement="bottom" style="margin-left: 32px;">
                 <li>
@@ -28,14 +28,14 @@
                 <h4>{{'UPLOAD_TABULAR_DATA' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'UPLOAD_HELP' | translate}}"></i></span></h4>
             </div>
             <div class="col-sm-8 col-md-6 col-md-offset-1 col-lg-5">
-                <form class="form-horizontal">
+                <form name="loadProjectForm" class="form-horizontal">
                     <div class="form-group form-header">
                         <h4 class="bold">{{'LOAD_OR_CREATE_PROJECT' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'UPLOAD_HELP' | translate}}"></i></span></h4>
                     </div>
                     <div class="form-group">
                         <label for="p-projectid" class="col-sm-3">{{'PROJECT_ID' | translate}}</label>
                         <div class="col-sm-9">
-                            <input type="text" id="p-projectid" data-ng-model="vm.t2mSvc.project.id" class="form-control" />
+                            <input type="text" id="p-projectid" data-ng-model="vm.t2mSvc.project.id" class="form-control" required/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -50,7 +50,7 @@
                 </form>
                 <div id="project-settings" ng-class="{'disabled-form': !vm.t2mSvc.project}" style="margin-top: 32px">
                     <h4>{{'PROJECT_SETTINGS' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'PROJECT_SETTINGS_HELP' | translate}}"></i></span></h4>
-                    <form class="form-horizontal">
+                    <form name="projectSettingsForm" class="form-horizontal">
                         <div class="form-group">
                             <label for="pj-title" class="col-sm-3">{{'PROJECT_TITLE' | translate}}</label>
                             <div class="col-sm-9">
@@ -74,11 +74,12 @@
                         </div>
                     </form>
                     <h4>{{'LAYER_SETTINGS' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'LAYER_SETTINGS_HELP' | translate}}"></i></span></h4>
-                    <form class="form-horizontal">
+                    <form name="layerSettingsForm" class="form-horizontal">
                         <div class="form-group">
                             <label for="l-group" class="col-sm-3">{{'GROUP' | translate}}</label>
                             <div class="col-sm-9">
-                                <ui-select select-on-blur ng-model="vm.t2mSvc.selectedGroup" ng-blur="vm.t2mSvc.checkGroups()" ng-keyup="$event.keyCode == 13 && vm.t2mSvc.checkGroups()">
+                                <ui-select select-on-blur ng-model="vm.t2mSvc.selectedGroup" ng-blur="vm.t2mSvc.checkGroups()" ng-keyup="$event.keyCode == 13 && vm.t2mSvc.checkGroups()"
+                                    ng-class="{'ng-valid': vm.t2mSvc.selectedGroup.title, 'ng-invalid': !vm.t2mSvc.selectedGroup.title}">
                                     <ui-select-match placeholder="{{'SELECT_OR_CREATE_GROUP' | translate}}">
                                         <span ng-bind="$select.selected.title"></span>
                                     </ui-select-match>
@@ -87,11 +88,13 @@
                                     </ui-select-choices>
                                 </ui-select>
                             </div>
+                            <!-- Fake textbox to add validation support to ui-select-box -->
+                            <input type="text" id="dummy" ng-model="vm.t2mSvc.selectedGroup.title" style="display: none" required>
                         </div>
                         <div class="form-group">
                             <label for="l-title" class="col-sm-3">{{'LAYER_TITLE' | translate}}</label>
                             <div class="col-sm-9">
-                                <input type="text" id="l-title" ng-model="vm.t2mSvc.layer.title" class="form-control" />
+                                <input type="text" id="l-title" ng-model="vm.t2mSvc.layer.title" class="form-control" required/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -121,8 +124,10 @@
             <div class="col-sm-4 col-lg-offset-1 fill-height">
                 <div class="row">
                     <div class="col-xs-12 text-center">
-                        <textarea rows="16" class="fill-height" id="drop-box" style="width:95%;margin-top: 24px" placeholder="{{'DROP_HERE' | translate}}"
-                            ng-model="vm.t2mSvc.textContent" autofocus></textarea>
+                        <form name="dropBox">
+                            <textarea rows="16" class="fill-height" id="drop-box" style="width:95%;margin-top: 24px" placeholder="{{'DROP_HERE' | translate}}"
+                                ng-model="vm.t2mSvc.textContent" autofocus required></textarea>
+                        </form>
                     </div>
                 </div>
                 <div class="row">

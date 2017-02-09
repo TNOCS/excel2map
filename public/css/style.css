@@ -266,3 +266,10 @@ a[aria-expanded=false] .fa-chevron-up {
     top: 8px;
     right: -8px;
 }
+
+input.ng-invalid.ng-touched {
+    border-color: rgba(255, 127, 127, 0.75);
+}
+div.ng-invalid.ng-touched {
+    border: 2px solid rgba(255, 127, 127, 0.75);
+}

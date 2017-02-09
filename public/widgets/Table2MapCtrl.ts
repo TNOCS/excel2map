@@ -46,7 +46,6 @@ module Table2Map {
         geometryTypes: Dictionary < ITable2MapGeometryType > ;
         nrSelectedGeometryColumns: number;
         scrollTo: Function;
-        selectHighlighted: Function;
     }
 
     export class Table2MapCtrl {
@@ -121,14 +120,13 @@ module Table2Map {
 
             $scope.$watch('vm.t2mSvc.currentStep', () => {
                 console.log(`Select step ${this.t2mSvc.currentStep}`);
+                if (this.t2mSvc.currentStep === ConversionStep.StyleSettings) {
+                    this.t2mSvc.updatedContent();
+                }
                 if (this.t2mSvc.currentStep === ConversionStep.FeatureProps) {
                     this.$messageBus.publish('table2map', 'update-rightpanel', this.t2mSvc.feature);
                 }
             });
-
-            $scope.selectHighlighted = (value) => {
-
-            };
 
             this.$messageBus.subscribe('table2map', (title, data) => {
                 switch (title) {
