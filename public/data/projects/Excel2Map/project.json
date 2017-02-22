@@ -1,10 +1,11 @@
 {
     "id" : "excel2map",
     "title" : "Excel2map",
-    "description" : "csMap is developed by the Dutch Research Organisation TNO, in first instance for the Dutch Ministry of Health (VWS).",
+    "description" : "Excel2map lets you create your own geographical maps. It is developed by the Dutch Research Organisation TNO, in first instance for the Dutch Ministry of Health (VWS).",
     "logo" : "images/CommonSenseRound.png",
-    "url" : "https://github.com/TNOCS/csMap",
+    "url" : "https://github.com/TNOCS/excel2map",
     "connected" : false,
+    "hideLayerActions" : true,
     "timeLine" : {
         "start" : 1375315200000,
         "end" : 1425168000000,

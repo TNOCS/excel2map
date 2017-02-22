@@ -174,7 +174,7 @@ module Table2Map {
 
             this.$dashboardService.widgetTypes['tableToMap'] = < csComp.Services.IWidget > {
                 id: 'tableToMap',
-                icon: 'images/table.png',
+                icon: 'bower_components/csweb/dist-bower/images/widgets/table.png',
                 description: 'Show Table2Map widget'
             };
 

@@ -273,7 +273,7 @@
                         <base-map-list class="tab-pane" id="basestyles"></base-map-list>
                         <layers-directive class="tab-pane active" id="layers"></layers-directive>
                         <filter-list ng-hide="vm.$layerService.noFilters" class="tab-pane" id="filters"></filter-list>
-                        <style-list class="tab-pane" id="styles"></style-list>
+                        .<style-list class="tab-pane" id="styles"></style-list>
                         <mca class="tab-pane" id="mca" ng-show="vm.$layerService.project.mcas || vm.$mapServer.isExpert()"></mca>
                         <feature-list class="tab-pane" id="features"></feature-list>
                         <legend-list class="tab-pane" id="legend"></legend-list>
@@ -337,7 +337,7 @@
         </div>
         <!-- Language switch -->
         <div ng-if="vm.$layerService.touchMode" ng-click="vm.$layerService.touchMode=false" class="navbar-form navbar-right toggle-icon">
-            <img src="images/touch.png" style="width:30px;height:30px;margin-top:7px;margin-left:-13px" />
+            <img src="bower_components/csweb/dist-bower/images/widgets/touchbutton.png" style="width:30px;height:30px;margin-top:7px;margin-left:-13px" />
         </div>
 
         <div ng-if="!vm.$layerService.touchMode" ng-click="vm.$layerService.touchMode=true" class="navbar-form navbar-right toggle-icon">
