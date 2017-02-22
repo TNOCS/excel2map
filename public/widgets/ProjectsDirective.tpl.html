@@ -1,0 +1,14 @@
+<div>
+    <div class="header-title">{{'PROJECTS_LIST' | translate}}</div>
+    <div class="scrolling leftpanel-scroll">
+        <ul>
+        <li class="pointer" ng-click="vm.editProject(project)" ng-repeat="project in vm.projects" style="margin: 8px 0px">
+            {{project.title}}
+            <span><i class="fa fa-pencil" uib-tooltip="Bewerk project"></i></span>
+        </li>
+        <li class="pointer" ng-click="vm.editProject()" style="margin: 8px 0px">
+            {{'CREATE_NEW_PROJECT' | translate}}
+            <span><i class="fa fa-plus"></i></span>
+        </li>
+    </div>
+</div>

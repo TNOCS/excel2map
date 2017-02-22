@@ -9,7 +9,9 @@
                 <a class="widget-min-max-close" ng-click="vm.t2mSvc.exportToPDF()"><i class="fa fa-save" uib-tooltip="{{'SAVE_AS_PDF' | translate}}" tooltip-trigger="mouseenter" ng-show="vm.t2mSvc.exporterAvailable&&!minimized"></i></a>
             </div>
         </div>
-        <div class="row text-center no-margin">
+
+
+        <!--<div class="row text-center no-margin">
             <ul uib-pagination ng-model="vm.t2mSvc.currentStep" total-items="vm.t2mSvc.numberOfSteps" items-per-page="1" previous-text="{{'PREVIOUS_STEP' | translate}}"
                 next-text="{{'NEXT_STEP' | translate}}" ng-disabled="(dropBox.$invalid||loadProjectForm.$invalid||projectSettingsForm.$invalid||layerSettingsForm.$invalid)"></ul>
             <ul ng-show="vm.t2mSvc.rowCollection.length > 0" class="pagination pointer" aria-hidden="true" uib-tooltip="{{'SHOW_TABLE' | translate}}"
@@ -18,7 +20,25 @@
                     <a class="fa fa-table" style="text-transform: uppercase;" ng-click="vm.t2mSvc.openTable('none', 0)"><span class="small-padding-left">{{'TABLE_LABEL' | translate}}</span></a>
                 </li>
             </ul>
+        </div>-->
+
+        <div class="row text-center no-margin">
+            <ul class="cd-breadcrumb triangle">
+                <li ng-repeat="step in vm.t2mSvc.conversionSteps track by $index" ng-class="{'current': vm.t2mSvc.currentStep === $index + 1}">
+                    <a ng-click="vm.t2mSvc.currentStep = $index + 1" ng-disabled="(dropBox.$invalid||loadProjectForm.$invalid||projectSettingsForm.$invalid||layerSettingsForm.$invalid)">{{step}}</a>
+                </li>
+            </ul>
+            <span ng-show="vm.t2mSvc.rowCollection.length > 0" class="cd-breadcrumb triangle">
+                <li style="margin-left: 64px;" uib-tooltip="{{'SHOW_TABLE' | translate}}"
+                tooltip-placement="bottom">
+                    <a ng-click="vm.t2mSvc.openTable('none', 0)" style="border-radius: 0.25em;">
+                        <i class="fa fa-table"></i>
+                        <span class="small-padding-left">{{'TABLE_LABEL' | translate}}</span>
+                    </a>
+                </li>
+            </span>
         </div>
+
     </div>
     <div class="scrollable-widget-content" style="padding:0px;font-size:12px;margin:0px;" ng-hide="minimized" resize resize-y="80"
         resize-relative-to-parent="true">
@@ -126,7 +146,8 @@
                     <div class="col-xs-12 text-center">
                         <form name="dropBox">
                             <textarea rows="16" class="fill-height" id="drop-box" style="width:95%;margin-top: 24px" placeholder="{{'DROP_HERE' | translate}}"
-                                ng-model="vm.t2mSvc.textContent" ng-model-options='{ debounce: 1000 }' ng-change="vm.t2mSvc.updatedContent()" autofocus required></textarea>
+                                ng-model="vm.t2mSvc.textContent" ng-model-options='{ debounce: 1000 }' ng-change="vm.t2mSvc.updatedContent()"
+                                autofocus required></textarea>
                         </form>
                     </div>
                 </div>
@@ -386,7 +407,8 @@
                         <div class="form-group">
                             <label for="p-section" class="col-sm-3">{{'SECTION' | translate}}</label>
                             <div class="col-sm-9 ">
-                                <ui-select select-section-on-blur object-to-value ng-model="vm.t2mSvc.pType.section" ng-blur="vm.t2mSvc.checkSections()" ng-keyup="$event.keyCode == 13 && vm.t2mSvc.checkSections()" >
+                                <ui-select select-section-on-blur object-to-value ng-model="vm.t2mSvc.pType.section" ng-blur="vm.t2mSvc.checkSections()"
+                                    ng-keyup="$event.keyCode == 13 && vm.t2mSvc.checkSections()">
                                     <ui-select-match placeholder="{{'SELECT_OR_CREATE_SECTION' | translate}}">
                                         <span ng-bind="$select.selected.name"></span>
                                     </ui-select-match>

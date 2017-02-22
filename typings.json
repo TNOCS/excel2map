@@ -59,6 +59,7 @@
   },
   "dependencies": {
     "basic-auth": "registry:npm/basic-auth#1.0.4+20160811001003",
+    "http-status-codes": "registry:dt/http-status-codes#1.0.5+20160428043022",
     "opn": "registry:npm/opn#4.0.0+20160326092750"
   }
 }

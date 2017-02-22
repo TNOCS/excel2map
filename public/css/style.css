@@ -247,6 +247,11 @@ h4 {
     font-style: bold;
 }
 
+a[disabled] {
+   pointer-events: none;
+   cursor: default;
+}
+
 label {
     color: rgb(57, 84, 96);
     font-size: 13px;
