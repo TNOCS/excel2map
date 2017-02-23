@@ -174,17 +174,7 @@
                             </svg>
                         </li>
 
-                        <li class="lp-tab" data-target="#projects" ng-show="vm.$layerService.project.groups && vm.$layerService.project.groups[0].title=='_hidden'" data-toggle="tab">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 64 64">
-                                <g fill="#010002">
-                                    <path d="M64 19.4L32 2 0 19.4l32 17.4z" />
-                                    <path d="M32 42.4L5.9 28.2 0 31.5l32 17.4 32-17.4-5.9-3.3z" />
-                                    <path d="M32 54.5L5.9 40.3 0 43.5l32 17.4 32-17.4-5.9-3.2z" />
-                                </g>
-                            </svg>
-                        </li>
-
-                        <li class="lp-tab" data-target="#layers" data-toggle="tab">
+                        <li class="lp-tab " data-target="#layers" data-toggle="tab">
                             <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 64 64">
                                 <g fill="#010002">
                                     <path d="M64 19.4L32 2 0 19.4l32 17.4z" />
@@ -282,9 +272,8 @@
                     <!-- Tab panes -->
                     <div class="tab-content ">
                         <navigate ng-show="vm.showNavigation" class="tab-pane" id="navigate"></navigate>
-                        <projects-directive class="tab-pane active" id="projects" ng-show="vm.$layerService.project.groups && vm.$layerService.project.groups[0].title=='_hidden'"></projects-directive>
                         <base-map-list class="tab-pane" id="basestyles"></base-map-list>
-                        <layers-directive class="tab-pane" id="layers"></layers-directive>
+                        <layers-directive class="tab-pane active" id="layers"></layers-directive>
                         <filter-list ng-hide="vm.$layerService.noFilters" class="tab-pane" id="filters"></filter-list>
                         <div><style-list class="tab-pane" id="styles"></style-list></div>
                         <mca class="tab-pane" id="mca" ng-show="vm.$layerService.project.mcas || vm.$mapServer.isExpert()"></mca>
@@ -325,7 +314,7 @@
     </div>
 
 
-    <div id="header-box" class="header-box">
+    <div id="header-box" class="header-box" ng-show="vm.$layerService.visual.navbarVisible">
         <a class="menutoggle" style="color:black" ng-click="vm.$layerService.visual.leftPanelVisible = !vm.$layerService.visual.leftPanelVisible;vm.$messageBusService.publish('search','reset')"
             uib-tooltip="Open/sluit het menu" tooltip-placement="bottom" tooltip-popup-delay="500">
             <i class="fa fa-bars"></i>

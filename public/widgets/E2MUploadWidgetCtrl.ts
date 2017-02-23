@@ -198,7 +198,7 @@ module widgets {
                     this.$messageBus.notify('Project uploaded', 'Your data has been uploaded successfully');
                 },
                 error: (err, type, msg) => {
-                    if (err.status == 401) {
+                    if (err.status == HTTPStatusCodes.UNAUTHORIZED) {
                         this.$messageBus.notifyWithTranslation('ERROR_UPLOADING_PROJECT', 'UNAUTHORIZED');
                     } else {
                         this.$messageBus.notifyWithTranslation('ERROR_UPLOADING_PROJECT', 'ERROR_MSG', { 'msg': err.status + ' ' + msg });

@@ -143,4 +143,64 @@ module ModalCtrls {
             this.$uibModalInstance.dismiss('cancel');
         }
     }
+
+    export interface ICreateProjectModalScope extends ng.IScope {
+        vm: CreateProjectModalCtrl;
+    }
+
+    export class CreateProjectModalCtrl {
+        public static $inject = [
+            '$scope',
+            '$uibModalInstance',
+            '$http'
+        ];
+
+        private title: string;
+        private cleanId: string;
+        private idStatus: 'ok' | 'checking' | 'invalid' = 'invalid';
+
+        constructor(
+            private $scope: ICreateProjectModalScope,
+            private $uibModalInstance: any,
+            private $http: ng.IHttpService) {
+
+            $scope.vm = this;
+        }
+
+        private checkExistenceDebounced() {
+            this.$http.get(`/api/projects/${this.cleanId}`, {
+                    timeout: 5000
+                })
+                .then((res) => {
+                    if (res.status === HTTPStatusCodes.OK) {
+                        // id exists
+                        this.idStatus = 'invalid';
+                    }
+                })
+                .catch((res) => {
+                    if (res.status === HTTPStatusCodes.GONE) {
+                        // id does not exist
+                        this.idStatus = 'ok';
+                    } else {
+                        console.warn(`Error checking project existence ${this.cleanId}. ${res.status}`);
+                    }
+                });
+        }
+
+        private checkExistence = _.debounce(this.checkExistenceDebounced, 1000);
+
+        private cleanInput() {
+            this.idStatus = 'checking';
+            this.cleanId = this.title.replace(/\W/g, '').toLowerCase();
+            this.checkExistence();
+        }
+
+        public ok() {
+            this.$uibModalInstance.close(this.title);
+        }
+
+        public cancel() {
+            this.$uibModalInstance.dismiss('cancel');
+        }
+    }
 }

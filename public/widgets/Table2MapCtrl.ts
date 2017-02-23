@@ -194,6 +194,10 @@ module Table2Map {
             this.t2mSvc.initPreviewMap();
         }
 
+        private closeWizard() {
+            window.location.href = `/?dashboard=main`;
+        }
+
         private enableInputs() {
             $('#project-settings').css('opacity', 1);
             $('#project-settings input,ui-select').removeAttr('disabled');

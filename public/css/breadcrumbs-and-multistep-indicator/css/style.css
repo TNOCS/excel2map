@@ -124,6 +124,9 @@ Triangle breadcrumb
   .cd-breadcrumb.triangle li:last-of-type {
     margin-right: 0;
   }
+  .cd-breadcrumb.triangle li > *[disabled] {
+    color: grey;
+  }
   .cd-breadcrumb.triangle li > * {
     position: relative;
     padding: 10px 10px 10px 28px;

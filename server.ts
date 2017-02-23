@@ -3,7 +3,6 @@ import fs = require('fs');
 import path = require('path');
 import opn = require('opn');
 import auth = require('basic-auth');
-import * as HttpStatus from 'http-status-codes';
 import * as csweb from "csweb";
 
 Winston.remove(Winston.transports.Console);
@@ -32,19 +31,20 @@ cs.start(() => {
     var mapLayerFactory = new csweb.MapLayerFactory(osmDatabase, cs.messageBus, cs.api, cs.dir);
 
     cs.server.post('/projecttemplate', (req, res) => {
-        var creds = auth(req);
-        if (!creds || !passwords.hasOwnProperty(creds.name) || creds.pass !== passwords[creds.name]) {
-            console.log('Wrong password');
-            res.statusCode = HttpStatus.UNAUTHORIZED;
-            res.end();
-        } else {
-            if (debug) {
-                fs.writeFile('debug.json', JSON.stringify(req.body), (err) => {
-                    console.log(`Wrote debug.json (${err || 'OK'})`);
-                });
-            }
-            mapLayerFactory.process(req, res);
-        }
+        // var creds = auth(req);
+        // if (!creds || !passwords.hasOwnProperty(creds.name) || creds.pass !== passwords[creds.name]) {
+        //     console.log('Wrong password');
+        //     res.statusCode = HTTPStatusCodes.UNAUTHORIZED;
+        //     res.end();
+        // } else {
+        //     if (debug) {
+        //         fs.writeFile('debug.json', JSON.stringify(req.body), (err) => {
+        //             console.log(`Wrote debug.json (${err || 'OK'})`);
+        //         });
+        //     }
+        //     mapLayerFactory.process(req, res);
+        // }
+        mapLayerFactory.process(req, res);
     });
 
     cs.server.post('/requestproject', (req, res) => {
@@ -79,7 +79,7 @@ cs.start(() => {
         var creds = auth(req);
         if (!creds || !passwords.hasOwnProperty(creds.name) || creds.pass !== passwords[creds.name]) {
             console.log('Wrong password');
-            res.statusCode = HttpStatus.UNAUTHORIZED;
+            res.statusCode = HTTPStatusCodes.UNAUTHORIZED;
             res.end();
         } else {
             var data;
@@ -90,10 +90,10 @@ cs.start(() => {
                     title: data.newTitle
                 }, {}, (result: csweb.CallbackResult) => {
                     if (result && result.result === csweb.ApiResult.OK) {
-                        res.statusCode = HttpStatus.OK;
+                        res.statusCode = HTTPStatusCodes.OK;
                         res.end();
                     } else {
-                        res.statusCode = HttpStatus.NOT_FOUND;
+                        res.statusCode = HTTPStatusCodes.NOT_FOUND;
                         res.end();
                     }
                 });
@@ -105,22 +105,22 @@ cs.start(() => {
         var creds = auth(req);
         if (!creds || !passwords.hasOwnProperty(creds.name) || creds.pass !== passwords[creds.name]) {
             console.log('Wrong password');
-            res.statusCode = HttpStatus.UNAUTHORIZED;
+            res.statusCode = HTTPStatusCodes.UNAUTHORIZED;
             res.end();
         } else {
             var data;
             if (req.body) {
                 data = req.body;
                 if (!data.hasOwnProperty('projectId')) {
-                    res.statusCode = HttpStatus.NOT_FOUND;
+                    res.statusCode = HTTPStatusCodes.NOT_FOUND;
                     res.end();
                 } else {
                     cs.api.clearProject(data.projectId, {}, (result: csweb.CallbackResult) => {
                         if (result && result.result === csweb.ApiResult.OK) {
-                            res.statusCode = HttpStatus.OK;
+                            res.statusCode = HTTPStatusCodes.OK;
                             res.end();
                         } else {
-                            res.statusCode = HttpStatus.NOT_FOUND;
+                            res.statusCode = HTTPStatusCodes.NOT_FOUND;
                             res.end();
                         }
                     });

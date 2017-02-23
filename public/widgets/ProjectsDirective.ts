@@ -44,6 +44,7 @@ module ProjectsDirective {
             'actionService',
             '$timeout',
             '$sce',
+            '$uibModal',
             '$translate'
         ];
 
@@ -55,6 +56,7 @@ module ProjectsDirective {
             private actionService: csComp.Services.ActionService,
             private $timeout: ng.ITimeoutService,
             private $sce: ng.ISCEService,
+            private $uibModal: ng.ui.bootstrap.IModalService,
             private $translate: ng.translate.ITranslateService
         ) {
             $scope.vm = this;
@@ -68,7 +70,7 @@ module ProjectsDirective {
         private getUserProjects() {
             let url = 'api/projects';
             this.$http.get(url).then((res: any) => {
-                let projects: _.Collection<Project> = res.data;
+                let projects: _.Collection < Project > = res.data;
                 this.projects = _.toArray(projects);
             }).catch((err) => {
                 console.warn(`Error getting projects: ${err}`);
@@ -77,6 +79,25 @@ module ProjectsDirective {
 
         private editProject(project: Project) {
             this.$messageBus.publish('table2map', 'requestproject', (project ? project.id : null));
+        }
+
+        private showProject(project: Project) {
+            window.location.href = `/?project=${project.id}`;
+        }
+
+        private createProject() {
+            var modalInstance = this.$uibModal.open({
+                templateUrl: 'modals/CreateProjectModal.tpl.html',
+                controller: 'CreateProjectModalCtrl',
+                resolve: {}
+            });
+
+            modalInstance.result.then((title: string) => {
+                if (!title) return;
+                this.$messageBus.publish('table2map', 'requestproject', title);
+            }, () => {
+                console.log('Modal dismissed at: ' + new Date());
+            });
         }
     }
 }

@@ -226,11 +226,15 @@ module Table2Map {
             return str.replace(new RegExp(this.escapeRegExp(find), 'g'), replace);
         }
 
-        private requestProject(projectId ? : string) {
-            if (!projectId) projectId = this.project.id;
+        private requestProject(projectTitle ? : string) {
+            if (projectTitle) {
+                this.project.id = this.cleanRegExp(projectTitle).toLowerCase();
+                this.project.title = projectTitle;
+            }
             let url = '/requestproject';
             this.$http.post(url, {
-                    id: projectId
+                    id: this.project.id,
+                    title: this.project.title || 'Mijn titel'
                 }, {
                     timeout: 20000
                 })
@@ -418,8 +422,18 @@ module Table2Map {
             this.$messageBus.publish('table2map', 'update-widget-scope');
         }
 
+        private convertAndOpen() {
+            this.convert(() => {
+                this.openProject();
+            });
+        }
+
+        private openProject() {
+            window.location.href = `/?project=${this.project.id}`;
+        }
+
         /** Send the data and configuration to the server for conversion */
-        private convert() {
+        private convert(cb: Function) {
             let geometryParams = _.values(this.geometryColumns);
             let layerDefinition: Table2MapLayerDefinition = {
                 projectTitle: this.project.title,
@@ -468,14 +482,16 @@ module Table2Map {
                 .then((res) => {
                     console.log(res.data);
                     if (res.status === 200) this.$messageBus.notifyWithTranslation('UPLOAD_SUCCESS', 'UPLOAD_SUCCESS_MSG');
+                    cb();
                 })
                 .catch((err) => {
                     console.warn(`Error requesting project ${this.project.id}. ${err}`);
-                    if (err.status === 401) {
+                    if (err.status === HTTPStatusCodes.UNAUTHORIZED) {
                         this.$messageBus.notifyWithTranslation('ERROR_UPLOADING_PROJECT', 'UNAUTHORIZED');
                     } else {
                         this.$messageBus.notifyWithTranslation('ERROR_UPLOADING_PROJECT', 'ERROR_MSG', { 'msg': err.status + ' ' + err.msg });
                     }
+                    cb();
                 });
         }
 

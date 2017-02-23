@@ -23,21 +23,17 @@
             "showTimeline" : false,
             "showLeftmenu" : false,
             "showLegend" : false,
+            "showNavbar" : false,
             "showBackgroundImage" : false,
             "widgets" : [{
-                    "id" : "3654881f-0644-46ea-5133-f45c3dde8c9e",
-                    "directive" : "markdownwidget",
-                    "title" : "Welcome to Excel2map",
-                    "data" : {
-                        "useLanguagePrefix" : true,
-                        "url" : "data/projects/Excel2Map/welcome.txt"
-                    },
-                    "elementId" : "widget-3654881f-0644-46ea-5133-f45c3dde8c9e",
+                    "id" : "2434881f-0644-46ea-5133-f45c3dde8c9e",
+                    "directive" : "projects-directive",
+                    "elementId" : "widget-2434881f-0644-46ea-5133-f45c3dde8c9e",
                     "enabled" : true,
-                    "left" : "25%",
-                    "top" : "100px",
-                    "width" : "50%",
-                    "height" : ""
+                    "left" : "80px",
+                    "top" : "40px",
+                    "right" : "80px",
+                    "bottom" : "40px"
                 }
             ]
         }, {
@@ -100,10 +96,12 @@
             "showLeftmenu" : false,
             "showLegend" : false,
             "showBackgroundImage" : false,
+            "showNavbar" : false,
             "widgets" : [{
                     "id" : "table2mapwidget-id123",
                     "directive" : "table-to-map",
                     "title" : "Upload tabular data",
+                    "allowFullscreen": true,
                     "data" : {
                         "hideTitle": false,
                         "dataExtensions": ["csv", "mat"],
@@ -112,9 +110,10 @@
                     },
                     "enabled" : true,
                     "inGridContainer" : false,
-                    "top" : "80px",
-                    "bottom" : "1px",
-                    "width" : "100%"
+                    "top" : "40px",
+                    "left" : "80px",
+                    "bottom" : "40px",
+                    "right" : "80px"
                 }
             ]
         }

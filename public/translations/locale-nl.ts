@@ -46,6 +46,7 @@ module Translations {
             NEXT_STEP: 'Volgende stap',
             LOAD_OR_CREATE_PROJECT: 'Laad of creëer een project',
             LOAD_OR_CREATE_BUTTON: 'Laad / creëer',
+            CREATE_BUTTON: 'Creëer',
             PROJECT_ID: 'Project ID',
             DATA_TO_MAP: 'Data naar de kaart',
             STYLE_SETTINGS: 'Stijl instellingen',
@@ -94,7 +95,12 @@ module Translations {
             PROJECTS_LIST: 'Beschikbare projecten',
             CREATE_NEW_PROJECT: 'Creëer nieuw project',
             UPLOAD_SUCCESS: 'Kaartlaag aangemaakt',
-            UPLOAD_SUCCESS_MSG: 'De kaartlaag is aangemaakt. Klik op onderstaande link om het project te openen.'
+            UPLOAD_SUCCESS_MSG: 'De kaartlaag is aangemaakt. Klik op onderstaande link om het project te openen.',
+            INVALID_INPUT: 'Project bestaat al of is ongeldig',
+            CHECKING: 'Wordt gecontroleerd...',
+            CAN_VIEW: 'Bekijken',
+            CAN_EDIT: 'Bewerken',
+            SAVE_AND_OPEN: 'Opslaan en resultaat bekijken'
         };
     }
 }

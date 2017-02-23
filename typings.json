@@ -25,6 +25,7 @@
     "form-data": "registry:dt/form-data#0.0.0+20160724024111",
     "fs-extra": "registry:dt/fs-extra#0.0.0+20161004190449",
     "geojson": "registry:dt/geojson#0.0.0+20160619034323",
+    "http-status-codes": "registry:lib/http-status-codes#1.0.0+20160723033700",
     "hypertimer": "github:rinzeb/DefinitelyTyped/hypertimer/hypertimer.d.ts#09e844c1ef5a2b4b5bda6c672453cc7f1fdfe0c6",
     "ip": "registry:dt/ip#0.0.0+20160929195624",
     "jasmine": "registry:dt/jasmine#2.2.0+20160621224255",
