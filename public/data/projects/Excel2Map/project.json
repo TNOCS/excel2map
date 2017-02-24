@@ -7,7 +7,7 @@
     "connected" : false,
     "hideLayerActions" : true,
     "profile": {
-        "authenticationMethod": 1
+        "authenticationMethod": 2
     },
     "timeLine" : {
         "start" : 1375315200000,

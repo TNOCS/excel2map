@@ -114,6 +114,16 @@ module App {
             this.$messageBusService.publish('rightpanel', 'activate', rpt);
             this.$layerService.visual.rightPanelVisible = false; // otherwise, the rightpanel briefly flashes open before closing.
             this.profileService.startLogin();
+            this.profileService.validate = (username: string, password: string, cb: (success: boolean, profile: csComp.Services.IProfile) => void) => {
+                this.$http
+                    .post('/api/login', { email: username, password: password })
+                    .then((result: {success: boolean, user: csComp.Services.IProfile }) => {
+                        cb(result.success, result.user);
+                    })
+                    .catch(() => {
+                        cb(false, null);
+                    });
+            };
             this.profileService.logout = function () {
                 var l = this.$layerService.findLayer('barges');
                 this.profileLayers.forEach(function (pl) {
@@ -123,38 +133,36 @@ module App {
                 if (widgets) {
                     var w = widgets[0];
                     w.data['buttons'] = [];
-                }
-                ;
+                };
             };
-            this.profileService.validate = function (userName, passWord, cb) {
-                this.profileLayers = [];
-                // var authReq = <ng.IRequestConfig>{
-                //     method: 'POST',
-                //     url: ,
-                //     headers: {
-                //         'Accept': 'application/json'
-                //     },
-                //     data: {  }
-                // }
-                var url = 'http://134.221.210.155:9763/SDL_Amsterdam-1.0.0/services/poc/authenticate?userName=' + userName + '&password=' + passWord;
-                var auth = $http.get(url, {}).success(function (authResult) {
-                    if (authResult.hasOwnProperty('success') && authResult['success'] === true) {
-                        var res = $http.get('http://134.221.210.155:9763/SDL_Amsterdam-1.0.0/services/poc/users?userName=' + userName).success(function (d) {
-                            if (d.hasOwnProperty('layers') && _.isArray(d['layers'])) {
-                                d['layers'].forEach(function (l) {
-                                    this.AddLayer(l.url, l.layerName, l.groupName, 'data/api/projects/sdl/resources/Terminals.json', l.featureType);
-                                });
-                            }
-                            return cb(true, {});
-                        }).error(function (d) {
-                            return cb(false, {});
-                        });
-                        ;
-                    } else {
-                        return cb(false, {});
-                    }
-                });
-            };
+            // this.profileService.validate = function (userName, passWord, cb) {
+            //     this.profileLayers = [];
+            //     // var authReq = <ng.IRequestConfig>{
+            //     //     method: 'POST',
+            //     //     url: ,
+            //     //     headers: {
+            //     //         'Accept': 'application/json'
+            //     //     },
+            //     //     data: {  }
+            //     // }
+            //     var url = 'http://134.221.210.155:9763/SDL_Amsterdam-1.0.0/services/poc/authenticate?userName=' + userName + '&password=' + passWord;
+            //     var auth = $http.get(url, {}).success(function (authResult) {
+            //         if (authResult.hasOwnProperty('success') && authResult['success'] === true) {
+            //             var res = $http.get('http://134.221.210.155:9763/SDL_Amsterdam-1.0.0/services/poc/users?userName=' + userName).success(function (d) {
+            //                 if (d.hasOwnProperty('layers') && _.isArray(d['layers'])) {
+            //                     d['layers'].forEach(function (l) {
+            //                         this.AddLayer(l.url, l.layerName, l.groupName, 'data/api/projects/sdl/resources/Terminals.json', l.featureType);
+            //                     });
+            //                 }
+            //                 return cb(true, {});
+            //             }).error(function (d) {
+            //                 return cb(false, {});
+            //             });
+            //         } else {
+            //             return cb(false, {});
+            //         }
+            //     });
+            // };
             this.$layerService.openSolution('data/projects/projects.json', $location.$$search.layers);
         }
 
