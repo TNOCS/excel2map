@@ -6,10 +6,12 @@
                 <a class="widget-min-max-close" ng-click="vm.t2mSvc.close()" ng-if="vm.t2mSvc.canClose()"><i class="fa fa-times"></i></a>
                 <a class="widget-min-max-close" ng-click="vm.t2mSvc.minimize()" ng-show="vm.t2mSvc.canMinimize() && minimized"> <i class="fa fa-plus"></i></a>
                 <a class="widget-min-max-close" ng-click="vm.t2mSvc.minimize()" ng-show="vm.t2mSvc.canMinimize() && !minimized"> <i class="fa fa-minus"></i></a>
-                <a class="widget-min-max-close" ng-click="vm.t2mSvc.exportToPDF()"><i class="fa fa-save" uib-tooltip="{{'SAVE_AS_PDF' | translate}}" tooltip-trigger="mouseenter" ng-show="vm.t2mSvc.exporterAvailable&&!minimized"></i></a>
+                <a class="widget-min-max-close" ng-click="vm.t2mSvc.exportToPDF()"><i class="fa fa-save" uib-tooltip="{{'SAVE_AS_PDF' | translate}}" ng-show="vm.t2mSvc.exporterAvailable&&!minimized"></i></a>
             </div>
         </div>
-        <div class="row text-center no-margin">
+
+
+        <!--<div class="row text-center no-margin">
             <ul uib-pagination ng-model="vm.t2mSvc.currentStep" total-items="vm.t2mSvc.numberOfSteps" items-per-page="1" previous-text="{{'PREVIOUS_STEP' | translate}}"
                 next-text="{{'NEXT_STEP' | translate}}" ng-disabled="(dropBox.$invalid||loadProjectForm.$invalid||projectSettingsForm.$invalid||layerSettingsForm.$invalid)"></ul>
             <ul ng-show="vm.t2mSvc.rowCollection.length > 0" class="pagination pointer" aria-hidden="true" uib-tooltip="{{'SHOW_TABLE' | translate}}"
@@ -18,7 +20,26 @@
                     <a class="fa fa-table" style="text-transform: uppercase;" ng-click="vm.t2mSvc.openTable('none', 0)"><span class="small-padding-left">{{'TABLE_LABEL' | translate}}</span></a>
                 </li>
             </ul>
+        </div>-->
+
+        <div class="row text-center no-margin">
+            <ul class="cd-breadcrumb triangle">
+                <li ng-repeat="step in vm.t2mSvc.conversionSteps track by $index" ng-class="{'current': vm.t2mSvc.currentStep === $index + 1}">
+                    <a ng-click="vm.t2mSvc.currentStep = $index + 1" ng-disabled="(dropBox.$invalid||projectSettingsForm.$invalid||layerSettingsForm.$invalid)">{{step}}</a>
+                </li>
+            </ul>
+            <span ng-show="vm.t2mSvc.rowCollection.length > 0" class="cd-breadcrumb triangle">
+                <li style="margin-left: 64px;" uib-tooltip="{{'SHOW_TABLE' | translate}}"
+                tooltip-placement="bottom">
+                    <a ng-click="vm.t2mSvc.openTable('none', 0)" style="border-radius: 0.25em;">
+                        <i class="fa fa-table"></i>
+                        <span class="small-padding-left">{{'TABLE_LABEL' | translate}}</span>
+                    </a>
+                </li>
+            </span>
+            <span class="larger-font small-padding pull-right pointer" uib-tooltip="{{'EXIT_WIZARD' | translate}}" tooltip-placement="left" ng-click="vm.closeWizard()"><i class="fa fa-times"></i></span>
         </div>
+
     </div>
     <div class="scrollable-widget-content" style="padding:0px;font-size:12px;margin:0px;" ng-hide="minimized" resize resize-y="80"
         resize-relative-to-parent="true">
@@ -28,7 +49,7 @@
                 <h4>{{'UPLOAD_TABULAR_DATA' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'UPLOAD_HELP' | translate}}"></i></span></h4>
             </div>
             <div class="col-sm-8 col-md-6 col-md-offset-1 col-lg-5">
-                <form name="loadProjectForm" class="form-horizontal">
+                <!--<form name="loadProjectForm" class="form-horizontal">
                     <div class="form-group form-header">
                         <h4 class="bold">{{'LOAD_OR_CREATE_PROJECT' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'UPLOAD_HELP' | translate}}"></i></span></h4>
                     </div>
@@ -47,8 +68,8 @@
                             <button class="btn btn-primary" ng-click="vm.t2mSvc.requestProject()">{{'LOAD_OR_CREATE_BUTTON' | translate}}</button>
                         </div>
                     </div>
-                </form>
-                <div id="project-settings" ng-class="{'disabled-form': !vm.t2mSvc.project}" style="margin-top: 32px">
+                </form>-->
+                <div id="project-settings" ng-class="{'disabled-form': !vm.t2mSvc.project}">
                     <h4>{{'PROJECT_SETTINGS' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'PROJECT_SETTINGS_HELP' | translate}}"></i></span></h4>
                     <form name="projectSettingsForm" class="form-horizontal">
                         <div class="form-group">
@@ -126,7 +147,8 @@
                     <div class="col-xs-12 text-center">
                         <form name="dropBox">
                             <textarea rows="16" class="fill-height" id="drop-box" style="width:95%;margin-top: 24px" placeholder="{{'DROP_HERE' | translate}}"
-                                ng-model="vm.t2mSvc.textContent" ng-model-options='{ debounce: 1000 }' ng-change="vm.t2mSvc.updatedContent()" autofocus required></textarea>
+                                ng-model="vm.t2mSvc.textContent" ng-model-options='{ debounce: 1000 }' ng-change="vm.t2mSvc.updatedContent()"
+                                autofocus required></textarea>
                         </form>
                     </div>
                 </div>
@@ -294,6 +316,16 @@
                         <div class="pagination pull-right pointer">
                             <ul class="pagination">
                                 <li>
+                                    <a type="button">
+                                        <i class="fa fa-save"></i> {{'SAVE' | translate | titleCase}}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a type="button" ng-click="vm.t2mSvc.convertAndOpen()">
+                                        <i class="fa fa-map-o"></i> {{'SAVE_AND_OPEN' | translate}}
+                                    </a>
+                                </li>
+                                <li>
                                     <a type="button" data-toggle="collapse" data-target="#advancedIconSettings" aria-expanded="false" aria-controls="advancedIconSettings">
                                         <i class="fa fa-chevron-up"></i>
                                         <i class="fa fa-chevron-down"></i> {{'ADVANCED_SETTINGS' | translate}}
@@ -386,7 +418,8 @@
                         <div class="form-group">
                             <label for="p-section" class="col-sm-3">{{'SECTION' | translate}}</label>
                             <div class="col-sm-9 ">
-                                <ui-select select-section-on-blur object-to-value ng-model="vm.t2mSvc.pType.section" ng-blur="vm.t2mSvc.checkSections()" ng-keyup="$event.keyCode == 13 && vm.t2mSvc.checkSections()" >
+                                <ui-select select-section-on-blur object-to-value ng-model="vm.t2mSvc.pType.section" ng-blur="vm.t2mSvc.checkSections()"
+                                    ng-keyup="$event.keyCode == 13 && vm.t2mSvc.checkSections()">
                                     <ui-select-match placeholder="{{'SELECT_OR_CREATE_SECTION' | translate}}">
                                         <span ng-bind="$select.selected.name"></span>
                                     </ui-select-match>
@@ -422,6 +455,16 @@
                     </div>
                     <div class="pagination pull-right pointer">
                         <ul class="pagination">
+                            <li>
+                                <a type="button">
+                                    <i class="fa fa-save"></i> {{'SAVE' | translate}}
+                                </a>
+                            </li>
+                            <li>
+                                <a type="button" ng-click="vm.t2mSvc.convertAndOpen()">
+                                    <i class="fa fa-map-o"></i> {{'SAVE_AND_OPEN' | translate}}
+                                </a>
+                            </li>
                             <li>
                                 <a type="button" data-toggle="collapse" data-target="#advancedPropSettings" aria-expanded="false" aria-controls="advancedPropSettings">
                                     <i class="fa fa-chevron-up"></i>

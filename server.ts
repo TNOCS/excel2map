@@ -31,14 +31,20 @@ cs.start(() => {
     var mapLayerFactory = new csweb.MapLayerFactory(osmDatabase, cs.messageBus, cs.api, cs.dir);
 
     cs.server.post('/projecttemplate', (req, res) => {
-        var creds = auth(req);
-        if (!creds || !passwords.hasOwnProperty(creds.name) || creds.pass !== passwords[creds.name]) {
-            console.log('Wrong password');
-            res.statusCode = 401;
-            res.end();
-        } else {
-            mapLayerFactory.process(req, res);
-        }
+        // var creds = auth(req);
+        // if (!creds || !passwords.hasOwnProperty(creds.name) || creds.pass !== passwords[creds.name]) {
+        //     console.log('Wrong password');
+        //     res.statusCode = HTTPStatusCodes.UNAUTHORIZED;
+        //     res.end();
+        // } else {
+        //     if (debug) {
+        //         fs.writeFile('debug.json', JSON.stringify(req.body), (err) => {
+        //             console.log(`Wrote debug.json (${err || 'OK'})`);
+        //         });
+        //     }
+        //     mapLayerFactory.process(req, res);
+        // }
+        mapLayerFactory.process(req, res);
     });
 
     cs.server.post('/requestproject', (req, res) => {
@@ -73,7 +79,7 @@ cs.start(() => {
         var creds = auth(req);
         if (!creds || !passwords.hasOwnProperty(creds.name) || creds.pass !== passwords[creds.name]) {
             console.log('Wrong password');
-            res.statusCode = 401;
+            res.statusCode = HTTPStatusCodes.UNAUTHORIZED;
             res.end();
         } else {
             var data;
@@ -84,10 +90,10 @@ cs.start(() => {
                     title: data.newTitle
                 }, {}, (result: csweb.CallbackResult) => {
                     if (result && result.result === csweb.ApiResult.OK) {
-                        res.statusCode = 200;
+                        res.statusCode = HTTPStatusCodes.OK;
                         res.end();
                     } else {
-                        res.statusCode = 404;
+                        res.statusCode = HTTPStatusCodes.NOT_FOUND;
                         res.end();
                     }
                 });
@@ -99,22 +105,22 @@ cs.start(() => {
         var creds = auth(req);
         if (!creds || !passwords.hasOwnProperty(creds.name) || creds.pass !== passwords[creds.name]) {
             console.log('Wrong password');
-            res.statusCode = 401;
+            res.statusCode = HTTPStatusCodes.UNAUTHORIZED;
             res.end();
         } else {
             var data;
             if (req.body) {
                 data = req.body;
                 if (!data.hasOwnProperty('projectId')) {
-                    res.statusCode = 404;
+                    res.statusCode = HTTPStatusCodes.NOT_FOUND;
                     res.end();
                 } else {
                     cs.api.clearProject(data.projectId, {}, (result: csweb.CallbackResult) => {
                         if (result && result.result === csweb.ApiResult.OK) {
-                            res.statusCode = 200;
+                            res.statusCode = HTTPStatusCodes.OK;
                             res.end();
                         } else {
-                            res.statusCode = 404;
+                            res.statusCode = HTTPStatusCodes.NOT_FOUND;
                             res.end();
                         }
                     });

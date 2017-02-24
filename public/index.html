@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="bower_components/csweb/dist-bower/css/csStyles.css" />
 
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/breadcrumbs-and-multistep-indicator/css/style.css">
     <!-- endbuild -->
 
     <style>
@@ -62,6 +63,7 @@
     <script src="widgets/RightPanelPreviewCtrl.js"></script>
     <script src="widgets/LayerListPreview.js"></script>
     <script src="widgets/ArrayUtils.js"></script>
+    <script src="widgets/ProjectsDirective.js"></script>
     <script src="app/app.js"></script>
     <script src="widgets/Table2MapSvc.js"></script>
     <script src="bower_components/csweb/dist-bower/csTemplates.js"></script>
@@ -172,7 +174,7 @@
                             </svg>
                         </li>
 
-                        <li class="lp-tab active" data-target="#layers" data-toggle="tab">
+                        <li class="lp-tab " data-target="#layers" data-toggle="tab">
                             <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 64 64">
                                 <g fill="#010002">
                                     <path d="M64 19.4L32 2 0 19.4l32 17.4z" />
@@ -273,7 +275,7 @@
                         <base-map-list class="tab-pane" id="basestyles"></base-map-list>
                         <layers-directive class="tab-pane active" id="layers"></layers-directive>
                         <filter-list ng-hide="vm.$layerService.noFilters" class="tab-pane" id="filters"></filter-list>
-                        .<style-list class="tab-pane" id="styles"></style-list>
+                        <div><style-list class="tab-pane" id="styles"></style-list></div>
                         <mca class="tab-pane" id="mca" ng-show="vm.$layerService.project.mcas || vm.$mapServer.isExpert()"></mca>
                         <feature-list class="tab-pane" id="features"></feature-list>
                         <legend-list class="tab-pane" id="legend"></legend-list>
@@ -312,7 +314,7 @@
     </div>
 
 
-    <div id="header-box" class="header-box">
+    <div id="header-box" class="header-box" ng-show="vm.$layerService.visual.navbarVisible">
         <a class="menutoggle" style="color:black" ng-click="vm.$layerService.visual.leftPanelVisible = !vm.$layerService.visual.leftPanelVisible;vm.$messageBusService.publish('search','reset')"
             uib-tooltip="Open/sluit het menu" tooltip-placement="bottom" tooltip-popup-delay="500">
             <i class="fa fa-bars"></i>
@@ -350,56 +352,5 @@
     <div id="bottom-panel">
         <timeline data-ng-show="vm.$mapService.timelineVisible && !vm.$layerService.isMobile" style="height: 100vh;"></timeline>
     </div>
-
-    <div style="position:absolute;left:400px;display:none">
-        <div id="menu" ng-click="vm.startSketch()">
-
-            <input type="checkbox" id="on-check" name="on-check" />
-
-            <label id="on-button" for="on-check">
-        <span><span class="fa fa-pencil"><!-- Put plus icon here if not using symbol set --></span></span>
-        <span><span class="fa fa-save"><!-- Put minus icon here if not using symbol set --></span></span>
-    </label>
-
-            <input type="radio" id="info-home" name="radio-check" />
-            <input type="radio" id="info-compass" name="radio-check" checked />
-            <input type="radio" id="info-heart" name="radio-check" />
-            <input type="radio" id="info-rss" name="radio-check" />
-            <input type="radio" id="info-refresh" name="radio-check" />
-            <input type="radio" id="info-star" name="radio-check" />
-
-            <div id="menu-items">
-                <div class="middle">
-                    <div class="top">
-                        <span class="bg-piece"> </span>
-                        <label class="ss-home" for="info-home"><!-- Put home icon here if not using symbol set --></label>
-                        <span class="bg-piece"> </span>
-                        <label class="ss-compass" for="info-compass"><!-- Put compass icon here if not using symbol set --></label>
-                        <span class="bg-piece"> </span>
-                        <label class="ss-heart" for="info-heart"><!-- Put heart icon here if not using symbol set --></label>
-                    </div>
-                    <div class="bottom">
-                        <span class="bg-piece"> </span>
-                        <label class="ss-rss" for="info-rss"><!-- Put rss icon here if not using symbol set --></label>
-                        <span class="bg-piece"> </span>
-                        <label class="ss-refresh" for="info-refresh"><!-- Put refresh icon here if not using symbol set --></label>
-                        <span class="bg-piece"> </span>
-                        <label class="ss-star" for="info-star"><!-- Put icon here if not using symbol set --></label>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="info home-info">Lets go home</div>
-            <div class="info compass-info">Want directions?</div>
-            <div class="info heart-info">Love</div>
-            <div class="info rss-info">RSS Feed</div>
-            <div class="info star-info">Galactic domination</div>
-            <div class="info refresh-info">Refreshing</div>
-
-            <div class="faux-shadow"> </div>
-        </div>
-    </div>
 </body>
-
 </html>

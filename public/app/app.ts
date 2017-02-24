@@ -365,7 +365,16 @@ module App {
                 appendToBody: true
             });
         })
+        .filter('titleCase', () => {
+            return (input) => {
+                input = input || '';
+                return input.replace(/\w\S*/g, (txt) => {
+                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                });
+            };
+        })
         .controller('appCtrl', AppCtrl)
         .controller('CsvSettingsModalCtrl', ModalCtrls.CsvSettingsModalCtrl)
-        .controller('TableViewModalCtrl', ModalCtrls.TableViewModalCtrl);
+        .controller('TableViewModalCtrl', ModalCtrls.TableViewModalCtrl)
+        .controller('CreateProjectModalCtrl', ModalCtrls.CreateProjectModalCtrl);
 }

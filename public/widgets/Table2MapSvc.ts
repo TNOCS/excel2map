@@ -38,6 +38,8 @@ module Table2Map {
             LayerSettings = 4
     }
 
+    export var CONVERSION_STEPS = ['Project- en kaartlaaginstellingen', 'Stijlconfiguratie', 'Data weergave'];
+
     /** Assumption of the number of columns before table is parsed. */
     export var MAX_NR_COLUMNS = 100;
     /** Number of columns to show in the widget. */
@@ -147,6 +149,7 @@ module Table2Map {
         private previewMap: L.Map;
         private iconData: string; // Icon in base64 format
         private logoData: string; // Project logo in base64 format
+        private conversionSteps: string[] = CONVERSION_STEPS;
 
         public static $inject = [
             '$http',
@@ -190,6 +193,11 @@ module Table2Map {
                     case 'editPropertyType':
                         this.pType = < IPropertyType > data;
                         break;
+                    case 'requestproject':
+                        if (data) this.requestProject(data);
+                        let dash = this.layerService.findDashboardById('table2map');
+                        this.$dashboardService.selectDashboard(dash, 'main');
+                        break;
                 };
             });
 
@@ -218,10 +226,15 @@ module Table2Map {
             return str.replace(new RegExp(this.escapeRegExp(find), 'g'), replace);
         }
 
-        private requestProject() {
+        private requestProject(projectTitle ? : string) {
+            if (projectTitle) {
+                this.project.id = this.cleanRegExp(projectTitle).toLowerCase();
+                this.project.title = projectTitle;
+            }
             let url = '/requestproject';
             this.$http.post(url, {
-                    id: this.project.id
+                    id: this.project.id,
+                    title: this.project.title || 'Mijn titel'
                 }, {
                     timeout: 20000
                 })
@@ -409,8 +422,18 @@ module Table2Map {
             this.$messageBus.publish('table2map', 'update-widget-scope');
         }
 
+        private convertAndOpen() {
+            this.convert(() => {
+                this.openProject();
+            });
+        }
+
+        private openProject() {
+            window.location.href = `/?project=${this.project.id}`;
+        }
+
         /** Send the data and configuration to the server for conversion */
-        private convert() {
+        private convert(cb: Function) {
             let geometryParams = _.values(this.geometryColumns);
             let layerDefinition: Table2MapLayerDefinition = {
                 projectTitle: this.project.title,
@@ -456,13 +479,19 @@ module Table2Map {
                         Authorization: `Basic ${btoa(this.project.id + ':' + this.password)}`
                     }
                 })
-                .then((res: {
-                    data: any
-                }) => {
+                .then((res) => {
                     console.log(res.data);
+                    if (res.status === 200) this.$messageBus.notifyWithTranslation('UPLOAD_SUCCESS', 'UPLOAD_SUCCESS_MSG');
+                    cb();
                 })
                 .catch((err) => {
                     console.warn(`Error requesting project ${this.project.id}. ${err}`);
+                    if (err.status === HTTPStatusCodes.UNAUTHORIZED) {
+                        this.$messageBus.notifyWithTranslation('ERROR_UPLOADING_PROJECT', 'UNAUTHORIZED');
+                    } else {
+                        this.$messageBus.notifyWithTranslation('ERROR_UPLOADING_PROJECT', 'ERROR_MSG', { 'msg': err.status + ' ' + err.msg });
+                    }
+                    cb();
                 });
         }
 
@@ -612,7 +641,9 @@ module Table2Map {
             }
             if (isNameLabel) {
                 itemsToSelect = [this.$translate.instant('SELECT_NAMELABEL')];
-                selectedColumns = [_.find(this.headerCollection, (hObj) => { return this.featureType.style.nameLabel === hObj.code; })];
+                selectedColumns = [_.find(this.headerCollection, (hObj) => {
+                    return this.featureType.style.nameLabel === hObj.code;
+                })];
             }
             // Create the modal containing the table
             var modalInstance = this.$uibModal.open({

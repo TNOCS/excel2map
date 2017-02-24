@@ -1,0 +1,18 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{'CREATE_NEW_PROJECT' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'CREATE_PROJECT_HELP' | translate}}" tooltip-placement="bottom"></i></span></h4>
+</div>
+<div class="modal-body">
+    <form name="createProjectForm" class="form">
+        <div class="form-group">
+            <label for="title">{{'TITLE' | translate}}: </label>
+            <input id="title" type="text" ng-model="vm.title" ng-change="vm.cleanInput()" required/>
+            <span class="text-danger" ng-show="!createProjectForm.$pristine&&vm.idStatus==='invalid'">{{'INVALID_INPUT' | translate}}</span>
+            <span class="text-info" ng-show="vm.idStatus==='checking'">{{'CHECKING' | translate}}</span>
+            <span class="text-success" ng-show="vm.idStatus==='ok'"><i class="fa fa-check"></i></span>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="vm.cancel()">{{'CLOSE' | translate}}</button>
+    <button type="button" class="btn btn-primary" ng-click="vm.ok()" style="text-transform:capitalize;" ng-disabled="vm.idStatus!=='ok'">{{'CREATE_BUTTON' | translate}}</button>
+</div>

@@ -177,7 +177,7 @@ module Table2Map {
     }
 
     export function getDefaultIconUri() {
-        return 'marker.png';
+        return 'images/marker.png';
     }
 
     export function defaultHeaders(total: number): string[] {

@@ -247,6 +247,11 @@ h4 {
     font-style: bold;
 }
 
+a[disabled] {
+    pointer-events: none;
+    cursor: default;
+}
+
 label {
     color: rgb(57, 84, 96);
     font-size: 13px;
@@ -270,6 +275,30 @@ a[aria-expanded=false] .fa-chevron-up {
 input.ng-invalid.ng-touched {
     border-color: rgba(255, 127, 127, 0.75);
 }
+
 div.ng-invalid.ng-touched {
     border: 2px solid rgba(255, 127, 127, 0.75);
+}
+
+.project-table {
+    max-width: 800px;
+}
+
+.project-table td {
+    padding: 10px;
+}
+
+.project-table th {
+    padding: 8px;
+}
+
+.project-table.table-hover>tbody>tr:hover {
+    background-color: #acf
+}
+
+.scrolling {
+    overflow: auto;
+    position: absolute;
+    top: 50px;
+    bottom: 0;
 }

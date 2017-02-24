@@ -1,0 +1,27 @@
+<div style="margin: 22px 72px;">
+    <div class="header-title">{{'PROJECTS_LIST' | translate}}</div>
+    <div class="scrolling" style="margin: 22px 72px;">
+        <table class="project-table table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>{{'TITLE' | translate}}</th>
+                    <th>{{'CAN_EDIT' | translate}}</th>
+                    <th>{{'CAN_VIEW' | translate}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="pointer success text-center" colspan="3" ng-click="vm.createProject()">
+                        {{'CREATE_NEW_PROJECT' | translate}}
+                        <span><i class="fa fa-plus"></i></span>
+                    </td>
+                </tr>
+                <tr ng-repeat="project in vm.projects">
+                    <td>{{project.title}}</td>
+                    <td><i class="fa fa-pencil pointer" ng-click="vm.editProject(project)" ng-show="project.title.length < 14"></i></td>
+                    <td><i class="fa fa-eye pointer" ng-click="vm.showProject(project)" ></i></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

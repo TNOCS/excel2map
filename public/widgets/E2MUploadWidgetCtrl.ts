@@ -50,7 +50,7 @@ module widgets {
             this.parentWidget = $('#' + this.widget.elementId).parent();
 
             $("#file-upload").change(() => { this.readFile(); });
-            document.getElementById("drop-box").addEventListener("drop", (evt) => { this.fileDropped(evt); }, false);
+            document.getElementById('drop-box').addEventListener('drop', (evt) => { this.fileDropped(evt); }, false);
 
             // Check for the various File API support.
             if ((<any>window).File && (<any>window).FileReader) {
@@ -162,8 +162,8 @@ module widgets {
             if (!this.projectId) {
                 this.$messageBus.notifyError('No project ID supplied', 'Could not find a project ID in the supplied data. Excel2Map will create a new project ID for you.');
                 $.ajax({
-                    type: "POST",
-                    url: "/requestproject",
+                    type: 'POST',
+                    url: '/requestproject',
                     data: {},
                     success: (data) => {
                         this.$timeout(() => {
@@ -188,17 +188,17 @@ module widgets {
 
         private uploadProject() {
             $.ajax({
-                type: "POST",
-                url: "/projecttemplate",
+                type: 'POST',
+                url: '/projecttemplate',
                 data: this.parsedContent,
                 headers: {
-                    "Authorization": "Basic " + btoa(this.projectId + ":" + this.password)
+                    'Authorization': 'Basic ' + btoa(this.projectId + ':' + this.password)
                 },
                 success: () => {
                     this.$messageBus.notify('Project uploaded', 'Your data has been uploaded successfully');
                 },
                 error: (err, type, msg) => {
-                    if (err.status == 401) {
+                    if (err.status == HTTPStatusCodes.UNAUTHORIZED) {
                         this.$messageBus.notifyWithTranslation('ERROR_UPLOADING_PROJECT', 'UNAUTHORIZED');
                     } else {
                         this.$messageBus.notifyWithTranslation('ERROR_UPLOADING_PROJECT', 'ERROR_MSG', { 'msg': err.status + ' ' + msg });

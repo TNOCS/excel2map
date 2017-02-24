@@ -46,6 +46,7 @@ module Translations {
             NEXT_STEP: 'Volgende stap',
             LOAD_OR_CREATE_PROJECT: 'Laad of creëer een project',
             LOAD_OR_CREATE_BUTTON: 'Laad / creëer',
+            CREATE_BUTTON: 'Creëer',
             PROJECT_ID: 'Project ID',
             DATA_TO_MAP: 'Data naar de kaart',
             STYLE_SETTINGS: 'Stijl instellingen',
@@ -81,7 +82,7 @@ module Translations {
             CLUSTERING: 'Groepeer kaartitems',
             CLUSTER_LEVEL: 'Vanaf zoomniveau',
             DATA_RANGE: 'Data bereik',
-            ADVANCED_SETTIGNS: 'Geavanceerde instellingen',
+            ADVANCED_SETTINGS: 'Geavanceerde instellingen',
             SHOW_PROJECT: 'Open het aangemaakte project',
             TOO_MANY_COLS: 'Teveel kolommen',
             TOO_MANY_COLS_MSG: 'Er zijn teveel kolommen geselecteerd. Deselecteer een kolom voordat een nieuwe kolom geselecteerd kan worden.',
@@ -90,7 +91,16 @@ module Translations {
             UNKNOWN_FORMAT: 'Onbekend bestandstype',
             UNKNOWN_FORMAT_MSG: 'Kies een ondersteund bestandstype ({{type}})',
             VISIBILITY: 'Zichtbaarheid',
-            VISIBILE_IN_TOOLTIP: 'Toon eigenschap in tooltip'
+            VISIBLE_IN_TOOLTIP: 'Toon eigenschap in tooltip',
+            PROJECTS_LIST: 'Beschikbare projecten',
+            CREATE_NEW_PROJECT: 'Creëer nieuw project',
+            UPLOAD_SUCCESS: 'Kaartlaag aangemaakt',
+            UPLOAD_SUCCESS_MSG: 'De kaartlaag is aangemaakt. Klik op onderstaande link om het project te openen.',
+            INVALID_INPUT: 'Project bestaat al of is ongeldig',
+            CHECKING: 'Wordt gecontroleerd...',
+            CAN_VIEW: 'Bekijken',
+            CAN_EDIT: 'Bewerken',
+            SAVE_AND_OPEN: 'Opslaan en resultaat bekijken'
         };
     }
 }
