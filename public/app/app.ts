@@ -29,12 +29,14 @@ module App {
             '$scope',
             '$timeout',
             '$location',
+            '$http',
             'mapService',
             'layerService',
             'messageBusService',
             'dashboardService',
             'geoService',
-            'tableToMapSvc'
+            'tableToMapSvc',
+            'profileService'
         ];
 
         public areaFilter: AreaFilter.AreaFilterModel;
@@ -48,12 +50,14 @@ module App {
             private $scope: IAppScope,
             private $timeout: ng.ITimeoutService,
             private $location: IAppLocationService,
+            private $http: ng.IHttpService,
             private $mapService: csComp.Services.MapService,
             private $layerService: csComp.Services.LayerService,
             private $messageBusService: csComp.Services.MessageBusService,
             private $dashboardService: csComp.Services.DashboardService,
             private geoService: csComp.Services.GeoService,
-            private tableToMapSvc: Table2Map.Table2MapSvc
+            private tableToMapSvc: Table2Map.Table2MapSvc,
+            private profileService: csComp.Services.ProfileService
         ) {
             sffjs.setCulture('nl-NL');
 
@@ -109,7 +113,48 @@ module App {
             var rpt = csComp.Helpers.createRightPanelTab('featureprops', 'featureprops', null, 'Selected feature', '{{\'FEATURE_INFO\' | translate}}', 'info');
             this.$messageBusService.publish('rightpanel', 'activate', rpt);
             this.$layerService.visual.rightPanelVisible = false; // otherwise, the rightpanel briefly flashes open before closing.
-
+            this.profileService.startLogin();
+            this.profileService.logout = function () {
+                var l = this.$layerService.findLayer('barges');
+                this.profileLayers.forEach(function (pl) {
+                    this.$layerService.removeLayer(pl, true);
+                });
+                var widgets = this.dashboard.widgets.filter(function (w) { return w.id === '27a466a5-f87d-4d55-0bc8-7a9e51f353f1'; });
+                if (widgets) {
+                    var w = widgets[0];
+                    w.data['buttons'] = [];
+                }
+                ;
+            };
+            this.profileService.validate = function (userName, passWord, cb) {
+                this.profileLayers = [];
+                // var authReq = <ng.IRequestConfig>{
+                //     method: 'POST',
+                //     url: ,
+                //     headers: {
+                //         'Accept': 'application/json'
+                //     },
+                //     data: {  }
+                // }
+                var url = 'http://134.221.210.155:9763/SDL_Amsterdam-1.0.0/services/poc/authenticate?userName=' + userName + '&password=' + passWord;
+                var auth = $http.get(url, {}).success(function (authResult) {
+                    if (authResult.hasOwnProperty('success') && authResult['success'] === true) {
+                        var res = $http.get('http://134.221.210.155:9763/SDL_Amsterdam-1.0.0/services/poc/users?userName=' + userName).success(function (d) {
+                            if (d.hasOwnProperty('layers') && _.isArray(d['layers'])) {
+                                d['layers'].forEach(function (l) {
+                                    this.AddLayer(l.url, l.layerName, l.groupName, 'data/api/projects/sdl/resources/Terminals.json', l.featureType);
+                                });
+                            }
+                            return cb(true, {});
+                        }).error(function (d) {
+                            return cb(false, {});
+                        });
+                        ;
+                    } else {
+                        return cb(false, {});
+                    }
+                });
+            };
             this.$layerService.openSolution('data/projects/projects.json', $location.$$search.layers);
         }
 

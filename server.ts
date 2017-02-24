@@ -3,7 +3,7 @@ import fs = require('fs');
 import path = require('path');
 import opn = require('opn');
 import auth = require('basic-auth');
-import * as csweb from "csweb";
+import * as csweb from 'csweb';
 
 Winston.remove(Winston.transports.Console);
 Winston.add(Winston.transports.Console, < Winston.ConsoleTransportOptions > {

@@ -6,6 +6,9 @@
     "url" : "https://github.com/TNOCS/excel2map",
     "connected" : false,
     "hideLayerActions" : true,
+    "profile": {
+        "authenticationMethod": 1
+    },
     "timeLine" : {
         "start" : 1375315200000,
         "end" : 1425168000000,
