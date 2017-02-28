@@ -349,6 +349,8 @@ module Table2Map {
                 }) => {
                     this.featureType = res.data;
                     this.featureType.style = this.featureType['featureTypes']['Default']['style'] || {};
+                    if (this.featureType.style.opacity <= 1) this.featureType.style.opacity *= 100;
+                    if (this.featureType.style.fillOpacity <= 1) this.featureType.style.fillOpacity *= 100;
                     cb(true);
                 })
                 .catch((err) => {

@@ -232,6 +232,27 @@ module ModalCtrls {
             if (closeModal) this.ok();
         }
 
+        private removeLayer(groupId: string, layerId: string) {
+            let url = `/api/projects/${this.project.id}/group/${groupId}/layer/${layerId}`;
+            this.$http.delete(url, {
+                    timeout: 10000
+                })
+                .then((res) => {
+                    if (res.status === 200) {
+                        console.log(`Removed layer on server`);
+                        // Remove in scope too
+                        let g = _.find(this.project.groups, (g) => {
+                            return g.id === groupId;
+                        });
+                        g.layers = g.layers.filter((l) => {
+                            return l.id !== layerId;
+                        });
+                    }
+                }).catch((err) => {
+                    console.warn(`Could not remove layer: ${err}`);
+                });
+        }
+
         public ok() {
             this.$uibModalInstance.close(this.activeId);
         }

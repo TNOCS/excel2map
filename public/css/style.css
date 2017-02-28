@@ -214,6 +214,10 @@ td.st-selected {
     width: 100%;
 }
 
+.full-width {
+    width: 100%;
+}
+
 .form-header {
     margin: 0 0 12px 0 !important;
 }
