@@ -302,3 +302,11 @@ div.ng-invalid.ng-touched {
     top: 50px;
     bottom: 0;
 }
+
+.list-group-group {
+    padding: 8px;
+}
+
+.list-group-group-title {
+    padding: 8px;
+}

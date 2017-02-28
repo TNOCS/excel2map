@@ -203,4 +203,41 @@ module ModalCtrls {
             this.$uibModalInstance.dismiss('cancel');
         }
     }
+
+    export interface IChooseLayerModalScope extends ng.IScope {
+        vm: ChooseLayerModalCtrl;
+    }
+
+    export class ChooseLayerModalCtrl {
+        public static $inject = [
+            '$scope',
+            '$uibModalInstance',
+            '$http',
+            'project'
+        ];
+
+        private activeId: string;
+
+        constructor(
+            private $scope: IChooseLayerModalScope,
+            private $uibModalInstance: any,
+            private $http: ng.IHttpService,
+            private project: csComp.Services.Project) {
+
+            $scope.vm = this;
+        }
+
+        private selectLayer(layerId: string, closeModal: boolean = false) {
+            this.activeId = layerId;
+            if (closeModal) this.ok();
+        }
+
+        public ok() {
+            this.$uibModalInstance.close(this.activeId);
+        }
+
+        public cancel() {
+            this.$uibModalInstance.dismiss('cancel');
+        }
+    }
 }

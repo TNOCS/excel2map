@@ -109,7 +109,7 @@ module Table2Map {
         private password: string;
         private selectedFile: string;
         private uploadAvailable: boolean;
-        public fileExtensions: Dictionary < string[] > ;
+        public fileExtensions: Dictionary < string[] > = Table2Map.getDefaultFileExtensions();
         private numberOfCols: number;
         private numberOfRows: number;
         private rowCollection: Dictionary < any > [] = [];
@@ -157,6 +157,7 @@ module Table2Map {
             'layerService',
             'messageBusService',
             'actionService',
+            '$location',
             '$timeout',
             '$sce',
             '$uibModal',
@@ -169,6 +170,7 @@ module Table2Map {
             private layerService: csComp.Services.LayerService,
             private $messageBus: csComp.Services.MessageBusService,
             private actionService: csComp.Services.ActionService,
+            private $location: ng.ILocationService,
             private $timeout: ng.ITimeoutService,
             private $sce: ng.ISCEService,
             private $uibModal: ng.ui.bootstrap.IModalService,
@@ -193,10 +195,15 @@ module Table2Map {
                     case 'editPropertyType':
                         this.pType = < IPropertyType > data;
                         break;
+                    case 'editproject':
+                        this.editProject(data);
+                        break;
                     case 'requestproject':
-                        if (data) this.requestProject(data);
-                        let dash = this.layerService.findDashboardById('table2map');
-                        this.$dashboardService.selectDashboard(dash, 'main');
+                        this.requestProject(data, (project) => {
+                            this.project = project;
+                            this.password = project['password'] || this.password;
+                            this.startWizard();
+                        });
                         break;
                 };
             });
@@ -207,6 +214,12 @@ module Table2Map {
                 this.uploadAvailable = true;
             } else {
                 this.uploadAvailable = false;
+            }
+
+            // check whether a project-to-edit is passed in the url
+            let params = this.$location.search();
+            if (params && params.hasOwnProperty('editproject')) {
+                this.editProject(params['editproject']);
             }
         }
 
@@ -226,39 +239,166 @@ module Table2Map {
             return str.replace(new RegExp(this.escapeRegExp(find), 'g'), replace);
         }
 
-        private requestProject(projectTitle ? : string) {
+        private editProject(projectId: string) {
+            this.requestProject(projectId, (project) => {
+                this.selectLayerForEditing(project);
+            });
+        }
+
+        private startWizard(): boolean {
+            let dash = this.layerService.findDashboardById('table2map');
+            if (!dash) return false;
+            this.$dashboardService.selectDashboard(dash, 'main');
+            return true;
+        }
+
+        private selectLayerForEditing(project: Project) {
+            var modalInstance = this.$uibModal.open({
+                templateUrl: 'modals/ChooseLayerModal.tpl.html',
+                controller: 'ChooseLayerModalCtrl',
+                resolve: {
+                    project: () => project
+                }
+            });
+
+            modalInstance.result.then((layerId: string) => {
+                if (!layerId) return;
+                if (this.layerService.project.activeDashboard.id !== 'table2map') {
+                    let success = this.startWizard();
+                    if (!success) location.href = `/?dashboard=table2map&editproject=${this.layerService.project.id}`;
+                }
+                this.getLayer(layerId, (success) => {
+                    if (success) {
+                        this.loadLayerForWizard(project, this.layer);
+                    } else {
+                        this.$messageBus.notify('ERROR_GETTING_LAYER', 'ERROR_GETTING_LAYER');
+                    }
+                });
+            }, () => {
+                console.log('Modal dismissed at: ' + new Date());
+            });
+        }
+
+        private loadLayerForWizard(project: Project, layer: ProjectLayer) {
+            this.project = project;
+            this.selectedGroup = this.findGroupForLayer(layer.id);
+            this.getFeatureType(layer, (success) => {
+                if (success) {
+                    this.textContent = this.convertFeatureTypeToCsv(this.featureType);
+                    this.textContent = this.textContent.concat('\n', this.convertLayerToCsv(layer));
+                    this.feature = layer.data.features[0] || Table2Map.getDefaultFeature();
+                    this.getIconData(this.featureType.style.iconUri);
+                    this.updatedContent(false);
+                    this.startWizard();
+                } else {
+                    this.$messageBus.notify('ERROR_GETTING_LAYER', 'ERROR_GETTING_LAYER');
+                }
+            });
+        }
+
+        private convertFeatureTypeToCsv(fType: IFeatureType) {
+            if (!fType || !fType.hasOwnProperty('propertyTypeData')) return;
+            let result: string[] = [];
+            _.each(fType['propertyTypeData'], (prop: IPropertyType) => {
+                result.push(prop.title || prop.label);
+            });
+            return result.join(';');
+        }
+
+        private convertLayerToCsv(layer: ProjectLayer): string {
+            if (!layer.data) layer.data = {};
+            if (layer.hasOwnProperty('features')) layer.data.features = layer['features'];
+            if (!layer.data || !layer.data.features) return;
+            let result: string[] = [];
+            _.each(layer.data.features, (f: IFeature) => {
+                return result.push(_.values(f.properties).join(';'));
+            });
+            return result.join('\n');
+        }
+
+        private findGroupForLayer(layerId: string) {
+            return _.find(this.project.groups, (group) => {
+                return _.find(group.layers, (layer) => {
+                    return layer.id === layerId;
+                });
+            });
+        }
+
+        private getIconData(url: string) {
+            this.$http.get(url, {
+                    responseType: 'arraybuffer'
+                })
+                .then((res: any) => {
+                    let blob = new Blob([res.data], {
+                        type: 'image/png'
+                    });
+                    blob['name'] = url;
+                    this.readFile(blob, 'icon');
+                }).catch((err) => {
+                    console.warn(`Could not get icon image: ${err}`);
+                });
+        }
+
+        public getFeatureType(layer: ProjectLayer, cb: Function) {
+            let url = `${layer.typeUrl}`;
+            this.$http.get(url, {
+                    timeout: 20000
+                })
+                .then((res: {
+                    data: IFeatureType
+                }) => {
+                    this.featureType = res.data;
+                    this.featureType.style = this.featureType['featureTypes']['Default']['style'] || {};
+                    cb(true);
+                })
+                .catch((err) => {
+                    console.warn(`Error requesting featureType from ${layer.typeUrl}. ${err}`);
+                    cb(null);
+                });
+        }
+
+        public getLayer(layerId: string, cb: Function) {
+            let url = `/api/layers/${layerId}`;
+            this.$http.get(url, {
+                    timeout: 20000
+                })
+                .then((res: {
+                    data: ProjectLayer
+                }) => {
+                    this.layer = res.data;
+                    cb(true);
+                })
+                .catch((err) => {
+                    console.warn(`Error requesting layer ${layerId}. ${err}`);
+                    cb(null);
+                });
+        }
+
+        /**
+         * Either loads the project if it exists, or creates the project if it doesn't.
+         */
+        public requestProject(projectTitle ? : string, cb ? : Function) {
+            let project = < Project > {};
             if (projectTitle) {
-                this.project.id = this.cleanRegExp(projectTitle).toLowerCase();
-                this.project.title = projectTitle;
+                project.id = this.cleanRegExp(projectTitle).toLowerCase();
+                project.title = projectTitle;
             }
             let url = '/requestproject';
             this.$http.post(url, {
-                    id: this.project.id,
-                    title: this.project.title || 'Mijn titel'
+                    id: project.id,
+                    title: project.title || 'Mijn titel'
                 }, {
                     timeout: 20000
                 })
                 .then((res: {
                     data: Project
                 }) => {
-                    this.project = res.data;
-                    this.password = this.project['password'] || this.password;
+                    project = res.data;
+                    cb(project);
                 })
                 .catch((err) => {
-                    console.warn(`Error requesting project ${this.project.id}. ${err}`);
-                    let url = `/api/projects/${this.project.id}`;
-                    this.$http.get(url, {
-                            timeout: 20000
-                        })
-                        .then((res: {
-                            data: Project
-                        }) => {
-                            this.project = res.data;
-                            this.password = this.project['password'];
-                        })
-                        .catch((err) => {
-                            console.warn(`Error requesting project ${this.project.id}. ${err}`);
-                        });
+                    console.warn(`Error requesting project ${project.id}. ${err}`);
+                    cb(null);
                 });
         }
 
@@ -306,15 +446,6 @@ module Table2Map {
         }
 
         private resetVariables() {
-            this.headerCollection.length = 0;
-            this.headerCollection = _.map(Table2Map.defaultHeaders(MAX_NR_COLUMNS), (code: string, index: number) => {
-                return {
-                    code: code,
-                    title: '',
-                    index: index
-                };
-            });
-            this.rowCollection.length = 0;
             this.iconData = Table2Map.getDefaultIconData();
             this.featureType = {};
             this.featureType.style = {
@@ -333,24 +464,24 @@ module Table2Map {
                 fillOpacity: 100,
                 nameLabel: ''
             };
-            this.feature = < csComp.Services.Feature > {
-                type: 'Feature',
-                geometry: {
-                    coordinates: null,
-                    type: null
-                },
-                properties: {},
-                _gui: {},
-                isSelected: false
-            };
+            this.feature = Table2Map.getDefaultFeature();
             if (!this.layer) this.layer = < ProjectLayer > {};
             if (!this.layer.id) this.layer.id = csComp.Helpers.getGuid();
             $('#iconImage').attr('src', DEFAULT_MARKER_ICON);
         }
 
         /** Parse the uploaded csv data to JSON format, for displaying it in a html table. */
-        public updatedContent() {
-            this.resetVariables();
+        public updatedContent(resetVariables: boolean = true) {
+            if (resetVariables) this.resetVariables();
+            this.headerCollection.length = 0;
+            this.headerCollection = _.map(Table2Map.defaultHeaders(MAX_NR_COLUMNS), (code: string, index: number) => {
+                return {
+                    code: code,
+                    title: '',
+                    index: index
+                };
+            });
+            this.rowCollection.length = 0;
             try {
                 ( < any > window).csvtojson({
                         noheader: true, //parse header too, manually extract it from the data afterwards
@@ -489,7 +620,9 @@ module Table2Map {
                     if (err.status === HTTPStatusCodes.UNAUTHORIZED) {
                         this.$messageBus.notifyWithTranslation('ERROR_UPLOADING_PROJECT', 'UNAUTHORIZED');
                     } else {
-                        this.$messageBus.notifyWithTranslation('ERROR_UPLOADING_PROJECT', 'ERROR_MSG', { 'msg': err.status + ' ' + err.msg });
+                        this.$messageBus.notifyWithTranslation('ERROR_UPLOADING_PROJECT', 'ERROR_MSG', {
+                            'msg': err.status + ' ' + err.msg
+                        });
                     }
                     cb();
                 });
@@ -841,6 +974,7 @@ module Table2Map {
             this.feature.geometry.type = drawingMode;
             this.feature.properties = this.rowCollection[this.selectedRowIndex || 0] || {};
             this.feature['fType'] = this.featureType;
+            if (!this.feature._gui) this.feature._gui = < csComp.Services.IGuiObject > {};
             this.layerService.calculateFeatureStyle(this.feature);
             if (drawingMode === 'Point') {
                 this.feature.geometry.coordinates = PREVIEW_COORDINATES_POINT;
@@ -868,6 +1002,7 @@ module Table2Map {
 
         private selectFeature(f: IFeature) {
             f.isSelected = !f.isSelected;
+            if (!f._gui) f._gui = < csComp.Services.IGuiObject > {};
             f._gui['title'] = Helpers.getFeatureTitle(f);
             this.layerService.calculateFeatureStyle(f);
             if (f.geometry.type === 'Point') {

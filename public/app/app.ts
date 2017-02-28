@@ -384,5 +384,6 @@ module App {
         .controller('appCtrl', AppCtrl)
         .controller('CsvSettingsModalCtrl', ModalCtrls.CsvSettingsModalCtrl)
         .controller('TableViewModalCtrl', ModalCtrls.TableViewModalCtrl)
-        .controller('CreateProjectModalCtrl', ModalCtrls.CreateProjectModalCtrl);
+        .controller('CreateProjectModalCtrl', ModalCtrls.CreateProjectModalCtrl)
+        .controller('ChooseLayerModalCtrl', ModalCtrls.ChooseLayerModalCtrl);
 }

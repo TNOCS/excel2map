@@ -78,7 +78,7 @@ module ProjectsDirective {
         }
 
         private editProject(project: Project) {
-            this.$messageBus.publish('table2map', 'requestproject', (project ? project.id : null));
+            this.$messageBus.publish('table2map', 'editproject', (project ? project.id : null));
         }
 
         private showProject(project: Project) {

@@ -61,10 +61,10 @@ module Translations {
             ENABLED_HELP: 'Indien geselecteerd wordt de kaartlaag bij het openen van het project automatisch geactiveerd',
             SELECT_OR_CREATE_GROUP: 'Kies of creëer een groep',
             SELECT_OR_CREATE_SECTION: 'Kies of creëer een sectie',
-            SELECT_GEOMETRY_TYPE_FIRST: 'Kies eerst een geometrie / indeling',
+            SELECT_GEOMETRYTYPE_FIRST: 'Kies eerst een geometrie / indeling',
             NOTHING_TO_SELECT: 'Er hoeft niets geselecteerd te worden',
             NO_COLUMN_SELECTED: 'niets geselecteerd',
-            SELECT_NR_COLUMNS: '{{nr}} kolommen geselecteerd',
+            SELECT_NR_COLUMNS: '{{(nr == 1 ? nr + " kolom" : nr + " kolommen")}} geselecteerd',
             SHOW_HIDE_COLUMN_TITLES: 'Toon/verberg kolom titels',
             TABLE_HELP: 'Hieronder wordt de tabel met uw data getoond. Er wordt aangegeven welke rijen of kolommen u dient te selecteren.',
             ICON_IMAGE: 'Icoon afbeelding',
@@ -84,6 +84,7 @@ module Translations {
             DATA_RANGE: 'Data bereik',
             ADVANCED_SETTINGS: 'Geavanceerde instellingen',
             SHOW_PROJECT: 'Open het aangemaakte project',
+            SHOW_TABLE: 'Toon een tabel met de data',
             TOO_MANY_COLS: 'Teveel kolommen',
             TOO_MANY_COLS_MSG: 'Er zijn teveel kolommen geselecteerd. Deselecteer een kolom voordat een nieuwe kolom geselecteerd kan worden.',
             FILE_TOO_LARGE: 'Bestand is te groot',
@@ -93,14 +94,18 @@ module Translations {
             VISIBILITY: 'Zichtbaarheid',
             VISIBLE_IN_TOOLTIP: 'Toon eigenschap in tooltip',
             PROJECTS_LIST: 'Beschikbare projecten',
-            CREATE_NEW_PROJECT: 'Creëer nieuw project',
+            CREATE_NEW_PROJECT: 'Maak nieuw project',
             UPLOAD_SUCCESS: 'Kaartlaag aangemaakt',
             UPLOAD_SUCCESS_MSG: 'De kaartlaag is aangemaakt. Klik op onderstaande link om het project te openen.',
             INVALID_INPUT: 'Project bestaat al of is ongeldig',
             CHECKING: 'Wordt gecontroleerd...',
             CAN_VIEW: 'Bekijken',
             CAN_EDIT: 'Bewerken',
-            SAVE_AND_OPEN: 'Opslaan en resultaat bekijken'
+            EDIT: 'Bewerken',
+            SELECT: 'Selecteer',
+            EDIT_LAYER: 'Kies een kaartlaag om te bewerken',
+            SAVE_AND_OPEN: 'Opslaan en resultaat bekijken',
+            ERROR_GETTING_LAYER: 'Fout bij ophalen kaartlaag'
         };
     }
 }

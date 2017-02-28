@@ -2,7 +2,7 @@ module Table2Map {
 
     import IProperty = csComp.Services.IProperty;
 
-    export interface INameValueObject <T> {
+    export interface INameValueObject < T > {
         name: string;
         val: T;
     }
@@ -170,6 +170,27 @@ module Table2Map {
         projectId ? : string;
         iconBase64 ? : string;
         logoBase64 ? : string;
+    }
+
+    export function getDefaultFileExtensions() {
+        return {
+            'data': ['csv', 'mat'],
+            'icon': ['png'],
+            'logo': ['png']
+        };
+    }
+
+    export function getDefaultFeature(): csComp.Services.Feature {
+        return <csComp.Services.Feature > {
+            type: 'Feature',
+            geometry: {
+                coordinates: null,
+                type: null
+            },
+            properties: {},
+            _gui: {},
+            isSelected: false
+        };
     }
 
     export function getDefaultIconData() {
