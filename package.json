@@ -15,12 +15,19 @@
   "license": "MIT",
   "dependencies": {
     "basic-auth": "^1.0.3",
+    "bluebird": "^3.5.0",
     "csweb": "^0.2.16-rc1",
+    "node_auth": "^0.1.9",
     "opn": "^4.0.1",
     "pg": "^4.4.3",
     "winston": "^2.1.0"
   },
   "devDependencies": {
+    "@types/bluebird": "^3.5.0",
+    "@types/express-serve-static-core": "^4.0.41",
+    "@types/jasmine": "^2.5.45",
+    "@types/node": "^7.0.8",
+    "@types/pg": "^6.1.37",
     "chokidar": "^1.2.0",
     "coveralls": "^2.11.4",
     "del": "^1.2.0",
