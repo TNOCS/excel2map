@@ -16,6 +16,7 @@
   "dependencies": {
     "basic-auth": "^1.0.3",
     "bluebird": "^3.5.0",
+    "config": "^1.25.1",
     "csweb": "^0.2.16-rc1",
     "node_auth": "^0.1.9",
     "opn": "^4.0.1",

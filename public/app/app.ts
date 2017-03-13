@@ -36,7 +36,8 @@ module App {
             'dashboardService',
             'geoService',
             'tableToMapSvc',
-            'profileService'
+            'profileService',
+            'localStorageService'
         ];
 
         public areaFilter: AreaFilter.AreaFilterModel;
@@ -57,7 +58,8 @@ module App {
             private $dashboardService: csComp.Services.DashboardService,
             private geoService: csComp.Services.GeoService,
             private tableToMapSvc: Table2Map.Table2MapSvc,
-            private profileService: csComp.Services.ProfileService
+            private profileService: csComp.Services.ProfileService,
+            private $localStorageService: ng.localStorage.ILocalStorageService
         ) {
             sffjs.setCulture('nl-NL');
 
@@ -118,6 +120,9 @@ module App {
                 this.$http
                     .post('/api/login', { email: username, password: password })
                     .then((result: { data: { success: boolean, token: string, user: csComp.Services.IProfile} }) => {
+                        if (result.data.success) {
+                            $localStorageService.set('jwt', result.data.token);
+                        }
                         cb(result.data.success, result.data.token, result.data.user);
                     })
                     .catch(() => {
@@ -312,7 +317,7 @@ module App {
         'smart-table'
     ])
         .config(localStorageServiceProvider => {
-            localStorageServiceProvider.prefix = 'csMap';
+            localStorageServiceProvider.prefix = 't2m';
         })
         .config(TimelineServiceProvider => {
             TimelineServiceProvider.setTimelineOptions({

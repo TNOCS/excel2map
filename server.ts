@@ -1,18 +1,108 @@
+import { Application, Request, Response, NextFunction } from 'express';
 import Winston = require('winston');
 import fs = require('fs');
 import path = require('path');
 import opn = require('opn');
-import auth = require('basic-auth');
 import * as csweb from 'csweb';
+import * as mongoose from 'mongoose';
+import * as bluebird from 'bluebird';
+import * as nodemailer from 'nodemailer'; // module hasn't been installed yet, only its typings
+import { IConfig } from './config/IConfig';
+import { NodeAuth, PolicySet, CRUD, User, IUser, DecisionCombinator, Resource, BaseRule, Rule, Decision, PrivilegeRequest, Subject, Action, PolicySetCollection } from 'node_auth';
+
+const config: IConfig = require('config');
+
+(<any>mongoose).Promise = bluebird;
+// mongoose.connect('mongodb://localhost/test_e2m'); // connect to database
+mongoose.connect(config.mongodb); // connect to database
+
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', () => {
+    console.log('DB: we are connected');
+    const user = new User(<IUser> {
+        name: 'admin',
+        email: 'admin@example.com',
+        verified: true,
+        password: 'password',
+        admin: true
+    });
+    user.save(err => {
+        if (err) { return console.error(err); };
+    });
+});
+// db.on('connected', () => {
+//     User.find({ }, (err, res) => {
+//         if (err) {
+//             console.error(err);
+//         } else {
+//             console.log(res);
+//         }
+//     });
+//     // User.findOne({ email: 'erik.vullings@gmail.com' }, (err, res) => {
+//     //     console.warn(err);
+//     //     console.log(JSON.stringify(res, null, 2));
+//     // });
+// });
+
+// Load of create a policy store
+const policyStore = {
+    name: 'example-policies.json',
+    policies: <PolicySet[]>[{
+        name: 'Main policy set',
+        combinator: 'first',
+        policies: [{
+            name: 'admins rule',
+            combinator: 'first',
+            rules: [{
+                subject: { admin: true },
+                action: Action.All,
+                decision: Decision.Permit
+            }]
+        }, {
+            name: 'rbac',
+            combinator: 'first',
+            rules: [{
+                subject: { subscribed: true },
+                action: Action.Create,
+                resource: {
+                    type: 'project'
+                },
+                decision: Decision.Permit
+            }, {
+                subject: { email: 'erik.vullings@gmail.com' },
+                action: Action.Manage,
+                decision: Decision.Permit,
+                resource: {
+                    type: 'project'
+                }
+            }, {
+                desc: 'Anyone can read public resources',
+                action: Action.Read,
+                decision: Decision.Permit,
+                resource: {
+                    articleID: ['public_article']
+                }
+            }, {
+                desc: 'Subscribed users can create new resources',
+                subject: {
+                    subscribed: true
+                },
+                action: Action.Create,
+                decision: Decision.Permit
+            }]
+        }]
+    }]
+};
 
 Winston.remove(Winston.transports.Console);
-Winston.add(Winston.transports.Console, < Winston.ConsoleTransportOptions > {
+Winston.add(Winston.transports.Console, <Winston.ConsoleTransportOptions>{
     colorize: true,
     label: 'csWeb',
     prettyPrint: true
 });
 
-var cs = new csweb.csServer(__dirname, < csweb.csServerOptions > {
+var cs = new csweb.csServer(__dirname, <csweb.csServerOptions>{
     port: 3004,
     swagger: false,
     connectors: {}
@@ -22,7 +112,35 @@ var debug = true;
 
 var passwords = {};
 cs.start(() => {
-    readPass();
+    // readPass();
+    const auth = NodeAuth(cs.server, {
+        secretKey: 'MyBigSectetThatShouldBeReplacedInProduction',
+        blockUnauthenticatedUser: false, // if true, default, no unauthenticated user will pass beyond this point
+        policyStore: policyStore,
+        verify: {
+            route: true,
+            baseUrl: 'WWW.MYDOMAIN.COM/api/activate',
+            mailService: null,
+            verifyMailOptions: {
+                from: 'erik.vullings@gmail.com',
+                subject: 'Just verifying that your email is correct',
+                html: 'Hello'
+            },
+            confirmMailOptions: {
+                from: 'erik.vullings@gmail.com',
+                subject: 'Just confirming that your account is setup and good to go',
+                html: 'Yay!'
+            }
+        },
+        onUserChanged: (user: IUser, req: Request, change: CRUD) => {
+            console.log(`User ${change}d:`);
+            console.log(JSON.stringify(user, null, 2));
+        }
+    });
+    cs.server.use(auth);
+
+    // const pep = nodeAuth.initPEP(policyStore);
+    // const cop = pep.getPolicyEnforcer('Main policy set');
 
     this.config = cs.config;
     this.config.add('server', 'http://localhost:' + cs.options.port);
@@ -76,7 +194,7 @@ cs.start(() => {
     });
 
     cs.server.post('/updategrouptitle', (req, res) => {
-        var creds = auth(req);
+        var creds = req['user']; // auth(req);
         if (!creds || !passwords.hasOwnProperty(creds.name) || creds.pass !== passwords[creds.name]) {
             console.log('Wrong password');
             res.statusCode = HTTPStatusCodes.UNAUTHORIZED;
@@ -85,7 +203,7 @@ cs.start(() => {
             var data;
             if (req.body) {
                 data = req.body;
-                cs.api.updateGroup(data.projectId, data.oldTitle, < any > {
+                cs.api.updateGroup(data.projectId, data.oldTitle, <any>{
                     id: data.newTitle,
                     title: data.newTitle
                 }, {}, (result: csweb.CallbackResult) => {
@@ -102,7 +220,7 @@ cs.start(() => {
     });
 
     cs.server.post('/clearproject', (req, res) => {
-        var creds = auth(req);
+        var creds = req['user']; // auth(req);
         if (!creds || !passwords.hasOwnProperty(creds.name) || creds.pass !== passwords[creds.name]) {
             console.log('Wrong password');
             res.statusCode = HTTPStatusCodes.UNAUTHORIZED;

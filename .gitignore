@@ -12,6 +12,9 @@ server.js.map
 server.js
 dist/
 
+config/*.js
+config/*.js.map
+config/local.json
 public/data/api/
 .users.htpasswd
 public/data/images/

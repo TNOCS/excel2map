@@ -1,0 +1,3 @@
+{
+  "mongodb": "mongodb://<dbuser>:<dbpassword>@ds129720.mlab.com:29720/commonsenseusers"
+}

@@ -176,7 +176,7 @@ module MobileApp {
         'wiz.markdown'
     ])
         .config(localStorageServiceProvider => {
-        localStorageServiceProvider.prefix = 'csMap';
+        localStorageServiceProvider.prefix = 't2m';
     })
     //     .config(TimelineServiceProvider => {
     //     TimelineServiceProvider.setTimelineOptions({
