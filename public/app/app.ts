@@ -114,14 +114,14 @@ module App {
             this.$messageBusService.publish('rightpanel', 'activate', rpt);
             this.$layerService.visual.rightPanelVisible = false; // otherwise, the rightpanel briefly flashes open before closing.
             this.profileService.startLogin();
-            this.profileService.validate = (username: string, password: string, cb: (success: boolean, profile: csComp.Services.IProfile) => void) => {
+            this.profileService.validate = (username: string, password: string, cb: (success: boolean, token?: string, profile?: csComp.Services.IProfile) => void) => {
                 this.$http
                     .post('/api/login', { email: username, password: password })
-                    .then((result: {success: boolean, user: csComp.Services.IProfile }) => {
-                        cb(result.success, result.user);
+                    .then((result: { data: { success: boolean, token: string, user: csComp.Services.IProfile} }) => {
+                        cb(result.data.success, result.data.token, result.data.user);
                     })
                     .catch(() => {
-                        cb(false, null);
+                        cb(false);
                     });
             };
             this.profileService.logout = function () {
