@@ -37,19 +37,6 @@ db.once('open', () => {
         }
     });
 });
-// db.on('connected', () => {
-//     User.find({ }, (err, res) => {
-//         if (err) {
-//             console.error(err);
-//         } else {
-//             console.log(res);
-//         }
-//     });
-//     // User.findOne({ email: 'erik.vullings@gmail.com' }, (err, res) => {
-//     //     console.warn(err);
-//     //     console.log(JSON.stringify(res, null, 2));
-//     // });
-// });
 
 // Load of create a policy store
 const policyStore = {
