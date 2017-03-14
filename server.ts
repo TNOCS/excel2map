@@ -20,15 +20,21 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
     console.log('DB: we are connected');
-    const user = new User(<IUser> {
-        name: 'admin',
-        email: 'admin@example.com',
-        verified: true,
-        password: 'password',
-        admin: true
-    });
-    user.save(err => {
-        if (err) { return console.error(err); };
+    User.find({ admin: true }, (err, res) => {
+        if (err) { return console.error(err); }
+        if (res.length === 0) {
+            // No admin found: create one
+            const user = new User(<IUser>{
+                name: 'admin',
+                email: 'admin@example.com',
+                verified: true,
+                password: 'password',
+                admin: true
+            });
+            user.save(err => {
+                if (err) { return console.error(err); };
+            });
+        }
     });
 });
 // db.on('connected', () => {
