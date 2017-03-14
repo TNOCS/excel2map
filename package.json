@@ -18,10 +18,11 @@
     "bluebird": "^3.5.0",
     "config": "^1.25.1",
     "csweb": "^0.2.16-rc1",
+    "mongoose": "^4.9.0",
     "node_auth": "^0.1.9",
     "opn": "^4.0.1",
     "pg": "^4.4.3",
-    "winston": "^2.1.0"
+    "winston": "^2.3.1"
   },
   "devDependencies": {
     "@types/bluebird": "^3.5.0",
