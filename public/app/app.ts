@@ -36,8 +36,7 @@ module App {
             'dashboardService',
             'geoService',
             'tableToMapSvc',
-            'profileService',
-            'localStorageService'
+            'profileService'
         ];
 
         public areaFilter: AreaFilter.AreaFilterModel;
@@ -58,8 +57,7 @@ module App {
             private $dashboardService: csComp.Services.DashboardService,
             private geoService: csComp.Services.GeoService,
             private tableToMapSvc: Table2Map.Table2MapSvc,
-            private profileService: csComp.Services.ProfileService,
-            private $localStorageService: ng.localStorage.ILocalStorageService
+            private profileService: csComp.Services.ProfileService
         ) {
             sffjs.setCulture('nl-NL');
 
@@ -116,29 +114,29 @@ module App {
             this.$messageBusService.publish('rightpanel', 'activate', rpt);
             this.$layerService.visual.rightPanelVisible = false; // otherwise, the rightpanel briefly flashes open before closing.
             this.profileService.startLogin();
-            this.profileService.validate = (username: string, password: string, cb: (success: boolean, token?: string, profile?: csComp.Services.IProfile) => void) => {
+            this.profileService.validate = (username: string, password: string, cb: (success: boolean, profile?: csComp.Services.IProfile) => void) => {
                 this.$http
                     .post('/api/login', { email: username, password: password })
                     .then((result: { data: { success: boolean, token: string, user: csComp.Services.IProfile} }) => {
                         if (result.data.success) {
-                            $localStorageService.set('jwt', result.data.token);
+                            this.profileService.token = result.data.token;
                         }
-                        cb(result.data.success, result.data.token, result.data.user);
+                        cb(result.data.success, result.data.user);
                     })
                     .catch(() => {
                         cb(false);
                     });
             };
             this.profileService.logout = function () {
-                var l = this.$layerService.findLayer('barges');
-                this.profileLayers.forEach(function (pl) {
-                    this.$layerService.removeLayer(pl, true);
-                });
-                var widgets = this.dashboard.widgets.filter(function (w) { return w.id === '27a466a5-f87d-4d55-0bc8-7a9e51f353f1'; });
-                if (widgets) {
-                    var w = widgets[0];
-                    w.data['buttons'] = [];
-                };
+                // var l = this.$layerService.findLayer('barges');
+                // this.profileLayers.forEach(function (pl) {
+                //     this.$layerService.removeLayer(pl, true);
+                // });
+                // var widgets = this.dashboard.widgets.filter(function (w) { return w.id === '27a466a5-f87d-4d55-0bc8-7a9e51f353f1'; });
+                // if (widgets) {
+                //     var w = widgets[0];
+                //     w.data['buttons'] = [];
+                // };
             };
             // this.profileService.validate = function (userName, passWord, cb) {
             //     this.profileLayers = [];
