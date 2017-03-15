@@ -105,7 +105,8 @@ module Translations {
             SELECT: 'Selecteer',
             EDIT_LAYER: 'Kies een kaartlaag om te bewerken',
             SAVE_AND_OPEN: 'Opslaan en resultaat bekijken',
-            ERROR_GETTING_LAYER: 'Fout bij ophalen kaartlaag'
+            ERROR_GETTING_LAYER: 'Fout bij ophalen kaartlaag',
+            MANAGE_RIGHTS: 'Beheer rechten'
         };
     }
 }

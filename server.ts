@@ -139,7 +139,7 @@ cs.start(() => {
     this.config.add('server', 'http://localhost:' + cs.options.port);
     var bagDatabase = new csweb.BagDatabase(this.config);
     var osmDatabase = new csweb.NominatimSource(this.config);
-    var mapLayerFactory = new csweb.MapLayerFactory(osmDatabase, cs.messageBus, cs.api, cs.dir);
+    var mapLayerFactory = new csweb.MapLayerFactory([bagDatabase, osmDatabase], cs.messageBus, cs.api, cs.dir);
 
     cs.server.post('/projecttemplate', (req, res) => {
         // var creds = auth(req);

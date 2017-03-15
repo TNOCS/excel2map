@@ -4,22 +4,24 @@
         <table class="project-table table table-striped table-hover">
             <thead>
                 <tr>
-                    <th>{{'TITLE' | translate}}</th>
-                    <th>{{'CAN_EDIT' | translate}}</th>
-                    <th>{{'CAN_VIEW' | translate}}</th>
+                    <th class="text-center">{{'TITLE' | translate}}</th>
+                    <th class="text-center">{{'CAN_EDIT' | translate}}</th>
+                    <th class="text-center">{{'CAN_VIEW' | translate}}</th>
+                    <th class="text-center">{{'MANAGE_RIGHTS' | translate}}</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td class="pointer success text-center" colspan="3" ng-click="vm.createProject()">
+                    <td class="pointer success text-center" colspan="4" ng-click="vm.createProject()">
                         {{'CREATE_NEW_PROJECT' | translate}}
                         <span><i class="fa fa-plus"></i></span>
                     </td>
                 </tr>
                 <tr ng-repeat="project in vm.projects">
                     <td>{{project.title}}</td>
-                    <td><i class="fa fa-pencil pointer" ng-click="vm.editProject(project)" ng-show="project.title.length < 14"></i></td>
-                    <td><i class="fa fa-eye pointer" ng-click="vm.showProject(project)" ></i></td>
+                    <td class="text-center"><i class="fa fa-pencil pointer" ng-click="vm.editProject(project)" ng-show="project.title.length < 14"></i></td>
+                    <td class="text-center"><i class="fa fa-eye pointer" ng-click="vm.showProject(project)" ></i></td>
+                    <td class="text-center"><i class="fa fa-cog pointer" ng-click="vm.manageProjectRights(project)" ></i></td>
                 </tr>
             </tbody>
         </table>

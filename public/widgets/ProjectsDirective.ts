@@ -85,6 +85,10 @@ module ProjectsDirective {
             window.location.href = `/?project=${project.id}`;
         }
 
+        private manageProjectRights(project: Project) {
+            this.$messageBus.notify('table2map', 'manageProjectRights');
+        }
+
         private createProject() {
             var modalInstance = this.$uibModal.open({
                 templateUrl: 'modals/CreateProjectModal.tpl.html',
