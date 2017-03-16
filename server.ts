@@ -1,4 +1,4 @@
-import { Application, Request, Response, NextFunction } from 'express';
+import { Application, Router, Request, Response, NextFunction, static as ExpressStatic } from 'express';
 import Winston = require('winston');
 import fs = require('fs');
 import path = require('path');
@@ -45,6 +45,13 @@ const policyStore = {
         name: 'Main policy set',
         combinator: 'first',
         policies: [{
+            name: 'allow access to public data',
+            combinator: 'first',
+            rules: [{
+                action: Action.Read,
+                decision: Decision.Permit
+            }]
+        }, {
             name: 'admins rule',
             combinator: 'first',
             rules: [{
@@ -101,36 +108,61 @@ var cs = new csweb.csServer(__dirname, <csweb.csServerOptions>{
     connectors: {}
 });
 
+const auth = NodeAuth(cs.server, {
+    secretKey: 'MyBigSectetThatShouldBeReplacedInProduction',
+    blockUnauthenticatedUser: false, // if true, default, no unauthenticated user will pass beyond this point
+    policyStore: policyStore,
+    verify: {
+        route: true,
+        baseUrl: 'WWW.MYDOMAIN.COM/api/activate',
+        mailService: null,
+        verifyMailOptions: {
+            from: 'erik.vullings@gmail.com',
+            subject: 'Just verifying that your email is correct',
+            html: 'Hello'
+        },
+        confirmMailOptions: {
+            from: 'erik.vullings@gmail.com',
+            subject: 'Just confirming that your account is setup and good to go',
+            html: 'Yay!'
+        }
+    },
+    onUserChanged: (user: IUser, req: Request, change: CRUD) => {
+        console.log(`User ${change}d:`);
+        console.log(JSON.stringify(user, null, 2));
+    }
+});
+
+cs.server.use(ExpressStatic(path.resolve(__dirname, 'public/index.html')));
+cs.server.use(ExpressStatic(path.resolve(__dirname, 'public/m.html')));
+cs.server.use(ExpressStatic(path.resolve(__dirname, 'public/favicon.ico')));
+cs.server.use(ExpressStatic(path.resolve(__dirname, 'public/app')));
+cs.server.use(ExpressStatic(path.resolve(__dirname, 'public/css')));
+cs.server.use(ExpressStatic(path.resolve(__dirname, 'public/bower_components')));
+cs.server.use(ExpressStatic(path.resolve(__dirname, 'public/modals')));
+cs.server.use(ExpressStatic(path.resolve(__dirname, 'public/translations')));
+cs.server.use(ExpressStatic(path.resolve(__dirname, 'public/landing_page')));
+cs.server.use(ExpressStatic(path.resolve(__dirname, 'public/widgets')));
+cs.server.use(ExpressStatic(path.resolve(__dirname, 'public/images')));
+// cs.server.use(ExpressStatic(path.resolve(__dirname, 'public/data/*')));
+cs.server.use(ExpressStatic(path.resolve(__dirname, 'public/data/api/defaultSolution.json')));
+cs.server.route('*')
+    .get((req, res, next) => {
+        console.log(`${req.url}`);
+        next();
+    });
+cs.server.route('/public/*')
+    .get((req, res, next) => {
+        console.log('PUBLIC ROUTE ACCESS');
+        next();
+    });
+cs.server.use(auth);
+
 var debug = true;
 
 var passwords = {};
 cs.start(() => {
     // readPass();
-    const auth = NodeAuth(cs.server, {
-        secretKey: 'MyBigSectetThatShouldBeReplacedInProduction',
-        blockUnauthenticatedUser: false, // if true, default, no unauthenticated user will pass beyond this point
-        policyStore: policyStore,
-        verify: {
-            route: true,
-            baseUrl: 'WWW.MYDOMAIN.COM/api/activate',
-            mailService: null,
-            verifyMailOptions: {
-                from: 'erik.vullings@gmail.com',
-                subject: 'Just verifying that your email is correct',
-                html: 'Hello'
-            },
-            confirmMailOptions: {
-                from: 'erik.vullings@gmail.com',
-                subject: 'Just confirming that your account is setup and good to go',
-                html: 'Yay!'
-            }
-        },
-        onUserChanged: (user: IUser, req: Request, change: CRUD) => {
-            console.log(`User ${change}d:`);
-            console.log(JSON.stringify(user, null, 2));
-        }
-    });
-    cs.server.use(auth);
 
     // const pep = nodeAuth.initPEP(policyStore);
     // const cop = pep.getPolicyEnforcer('Main policy set');
@@ -139,94 +171,85 @@ cs.start(() => {
     this.config.add('server', 'http://localhost:' + cs.options.port);
     var bagDatabase = new csweb.BagDatabase(this.config);
     var osmDatabase = new csweb.NominatimSource(this.config);
-    var mapLayerFactory = new csweb.MapLayerFactory(osmDatabase, cs.messageBus, cs.api, cs.dir);
+    var mapLayerFactory = new csweb.MapLayerFactory([osmDatabase], cs.messageBus, cs.api, cs.dir);
 
-    cs.server.post('/projecttemplate', (req, res) => {
-        // var creds = auth(req);
-        // if (!creds || !passwords.hasOwnProperty(creds.name) || creds.pass !== passwords[creds.name]) {
-        //     console.log('Wrong password');
-        //     res.statusCode = HTTPStatusCodes.UNAUTHORIZED;
-        //     res.end();
-        // } else {
-        //     if (debug) {
-        //         fs.writeFile('debug.json', JSON.stringify(req.body), (err) => {
-        //             console.log(`Wrote debug.json (${err || 'OK'})`);
-        //         });
-        //     }
-        //     mapLayerFactory.process(req, res);
-        // }
-        mapLayerFactory.process(req, res);
-    });
+    const apiRoutes = Router();
+    apiRoutes.route('/projecttemplate')
+        .post((req, res, next) => {
+            console.log('projecttemplate');
+            next();
+        })
+        .post(mapLayerFactory.process);
+    // cs.server.post(, (req, res) => {
+    //     // const creds = auth(req);
+    //     // if (!creds || !passwords.hasOwnProperty(creds.name) || creds.pass !== passwords[creds.name]) {
+    //     //     console.log('Wrong password');
+    //     //     res.statusCode = HTTPStatusCodes.UNAUTHORIZED;
+    //     //     res.end();
+    //     // } else {
+    //     //     if (debug) {
+    //     //         fs.writeFile('debug.json', JSON.stringify(req.body), (err) => {
+    //     //             console.log(`Wrote debug.json (${err || 'OK'})`);
+    //     //         });
+    //     //     }
+    //     //     mapLayerFactory.process(req, res);
+    //     // }
+    //     mapLayerFactory.process(req, res);
+    // });
 
-    cs.server.post('/requestproject', (req, res) => {
-        var project = new csweb.Project;
-        project = req.body;
-        cs.api.addProject(project, {}, (result: csweb.CallbackResult) => {
-            if (result.result === csweb.ApiResult.OK) {
-                if (result.project.hasOwnProperty('id') && !passwords.hasOwnProperty(result.project.id)) {
-                    passwords[result.project.id] = generatePass();
-                    addPass(result.project.id + ':' + passwords[result.project.id]);
-                    result.project['password'] = passwords[result.project.id];
-                } else {
-                    console.log('Password already exists');
-                }
-                res.statusCode = result.result;
-                res.send(result.project);
-            } else {
-                console.log('ID already exists');
-                cs.api.getProject(project.id, {}, (result: csweb.CallbackResult) => {
-                    if (result.result !== csweb.ApiResult.OK) {
-                        console.log('Could not find project.');
+
+    apiRoutes.route('/requestproject')
+        .post((req, res, next) => {
+            console.log('requestproject');
+            next();
+        })
+        .post((req, res) => {
+            // var project = new csweb.Project;
+            const project = <csweb.Project>req.body;
+            cs.api.addProject(project, {}, (result: csweb.CallbackResult) => {
+                if (result.result === csweb.ApiResult.OK) {
+                    if (result.project.hasOwnProperty('id') && !passwords.hasOwnProperty(result.project.id)) {
+                        passwords[result.project.id] = generatePass();
+                        addPass(result.project.id + ':' + passwords[result.project.id]);
+                        result.project['password'] = passwords[result.project.id];
+                    } else {
+                        console.log('Password already exists');
                     }
-                    console.log('Found project.');
                     res.statusCode = result.result;
                     res.send(result.project);
-                });
-            }
-        });
-    });
-
-    cs.server.post('/updategrouptitle', (req, res) => {
-        var creds = req['user']; // auth(req);
-        if (!creds || !passwords.hasOwnProperty(creds.name) || creds.pass !== passwords[creds.name]) {
-            console.log('Wrong password');
-            res.statusCode = HTTPStatusCodes.UNAUTHORIZED;
-            res.end();
-        } else {
-            var data;
-            if (req.body) {
-                data = req.body;
-                cs.api.updateGroup(data.projectId, data.oldTitle, <any>{
-                    id: data.newTitle,
-                    title: data.newTitle
-                }, {}, (result: csweb.CallbackResult) => {
-                    if (result && result.result === csweb.ApiResult.OK) {
-                        res.statusCode = HTTPStatusCodes.OK;
-                        res.end();
-                    } else {
-                        res.statusCode = HTTPStatusCodes.NOT_FOUND;
-                        res.end();
-                    }
-                });
-            }
-        }
-    });
-
-    cs.server.post('/clearproject', (req, res) => {
-        var creds = req['user']; // auth(req);
-        if (!creds || !passwords.hasOwnProperty(creds.name) || creds.pass !== passwords[creds.name]) {
-            console.log('Wrong password');
-            res.statusCode = HTTPStatusCodes.UNAUTHORIZED;
-            res.end();
-        } else {
-            var data;
-            if (req.body) {
-                data = req.body;
-                if (!data.hasOwnProperty('projectId')) {
-                    res.statusCode = HTTPStatusCodes.NOT_FOUND;
-                    res.end();
                 } else {
-                    cs.api.clearProject(data.projectId, {}, (result: csweb.CallbackResult) => {
+                    console.log('ID already exists');
+                    cs.api.getProject(project.id, {}, (result: csweb.CallbackResult) => {
+                        if (result.result !== csweb.ApiResult.OK) {
+                            console.log('Could not find project.');
+                        }
+                        console.log('Found project.');
+                        res.statusCode = result.result;
+                        res.send(result.project);
+                    });
+                }
+            });
+        });
+
+    apiRoutes.route('/updategrouptitle')
+        .post((req, res, next) => {
+            console.log('updategrouptitle');
+            next();
+        })
+        .post((req, res) => {
+            const creds = req['user']; // auth(req);
+            if (!creds || !passwords.hasOwnProperty(creds.name) || creds.pass !== passwords[creds.name]) {
+                console.log('Wrong password');
+                res.statusCode = HTTPStatusCodes.UNAUTHORIZED;
+                res.end();
+            } else {
+                var data;
+                if (req.body) {
+                    data = req.body;
+                    cs.api.updateGroup(data.projectId, data.oldTitle, <any>{
+                        id: data.newTitle,
+                        title: data.newTitle
+                    }, {}, (result: csweb.CallbackResult) => {
                         if (result && result.result === csweb.ApiResult.OK) {
                             res.statusCode = HTTPStatusCodes.OK;
                             res.end();
@@ -237,12 +260,50 @@ cs.start(() => {
                     });
                 }
             }
-        }
-    });
+        });
 
-    cs.server.post('/bagsearchaddress', (req, res) => {
-        mapLayerFactory.processBagSearchQuery(req, res);
-    });
+    apiRoutes.route('/clearproject')
+        .post((req, res, next) => {
+            console.log('clearproject');
+            next();
+        }).post((req, res) => {
+            const creds = req['user']; // auth(req);
+            if (!creds || !passwords.hasOwnProperty(creds.name) || creds.pass !== passwords[creds.name]) {
+                console.log('Wrong password');
+                res.statusCode = HTTPStatusCodes.UNAUTHORIZED;
+                res.end();
+            } else {
+                var data;
+                if (req.body) {
+                    data = req.body;
+                    if (!data.hasOwnProperty('projectId')) {
+                        res.statusCode = HTTPStatusCodes.NOT_FOUND;
+                        res.end();
+                    } else {
+                        cs.api.clearProject(data.projectId, {}, (result: csweb.CallbackResult) => {
+                            if (result && result.result === csweb.ApiResult.OK) {
+                                res.statusCode = HTTPStatusCodes.OK;
+                                res.end();
+                            } else {
+                                res.statusCode = HTTPStatusCodes.NOT_FOUND;
+                                res.end();
+                            }
+                        });
+                    }
+                }
+            }
+        });
+
+    apiRoutes.route('/bagsearchaddress')
+        .post((req, res, next) => {
+            console.log('I was here');
+            next();
+        })
+        .post((req, res) => {
+            mapLayerFactory.processBagSearchQuery(req, res);
+        });
+
+    cs.server.use(apiRoutes);
 
     console.log('Excel2map functions started');
     // Open start webpage
