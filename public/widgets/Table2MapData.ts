@@ -87,25 +87,40 @@ module Table2Map {
             drawingMode: 'Point',
             additionalInfo: []
         },
-        'WMO': {
-            name: 'WMO-regio',
-            cols: ['WMO regionaam'],
-            drawingMode: 'Polygon',
-            additionalInfo: []
-        },
-        'latlong': {
+        'Latitude_and_longitude': {
             name: 'Lat-long coordinaten',
             cols: ['lat', 'lng'],
             drawingMode: 'Point',
             additionalInfo: []
         },
-        'RD': {
+        'RD_X_en_Y': {
             name: 'RD coordinaten',
             cols: ['X', 'Y'],
             drawingMode: 'Point',
             additionalInfo: []
         },
     };
+
+    export function getServerGeometryType(id: string, additional: string): string {
+        let serverGeometryType = '';
+        switch (id) {
+            case 'Adres':
+                if (!additional) {
+                    serverGeometryType = 'Postcode6_en_huisnummer';
+                } else if (additional === 'Bouwjaar') {
+                    serverGeometryType = 'Postcode6_en_huisnummer_met_bouwjaar';
+                } else if (additional === 'BAG') {
+                    serverGeometryType = 'Postcode6_en_huisnummer_met_bag';
+                } else if (additional === 'Woningtype') {
+                    serverGeometryType = 'Postcode6_en_huisnummer_met_bag_en_woningtype';
+                }
+                break;
+            default:
+                serverGeometryType = id;
+                break;
+        }
+        return serverGeometryType;
+    }
 
     export interface Table2MapLayerDefinition {
         projectTitle: string;
@@ -168,6 +183,7 @@ module Table2Map {
         properties: IProperty[];
         sensors ? : IProperty[];
         projectId ? : string;
+        projectLogo ? : string;
         iconBase64 ? : string;
         logoBase64 ? : string;
     }

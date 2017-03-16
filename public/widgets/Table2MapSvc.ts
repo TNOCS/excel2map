@@ -118,6 +118,7 @@ module Table2Map {
         private sections: INameValueObject < string > [] = [];
         private geometryType: ITable2MapGeometryType;
         private geometryTypeId: string;
+        private additionalInfo: string;
         public geometryColumns: Dictionary < IHeaderObject > = {};
         public project: Project = < Project > {};
         private clusterOptions: ITable2MapClusterOptions = {
@@ -221,6 +222,20 @@ module Table2Map {
             if (params && params.hasOwnProperty('editproject')) {
                 this.editProject(params['editproject']);
             }
+        }
+
+        private loadLogo(imgUrl: string) {
+            this.$http.get(imgUrl, {
+                    responseType: 'arraybuffer'
+                })
+                .then((res: any) => {
+                    let file = new File([res.data], imgUrl.split('/').pop(), {
+                        type: 'image/png'
+                    });
+                    this.readFile(file, 'logo');
+                }).catch((err) => {
+                    console.warn(`Could not get project logo: ${err}`);
+                });
         }
 
         private escapeRegExp(str: string) {
@@ -396,6 +411,9 @@ module Table2Map {
                     data: Project
                 }) => {
                     project = res.data;
+                    if (project.logo) {
+                        this.loadLogo(project.logo);
+                    }
                     cb(project);
                 })
                 .catch((err) => {
@@ -575,7 +593,7 @@ module Table2Map {
                 layerTitle: this.layer.title,
                 description: this.layer.description,
                 featureType: this.featureType.name,
-                geometryType: 'Internationaal', //TODO
+                geometryType: Table2Map.getServerGeometryType(this.geometryTypeId, this.additionalInfo), //TODO
                 parameter1: geometryParams.getKeyAt(0, 'code'),
                 parameter2: geometryParams.getKeyAt(1, 'code'),
                 parameter3: geometryParams.getKeyAt(2, 'code'),
@@ -592,7 +610,7 @@ module Table2Map {
                 useClustering: this.selectedGroup.clustering,
                 opacity: this.featureType.style.opacity,
                 nameLabel: this.featureType.style.nameLabel,
-                includeOriginalProperties: false, //TODO
+                includeOriginalProperties: (this.additionalInfo && this.additionalInfo.length > 0) ? true : false,
                 defaultFeatureType: this.featureType.name,
                 geometryFile: '', //TODO
                 geometryKey: '' //TODO
@@ -601,6 +619,7 @@ module Table2Map {
                 iconBase64: (this.iconData ? this.iconData.replace(/^data:image\/\w+;base64,/, '') : this.iconData),
                 logoBase64: (this.logoData ? this.logoData.replace(/^data:image\/\w+;base64,/, '') : this.logoData),
                 projectId: this.project.id,
+                projectLogo: this.project.logo,
                 layerDefinition: [layerDefinition],
                 properties: this.rowCollection,
                 propertyTypes: this.featureType._propertyTypeData
