@@ -607,10 +607,10 @@ module Table2Map {
             };
             let url = '/projecttemplate';
             this.$http.post(url, layerTemplate, {
-                    timeout: 30000,
-                    headers: {
-                        Authorization: `Basic ${btoa(this.project.id + ':' + this.password)}`
-                    }
+                    timeout: 30000//,
+                    // headers: {
+                    //     Authorization: `Basic ${btoa(this.project.id + ':' + this.password)}`
+                    // }
                 })
                 .then((res) => {
                     console.log(res.data);
