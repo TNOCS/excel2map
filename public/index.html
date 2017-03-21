@@ -330,8 +330,6 @@
     </div>
 
     <div class="righttab-box" style="padding-right:30px;display:none">
-
-
         <!-- Search form -->
         <!-- <offline-search class="navbar-form navbar-right" style="margin-right:0"></offline-search> -->
         <!-- Expert mode switch -->
@@ -343,13 +341,10 @@
         <div ng-if="vm.$layerService.touchMode" ng-click="vm.$layerService.touchMode=false" class="navbar-form navbar-right toggle-icon">
             <img src="bower_components/csweb/dist-bower/images/widgets/touchbutton.png" style="width:30px;height:30px;margin-top:7px;margin-left:-13px" />
         </div>
-
         <div ng-if="!vm.$layerService.touchMode" ng-click="vm.$layerService.touchMode=true" class="navbar-form navbar-right toggle-icon">
             <span class="fa fa-mouse-pointer" style="font-size:18px;margin-top:10px" />
         </div>
-
     </div>
-
     <div id="bottom-panel">
         <timeline data-ng-show="vm.$mapService.timelineVisible && !vm.$layerService.isMobile" style="height: 100vh;"></timeline>
     </div>
