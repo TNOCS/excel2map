@@ -123,7 +123,8 @@ module App {
                         }
                         cb(result.data.success, result.data.user);
                     })
-                    .catch(() => {
+                    .catch(err => {
+                        console.log(err);
                         cb(false);
                     });
             };
