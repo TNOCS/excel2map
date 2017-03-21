@@ -44,19 +44,19 @@ const policyStore = <PolicySet[]>[{
     name: 'Main policy set',
     combinator: 'first',
     policies: [
-        // {
-        //     name: 'admins rule',
-        //     combinator: 'first',
-        //     rules: [{
-        //         desc: 'Admins are allowed to request all projects',
-        //         subject: { admin: true },
-        //         action: Action.All,
-        //         decision: Decision.Permit,
-        //         resource: {
-        //             type: 'project'
-        //         }
-        //     }]
-        // },
+        {
+            name: 'admins rule',
+            combinator: 'first',
+            rules: [{
+                desc: 'Admins are allowed to request all projects',
+                subject: { admin: true },
+                action: Action.All,
+                decision: Decision.Permit,
+                resource: {
+                    type: 'project'
+                }
+            }]
+        },
         {
             name: 'rbac',
             combinator: 'first',
@@ -198,6 +198,15 @@ cs.server.route('/api/projects/:domain')
         };
         cop(req, res, next);
     });
+
+// cs.server.route('/api/projects/:domain/group/:groupId/layer/:layerId')
+//     .all((req, res, next) => {
+//         req['resource'] = {
+//             type: 'project',
+//             domain: req.params.domain
+//         };
+//         cop(req, res, next);
+//     });
 
 cs.server.use(ExpressStatic(path.resolve(__dirname, 'data')));
 // cs.server.use(auth);

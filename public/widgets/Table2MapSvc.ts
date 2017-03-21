@@ -100,6 +100,7 @@ module Table2Map {
     import IGeoFeature = Helpers.IGeoFeature;
 
     export class Table2MapSvc {
+        private restApi: Table2MapApiManager;
         private dataProperties: {
             [key: string]: any
         };
@@ -177,6 +178,7 @@ module Table2Map {
             private $uibModal: ng.ui.bootstrap.IModalService,
             private $translate: ng.translate.ITranslateService
         ) {
+            this.restApi = new Table2MapApiManager($http);
 
             this.$dashboardService.widgetTypes['tableToMap'] = < csComp.Services.IWidget > {
                 id: 'tableToMap',
@@ -282,32 +284,33 @@ module Table2Map {
                     let success = this.startWizard();
                     if (!success) location.href = `/?dashboard=table2map&editproject=${this.layerService.project.id}`;
                 }
-                this.getLayer(layerId, (success) => {
-                    if (success) {
-                        this.loadLayerForWizard(project, this.layer);
-                    } else {
-                        this.$messageBus.notify('ERROR_GETTING_LAYER', 'ERROR_GETTING_LAYER');
-                    }
-                });
+                this.loadLayerForWizard(project, layerId);
+
             }, () => {
                 console.log('Modal dismissed at: ' + new Date());
             });
         }
 
-        private loadLayerForWizard(project: Project, layer: ProjectLayer) {
+        private loadLayerForWizard(project: Project, layerId: string) {
             this.project = project;
-            this.selectedGroup = this.findGroupForLayer(layer.id);
-            this.getFeatureType(layer, (success) => {
-                if (success) {
+            this.selectedGroup = this.findGroupForLayer(layerId);
+            this.getLayer(project.id, this.selectedGroup.id, layerId, (success) => {
+                if (!success) {
+                    this.$messageBus.notify('ERROR_GETTING_LAYER', 'ERROR_GETTING_LAYER');
+                    return;
+                }
+                this.getFeatureType(this.layer, (success) => {
+                    if (!success) {
+                        this.$messageBus.notify('ERROR_GETTING_LAYER', 'ERROR_GETTING_FEATURE_TYPE');
+                        return;
+                    }
                     this.textContent = this.convertFeatureTypeToCsv(this.featureType);
-                    this.textContent = this.textContent.concat('\n', this.convertLayerToCsv(layer));
-                    this.feature = layer.data.features[0] || Table2Map.getDefaultFeature();
+                    this.textContent = this.textContent.concat('\n', this.convertLayerToCsv(this.layer));
+                    this.feature = this.layer.data.features[0] || Table2Map.getDefaultFeature();
                     this.getIconData(this.featureType.style.iconUri);
                     this.updatedContent(false);
                     this.startWizard();
-                } else {
-                    this.$messageBus.notify('ERROR_GETTING_LAYER', 'ERROR_GETTING_LAYER');
-                }
+                });
             });
         }
 
@@ -374,8 +377,8 @@ module Table2Map {
                 });
         }
 
-        public getLayer(layerId: string, cb: Function) {
-            let url = `/api/layers/${layerId}`;
+        public getLayer(projectId: string, groupId: string, layerId: string, cb: Function) {
+            let url = `/api/projects/${projectId}/group/${groupId}/layers/${layerId}`;
             this.$http.get(url, {
                     timeout: 20000
                 })
@@ -452,7 +455,7 @@ module Table2Map {
                     }, 0);
                 } else {
                     this.$timeout(() => {
-                        this.project.logo = file.name;
+                        this.project.logo = 'images' + file.name;
                         this.logoData = reader.result;
                     }, 0);
                 }
@@ -583,8 +586,55 @@ module Table2Map {
             window.location.href = `/?project=${this.project.id}`;
         }
 
+        private sendIcon(base64Data: string, fileName: string) {
+            let b64 = (base64Data ? base64Data.replace(/^data:image\/\w+;base64,/, '') : base64Data);
+            let baseName = fileName.split('/').pop();
+            let folderName = 'images';
+            this.restApi.sendIcon(b64, folderName, baseName, (err) => {
+                if (err) console.warn(err);
+            });
+        }
+
+        private sendGroup(group: csComp.Services.ProjectGroup, projectId: string) {
+            let groupDef = {
+                id: group.id,
+                title: group.title,
+                clusterLevel: group.clusterLevel,
+                clustering: group.clustering
+            };
+            this.restApi.sendGroup(projectId, group, (err) => {
+                if (err) console.warn(err);
+            });
+        }
+
+        private sendLayer(layer: csComp.Services.ProjectLayer, projectId: string, groupId: string) {
+            let layerDef = {
+                id: layer.id,
+                title: layer.title,
+                description: layer.description,
+                enabled: layer.enabled
+            };
+            this.restApi.sendLayer(projectId, groupId, < any > layerDef, (err) => {
+                if (err) console.warn(err);
+            });
+        }
+
         /** Send the data and configuration to the server for conversion */
         private convert(cb: Function) {
+            this.sendIcon(this.iconData, `icon_${this.layer.id}_${this.featureType.style.iconUri}`);
+            this.sendIcon(this.logoData, `logo_${this.project.id}_${this.project.logo}`);
+            this.restApi.sendResourceType(this.featureType, (err) => {
+                if (err) console.warn(err);
+            });
+            this.restApi.sendProject(this.project, (err) => {
+                if (err) console.warn(err);
+            });
+            this.sendGroup(this.selectedGroup, this.project.id);
+            this.sendLayer(this.layer, this.project.id, this.selectedGroup.id);
+        }
+
+        /** Send the data and configuration to the server for conversion */
+        private _OLD_convert(cb: Function) {
             let geometryParams = _.values(this.geometryColumns);
             let layerDefinition: Table2MapLayerDefinition = {
                 projectTitle: this.project.title,
@@ -626,7 +676,7 @@ module Table2Map {
             };
             let url = '/projecttemplate';
             this.$http.post(url, layerTemplate, {
-                    timeout: 30000//,
+                    timeout: 30000 //,
                     // headers: {
                     //     Authorization: `Basic ${btoa(this.project.id + ':' + this.password)}`
                     // }
