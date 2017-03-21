@@ -110,7 +110,7 @@ module ModalCtrls {
         public selectCol(col: Table2Map.IHeaderObject, index: number) {
             index += 1;
             if (this.selectionOption === 'col') {
-                let foundIndex = this.selectedColumns.findIndex((selCol) => {
+                let foundIndex = _.findIndex(this.selectedColumns, (selCol) => {
                     return selCol.code === col.code;
                 });
                 if (foundIndex >= 0) {

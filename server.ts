@@ -105,7 +105,9 @@ var cs = new csweb.csServer(__dirname, <csweb.csServerOptions>{
     port: 3004,
     swagger: false,
     apiFolder: '/data/api',
-    connectors: {}
+    connectors: {},
+    corrsEnabled: true,
+    corrsSupportedMethods: '*'
 });
 
 cs.server.route('*')
