@@ -60,11 +60,33 @@ module ProjectsDirective {
             private $translate: ng.translate.ITranslateService
         ) {
             $scope.vm = this;
+
+            this.msgBusHandle = this.$messageBus.subscribe('profileservice', (title, profile) => {
+                this.handleProfileServiceMsg(title, profile);
+            });
+
             this.init();
         }
 
         private init() {
             this.getUserProjects();
+        }
+
+        private handleProfileServiceMsg(title, profile) {
+            switch (title) {
+                case 'login':
+                    this.getUserProjects();
+                    break;
+                case 'logout':
+                    this.clearProjectsList();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private clearProjectsList() {
+            this.projects.length = 0;
         }
 
         private getUserProjects() {

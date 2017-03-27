@@ -314,3 +314,7 @@ div.ng-invalid.ng-touched {
 .list-group-group-title {
     padding: 8px;
 }
+
+#st-datatable td {
+    white-space: nowrap;
+}

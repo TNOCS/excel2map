@@ -40,8 +40,18 @@ module Table2Map {
                 cb('No layer provided');
                 return;
             }
-            let url = `api/projects/${projectId}/group/${groupId}/layer/${layer.id}`;
-            this.$http.post(url, layer, {
+            //send layer
+            let url1 = `api/layers/${layer.id}`;
+            this.$http.post(url1, layer, {
+                timeout: TIMEOUT
+            }).then((result) => {
+                cb(null);
+            }).catch((err) => {
+                cb(err);
+            });
+            //add layer to project
+            let url2 = `api/projects/${projectId}/group/${groupId}/layer/${layer.id}`;
+            this.$http.post(url2, layer, {
                 timeout: TIMEOUT
             }).then((result) => {
                 cb(null);

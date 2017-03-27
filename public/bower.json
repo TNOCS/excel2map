@@ -25,7 +25,8 @@
     "tests"
   ],
   "dependencies": {
-    "csweb": "~0.2.15",
+    "angular": "1.6.2",
+    "csweb": "~0.3.6",
     "font-awesome": "~4.4.0",
     "angularUtils-pagination": "angular-utils-pagination#~0.9.2",
     "socket.io-client": "^1.5.1",

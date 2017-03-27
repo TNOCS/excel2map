@@ -185,6 +185,7 @@ cs.server.route('/api/projects')
             }));
             ps.save(err => {
                 if (err) { console.error(err); }
+                if (!err) { console.log(`Allow ${email} to manage project with id ${body.id}`); }
             });
         });
         next();
@@ -199,14 +200,14 @@ cs.server.route('/api/projects/:domain')
         cop(req, res, next);
     });
 
-// cs.server.route('/api/projects/:domain/group/:groupId/layer/:layerId')
-//     .all((req, res, next) => {
-//         req['resource'] = {
-//             type: 'project',
-//             domain: req.params.domain
-//         };
-//         cop(req, res, next);
-//     });
+cs.server.route('/api/layers/:layerId')
+    .all((req, res, next) => {
+        req['resource'] = {
+            type: 'project',
+            domain: req.headers.domain
+        };
+        cop(req, res, next);
+    });
 
 cs.server.use(ExpressStatic(path.resolve(__dirname, 'data')));
 // cs.server.use(auth);

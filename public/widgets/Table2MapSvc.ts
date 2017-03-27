@@ -278,14 +278,22 @@ module Table2Map {
                 }
             });
 
-            modalInstance.result.then((layerId: string) => {
-                if (!layerId) return;
+            modalInstance.result.then((result: {
+                groupId: string,
+                layerId: string
+            }) => {
                 if (this.layerService.project.activeDashboard.id !== 'table2map') {
                     let success = this.startWizard();
                     if (!success) location.href = `/?dashboard=table2map&editproject=${this.layerService.project.id}`;
                 }
-                this.loadLayerForWizard(project, layerId);
-
+                if (result.groupId && !result.layerId) {
+                    this.project = project;
+                    this.selectedGroup = _.find(this.project.groups, (group) => {
+                        return group.id === result.groupId;
+                    });
+                } else {
+                    this.loadLayerForWizard(project, result.layerId);
+                }
             }, () => {
                 console.log('Modal dismissed at: ' + new Date());
             });
@@ -378,8 +386,11 @@ module Table2Map {
         }
 
         public getLayer(projectId: string, groupId: string, layerId: string, cb: Function) {
-            let url = `/api/projects/${projectId}/group/${groupId}/layers/${layerId}`;
+            let url = `api/layers/${layerId}`;
             this.$http.get(url, {
+                    headers: {
+                        'Domain': projectId
+                    },
                     timeout: 20000
                 })
                 .then((res: {
@@ -555,9 +566,10 @@ module Table2Map {
                                 nr: Math.min(SHOW_NR_COLUMNS, this.rowCollection.length),
                                 total: this.rowCollection.length
                             };
-                            if (this.project && this.project.title && this.selectedGroup && this.selectedGroup.id) {
-                                this.currentStep = ConversionStep.StyleSettings;
-                            }
+                            // automatically go to step 2
+                            // if (this.project && this.project.title && this.selectedGroup && this.selectedGroup.id) {
+                            //     this.currentStep = ConversionStep.StyleSettings;
+                            // }
                             let msg = `Delimiter: ${this.csvParseSettings.delimiter}, Headers: ${(this.csvParseSettings.hasHeader ? 'yes' : 'no')}\nResult: ${_.size(this.headerCollection)} columns & ${this.rowCollection.length} rows.`;
                             this.$messageBus.notifyWithTranslation('DATA_PARSED_CORRECTLY', msg);
                         }, 0);

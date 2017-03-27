@@ -19,13 +19,16 @@
         <div class="list-group-item-heading" ng-repeat="group in vm.project.groups">
             <div class="list-group-group-title bold">{{group.title}}</div>
             <div class="btn-group full-width" ng-repeat="layer in group.layers">
-                <button type="button" class="btn btn-default col-xs-11" ng-click="vm.selectLayer(layer.id, true)" ng-class="{'active': vm.activeId == layer.id}"
+                <button type="button" class="btn btn-default col-xs-11" ng-click="vm.selectLayer(group.id, layer.id, true)" ng-class="{'active': vm.activeId == layer.id}"
                     style="text-align: left">
                     {{layer.title}}
                     <span style="float: right;padding-right: 16px;"><i class="fa fa-pencil pointer"></i></span>
                     </button>
                 <button type="button" class="btn btn-danger col-xs-1" ng-click="vm.removeLayer(group.id, layer.id)"><i class="fa fa-trash-o pointer"></i>
                     </button>
+            </div>
+            <div class="btn-group full-width success">
+                <button type="button" class="btn btn-success col-xs-12" ng-click="vm.createLayer(group.id)">{{'CREATE_NEW_LAYER' | translate}}</button>
             </div>
         </div>
     </div>

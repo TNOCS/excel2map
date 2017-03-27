@@ -216,7 +216,8 @@ module ModalCtrls {
             'project'
         ];
 
-        private activeId: string;
+        private groupId: string;
+        private layerId: string;
 
         constructor(
             private $scope: IChooseLayerModalScope,
@@ -227,9 +228,16 @@ module ModalCtrls {
             $scope.vm = this;
         }
 
-        private selectLayer(layerId: string, closeModal: boolean = false) {
-            this.activeId = layerId;
+        private selectLayer(groupId: string, layerId: string, closeModal: boolean = false) {
+            this.layerId = layerId;
+            this.groupId = groupId;
             if (closeModal) this.ok();
+        }
+
+        private createLayer(groupId: string) {
+            this.groupId = groupId;
+            this.layerId = null;
+            this.ok();
         }
 
         private removeLayer(groupId: string, layerId: string) {
@@ -254,7 +262,7 @@ module ModalCtrls {
         }
 
         public ok() {
-            this.$uibModalInstance.close(this.activeId);
+            this.$uibModalInstance.close({groupId: this.groupId, layerId: this.layerId});
         }
 
         public cancel() {

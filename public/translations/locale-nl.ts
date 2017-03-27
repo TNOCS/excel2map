@@ -95,6 +95,7 @@ module Translations {
             VISIBLE_IN_TOOLTIP: 'Toon eigenschap in tooltip',
             PROJECTS_LIST: 'Beschikbare projecten',
             CREATE_NEW_PROJECT: 'Maak nieuw project',
+            CREATE_NEW_LAYER: 'Maak nieuwe kaartlaag',
             UPLOAD_SUCCESS: 'Kaartlaag aangemaakt',
             UPLOAD_SUCCESS_MSG: 'De kaartlaag is aangemaakt. Klik op onderstaande link om het project te openen.',
             INVALID_INPUT: 'Project bestaat al of is ongeldig',

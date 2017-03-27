@@ -19,7 +19,7 @@
                 </tr>
                 <tr ng-repeat="project in vm.projects">
                     <td>{{project.title}}</td>
-                    <td class="text-center"><i class="fa fa-pencil pointer" ng-click="vm.editProject(project)" ng-show="project.title.length < 14"></i></td>
+                    <td class="text-center"><i class="fa fa-pencil pointer" ng-click="vm.editProject(project)" ></i></td>
                     <td class="text-center"><i class="fa fa-eye pointer" ng-click="vm.showProject(project)" ></i></td>
                     <td class="text-center"><i class="fa fa-cog pointer" ng-click="vm.manageProjectRights(project)" ></i></td>
                 </tr>
