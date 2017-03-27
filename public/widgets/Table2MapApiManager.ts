@@ -43,7 +43,7 @@ module Table2Map {
             if (!featuresUpdated) {
                 //send layer
                 let url = `api/layers/${layer.id}`;
-                this.$http.post(url, layer, {
+                this.$http.put(url, layer, {
                     timeout: TIMEOUT
                 }).then((result) => {
                     this.addLayerToProject(projectId, groupId, layer, cb);

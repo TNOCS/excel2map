@@ -31,6 +31,15 @@ module Table2Map {
         index: number;
     }
 
+    /** Track which properties have changed (e.g. resourceType, or project-title)  */
+    export enum ChangedFiles {
+        ResourceType = 1,
+            LayerDefinition = 2,
+            GroupDefinition = 4,
+            ProjectDefinition = 8,
+            LayerData = 16
+    }
+
     export enum ConversionStep {
         UploadData = 1,
             StyleSettings = 2,
@@ -100,6 +109,7 @@ module Table2Map {
     import IGeoFeature = Helpers.IGeoFeature;
 
     export class Table2MapSvc {
+        private changedFiles: ChangedFiles = 255; //Set everything to changed
         private restApi: Table2MapApiManager;
         private dataProperties: {
             [key: string]: any
@@ -307,6 +317,7 @@ module Table2Map {
                     this.$messageBus.notify('ERROR_GETTING_LAYER', 'ERROR_GETTING_LAYER');
                     return;
                 }
+                this.changedFiles = (this.changedFiles & ~ChangedFiles.LayerData); // Layer data does not need to be updated
                 this.getFeatureType(this.layer, (success) => {
                     if (!success) {
                         this.$messageBus.notify('ERROR_GETTING_LAYER', 'ERROR_GETTING_FEATURE_TYPE');
@@ -499,6 +510,7 @@ module Table2Map {
 
             reader.onload = (e) => {
                 if (fileType === 'data') {
+                    this.changedFiles = (this.changedFiles | ChangedFiles.LayerData); // Layer data needs to be updated
                     this.textContent = reader.result;
                     this.updatedContent();
                 } else if (fileType === 'icon') {
@@ -509,7 +521,7 @@ module Table2Map {
                     }, 0);
                 } else {
                     this.$timeout(() => {
-                        this.project.logo = 'images' + file.name;
+                        this.project.logo = ['images', file.name].join('/');
                         this.logoData = reader.result;
                     }, 0);
                 }
@@ -543,7 +555,10 @@ module Table2Map {
                 nameLabel: ''
             };
             this.feature = Table2Map.getDefaultFeature();
-            if (!this.layer) this.layer = < ProjectLayer > {};
+            if (!this.layer) {
+                this.layer = < ProjectLayer > {};
+                this.layer.enabled = true;
+            }
             if (!this.layer.id) this.layer.id = csComp.Helpers.getGuid();
             $('#iconImage').attr('src', DEFAULT_MARKER_ICON);
         }
@@ -658,7 +673,7 @@ module Table2Map {
                 id: fType.id,
                 url: `api/resources/${fType.id}`,
                 featureTypes: {},
-                propertyTypeData: fType._propertyTypeData
+                propertyTypeData: _.object(_.pluck(fType._propertyTypeData, 'label'), fType._propertyTypeData)
             };
             resourceType.featureTypes[fType.id] = fType;
             this.restApi.sendResourceType( < any > resourceType, (err) => {
@@ -696,8 +711,9 @@ module Table2Map {
             layerDef.data['layerDefinition']['parameter4'] = geometryParams.getKeyAt(3, 'code');
             layerDef.data['layerDefinition']['geometryType'] = Table2Map.getServerGeometryType(this.geometryTypeId, this.additionalInfo);
             layerDef.data['properties'] = this.rowCollection;
-            layerDef['features'] = [];
-            this.restApi.sendLayer(projectId, groupId, < any > layerDef, featuresUpdated, (err) => {
+            var featuresAreUpdated = ((this.changedFiles & ChangedFiles.LayerData) > 0);
+            layerDef['features'] =  (featuresAreUpdated ? [] : layer.data.features);
+            this.restApi.sendLayer(projectId, groupId, < any > layerDef, featuresAreUpdated, (err) => {
                 cb(err);
             });
         }
@@ -801,6 +817,7 @@ module Table2Map {
 
         /** Try to interpret the data, in order to select the geometry type and name label */
         private interpretDataColumns() {
+            if (this.layer.data && this.layer.data.layerDefinition && this.layer.data.layerDefinition.geometryType) return;
             let titles = _.pluck(this.headerCollection, 'title');
             let rows = this.rowCollection;
             // Find namelabel
@@ -995,7 +1012,10 @@ module Table2Map {
          * the selected geometry columns. Otherwise, keep them.
          */
         private selectGeoType(clearSelectedColumns: boolean = false) {
-            if (clearSelectedColumns) this.geometryColumns = {};
+            if (clearSelectedColumns) {
+                this.geometryColumns = {};
+                this.changedFiles = (this.changedFiles | ChangedFiles.LayerData); // Layer data needs to be updated
+            }
             this.geometryType = GEOMETRY_TYPES[this.geometryTypeId];
             this.featureType.style.drawingMode = this.geometryType.drawingMode;
             this.updateMarker();
