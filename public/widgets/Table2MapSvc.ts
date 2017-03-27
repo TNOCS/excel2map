@@ -317,15 +317,16 @@ module Table2Map {
                     this.feature = this.layer.data.features[0] || Table2Map.getDefaultFeature();
                     this.getIconData(this.featureType.style.iconUri);
                     this.updatedContent(false);
+                    this.parseLayerDefinition(this.layer.data);
                     this.startWizard();
                 });
             });
         }
 
         private convertFeatureTypeToCsv(fType: IFeatureType) {
-            if (!fType || !fType.hasOwnProperty('propertyTypeData')) return;
+            if (!fType || !fType.hasOwnProperty('_propertyTypeData')) return;
             let result: string[] = [];
-            _.each(fType['propertyTypeData'], (prop: IPropertyType) => {
+            _.each(fType['_propertyTypeData'], (prop: IPropertyType) => {
                 result.push(prop.title || prop.label);
             });
             return result.join(';');
@@ -371,10 +372,14 @@ module Table2Map {
                     timeout: 20000
                 })
                 .then((res: {
-                    data: IFeatureType
+                    data: csComp.Services.ITypesResource
                 }) => {
-                    this.featureType = res.data;
-                    this.featureType.style = this.featureType['featureTypes']['Default']['style'] || {};
+                    var typeResource = res.data;
+                    var id = layer.typeUrl.split('/').pop();
+                    this.featureType = typeResource.featureTypes[id];
+                    this.featureType.id = id;
+                    this.featureType._propertyTypeData = _.values(typeResource.propertyTypeData);
+                    this.featureType.style = this.featureType.style || {};
                     if (this.featureType.style.opacity <= 1) this.featureType.style.opacity *= 100;
                     if (this.featureType.style.fillOpacity <= 1) this.featureType.style.fillOpacity *= 100;
                     cb(true);
@@ -403,6 +408,44 @@ module Table2Map {
                     console.warn(`Error requesting layer ${layerId}. ${err}`);
                     cb(null);
                 });
+        }
+
+        private parseLayerDefinition(layerData: any) {
+            if (layerData && layerData.hasOwnProperty('layerDefinition')) {
+                if (layerData.layerDefinition.geometryType) {
+                    this.geometryTypeId = layerData.layerDefinition.geometryType;
+                    this.selectGeoType();
+                }
+                if (layerData.layerDefinition.parameter1) {
+                    this.geometryColumns[layerData.layerDefinition.parameter1] = {
+                        title: '',
+                        code: layerData.layerDefinition.parameter1,
+                        index: 1
+                    };
+                }
+                if (layerData.layerDefinition.parameter2) {
+                    this.geometryColumns[layerData.layerDefinition.parameter2] = {
+                        title: '',
+                        code: layerData.layerDefinition.parameter2,
+                        index: 2
+                    };
+                }
+                if (layerData.layerDefinition.parameter3) {
+                    this.geometryColumns[layerData.layerDefinition.parameter3] = {
+                        title: '',
+                        code: layerData.layerDefinition.parameter3,
+                        index: 3
+                    };
+                }
+                if (layerData.layerDefinition.parameter4) {
+                    this.geometryColumns[layerData.layerDefinition.parameter4] = {
+                        title: '',
+                        code: layerData.layerDefinition.parameter4,
+                        index: 4
+                    };
+                }
+                // layerDef.data['layerDefinition']['parameter1'] = this.geometryColumns[this.geometryType.cols[0]].code;
+            }
         }
 
         /**
@@ -482,6 +525,7 @@ module Table2Map {
         private resetVariables() {
             this.iconData = Table2Map.getDefaultIconData();
             this.featureType = {};
+            this.featureType.id = csComp.Helpers.getGuid();
             this.featureType.style = {
                 iconUri: Table2Map.getDefaultIconUri(),
                 iconWidth: 24,
@@ -493,7 +537,7 @@ module Table2Map {
                 selectedStrokeWidth: 3,
                 strokeColor: '#000',
                 selectedStrokeColor: '#00f',
-                fillColor: '#ff0',
+                fillColor: '#3f3',
                 opacity: 100,
                 fillOpacity: 100,
                 nameLabel: ''
@@ -589,13 +633,15 @@ module Table2Map {
         }
 
         private convertAndOpen() {
-            this.convert(() => {
+            var featuresUpdated: boolean = true; // TODO: check whether feature geometries have changed
+            this.convert(featuresUpdated, () => {
                 this.openProject();
             });
         }
 
         private openProject() {
-            window.location.href = `/?project=${this.project.id}`;
+            // window.location.href = `/?project=${this.project.id}`; // open in same tab/window
+            window.open(`/?project=${this.project.id}`, '_blank'); // open in new tab/window
         }
 
         private sendIcon(base64Data: string, fileName: string) {
@@ -607,7 +653,20 @@ module Table2Map {
             });
         }
 
-        private sendGroup(group: csComp.Services.ProjectGroup, projectId: string) {
+        private sendResourceType(fType: IFeatureType) {
+            let resourceType = {
+                id: fType.id,
+                url: `api/resources/${fType.id}`,
+                featureTypes: {},
+                propertyTypeData: fType._propertyTypeData
+            };
+            resourceType.featureTypes[fType.id] = fType;
+            this.restApi.sendResourceType( < any > resourceType, (err) => {
+                if (err) console.warn(err);
+            });
+        }
+
+        private sendGroup(group: csComp.Services.ProjectGroup, projectId: string, cb: Function) {
             let groupDef = {
                 id: group.id,
                 title: group.title,
@@ -615,34 +674,49 @@ module Table2Map {
                 clustering: group.clustering
             };
             this.restApi.sendGroup(projectId, group, (err) => {
-                if (err) console.warn(err);
+                cb(err);
             });
         }
 
-        private sendLayer(layer: csComp.Services.ProjectLayer, projectId: string, groupId: string) {
+        private sendLayer(layer: csComp.Services.ProjectLayer, projectId: string, groupId: string, featuresUpdated: boolean, cb: Function) {
             let layerDef = {
                 id: layer.id,
                 title: layer.title,
                 description: layer.description,
-                enabled: layer.enabled
+                enabled: layer.enabled,
+                typeUrl: `api/resources/${this.featureType.id}`,
+                defaultFeatureType: `${this.featureType.id}`,
+                data: layer.data || {}
             };
-            this.restApi.sendLayer(projectId, groupId, < any > layerDef, (err) => {
-                if (err) console.warn(err);
+            var geometryParams = _.values(this.geometryColumns);
+            layerDef.data['layerDefinition'] = {};
+            layerDef.data['layerDefinition']['parameter1'] = geometryParams.getKeyAt(0, 'code');
+            layerDef.data['layerDefinition']['parameter2'] = geometryParams.getKeyAt(1, 'code');
+            layerDef.data['layerDefinition']['parameter3'] = geometryParams.getKeyAt(2, 'code');
+            layerDef.data['layerDefinition']['parameter4'] = geometryParams.getKeyAt(3, 'code');
+            layerDef.data['layerDefinition']['geometryType'] = Table2Map.getServerGeometryType(this.geometryTypeId, this.additionalInfo);
+            layerDef.data['properties'] = this.rowCollection;
+            layerDef['features'] = [];
+            this.restApi.sendLayer(projectId, groupId, < any > layerDef, featuresUpdated, (err) => {
+                cb(err);
             });
         }
 
         /** Send the data and configuration to the server for conversion */
-        private convert(cb: Function) {
+        private convert(featuresUpdated: boolean, cb: Function) {
             this.sendIcon(this.iconData, `icon_${this.layer.id}_${this.featureType.style.iconUri}`);
             this.sendIcon(this.logoData, `logo_${this.project.id}_${this.project.logo}`);
-            this.restApi.sendResourceType(this.featureType, (err) => {
-                if (err) console.warn(err);
-            });
+            this.sendResourceType(this.featureType);
             this.restApi.sendProject(this.project, (err) => {
                 if (err) console.warn(err);
+                this.sendGroup(this.selectedGroup, this.project.id, (err) => {
+                    if (err) console.warn(err);
+                    this.sendLayer(this.layer, this.project.id, this.selectedGroup.id, featuresUpdated, (err) => {
+                        if (err) console.warn(err);
+                    });
+                });
             });
-            this.sendGroup(this.selectedGroup, this.project.id);
-            this.sendLayer(this.layer, this.project.id, this.selectedGroup.id);
+            cb();
         }
 
         /** Send the data and configuration to the server for conversion */
@@ -766,7 +840,7 @@ module Table2Map {
             if (hObj) {
                 let hObj2 = this.findHeader(LNG_LABELS);
                 if (hObj2) {
-                    this.geometryTypeId = 'latlong';
+                    this.geometryTypeId = 'Latitude_and_longitude';
                     this.selectGeoType();
                     this.geometryColumns = < Dictionary < IHeaderObject >> _.object(this.geometryType.cols, [hObj, hObj2]);
                     return;
@@ -777,7 +851,7 @@ module Table2Map {
             if (hObj) {
                 let hObj2 = this.findHeader(RDY_LABELS, true);
                 if (hObj2) {
-                    this.geometryTypeId = 'RD';
+                    this.geometryTypeId = 'RD_X_en_Y';
                     this.selectGeoType();
                     this.geometryColumns = < Dictionary < IHeaderObject >> _.object(this.geometryType.cols, [hObj, hObj2]);
                     return;

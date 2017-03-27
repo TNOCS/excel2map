@@ -209,6 +209,16 @@ cs.server.route('/api/layers/:layerId')
         cop(req, res, next);
     });
 
+cs.server.route('/api/convertlayer/:layerId')
+    .post((req, res, next) => {
+        console.log('convertlayer');
+        req['resource'] = {
+            type: 'project',
+            domain: req.headers.domain
+        };
+        cop(req, res, next);
+    });
+
 cs.server.use(ExpressStatic(path.resolve(__dirname, 'data')));
 // cs.server.use(auth);
 
@@ -234,6 +244,13 @@ cs.start(() => {
             next();
         })
         .post(mapLayerFactory.process);
+
+    apiRoutes.route('/api/convertlayer/:layerId')
+        .post((req, res, next) => {
+            console.log('convertlayer');
+            mapLayerFactory.addGeometryRequest(req, res);
+            // next();
+        });
 
     apiRoutes.route('/requestproject')
         .post((req, res) => {

@@ -33,7 +33,10 @@ module Table2Map {
                         return (value ? value.val : value);
                     });
                     ngModel.$formatters.push((value) => {
-                        return ({val: value, name: value || 'Default'});
+                        return ({
+                            val: value,
+                            name: value || 'Default'
+                        });
                     });
                 }
             }
@@ -132,6 +135,7 @@ module Table2Map {
                     this.enableInputs();
                 } else {
                     this.disableInputs();
+                    this.switchToOverview();
                 }
             });
 
@@ -198,6 +202,12 @@ module Table2Map {
             window.location.href = `/?dashboard=main`;
         }
 
+        private switchToOverview() {
+            var db = this.layerService.findDashboardById('main');
+            this.$messageBus.publish('dashboard-main', 'activated', db);
+            console.log('switchToOverView');
+        }
+
         private enableInputs() {
             $('#project-settings').css('opacity', 1);
             $('#project-settings input,ui-select').removeAttr('disabled');
@@ -218,9 +228,13 @@ module Table2Map {
                 return;
             }
             if (!file.type || file.type !== 'image/png') {
-                this.$messageBus.notifyWithTranslation('UNKNOWN_FORMAT', 'UNKNOWN_FORMAT_MSG', {type: 'png'});
+                this.$messageBus.notifyWithTranslation('UNKNOWN_FORMAT', 'UNKNOWN_FORMAT_MSG', {
+                    type: 'png'
+                });
             } else if (!file.size || file.size > MAX_ICON_SIZE) {
-                this.$messageBus.notifyWithTranslation('FILE_TOO_LARGE', 'FILE_TOO_LARGE_MSG', {size: (MAX_ICON_SIZE / 1024).toFixed(1)});
+                this.$messageBus.notifyWithTranslation('FILE_TOO_LARGE', 'FILE_TOO_LARGE_MSG', {
+                    size: (MAX_ICON_SIZE / 1024).toFixed(1)
+                });
             } else {
                 this.t2mSvc.readFile(file, type);
             }
