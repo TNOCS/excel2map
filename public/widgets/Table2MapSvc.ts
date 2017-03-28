@@ -465,12 +465,10 @@ module Table2Map {
         public requestProject(projectTitle ? : string, cb ? : Function) {
             let project = < Project > {};
             if (projectTitle) {
-                project.id = this.cleanRegExp(projectTitle).toLowerCase();
                 project.title = projectTitle;
             }
-            let url = '/requestproject';
+            let url = '/api/projects';
             this.$http.post(url, {
-                    id: project.id,
                     title: project.title || 'Mijn titel'
                 }, {
                     timeout: 20000

@@ -168,23 +168,7 @@ module ModalCtrls {
         }
 
         private checkExistenceDebounced() {
-            this.$http.get(`/api/projects/${this.cleanId}`, {
-                    timeout: 5000
-                })
-                .then((res) => {
-                    if (res.status === HTTPStatusCodes.OK) {
-                        // id exists
-                        this.idStatus = 'invalid';
-                    }
-                })
-                .catch((res) => {
-                    if (res.status === HTTPStatusCodes.GONE) {
-                        // id does not exist
-                        this.idStatus = 'ok';
-                    } else {
-                        console.warn(`Error checking project existence ${this.cleanId}. ${res.status}`);
-                    }
-                });
+            this.idStatus = 'ok';
         }
 
         private checkExistence = _.debounce(this.checkExistenceDebounced, 1000);

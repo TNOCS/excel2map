@@ -319,6 +319,10 @@ div.ng-invalid.ng-touched {
     white-space: nowrap;
 }
 
+a:hover {
+    cursor: pointer;
+}
+
 .t2m-btn {
     border-radius: 0px;
     background-color: #aad8fe;
