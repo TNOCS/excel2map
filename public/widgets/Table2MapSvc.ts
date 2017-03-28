@@ -314,7 +314,7 @@ module Table2Map {
                     let success = this.startWizard();
                     if (!success) location.href = `/?dashboard=table2map&editproject=${this.layerService.project.id}`;
                 }
-                if (result.groupId && !result.layerId) {
+                if (!result.layerId) {
                     this.project = project;
                     this.selectedGroup = _.find(this.project.groups, (group) => {
                         return group.id === result.groupId;
@@ -330,7 +330,7 @@ module Table2Map {
         private loadLayerForWizard(project: Project, layerId: string) {
             this.project = project;
             this.selectedGroup = this.findGroupForLayer(layerId);
-            this.restApi.getLayer(project.id, this.selectedGroup.id, layerId, (layer) => {
+            this.restApi.getLayer(project.id, layerId, (layer) => {
                 if (!layer) {
                     this.$messageBus.notify('ERROR_GETTING_LAYER', 'ERROR_GETTING_LAYER');
                     return;

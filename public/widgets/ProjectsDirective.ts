@@ -91,12 +91,15 @@ module ProjectsDirective {
 
         private getUserProjects() {
             //TODO: Get only the projects for which the user is authenticated.
+            $('#project-list-refresh').addClass('fa-spin');
             let url = 'api/projects';
             this.$http.get(url).then((res: any) => {
                 let projects: _.Collection < Project > = res.data;
                 this.projects = _.toArray(projects);
             }).catch((err) => {
                 console.warn(`Error getting projects: ${err}`);
+            }).finally(() => {
+                $('#project-list-refresh').removeClass('fa-spin');
             });
         }
 

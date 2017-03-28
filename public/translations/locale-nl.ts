@@ -110,7 +110,8 @@ module Translations {
             ERROR_GETTING_LAYER: 'Fout bij ophalen kaartlaag',
             MANAGE_RIGHTS: 'Beheer rechten',
             NO_NAMELABEL_SELECTED: 'Geen titel geselecteerd',
-            NO_LAYERS: 'Geen kaartlagen gevonden'
+            NO_LAYERS: 'Geen kaartlagen gevonden',
+            REALLY_DELETE_LAYER: 'Wil je deze kaartlaag echt verwijderen?'
         };
     }
 }

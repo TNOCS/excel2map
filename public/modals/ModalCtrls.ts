@@ -202,6 +202,7 @@ module ModalCtrls {
             '$scope',
             '$uibModalInstance',
             '$http',
+            '$interpolate',
             'project'
         ];
 
@@ -212,6 +213,7 @@ module ModalCtrls {
             private $scope: IChooseLayerModalScope,
             private $uibModalInstance: any,
             private $http: ng.IHttpService,
+            private $interpolate: ng.IInterpolateService,
             private project: csComp.Services.Project) {
 
             $scope.vm = this;
@@ -227,6 +229,25 @@ module ModalCtrls {
             this.groupId = groupId;
             this.layerId = null;
             this.ok();
+        }
+
+        private removeLayerQuestion($event, groupId: string, layerId: string) {
+            let elm = $event.currentTarget || $event.srcElement;
+            if (!elm) return;
+
+            const popupElement = this.$interpolate(`<div class="confirmation-popover"><div>{{'REALLY_DELETE_LAYER' | translate}}</div><div class="btn-group"><button id="popover-no" class="btn btn-sm t2m-btn green">{{'NO' | translate}}</button><button id="popover-yes" class="btn btn-sm t2m-btn red" ng-click="vm.removeLayer()">{{'YES' | translate}}</button></div></div>`);
+            $(elm).popover({
+                animation: true,
+                content: popupElement,
+                html: true
+            });
+            $(elm).popover('show');
+            $('#popover-yes').on('click', () => {
+                this.removeLayer(groupId, layerId);
+            });
+            $('#popover-no').on('click', () => {
+                $(elm).popover('hide');
+            });
         }
 
         private removeLayer(groupId: string, layerId: string) {

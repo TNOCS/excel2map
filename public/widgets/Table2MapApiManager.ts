@@ -107,7 +107,7 @@ module Table2Map {
             }
         }
 
-        public getLayer(projectId: string, groupId: string, layerId: string, cb: Function) {
+        public getLayer(projectId: string, layerId: string, cb: Function) {
             let url = `${LAYER_URL}/${layerId}`;
             this.$http.get(url, {
                     headers: {
