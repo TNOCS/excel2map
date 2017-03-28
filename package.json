@@ -8,6 +8,9 @@
     "name": "Rinze Bruining",
     "email": "rinze.bruining@tno.nl"
   },
+  "scripts": {
+    "tsc": "tsc"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/TNOCS/excel2map"

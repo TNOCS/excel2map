@@ -109,7 +109,8 @@ module Translations {
             SAVE_AND_OPEN: 'Opslaan en resultaat bekijken',
             ERROR_GETTING_LAYER: 'Fout bij ophalen kaartlaag',
             MANAGE_RIGHTS: 'Beheer rechten',
-            NO_NAMELABEL_SELECTED: 'Geen titel geselecteerd'
+            NO_NAMELABEL_SELECTED: 'Geen titel geselecteerd',
+            NO_LAYERS: 'Geen kaartlagen gevonden'
         };
     }
 }

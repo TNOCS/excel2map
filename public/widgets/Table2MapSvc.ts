@@ -115,6 +115,8 @@ module Table2Map {
             [key: string]: any
         };
         private msgBusHandle: csComp.Services.MessageBusHandle;
+        private isSecurityTokenSet: boolean;
+        private securityTokenSubscription: Function;
         private textContent: string;
         private parsedContent: any;
         private selectedFile: string;
@@ -219,6 +221,18 @@ module Table2Map {
                 };
             });
 
+            this.$messageBus.subscribe('profileservice', (title, data) => {
+                switch (title) {
+                    case 'setToken':
+                        this.isSecurityTokenSet = true;
+                        if (_.isFunction(this.securityTokenSubscription)) {
+                            this.securityTokenSubscription();
+                            this.securityTokenSubscription = null;
+                        }
+                        break;
+                };
+            });
+
             // Check for the various File API support.
             if (( < any > window).File && ( < any > window).FileReader) {
                 // Required File APIs are supported.
@@ -260,6 +274,17 @@ module Table2Map {
         }
 
         private editProject(projectId: string) {
+            if (!this.isSecurityTokenSet) {
+                console.log('Security token not set yet');
+                this.securityTokenSubscription = () => {
+                    this.editProjectWithToken(projectId);
+                };
+                return;
+            }
+            this.editProjectWithToken(projectId);
+        }
+
+        private editProjectWithToken(projectId: string) {
             this.getProject(projectId, (project) => {
                 this.selectLayerForEditing(project);
             });
