@@ -252,27 +252,6 @@ cs.start(() => {
             // next();
         });
 
-    apiRoutes.route('/requestproject')
-        .post((req, res) => {
-            const project = <csweb.Project>req.body;
-            cs.api.addProject(project, {}, (result: csweb.CallbackResult) => {
-                if (result.result === csweb.ApiResult.OK) {
-                    res.statusCode = result.result;
-                    res.send(result.project);
-                } else {
-                    console.log('ID already exists');
-                    cs.api.getProject(project.id, {}, (result: csweb.CallbackResult) => {
-                        if (result.result !== csweb.ApiResult.OK) {
-                            console.log('Could not find project.');
-                        }
-                        console.log('Found project.');
-                        res.statusCode = result.result;
-                        res.send(result.project);
-                    });
-                }
-            });
-        });
-
     apiRoutes.route('/updategrouptitle')
         .post((req, res) => {
             const creds = req['user']; // auth(req);

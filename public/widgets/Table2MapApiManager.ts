@@ -1,11 +1,53 @@
 module Table2Map {
 
+    import Project = csComp.Services.Project;
+    import ProjectGroup = csComp.Services.ProjectGroup;
+    import ProjectLayer = csComp.Services.ProjectLayer;
+
     var TIMEOUT = 30000;
+    var PROJECT_URL = '/api/projects';
+    var LAYER_URL = '/api/layers';
+    var RESOURCES_URL = '/api/resources';
 
     export class Table2MapApiManager {
         constructor(private $http: ng.IHttpService) {}
 
-        public sendProject(project: csComp.Services.Project, cb: Function) {
+        public createProject(project: Project, cb: Function) {
+            let url = PROJECT_URL;
+            this.$http.post(url, {
+                    title: project.title || 'Mijn titel'
+                }, {
+                    timeout: 20000
+                })
+                .then((res: {
+                    data: Project
+                }) => {
+                    project = res.data;
+                    cb(project);
+                })
+                .catch((err) => {
+                    console.warn(`Error creating project ${project.id}. ${err}`);
+                    cb(null);
+                });
+        }
+
+        public getProject(projectId: string, cb: Function) {
+            let url = `${PROJECT_URL}/${projectId}`;
+            this.$http.get(url, {
+                    timeout: 20000
+                })
+                .then((res: {
+                    data: Project
+                }) => {
+                    cb(res.data);
+                })
+                .catch((err) => {
+                    console.warn(`Error creating project ${projectId}. ${err}`);
+                    cb(null);
+                });
+        }
+
+        public sendProject(project: Project, cb: Function) {
             if (!project) {
                 cb('No project provided');
                 return;
@@ -20,7 +62,7 @@ module Table2Map {
             });
         }
 
-        public sendGroup(projectId: string, group: csComp.Services.ProjectGroup, cb: Function) {
+        public sendGroup(projectId: string, group: ProjectGroup, cb: Function) {
             if (!group || !projectId) {
                 cb('No group provided');
                 return;
@@ -35,7 +77,7 @@ module Table2Map {
             });
         }
 
-        public sendLayer(projectId: string, groupId: string, layer: csComp.Services.ProjectLayer, featuresUpdated: boolean, cb: Function) {
+        public sendLayer(projectId: string, groupId: string, layer: ProjectLayer, featuresUpdated: boolean, cb: Function) {
             if (!layer || !projectId || !groupId) {
                 cb('No layer provided');
                 return;
@@ -53,7 +95,9 @@ module Table2Map {
             } else {
                 // convert layer
                 let url = `api/convertlayer/${layer.id}`;
-                this.$http.post(url, {layer: layer}, {
+                this.$http.post(url, {
+                    layer: layer
+                }, {
                     timeout: TIMEOUT
                 }).then((result) => {
                     this.addLayerToProject(projectId, groupId, layer, cb);
@@ -63,7 +107,26 @@ module Table2Map {
             }
         }
 
-        public addLayerToProject(projectId: string, groupId: string, layer: csComp.Services.ProjectLayer, cb: Function) {
+        public getLayer(projectId: string, groupId: string, layerId: string, cb: Function) {
+            let url = `${LAYER_URL}/${layerId}`;
+            this.$http.get(url, {
+                    headers: {
+                        'Domain': projectId
+                    },
+                    timeout: 20000
+                })
+                .then((res: {
+                    data: ProjectLayer
+                }) => {
+                    cb(res.data);
+                })
+                .catch((err) => {
+                    console.warn(`Error requesting layer ${layerId}. ${err}`);
+                    cb(null);
+                });
+        }
+
+        public addLayerToProject(projectId: string, groupId: string, layer: ProjectLayer, cb: Function) {
             //add layer to project
             let url = `api/projects/${projectId}/group/${groupId}/layer/${layer.id}`;
             this.$http.post(url, layer, {
@@ -97,7 +160,7 @@ module Table2Map {
                 cb('No icon provided');
                 return;
             }
-            let url = `api/resources`;
+            let url = RESOURCES_URL;
             this.$http.put(url, resourceType, {
                 timeout: TIMEOUT
             }).then((result) => {
@@ -105,6 +168,38 @@ module Table2Map {
             }).catch((err) => {
                 cb(err);
             });
+        }
+
+        public getResourceType(layer: ProjectLayer, cb: Function) {
+            let url = `${layer.typeUrl}`;
+            this.$http.get(url, {
+                    timeout: 20000
+                })
+                .then((res: {
+                    data: csComp.Services.ITypesResource
+                }) => {
+                    cb(res.data);
+                })
+                .catch((err) => {
+                    console.warn(`Error requesting featureType from ${layer.typeUrl}. ${err}`);
+                    cb(null);
+                });
+        }
+
+        public loadLogo(imgUrl: string, cb: Function) {
+            let url = imgUrl;
+            this.$http.get(imgUrl, {
+                    responseType: 'arraybuffer'
+                })
+                .then((res: any) => {
+                    let file = new File([res.data], imgUrl.split('/').pop(), {
+                        type: 'image/png'
+                    });
+                    cb(file);
+                }).catch((err) => {
+                    console.warn(`Could not get project logo: ${err}`);
+                    cb(null);
+                });
         }
     }
 }

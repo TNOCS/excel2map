@@ -90,6 +90,7 @@ module ProjectsDirective {
         }
 
         private getUserProjects() {
+            //TODO: Get only the projects for which the user is authenticated.
             let url = 'api/projects';
             this.$http.get(url).then((res: any) => {
                 let projects: _.Collection < Project > = res.data;
@@ -120,7 +121,7 @@ module ProjectsDirective {
 
             modalInstance.result.then((title: string) => {
                 if (!title) return;
-                this.$messageBus.publish('table2map', 'requestproject', title);
+                this.$messageBus.publish('table2map', 'createproject', title);
             }, () => {
                 console.log('Modal dismissed at: ' + new Date());
             });

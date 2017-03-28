@@ -156,7 +156,6 @@ module ModalCtrls {
         ];
 
         private title: string;
-        private cleanId: string;
         private idStatus: 'ok' | 'checking' | 'invalid' = 'invalid';
 
         constructor(
@@ -168,14 +167,20 @@ module ModalCtrls {
         }
 
         private checkExistenceDebounced() {
-            this.idStatus = 'ok';
+            if (this.title.length <= 1 || this.title.match(/\"/g)) {
+                this.idStatus = 'invalid';
+            } else {
+                this.idStatus = 'ok';
+            }
+            if (this.$scope.$root.$$phase !== '$apply' && this.$scope.$root.$$phase !== '$digest') {
+                this.$scope.$apply();
+            }
         }
 
-        private checkExistence = _.debounce(this.checkExistenceDebounced, 1000);
+        private checkExistence = _.debounce(this.checkExistenceDebounced, 400);
 
-        private cleanInput() {
+        private inputChanged() {
             this.idStatus = 'checking';
-            this.cleanId = this.title.replace(/\W/g, '').toLowerCase();
             this.checkExistence();
         }
 
@@ -246,7 +251,10 @@ module ModalCtrls {
         }
 
         public ok() {
-            this.$uibModalInstance.close({groupId: this.groupId, layerId: this.layerId});
+            this.$uibModalInstance.close({
+                groupId: this.groupId,
+                layerId: this.layerId
+            });
         }
 
         public cancel() {

@@ -99,7 +99,7 @@ module Translations {
             CREATE_NEW_GROUP: 'Maak nieuwe groep',
             UPLOAD_SUCCESS: 'Kaartlaag aangemaakt',
             UPLOAD_SUCCESS_MSG: 'De kaartlaag is aangemaakt. Klik op onderstaande link om het project te openen.',
-            INVALID_INPUT: 'Project bestaat al of is ongeldig',
+            INVALID_INPUT: 'Deze titel is ongeldig. Gebruik minstens 2 karakters en geen aanhalingstekens.',
             CHECKING: 'Wordt gecontroleerd...',
             CAN_VIEW: 'Bekijken',
             CAN_EDIT: 'Bewerken',

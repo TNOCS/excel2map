@@ -117,7 +117,6 @@ module Table2Map {
         private msgBusHandle: csComp.Services.MessageBusHandle;
         private textContent: string;
         private parsedContent: any;
-        private password: string;
         private selectedFile: string;
         private uploadAvailable: boolean;
         public fileExtensions: Dictionary < string[] > = Table2Map.getDefaultFileExtensions();
@@ -211,10 +210,9 @@ module Table2Map {
                     case 'editproject':
                         this.editProject(data);
                         break;
-                    case 'requestproject':
-                        this.requestProject(data, (project) => {
+                    case 'createproject':
+                        this.createProject(data, (project) => {
                             this.project = project;
-                            this.password = project['password'] || this.password;
                             this.startWizard();
                         });
                         break;
@@ -237,17 +235,12 @@ module Table2Map {
         }
 
         private loadLogo(imgUrl: string) {
-            this.$http.get(imgUrl, {
-                    responseType: 'arraybuffer'
-                })
-                .then((res: any) => {
-                    let file = new File([res.data], imgUrl.split('/').pop(), {
-                        type: 'image/png'
-                    });
-                    this.readFile(file, 'logo');
-                }).catch((err) => {
-                    console.warn(`Could not get project logo: ${err}`);
-                });
+            this.restApi.loadLogo(imgUrl, (file) => {
+                if (!file) {
+                    return console.warn('Could not get img ' + imgUrl);
+                }
+                this.readFile(file, 'logo');
+            });
         }
 
         private escapeRegExp(str: string) {
@@ -267,7 +260,7 @@ module Table2Map {
         }
 
         private editProject(projectId: string) {
-            this.requestProject(projectId, (project) => {
+            this.getProject(projectId, (project) => {
                 this.selectLayerForEditing(project);
             });
         }
@@ -312,17 +305,19 @@ module Table2Map {
         private loadLayerForWizard(project: Project, layerId: string) {
             this.project = project;
             this.selectedGroup = this.findGroupForLayer(layerId);
-            this.getLayer(project.id, this.selectedGroup.id, layerId, (success) => {
-                if (!success) {
+            this.restApi.getLayer(project.id, this.selectedGroup.id, layerId, (layer) => {
+                if (!layer) {
                     this.$messageBus.notify('ERROR_GETTING_LAYER', 'ERROR_GETTING_LAYER');
                     return;
                 }
+                this.layer = layer;
                 this.changedFiles = (this.changedFiles & ~ChangedFiles.LayerData); // Layer data does not need to be updated
-                this.getFeatureType(this.layer, (success) => {
-                    if (!success) {
+                this.restApi.getResourceType(this.layer, (typeResource: csComp.Services.ITypesResource) => {
+                    if (!typeResource) {
                         this.$messageBus.notify('ERROR_GETTING_LAYER', 'ERROR_GETTING_FEATURE_TYPE');
                         return;
                     }
+                    this.featureType = this.getFeatureTypeFromResourceType(typeResource, layer.typeUrl);
                     this.textContent = this.convertFeatureTypeToCsv(this.featureType);
                     this.textContent = this.textContent.concat('\n', this.convertLayerToCsv(this.layer));
                     this.feature = this.layer.data.features[0] || Table2Map.getDefaultFeature();
@@ -332,6 +327,17 @@ module Table2Map {
                     this.startWizard();
                 });
             });
+        }
+
+        private getFeatureTypeFromResourceType(typeResource: csComp.Services.ITypesResource, typeUrl: string): csComp.Services.IFeatureType {
+            var id = typeUrl.split('/').pop();
+            var fType = typeResource.featureTypes[id];
+            fType.id = id;
+            fType._propertyTypeData = _.values(typeResource.propertyTypeData);
+            fType.style = fType.style || {};
+            if (fType.style.opacity <= 1) fType.style.opacity *= 100;
+            if (fType.style.fillOpacity <= 1) fType.style.fillOpacity *= 100;
+            return fType;
         }
 
         private convertFeatureTypeToCsv(fType: IFeatureType) {
@@ -363,62 +369,12 @@ module Table2Map {
         }
 
         private getIconData(url: string) {
-            this.$http.get(url, {
-                    responseType: 'arraybuffer'
-                })
-                .then((res: any) => {
-                    let blob = new Blob([res.data], {
-                        type: 'image/png'
-                    });
-                    blob['name'] = url;
-                    this.readFile(blob, 'icon');
-                }).catch((err) => {
-                    console.warn(`Could not get icon image: ${err}`);
-                });
-        }
-
-        public getFeatureType(layer: ProjectLayer, cb: Function) {
-            let url = `${layer.typeUrl}`;
-            this.$http.get(url, {
-                    timeout: 20000
-                })
-                .then((res: {
-                    data: csComp.Services.ITypesResource
-                }) => {
-                    var typeResource = res.data;
-                    var id = layer.typeUrl.split('/').pop();
-                    this.featureType = typeResource.featureTypes[id];
-                    this.featureType.id = id;
-                    this.featureType._propertyTypeData = _.values(typeResource.propertyTypeData);
-                    this.featureType.style = this.featureType.style || {};
-                    if (this.featureType.style.opacity <= 1) this.featureType.style.opacity *= 100;
-                    if (this.featureType.style.fillOpacity <= 1) this.featureType.style.fillOpacity *= 100;
-                    cb(true);
-                })
-                .catch((err) => {
-                    console.warn(`Error requesting featureType from ${layer.typeUrl}. ${err}`);
-                    cb(null);
-                });
-        }
-
-        public getLayer(projectId: string, groupId: string, layerId: string, cb: Function) {
-            let url = `api/layers/${layerId}`;
-            this.$http.get(url, {
-                    headers: {
-                        'Domain': projectId
-                    },
-                    timeout: 20000
-                })
-                .then((res: {
-                    data: ProjectLayer
-                }) => {
-                    this.layer = res.data;
-                    cb(true);
-                })
-                .catch((err) => {
-                    console.warn(`Error requesting layer ${layerId}. ${err}`);
-                    cb(null);
-                });
+            this.restApi.loadLogo(url, (file) => {
+                if (!file) {
+                    return console.warn('Could not get img icon ' + url);
+                }
+                this.readFile(file, 'icon');
+            });
         }
 
         private parseLayerDefinition(layerData: any) {
@@ -460,32 +416,39 @@ module Table2Map {
         }
 
         /**
-         * Either loads the project if it exists, or creates the project if it doesn't.
+         * Creates the project.
          */
-        public requestProject(projectTitle ? : string, cb ? : Function) {
-            let project = < Project > {};
+        public createProject(projectTitle ? : string, cb ? : Function) {
+            let projectRequest = < Project > {};
             if (projectTitle) {
-                project.title = projectTitle;
+                projectRequest.title = projectTitle;
             }
-            let url = '/api/projects';
-            this.$http.post(url, {
-                    title: project.title || 'Mijn titel'
-                }, {
-                    timeout: 20000
-                })
-                .then((res: {
-                    data: Project
-                }) => {
-                    project = res.data;
-                    if (project.logo) {
-                        this.loadLogo(project.logo);
-                    }
-                    cb(project);
-                })
-                .catch((err) => {
-                    console.warn(`Error requesting project ${project.id}. ${err}`);
+            this.restApi.createProject(projectRequest, (project) => {
+                if (!project) {
                     cb(null);
-                });
+                    return console.warn('Could not create project');
+                }
+                if (project.logo) {
+                    this.loadLogo(project.logo);
+                }
+                cb(project);
+            });
+        }
+
+        /**
+         * Creates the project.
+         */
+        public getProject(projectId: string, cb: Function) {
+            this.restApi.getProject(projectId, (project) => {
+                if (!project) {
+                    cb(null);
+                    return console.warn('Could not get project');
+                }
+                if (project.logo) {
+                    this.loadLogo(project.logo);
+                }
+                cb(project);
+            });
         }
 
         /** Reads a file */
@@ -519,8 +482,10 @@ module Table2Map {
                     }, 0);
                 } else {
                     this.$timeout(() => {
-                        this.project.logo = ['images', file.name].join('/');
-                        this.logoData = reader.result;
+                        if (this.project) {
+                            this.project.logo = ['images', file.name].join('/');
+                            this.logoData = reader.result;
+                        }
                     }, 0);
                 }
             };
@@ -710,7 +675,7 @@ module Table2Map {
             layerDef.data['layerDefinition']['geometryType'] = Table2Map.getServerGeometryType(this.geometryTypeId, this.additionalInfo);
             layerDef.data['properties'] = this.rowCollection;
             var featuresAreUpdated = ((this.changedFiles & ChangedFiles.LayerData) > 0);
-            layerDef['features'] =  (featuresAreUpdated ? [] : layer.data.features);
+            layerDef['features'] = (featuresAreUpdated ? [] : layer.data.features);
             this.restApi.sendLayer(projectId, groupId, < any > layerDef, featuresAreUpdated, (err) => {
                 cb(err);
             });
