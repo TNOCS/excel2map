@@ -160,7 +160,11 @@ cs.server.route('/api/projects')
     .get((req, res, next) => {
         console.log('GET /api/projects');
         console.log(JSON.stringify(req['user'], null, 2));
-        cop(req, res, next);
+        sendInterceptor(res, (project) => {
+            console.log(project);
+            cop(req, res, next);
+        });
+        next();
     })
     .post((req, res, next) => {
         console.log('POST /api/projects');
