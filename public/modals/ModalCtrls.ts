@@ -156,7 +156,6 @@ module ModalCtrls {
         ];
 
         private title: string;
-        private cleanId: string;
         private idStatus: 'ok' | 'checking' | 'invalid' = 'invalid';
 
         constructor(
@@ -168,30 +167,20 @@ module ModalCtrls {
         }
 
         private checkExistenceDebounced() {
-            this.$http.get(`/api/projects/${this.cleanId}`, {
-                    timeout: 5000
-                })
-                .then((res) => {
-                    if (res.status === HTTPStatusCodes.OK) {
-                        // id exists
-                        this.idStatus = 'invalid';
-                    }
-                })
-                .catch((res) => {
-                    if (res.status === HTTPStatusCodes.GONE) {
-                        // id does not exist
-                        this.idStatus = 'ok';
-                    } else {
-                        console.warn(`Error checking project existence ${this.cleanId}. ${res.status}`);
-                    }
-                });
+            if (this.title.length <= 1 || this.title.match(/\"/g)) {
+                this.idStatus = 'invalid';
+            } else {
+                this.idStatus = 'ok';
+            }
+            if (this.$scope.$root.$$phase !== '$apply' && this.$scope.$root.$$phase !== '$digest') {
+                this.$scope.$apply();
+            }
         }
 
-        private checkExistence = _.debounce(this.checkExistenceDebounced, 1000);
+        private checkExistence = _.debounce(this.checkExistenceDebounced, 400);
 
-        private cleanInput() {
+        private inputChanged() {
             this.idStatus = 'checking';
-            this.cleanId = this.title.replace(/\W/g, '').toLowerCase();
             this.checkExistence();
         }
 
@@ -213,23 +202,52 @@ module ModalCtrls {
             '$scope',
             '$uibModalInstance',
             '$http',
+            '$interpolate',
             'project'
         ];
 
-        private activeId: string;
+        private groupId: string;
+        private layerId: string;
 
         constructor(
             private $scope: IChooseLayerModalScope,
             private $uibModalInstance: any,
             private $http: ng.IHttpService,
+            private $interpolate: ng.IInterpolateService,
             private project: csComp.Services.Project) {
 
             $scope.vm = this;
         }
 
-        private selectLayer(layerId: string, closeModal: boolean = false) {
-            this.activeId = layerId;
+        private selectLayer(groupId: string, layerId: string, closeModal: boolean = false) {
+            this.layerId = layerId;
+            this.groupId = groupId;
             if (closeModal) this.ok();
+        }
+
+        private createLayer(groupId: string) {
+            this.groupId = groupId;
+            this.layerId = null;
+            this.ok();
+        }
+
+        private removeLayerQuestion($event, groupId: string, layerId: string) {
+            let elm = $event.currentTarget || $event.srcElement;
+            if (!elm) return;
+
+            const popupElement = this.$interpolate(`<div class="confirmation-popover"><div>{{'REALLY_DELETE_LAYER' | translate}}</div><div class="btn-group"><button id="popover-no" class="btn btn-sm t2m-btn green">{{'NO' | translate}}</button><button id="popover-yes" class="btn btn-sm t2m-btn red" ng-click="vm.removeLayer()">{{'YES' | translate}}</button></div></div>`);
+            $(elm).popover({
+                animation: true,
+                content: popupElement,
+                html: true
+            });
+            $(elm).popover('show');
+            $('#popover-yes').on('click', () => {
+                this.removeLayer(groupId, layerId);
+            });
+            $('#popover-no').on('click', () => {
+                $(elm).popover('hide');
+            });
         }
 
         private removeLayer(groupId: string, layerId: string) {
@@ -254,7 +272,10 @@ module ModalCtrls {
         }
 
         public ok() {
-            this.$uibModalInstance.close(this.activeId);
+            this.$uibModalInstance.close({
+                groupId: this.groupId,
+                layerId: this.layerId
+            });
         }
 
         public cancel() {

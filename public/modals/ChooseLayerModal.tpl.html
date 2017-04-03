@@ -3,29 +3,25 @@
 </div>
 <div class="modal-body">
     <h4>{{vm.project.title}}</h4>
-    <!--<div class="list-group list-group-group">
-        <div class="list-group-item-heading" ng-repeat="group in vm.project.groups">
-            <div class="list-group-group-title bold">{{group.title}}</div>
-            <div class="list-group">
-                <button type="button" class="list-group-item" ng-repeat="layer in group.layers" ng-click="vm.selectLayer(layer.id, false)"
-                    ng-class="{'active': vm.activeId == layer.id}">
-                    {{layer.title}}
-                    <span style="float: right;padding-right: 16px;"><i class="fa fa-pencil pointer" ng-click="vm.selectLayer(layer.id, true)"></i></span>
-                </button>
-            </div>
-        </div>
-    </div>-->
-    <div class="list-group list-group-group">
-        <div class="list-group-item-heading" ng-repeat="group in vm.project.groups">
-            <div class="list-group-group-title bold">{{group.title}}</div>
+    <div class="panel panel-default" ng-repeat="group in vm.project.groups">
+        <div class="panel-heading panel-title">{{group.title}}</div>
+        <div class="panel-body">
             <div class="btn-group full-width" ng-repeat="layer in group.layers">
-                <button type="button" class="btn btn-default col-xs-11" ng-click="vm.selectLayer(layer.id, true)" ng-class="{'active': vm.activeId == layer.id}"
+                <button type="button" class="btn t2m-btn col-xs-11" ng-click="vm.selectLayer(group.id, layer.id, true)" ng-class="{'active': vm.activeId == layer.id}"
                     style="text-align: left">
                     {{layer.title}}
                     <span style="float: right;padding-right: 16px;"><i class="fa fa-pencil pointer"></i></span>
                     </button>
-                <button type="button" class="btn btn-danger col-xs-1" ng-click="vm.removeLayer(group.id, layer.id)"><i class="fa fa-trash-o pointer"></i>
+                <button type="button" class="btn t2m-btn red col-xs-1" ng-click="vm.removeLayerQuestion($event, group.id, layer.id)"><i class="fa fa-trash-o"></i>
                     </button>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="panel-heading panel-title" ng-hide="vm.project.groups.length>0">{{'NO_LAYERS' | translate}}</div>
+            <div class="btn-group full-width">
+                <button type="button" class="btn t2m-btn green col-xs-12" ng-click="vm.createLayer()"><span><i class="fa fa-plus t2m-btn-icon"></i></span>{{'CREATE_NEW_LAYER' | translate}}</button>
             </div>
         </div>
     </div>

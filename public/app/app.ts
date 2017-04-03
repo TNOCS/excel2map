@@ -128,6 +128,20 @@ module App {
                         cb(false);
                     });
             };
+            this.profileService.signup = (name: string, username: string, password: string, cb: (success: boolean, profile?: csComp.Services.IProfile) => void) => {
+                this.$http
+                    .post('/api/signup', { name: name, email: username, password: password })
+                    .then((result: { data: { success: boolean, token: string, user: csComp.Services.IProfile} }) => {
+                        if (result.data.success) {
+                            this.profileService.token = result.data.token;
+                        }
+                        cb(result.data.success, result.data.user);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        cb(false);
+                    });
+            };
             this.profileService.logout = function () {
                 // var l = this.$layerService.findLayer('barges');
                 // this.profileLayers.forEach(function (pl) {

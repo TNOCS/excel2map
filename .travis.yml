@@ -1,0 +1,27 @@
+sudo: false
+language: node_js
+node_js:
+  - "6"
+before_install:
+  - "git clone https://github.com/TNOCS/csWeb.git"
+  - "cd csWeb"
+  - "git checkout master"
+  - "npm i -g typescript"
+  - "npm i -g typings"
+  - "npm i -g gulp"
+  - "npm i -g bower"
+  - "npm i -g node-gyp"
+  - "npm i -g nodemon"
+  - "typings i"
+  - "npm i"
+  - "bower i"
+  - "gulp"
+  - "bower link"
+  - "cd out\\csServerComp"
+  - "npm link"
+  - "cd .."
+  - "cd .."
+install:
+  - "npm install"
+script:
+  - "npm run tsc"

@@ -1,5 +1,5 @@
-<div style="padding: 22px 72px;overflow: auto; height:100%">
-    <div class="header-title">{{'PROJECTS_LIST' | translate}}</div>
+<div style="padding: 22px 72px;overflow: auto; height:100%;max-width:1100px">
+    <div class="header-title">{{'PROJECTS_LIST' | translate}}<span style="float:right;font-size:18px"><i id="project-list-refresh" class="fa fa-refresh pointer" ng-click="vm.getUserProjects()"></i></div>
     <div style="margin: 22px 72px;">
         <table class="project-table table table-striped table-hover">
             <thead>
@@ -19,7 +19,7 @@
                 </tr>
                 <tr ng-repeat="project in vm.projects">
                     <td>{{project.title}}</td>
-                    <td class="text-center"><i class="fa fa-pencil pointer" ng-click="vm.editProject(project)" ng-show="project.title.length < 14"></i></td>
+                    <td class="text-center"><i class="fa fa-pencil pointer" ng-click="vm.editProject(project)" ></i></td>
                     <td class="text-center"><i class="fa fa-eye pointer" ng-click="vm.showProject(project)" ></i></td>
                     <td class="text-center"><i class="fa fa-cog pointer" ng-click="vm.manageProjectRights(project)" ></i></td>
                 </tr>

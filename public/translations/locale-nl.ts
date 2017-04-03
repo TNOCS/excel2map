@@ -95,9 +95,11 @@ module Translations {
             VISIBLE_IN_TOOLTIP: 'Toon eigenschap in tooltip',
             PROJECTS_LIST: 'Beschikbare projecten',
             CREATE_NEW_PROJECT: 'Maak nieuw project',
+            CREATE_NEW_LAYER: 'Maak nieuwe kaartlaag',
+            CREATE_NEW_GROUP: 'Maak nieuwe groep',
             UPLOAD_SUCCESS: 'Kaartlaag aangemaakt',
             UPLOAD_SUCCESS_MSG: 'De kaartlaag is aangemaakt. Klik op onderstaande link om het project te openen.',
-            INVALID_INPUT: 'Project bestaat al of is ongeldig',
+            INVALID_INPUT: 'Deze titel is ongeldig. Gebruik minstens 2 karakters en geen aanhalingstekens.',
             CHECKING: 'Wordt gecontroleerd...',
             CAN_VIEW: 'Bekijken',
             CAN_EDIT: 'Bewerken',
@@ -106,7 +108,10 @@ module Translations {
             EDIT_LAYER: 'Kies een kaartlaag om te bewerken',
             SAVE_AND_OPEN: 'Opslaan en resultaat bekijken',
             ERROR_GETTING_LAYER: 'Fout bij ophalen kaartlaag',
-            MANAGE_RIGHTS: 'Beheer rechten'
+            MANAGE_RIGHTS: 'Beheer rechten',
+            NO_NAMELABEL_SELECTED: 'Geen titel geselecteerd',
+            NO_LAYERS: 'Geen kaartlagen gevonden',
+            REALLY_DELETE_LAYER: 'Wil je deze kaartlaag echt verwijderen?'
         };
     }
 }

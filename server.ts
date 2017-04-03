@@ -44,25 +44,25 @@ const policyStore = <PolicySet[]>[{
     name: 'Main policy set',
     combinator: 'first',
     policies: [
-        // {
-        //     name: 'admins rule',
-        //     combinator: 'first',
-        //     rules: [{
-        //         desc: 'Admins are allowed to request all projects',
-        //         subject: { admin: true },
-        //         action: Action.All,
-        //         decision: Decision.Permit,
-        //         resource: {
-        //             type: 'project'
-        //         }
-        //     }]
-        // },
+        {
+            name: 'admins rule',
+            combinator: 'first',
+            rules: [{
+                desc: 'Admins are allowed to request all projects',
+                subject: { admin: true },
+                action: Action.All,
+                decision: Decision.Permit,
+                resource: {
+                    type: 'project'
+                }
+            }]
+        },
         {
             name: 'rbac',
             combinator: 'first',
             rules: [{
-                subject: { verified: true },
-                action: Action.Create,
+                subject: { verified: false },
+                action: Action.Create | Action.Read,
                 resource: {
                     type: 'project'
                 },
@@ -113,7 +113,7 @@ var cs = new csweb.csServer(__dirname, <csweb.csServerOptions>{
 cs.server.route('*')
     .all((req, res, next) => {
         console.log(`${req.method}: ${req.url}`);
-        if (req.body) { console.log(req.body); }
+        // if (req.body) { console.log(req.body); }
         console.log(`HEADERS: ${JSON.stringify(req.headers, null, 2)}`);
         next();
     });
@@ -189,6 +189,7 @@ cs.server.route('/api/projects')
             }));
             ps.save(err => {
                 if (err) { console.error(err); }
+                if (!err) { console.log(`Allow ${email} to manage project with id ${body.id}`); }
             });
         });
         next();
@@ -199,6 +200,25 @@ cs.server.route('/api/projects/:domain')
         req['resource'] = {
             type: 'project',
             domain: req.params.domain
+        };
+        cop(req, res, next);
+    });
+
+cs.server.route('/api/layers/:layerId')
+    .all((req, res, next) => {
+        req['resource'] = {
+            type: 'project',
+            domain: req.headers.domain
+        };
+        cop(req, res, next);
+    });
+
+cs.server.route('/api/convertlayer/:layerId')
+    .post((req, res, next) => {
+        console.log('convertlayer');
+        req['resource'] = {
+            type: 'project',
+            domain: req.headers.domain
         };
         cop(req, res, next);
     });
@@ -229,25 +249,11 @@ cs.start(() => {
         })
         .post(mapLayerFactory.process);
 
-    apiRoutes.route('/requestproject')
-        .post((req, res) => {
-            const project = <csweb.Project>req.body;
-            cs.api.addProject(project, {}, (result: csweb.CallbackResult) => {
-                if (result.result === csweb.ApiResult.OK) {
-                    res.statusCode = result.result;
-                    res.send(result.project);
-                } else {
-                    console.log('ID already exists');
-                    cs.api.getProject(project.id, {}, (result: csweb.CallbackResult) => {
-                        if (result.result !== csweb.ApiResult.OK) {
-                            console.log('Could not find project.');
-                        }
-                        console.log('Found project.');
-                        res.statusCode = result.result;
-                        res.send(result.project);
-                    });
-                }
-            });
+    apiRoutes.route('/api/convertlayer/:layerId')
+        .post((req, res, next) => {
+            console.log('convertlayer');
+            mapLayerFactory.addGeometryRequest(req, res);
+            // next();
         });
 
     apiRoutes.route('/updategrouptitle')

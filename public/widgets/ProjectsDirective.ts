@@ -60,6 +60,11 @@ module ProjectsDirective {
             private $translate: ng.translate.ITranslateService
         ) {
             $scope.vm = this;
+
+            this.msgBusHandle = this.$messageBus.subscribe('profileservice', (title, profile) => {
+                this.handleProfileServiceMsg(title, profile);
+            });
+
             this.init();
         }
 
@@ -67,13 +72,34 @@ module ProjectsDirective {
             this.getUserProjects();
         }
 
+        private handleProfileServiceMsg(title, profile) {
+            switch (title) {
+                case 'login':
+                    this.getUserProjects();
+                    break;
+                case 'logout':
+                    this.clearProjectsList();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private clearProjectsList() {
+            this.projects.length = 0;
+        }
+
         private getUserProjects() {
+            //TODO: Get only the projects for which the user is authenticated.
+            $('#project-list-refresh').addClass('fa-spin');
             let url = 'api/projects';
             this.$http.get(url).then((res: any) => {
                 let projects: _.Collection < Project > = res.data;
                 this.projects = _.toArray(projects);
             }).catch((err) => {
                 console.warn(`Error getting projects: ${err}`);
+            }).finally(() => {
+                $('#project-list-refresh').removeClass('fa-spin');
             });
         }
 
@@ -98,7 +124,7 @@ module ProjectsDirective {
 
             modalInstance.result.then((title: string) => {
                 if (!title) return;
-                this.$messageBus.publish('table2map', 'requestproject', title);
+                this.$messageBus.publish('table2map', 'createproject', title);
             }, () => {
                 console.log('Modal dismissed at: ' + new Date());
             });

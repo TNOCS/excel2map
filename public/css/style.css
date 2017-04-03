@@ -285,7 +285,6 @@ div.ng-invalid.ng-touched {
 }
 
 .project-table {
-    max-width: 800px;
 }
 
 .project-table td {
@@ -313,4 +312,52 @@ div.ng-invalid.ng-touched {
 
 .list-group-group-title {
     padding: 8px;
+}
+
+#st-datatable td {
+    white-space: nowrap;
+}
+
+a:hover {
+    cursor: pointer;
+}
+
+.t2m-btn {
+    border-radius: 0px;
+    background-color: #aad8fe;
+    background-image: none!important;
+    text-shadow: none;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.t2m-btn.green {
+    background-color: #dff0d8;
+}
+
+.t2m-btn.red {
+    background-color: #fecbbb;
+}
+
+.t2m-btn-icon {
+    padding: 4px 8px;
+    font-size: 110%;
+}
+
+.confirmation-popover {
+    display: inline-block; 
+    position: relative;
+}
+
+.popover {
+    max-width: 320px;
+    width: 100%;
+}
+
+.t2m-btn:hover {
+    outline: 2px #bbbbbb solid;
+}
+
+.ui-pnotify-container {
+    background: #fff296!important;
 }
