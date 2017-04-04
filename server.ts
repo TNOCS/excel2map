@@ -92,33 +92,33 @@ const policySets = <PolicySet[]>[{
         }]
 }];
 
+Winston.remove(Winston.transports.Console);
+Winston.add(Winston.transports.Console, <Winston.ConsoleTransportOptions>{
+    colorize: true,
+    label: 'csWeb',
+    prettyPrint: true
+});
+
+var cs = new csweb.csServer(__dirname, <csweb.csServerOptions>{
+    port: 3004,
+    swagger: false,
+    apiFolder: '/data/api',
+    connectors: {},
+    corrsEnabled: true,
+    corrsSupportedMethods: '*'
+});
+
+cs.server.route('*')
+    .all((req, res, next) => {
+        console.log(`${req.method}: ${req.url}`);
+        // if (req.body) { console.log(req.body); }
+        console.log(`HEADERS: ${JSON.stringify(req.headers, null, 2)}`);
+        next();
+    });
+
 const policiesLoaded = (err: Error, ps: PolicyStore) => {
     if (err) { throw err; }
     const policyStore = ps;
-
-    Winston.remove(Winston.transports.Console);
-    Winston.add(Winston.transports.Console, <Winston.ConsoleTransportOptions>{
-        colorize: true,
-        label: 'csWeb',
-        prettyPrint: true
-    });
-
-    var cs = new csweb.csServer(__dirname, <csweb.csServerOptions>{
-        port: 3004,
-        swagger: false,
-        apiFolder: '/data/api',
-        connectors: {},
-        corrsEnabled: true,
-        corrsSupportedMethods: '*'
-    });
-
-    cs.server.route('*')
-        .all((req, res, next) => {
-            console.log(`${req.method}: ${req.url}`);
-            // if (req.body) { console.log(req.body); }
-            console.log(`HEADERS: ${JSON.stringify(req.headers, null, 2)}`);
-            next();
-        });
 
     const auth = NodeAuth(cs.server, {
         secretKey: 'MyBigSectetThatShouldBeReplacedInProduction',
