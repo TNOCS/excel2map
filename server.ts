@@ -162,10 +162,18 @@ const policiesLoaded = (err: Error, ps: PolicyStore) => {
         .get((req, res, next) => {
             console.log('GET /api/projects');
             console.log(JSON.stringify(req['user'], null, 2));
+            // TODO cop should be here!
             sendInterceptor(res, (projects: { [key: string]: csweb.Project }) => {
-                console.log(projects);
+                // console.log(projects);
                 const privileges = policyStore.getPrivileges(req['user']);
-                console.log(privileges);
+                const accessibleProjectIds = privileges.map(r => { return r.resource.domain; });
+                for (let key in projects) {
+                    if (!projects.hasOwnProperty(key)) { continue; }
+                    if (accessibleProjectIds.indexOf(key) >= 0) { continue; }
+                    delete projects[key];
+                }
+                // console.log(privileges);
+                // res['body'] = projectFilter(privileges, projects);
                 cop(req, res, next);
             });
             next();
