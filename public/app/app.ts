@@ -125,7 +125,20 @@ module App {
                     })
                     .catch(err => {
                         console.log(err);
-                        cb(false);
+                        console.log('Trying to get a new token...');
+                        this.$http
+                            .post('/api/login', { email: username, password: password }, {headers: {'Authorization': ''}})
+                            .then((result: { data: { success: boolean, token: string, user: csComp.Services.IProfile} }) => {
+                                if (result.data.success) {
+                                    this.profileService.token = result.data.token;
+                                }
+                                cb(result.data.success, result.data.user);
+                            })
+                            .catch(err => {
+                                console.log(err);
+                                console.log('Failed to login');
+                                cb(false);
+                            });
                     });
             };
             this.profileService.signup = (name: string, username: string, password: string, cb: (success: boolean, profile?: csComp.Services.IProfile) => void) => {
@@ -139,6 +152,9 @@ module App {
                     })
                     .catch(err => {
                         console.log(err);
+                        if (err && err.data && err.data.message) {
+                            console.warn(err.data.message);
+                        }
                         cb(false);
                     });
             };

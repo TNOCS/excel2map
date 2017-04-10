@@ -12,7 +12,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td class="pointer success text-center" colspan="4" ng-click="vm.createProject()">
+                    <td class="create-project pointer success text-center" colspan="4" ng-click="vm.createProject()" ng-disabled="!vm.profileService.isLoggedIn()">
                         {{'CREATE_NEW_PROJECT' | translate}}
                         <span><i class="fa fa-plus"></i></span>
                     </td>
