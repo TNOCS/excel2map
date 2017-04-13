@@ -361,3 +361,9 @@ a:hover {
 .ui-pnotify-container {
     background: #fff296!important;
 }
+
+.create-project[disabled] {
+    cursor: not-allowed!important;
+    background-color: #dff0d8!important;
+    color: grey;
+}

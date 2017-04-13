@@ -171,11 +171,13 @@ const policiesLoaded = (err: Error, ps: PolicyStore) => {
             sendInterceptor(res, (projects: { [key: string]: csweb.Project }) => {
                 // console.log(projects);
                 const privileges = policyStore.getPrivileges(req['user']);
-                const accessibleProjectIds = privileges.map(r => { return r.resource.domain; });
-                for (let key in projects) {
-                    if (!projects.hasOwnProperty(key)) { continue; }
-                    if (accessibleProjectIds.indexOf(key) >= 0) { continue; }
-                    delete projects[key];
+                if (!req['user'].admin) {
+                    const accessibleProjectIds = privileges.map(r => { return r.resource.domain; });
+                    for (let key in projects) {
+                        if (!projects.hasOwnProperty(key)) { continue; }
+                        if (accessibleProjectIds.indexOf(key) >= 0) { continue; }
+                        delete projects[key];
+                    }
                 }
                 // console.log(privileges);
                 // res['body'] = projectFilter(privileges, projects);

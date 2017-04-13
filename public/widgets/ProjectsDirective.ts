@@ -45,7 +45,8 @@ module ProjectsDirective {
             '$timeout',
             '$sce',
             '$uibModal',
-            '$translate'
+            '$translate',
+            'profileService'
         ];
 
         constructor(
@@ -57,7 +58,8 @@ module ProjectsDirective {
             private $timeout: ng.ITimeoutService,
             private $sce: ng.ISCEService,
             private $uibModal: ng.ui.bootstrap.IModalService,
-            private $translate: ng.translate.ITranslateService
+            private $translate: ng.translate.ITranslateService,
+            private profileService: csComp.Services.ProfileService
         ) {
             $scope.vm = this;
 
@@ -89,8 +91,20 @@ module ProjectsDirective {
             this.projects.length = 0;
         }
 
+        /** Returns true if a user is logged in */
+        private checkLogin(): boolean {
+            let loggedIn = this.profileService.isLoggedIn();
+            if (!loggedIn) {
+                this.$messageBus.notify('LOGIN_WARNING', 'LOGIN_FIRST');
+            }
+            return loggedIn;
+        }
+
         private getUserProjects() {
-            //TODO: Get only the projects for which the user is authenticated.
+            if (!this.checkLogin()) {
+                this.profileService.startLogin();
+                return;
+            }
             $('#project-list-refresh').addClass('fa-spin');
             let url = 'api/projects';
             this.$http.get(url).then((res: any) => {
@@ -116,6 +130,7 @@ module ProjectsDirective {
         }
 
         private createProject() {
+            if (!this.checkLogin()) return;
             var modalInstance = this.$uibModal.open({
                 templateUrl: 'modals/CreateProjectModal.tpl.html',
                 controller: 'CreateProjectModalCtrl',

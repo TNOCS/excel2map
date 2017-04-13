@@ -111,7 +111,9 @@ module Translations {
             MANAGE_RIGHTS: 'Beheer rechten',
             NO_NAMELABEL_SELECTED: 'Geen titel geselecteerd',
             NO_LAYERS: 'Geen kaartlagen gevonden',
-            REALLY_DELETE_LAYER: 'Wil je deze kaartlaag echt verwijderen?'
+            REALLY_DELETE_LAYER: 'Wil je deze kaartlaag echt verwijderen?',
+            LOGIN_WARNING: 'Niet ingelogd',
+            LOGIN_FIRST: 'Registreer of login om je kaarten te kunnen maken'
         };
     }
 }
