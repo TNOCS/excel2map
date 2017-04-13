@@ -149,14 +149,19 @@ const policiesLoaded = (err: Error, ps: PolicyStore) => {
     const cop = pep.getPolicyEnforcer('Main policy set', { resource: { type: 'project' } });
     const policyEditor = policyStore.getPolicyEditor('dynamic_rules', 'Main policy set');
 
-    // const sendInterceptor = (res: Response, cb: (body: { [key: string]: any }) => void) => {
-    //     const oldSend = res.send;
-    //     res.send = function () {
-    //         const body = JSON.parse(arguments[0]);
-    //         cb(body);
-    //         return oldSend.apply(res, arguments);
-    //     };
-    // };
+    cs.server.route('/api/authorizations')
+        .get((req, res, next) => {
+            next();
+        })
+        .put((req, res, next) => {
+            next();
+        })
+        .delete((req, res, next) => {
+            next();
+        })
+        .post((req, res, next) => {
+            next();
+        });
 
     cs.server.route('/api/projects')
         .get((req, res, next) => {
@@ -185,13 +190,14 @@ const policiesLoaded = (err: Error, ps: PolicyStore) => {
         })
         .post((req, res, next) => {
             const email = (<IUser>req['user']).email;
+            const id = (<IUser>req['user'])._id;
             console.log('POST /api/projects AUTHN SUCCEEDED');
             sendInterceptor(res, (body) => {
                 console.log('INTERCEPTING SEND: /api/projects');
                 console.log(JSON.stringify(body, null, 2));
                 policyEditor('add', ({
-                    desc: `Allow ${email} to manage project with id ${body.id}`,
-                    subject: { email: email },
+                    desc: `Allow ${id} (${email}) to manage project with id ${body.id}`,
+                    subject: { _id: id },
                     action: Action.Manage,
                     resource: {
                         domain: body.id,
