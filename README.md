@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/TNOCS/excel2map.png?label=ready&title=Ready)](https://waffle.io/TNOCS/excel2map?utm_source=badge)
 # excel2map
 Convert an Excel table to a beautiful map using csWeb.
 
