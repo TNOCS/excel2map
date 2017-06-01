@@ -93,7 +93,10 @@ module ProjectsDirective {
 
         /** Returns true if a user is logged in */
         private checkLogin(): boolean {
-            let loggedIn = this.profileService.isLoggedIn();
+            let loggedIn = false;
+            if (this.profileService && _.isFunction(this.profileService.isLoggedIn)) {
+                loggedIn = this.profileService.isLoggedIn();
+            }
             if (!loggedIn) {
                 this.$messageBus.notify('LOGIN_WARNING', 'LOGIN_FIRST');
             }

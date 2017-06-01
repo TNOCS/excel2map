@@ -501,7 +501,7 @@ module Table2Map {
                     this.updatedContent();
                 } else if (fileType === 'icon') {
                     this.$timeout(() => {
-                        this.featureType.style.iconUri = file.name;
+                        this.featureType.style.iconUri = ['images', file.name].join('/');
                         this.iconData = reader.result;
                         this.updateMarker();
                     }, 0);
@@ -698,6 +698,7 @@ module Table2Map {
             layerDef.data['layerDefinition']['parameter3'] = geometryParams.getKeyAt(2, 'code');
             layerDef.data['layerDefinition']['parameter4'] = geometryParams.getKeyAt(3, 'code');
             layerDef.data['layerDefinition']['geometryType'] = Table2Map.getServerGeometryType(this.geometryTypeId, this.additionalInfo);
+            layerDef.data['layerDefinition']['geometryKey'] = null; //Will be determined from data in MapLayerFactory
             layerDef.data['properties'] = this.rowCollection;
             var featuresAreUpdated = ((this.changedFiles & ChangedFiles.LayerData) > 0);
             layerDef['features'] = (featuresAreUpdated ? [] : layer.data.features);
@@ -915,6 +916,7 @@ module Table2Map {
                             return;
                         }
                         let type = this.geometryType;
+                        this.selectGeoType();
                         selectionAmount = (type ? type.cols.length : 1);
                         itemsToSelect = type.cols;
                         selectedColumns = _.toArray(this.geometryColumns).filter(col => {
@@ -1187,6 +1189,9 @@ module Table2Map {
                 });
             } else {
                 var iconHtml = Helpers.createIconHtml(feature);
+                if (this.iconData) {
+                    iconHtml.html = iconHtml.html.replace(/(src=\"\S+\")/g, `src="${this.iconData}"`);
+                }
                 icon = new L.DivIcon({
                     className: '',
                     iconSize: new L.Point(iconHtml['iconPlusBorderWidth'], iconHtml['iconPlusBorderHeight']),

@@ -86,6 +86,9 @@ module Table2Map {
                 //send layer
                 let url = `api/layers/${layer.id}`;
                 this.$http.put(url, layer, {
+                    headers: {
+                        'Domain': projectId
+                    },
                     timeout: TIMEOUT
                 }).then((result) => {
                     this.addLayerToProject(projectId, groupId, layer, cb);
@@ -98,6 +101,9 @@ module Table2Map {
                 this.$http.post(url, {
                     layer: layer
                 }, {
+                    headers: {
+                        'Domain': projectId
+                    },
                     timeout: TIMEOUT
                 }).then((result) => {
                     this.addLayerToProject(projectId, groupId, layer, cb);
