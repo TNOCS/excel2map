@@ -496,7 +496,7 @@ module Table2Map {
 
             reader.onload = (e) => {
                 if (fileType === 'data') {
-                    this.changedFiles = (this.changedFiles | ChangedFiles.LayerData); // Layer data needs to be updated
+                    this.layerDataChanged(); // Layer data needs to be updated
                     this.textContent = reader.result;
                     this.updatedContent();
                 } else if (fileType === 'icon') {
@@ -699,7 +699,10 @@ module Table2Map {
             layerDef.data['layerDefinition']['parameter4'] = geometryParams.getKeyAt(3, 'code');
             layerDef.data['layerDefinition']['geometryType'] = Table2Map.getServerGeometryType(this.geometryTypeId, this.additionalInfo);
             layerDef.data['layerDefinition']['geometryKey'] = null; //Will be determined from data in MapLayerFactory
+            layerDef.data['layerDefinition']['featureTypeId'] = this.featureType.id;
+            layerDef.data['layerDefinition']['includeOriginalProperties'] = (this.additionalInfo && this.additionalInfo.length > 0);
             layerDef.data['properties'] = this.rowCollection;
+            layerDef.data['propertyTypes'] = this.featureType.properties;
             var featuresAreUpdated = ((this.changedFiles & ChangedFiles.LayerData) > 0);
             layerDef['features'] = (featuresAreUpdated ? [] : layer.data.features);
             this.restApi.sendLayer(projectId, groupId, < any > layerDef, featuresAreUpdated, (err) => {
@@ -998,13 +1001,17 @@ module Table2Map {
             }, 0);
         }
 
+        private layerDataChanged() {
+            this.changedFiles = (this.changedFiles | ChangedFiles.LayerData);
+        }
+
         /** When the geometry type is changed manually by the user, clear
          * the selected geometry columns. Otherwise, keep them.
          */
         private selectGeoType(clearSelectedColumns: boolean = false) {
             if (clearSelectedColumns) {
                 this.geometryColumns = {};
-                this.changedFiles = (this.changedFiles | ChangedFiles.LayerData); // Layer data needs to be updated
+                this.layerDataChanged(); // Layer data needs to be updated
             }
             this.geometryType = GEOMETRY_TYPES[this.geometryTypeId];
             this.featureType.style.drawingMode = this.geometryType.drawingMode;

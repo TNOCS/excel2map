@@ -112,7 +112,7 @@ cs.server.route('*')
     .all((req, res, next) => {
         console.log(`${req.method}: ${req.url}`);
         // if (req.body) { console.log(req.body); }
-        console.log(`HEADERS: ${JSON.stringify(req.headers, null, 2)}`);
+        // console.log(`HEADERS: ${JSON.stringify(req.headers, null, 2)}`);
         next();
     });
 
@@ -190,6 +190,11 @@ const policiesLoaded = (err: Error, ps: PolicyStore) => {
             console.log(JSON.stringify(req['user'], null, 2));
             cop(req, res, next);
         })
+        .put((req, res, next) => {
+            console.log('PUT /api/projects');
+            console.log(JSON.stringify(req['user'], null, 2));
+            cop(req, res, next);
+        })
         .post((req, res, next) => {
             const email = (<IUser>req['user']).email;
             const id = (<IUser>req['user'])._id;
@@ -228,6 +233,9 @@ const policiesLoaded = (err: Error, ps: PolicyStore) => {
         .all((req, res, next) => {
             req['resource'] = {
                 type: 'project',
+                domain: req.headers.domain
+            };
+            req['params'] = {
                 domain: req.headers.domain
             };
             cop(req, res, next);

@@ -220,7 +220,7 @@
                         <div class="form-group">
                             <label for="add-info" class="col-sm-3">{{'ADDITIONAL_INFO' | translate}}</label>
                             <div class="col-sm-9" ng-show="vm.t2mSvc.geometryType">
-                                <select class="form-control inline-select" id="add-info" ng-model="vm.t2mSvc.additionalInfo" ng-options="info for info in vm.t2mSvc.geometryType.additionalInfo"
+                                <select class="form-control inline-select" id="add-info" ng-model="vm.t2mSvc.additionalInfo" ng-options="info for info in vm.t2mSvc.geometryType.additionalInfo" ng-change="vm.t2mSvc.layerDataChanged(true)"
                                     ng-disabled="!vm.t2mSvc.geometryType || vm.t2mSvc.geometryType.additionalInfo.length < 1"></select>
                             </div>
                         </div>
@@ -339,7 +339,7 @@
             <div class="col-sm-4" ng-show="vm.t2mSvc.rowCollection.length > 0">
                 <div class="row">
                     <h4>{{'STYLE_PREVIEW' | translate}}</h4>
-                    <label>{{'CURRENT_ZOOM' | translate}}: {{currentZoom}}</label>
+                    <label>{{'CURRENT_ZOOM' | translate}}: {{vm.t2mSvc.currentZoom}}</label>
                     <span style="margin-left: 32px;">
                         <label ng-show="vm.t2mSvc.feature.isSelected">{{'FEATURE_SELECTED' | translate}}</label>
                         <label ng-hide="vm.t2mSvc.feature.isSelected">{{'FEATURE_DESELECTED' | translate}}</label>
