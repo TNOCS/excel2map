@@ -245,6 +245,8 @@ module Table2Map {
             let params = this.$location.search();
             if (params && params.hasOwnProperty('editproject')) {
                 this.editProject(params['editproject']);
+            } else {
+                this.resetVariables();
             }
         }
 
@@ -546,6 +548,7 @@ module Table2Map {
             if (!this.layer) {
                 this.layer = < ProjectLayer > {};
                 this.layer.enabled = true;
+                this.layer.fitToMap = true;
             }
             if (!this.layer.id) this.layer.id = csComp.Helpers.getGuid();
             $('#iconImage').attr('src', DEFAULT_MARKER_ICON);
@@ -725,72 +728,6 @@ module Table2Map {
                 });
             });
             cb();
-        }
-
-        /** Send the data and configuration to the server for conversion */
-        private _OLD_convert(cb: Function) {
-            let geometryParams = _.values(this.geometryColumns);
-            let layerDefinition: Table2MapLayerDefinition = {
-                projectTitle: this.project.title,
-                reference: this.layer.id,
-                group: this.selectedGroup.id,
-                layerTitle: this.layer.title,
-                description: this.layer.description,
-                featureType: this.featureType.name,
-                geometryType: Table2Map.getServerGeometryType(this.geometryTypeId, this.additionalInfo), //TODO
-                parameter1: geometryParams.getKeyAt(0, 'code'),
-                parameter2: geometryParams.getKeyAt(1, 'code'),
-                parameter3: geometryParams.getKeyAt(2, 'code'),
-                parameter4: geometryParams.getKeyAt(3, 'code'),
-                iconUri: this.featureType.style.iconUri,
-                iconSize: this.featureType.style.iconHeight,
-                drawingMode: this.featureType.style.drawingMode,
-                fillColor: this.featureType.style.fillColor,
-                strokeColor: this.featureType.style.strokeColor,
-                selectedStrokeColor: this.featureType.style.selectedStrokeColor,
-                strokeWidth: this.featureType.style.strokeWidth,
-                isEnabled: this.layer.enabled,
-                clusterLevel: this.selectedGroup.clusterLevel,
-                useClustering: this.selectedGroup.clustering,
-                opacity: this.featureType.style.opacity,
-                nameLabel: this.featureType.style.nameLabel,
-                includeOriginalProperties: (this.additionalInfo && this.additionalInfo.length > 0) ? true : false,
-                defaultFeatureType: this.featureType.name,
-                geometryFile: '', //TODO
-                geometryKey: '' //TODO
-            };
-            let layerTemplate: Table2MapLayerTemplate = {
-                iconBase64: (this.iconData ? this.iconData.replace(/^data:image\/\w+;base64,/, '') : this.iconData),
-                logoBase64: (this.logoData ? this.logoData.replace(/^data:image\/\w+;base64,/, '') : this.logoData),
-                projectId: this.project.id,
-                projectLogo: this.project.logo,
-                layerDefinition: [layerDefinition],
-                properties: this.rowCollection,
-                propertyTypes: this.featureType._propertyTypeData
-            };
-            let url = '/projecttemplate';
-            this.$http.post(url, layerTemplate, {
-                    timeout: 30000 //,
-                    // headers: {
-                    //     Authorization: `Basic ${btoa(this.project.id + ':' + this.password)}`
-                    // }
-                })
-                .then((res) => {
-                    console.log(res.data);
-                    if (res.status === 200) this.$messageBus.notifyWithTranslation('UPLOAD_SUCCESS', 'UPLOAD_SUCCESS_MSG');
-                    cb();
-                })
-                .catch((err) => {
-                    console.warn(`Error requesting project ${this.project.id}. ${err}`);
-                    if (err.status === HTTPStatusCodes.UNAUTHORIZED) {
-                        this.$messageBus.notifyWithTranslation('ERROR_UPLOADING_PROJECT', 'UNAUTHORIZED');
-                    } else {
-                        this.$messageBus.notifyWithTranslation('ERROR_UPLOADING_PROJECT', 'ERROR_MSG', {
-                            'msg': err.status + ' ' + err.msg
-                        });
-                    }
-                    cb();
-                });
         }
 
         private parseData() {

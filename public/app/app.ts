@@ -144,11 +144,13 @@ module App {
             this.profileService.signup = (name: string, username: string, password: string, cb: (success: boolean, profile?: csComp.Services.IProfile) => void) => {
                 this.$http
                     .post('/api/signup', { name: name, email: username, password: password })
-                    .then((result: { data: { success: boolean, token: string, user: csComp.Services.IProfile} }) => {
-                        if (result.data.success) {
+                    .then((result: { status: number, data: { success: boolean, token: string, user: csComp.Services.IProfile} }) => {
+                        if (result.status === HTTPStatusCodes.CREATED) {
                             this.profileService.token = result.data.token;
+                            cb(true, result.data.user);
+                        } else {
+                            cb(false);
                         }
-                        cb(result.data.success, result.data.user);
                     })
                     .catch(err => {
                         console.log(err);
