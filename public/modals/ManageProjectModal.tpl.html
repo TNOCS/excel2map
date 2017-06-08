@@ -1,0 +1,50 @@
+<div class="modal-header">
+    <h4 class="modal-title" ng-init="projectname={name:vm.project.title}">{{'MANAGE_PROJECT' | translate:projectname}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'MANAGE_PROJECT_HELP' | translate}}" tooltip-placement="bottom"></i></span></h4>
+</div>
+<div class="modal-body">
+    <div style="margin: 22px 32px;">
+        <div>{{'EXISTING_USERS' | translate}}</div>
+        <table class="project-table table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>{{'USER' | translate}}</th>
+                    <th>{{'RIGHTS' | translate}}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-show="vm.users.length<1">
+                    <td colspan="3">{{'NO_MEMBERS' | translate}}</td>
+                </tr>
+                <tr ng-repeat="user in vm.users">
+                    <td>{{user.email}}</td>
+                    <td><select class="form-control" ng-options="action.val as action.key for action in vm.actions track by $index" ng-model="user.rights"></select></td>
+                    <td><button type="button" class="btn btn-primary" ng-click="vm.updateUserRole(user)" ng-disabled="user.email">{{'UPDATE' | translate}}</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="margin: 48px 32px;">
+        <div>{{'ADD_USER' | translate}}</div>
+        <table class="project-table table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>{{'USER' | translate}}</th>
+                    <th>{{'RIGHTS' | translate}}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text" class="form-control" ng-model="vm.newUser.email"></td>
+                    <td><select class="form-control" ng-options="action.val as action.key for action in vm.actions" ng-model="vm.newUser.rights"></select></td>
+                    <td><button type="button" class="btn btn-primary" ng-click="vm.addNewUser(vm.newUser)" ng-disabled="!vm.newUser.email">{{'ADD' | translate}}</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="vm.cancel()">{{'CLOSE' | translate}}</button>
+    <button type="button" class="btn btn-primary" ng-click="vm.ok()" style="text-transform:capitalize;" ng-disabled="false">{{'OK' | translate}}</button>
+</div>

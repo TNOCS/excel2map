@@ -129,7 +129,23 @@ module ProjectsDirective {
         }
 
         private manageProjectRights(project: Project) {
-            this.$messageBus.notify('table2map', 'manageProjectRights');
+            // this.$messageBus.notify('table2map', 'manageProjectRights');
+            if (!this.checkLogin()) return;
+            var modalInstance = this.$uibModal.open({
+                templateUrl: 'modals/ManageProjectModal.tpl.html',
+                controller: 'ManageProjectModalCtrl',
+                size: 'lg',
+                resolve: {
+                    project: () => project,
+                }
+            });
+
+            modalInstance.result.then((finished: boolean) => {
+                if (!finished) return;
+                this.$messageBus.notify('table2map', `Update rights for project ${project.title}`);
+            }, () => {
+                console.log('Modal dismissed at: ' + new Date());
+            });
         }
 
         private createProject() {

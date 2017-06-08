@@ -285,4 +285,99 @@ module ModalCtrls {
             this.$uibModalInstance.dismiss('cancel');
         }
     }
+
+    export interface IManageProjectModalScope extends ng.IScope {
+        vm: ManageProjectModalCtrl;
+    }
+
+    export enum IProjectRights {
+        None = 0,
+            Create = 1,
+            Read = 2,
+            Update = 4,
+            Delete = 8,
+            Author = 6,
+            Manage = 15,
+            Approve = 16,
+            Assign = 32,
+            Delegate = 64,
+            Sign = 128,
+            All = 255
+    }
+
+    export enum IChoosableProjectRights {
+        READ = IProjectRights.Read,
+            AUTHOR = IProjectRights.Author,
+            MANAGE = IProjectRights.Manage
+    }
+
+    export interface IProjectUser {
+        email: string;
+        rights: IProjectRights;
+    }
+
+    export class ManageProjectModalCtrl {
+        public static $inject = [
+            '$scope',
+            '$uibModalInstance',
+            '$http',
+            '$translate',
+            'project'
+        ];
+
+        private newUser: IProjectUser = < IProjectUser > {};
+        private users: IProjectUser[] = [];
+        private actions: {key: string, val: any}[] = [];
+
+        constructor(
+            private $scope: IManageProjectModalScope,
+            private $uibModalInstance: any,
+            private $http: ng.IHttpService,
+            private $translate: ng.translate.ITranslateService,
+            private project: csComp.Services.Project) {
+
+            $scope.vm = this;
+
+            for (var a in ModalCtrls.IChoosableProjectRights) {
+                if (typeof ModalCtrls.IChoosableProjectRights[a] === 'number') {
+                    // this.actions[a] = ModalCtrls.IProjectRights[a];
+                    this.actions.push({ key: this.$translate.instant(a), val: ModalCtrls.IChoosableProjectRights[a]});
+                }
+            }
+            this.resetNewUser();
+        }
+
+        private checkExistenceDebounced() {
+            if (this.$scope.$root.$$phase !== '$apply' && this.$scope.$root.$$phase !== '$digest') {
+                this.$scope.$apply();
+            }
+        }
+
+        private checkExistence = _.debounce(this.checkExistenceDebounced, 400);
+
+        private resetNewUser() {
+            this.newUser.email = '';
+            this.newUser.rights = < any > IChoosableProjectRights.READ;
+            if (this.$scope.$root.$$phase !== '$apply' && this.$scope.$root.$$phase !== '$digest') {
+                this.$scope.$apply();
+            }
+        }
+
+        private addNewUser(user: IProjectUser) {
+            //call server here
+            this.resetNewUser();
+        }
+
+        private updateUserRole(user: IProjectUser) {
+            //call server here
+        }
+
+        public ok() {
+            this.$uibModalInstance.close(true);
+        }
+
+        public cancel() {
+            this.$uibModalInstance.dismiss('cancel');
+        }
+    }
 }
