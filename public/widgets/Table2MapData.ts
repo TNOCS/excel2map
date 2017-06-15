@@ -69,6 +69,12 @@ module Table2Map {
             drawingMode: 'Polygon',
             additionalInfo: ['', 'CBS']
         },
+        'Buurt': {
+            name: 'Buurten',
+            cols: ['Buurtcode'],
+            drawingMode: 'Polygon',
+            additionalInfo: []
+        },
         'Adres': {
             name: 'Postcode 6 / huisnummer / letter / toevoeging',
             cols: ['Postcode 6', 'Huisnummer', 'Huisletter', 'Huisnummertoevoeging'],

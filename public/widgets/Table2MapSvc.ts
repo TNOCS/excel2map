@@ -65,6 +65,7 @@ module Table2Map {
     export var LNG_LABELS = ['longitude', 'long', 'lng'];
     export var RDX_LABELS = ['rdx', 'rd-x', 'x'];
     export var RDY_LABELS = ['rdy', 'rd-y', 'y'];
+    export var BUURT_LABELS = ['bu_', 'bucode', 'buurtcode'];
     export var PREVIEW_ZOOMLEVEL = 15;
     export var PREVIEW_COORDINATES_POINT = [52.079855, 4.320966];
     export var PREVIEW_COORDINATES_POLYGON = [
@@ -110,7 +111,7 @@ module Table2Map {
 
     export class Table2MapSvc {
         private changedFiles: ChangedFiles = 255; //Set everything to changed
-        private restApi: Table2MapApiManager;
+        public restApi: Table2MapApiManager;
         private dataProperties: {
             [key: string]: any
         };
@@ -780,6 +781,14 @@ module Table2Map {
                     this.selectGeoType();
                     return;
                 }
+            }
+            // Find geometry type
+            hObj = this.findHeader(BUURT_LABELS, false);
+            if (hObj) {
+                this.geometryTypeId = 'Buurt';
+                this.selectGeoType();
+                this.geometryColumns = < Dictionary < IHeaderObject >> _.object(this.geometryType.cols, [hObj]);
+                return;
             }
             // Find geometry type
             hObj = this.findHeader(LAT_LABELS);
