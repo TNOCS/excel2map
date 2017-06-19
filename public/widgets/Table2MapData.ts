@@ -41,7 +41,7 @@ module Table2Map {
         val: '€{0:#,#}'
     }, {
         name: 'Euro_two_decimals',
-        val: '€{0:#,#.00}'
+        val: '€{0:#,#.##}'
     }, {
         name: 'Percentage_no_decimals',
         val: '{0:#,#}%'

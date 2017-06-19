@@ -411,7 +411,7 @@
                         <div class="form-group">
                             <label for="p-sf" class="col-sm-3">{{'STRINGFORMAT' | translate}}</label>
                             <div class="col-sm-9">
-                                <select data-ng-model="vm.t2mSvc.pType.stringFormat" id="p-sf" ng-options="name for (name, type) in stringFormats" data-ng-change="vm.t2mSvc.updatePropertyPreview()"
+                                <select data-ng-model="vm.t2mSvc.pType.stringFormat" id="p-sf" ng-options="entry.val as entry.name for entry in stringFormats" data-ng-change="vm.t2mSvc.updatePropertyPreview()"
                                     class="form-control" ng-disabled="vm.t2mSvc.pType.type !== 'number'" />
                             </div>
                         </div>

@@ -98,7 +98,7 @@ module ProjectsDirective {
                 loggedIn = this.profileService.isLoggedIn();
             }
             if (!loggedIn) {
-                this.$messageBus.notify('LOGIN_WARNING', 'LOGIN_FIRST');
+                this.$messageBus.notifyWithTranslation('LOGIN_WARNING', 'LOGIN_FIRST');
             }
             return loggedIn;
         }

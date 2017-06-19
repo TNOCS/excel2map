@@ -65,7 +65,7 @@ module Table2Map {
     export var LNG_LABELS = ['longitude', 'long', 'lng'];
     export var RDX_LABELS = ['rdx', 'rd-x', 'x'];
     export var RDY_LABELS = ['rdy', 'rd-y', 'y'];
-    export var BUURT_LABELS = ['bu_', 'bucode', 'buurtcode'];
+    export var BUURT_LABELS = ['bu', 'bucode', 'buurtcode'];
     export var PREVIEW_ZOOMLEVEL = 15;
     export var PREVIEW_COORDINATES_POINT = [52.079855, 4.320966];
     export var PREVIEW_COORDINATES_POLYGON = [
@@ -1068,18 +1068,109 @@ module Table2Map {
             let properties = _.pluck(this.headerCollection, 'code');
             this.featureType.propertyTypeKeys = properties.join(';');
             this.headerCollection.forEach((hObj: IHeaderObject) => {
-                this.featureType._propertyTypeData.push( < IPropertyType > {
+                let pType = < IPropertyType > {
                     label: hObj.code,
                     title: hObj.title,
                     type: 'text',
                     description: '',
                     visibleInCallOut: true
-                });
+                };
+                pType = this.determineDataType(pType);
+                this.featureType._propertyTypeData.push(pType);
             });
             this.sections = [{
                 name: 'Default',
                 val: null
             }];
+        }
+
+        private determineDataType(pt: IPropertyType) {
+            let key = pt.label;
+            let values = [];
+            for (let i = 0; i < 20; i++) {
+                if (this.rowCollection.length > i) {
+                    let row = this.rowCollection[i];
+                    if (row.hasOwnProperty(key)) {
+                        values.push(row[key]);
+                    }
+                }
+            }
+            let types: _.Dictionary < number > = {
+                currency: 0,
+                url: 0,
+                number: 0,
+                date: 0,
+                longtext: 0,
+                text: 0
+            };
+            values.forEach((val) => {
+                if (val.toString().match(/^€\d*(.|,)\d*$/g)) {
+                    types.currency += 1;
+                } else if (moment(val.toString(), 'DD-MM-YYYY', true).isValid()) {
+                    types.date += 1;
+                } else if (val.toString().match(/^\d*(.|,)\d*$/g)) {
+                    types.number += 1;
+                } else if (val.toString().match(/(\b((https?|ftp|file)+:\/\/){1}|www)[-A-Za-z0-9+&@#\/%?=~_|!:,.;]+[-A-Za-z0-9+&@#\/%=~_|]/g)) {
+                    types.url += 1;
+                } else if (val.toString().length > 30) {
+                    types.longText += 1;
+                } else {
+                    types.text += 1;
+                }
+            });
+            let max = 0;
+            let maxKey = 'text';
+            Object.keys(types).forEach((k) => {
+                if (types[k] > max) {
+                    max = types[k];
+                    maxKey = k;
+                }
+            });
+            switch (maxKey) {
+                case 'text':
+                    return pt;
+                case 'longtext':
+                    pt.type = 'textarea';
+                    return pt;
+                case 'number':
+                    pt.type = 'number';
+                    return pt;
+                case 'currency':
+                    this.convertCurrencyToNumbers(key);
+                    pt.type = 'number';
+                    pt.stringFormat = _.findWhere(Table2Map.STRING_FORMATS, {
+                        name: 'Euro_two_decimals'
+                    }).val;
+                    return pt;
+                case 'date':
+                    this.convertDatesToJS(key);
+                    pt.type = 'date';
+                    return pt;
+                case 'url':
+                    pt.type = 'bbcode';
+                    return pt;
+                default:
+                    return pt;
+            }
+        }
+
+        private convertCurrencyToNumbers(key: string) {
+            this.rowCollection.forEach((row) => {
+                if (row.hasOwnProperty(key)) {
+                    row[key] = +(row[key].toString().replace('€', ''));
+                }
+            });
+        }
+
+        private convertDatesToJS(key: string) {
+            this.rowCollection.forEach((row) => {
+                if (row.hasOwnProperty(key)) {
+                    let m = moment(row[key], 'DD-MM-YYYY');
+                    if (m.isValid()) {
+                        row[key] = m.toDate().getTime();
+                    }
+                }
+            });
         }
 
         public updateMarker = _.throttle(this.updateMarkerDebounced, 500, {

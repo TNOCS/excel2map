@@ -322,6 +322,7 @@ module ModalCtrls {
             '$uibModalInstance',
             '$http',
             '$translate',
+            'tableToMapSvc',
             'project'
         ];
 
@@ -334,6 +335,7 @@ module ModalCtrls {
             private $uibModalInstance: any,
             private $http: ng.IHttpService,
             private $translate: ng.translate.ITranslateService,
+            private t2mSvc: Table2Map.Table2MapSvc,
             private project: csComp.Services.Project) {
 
             $scope.vm = this;
@@ -344,7 +346,14 @@ module ModalCtrls {
                     this.actions.push({ key: this.$translate.instant(a), val: ModalCtrls.IChoosableProjectRights[a]});
                 }
             }
+            this.requestUsers();
             this.resetNewUser();
+        }
+
+        private requestUsers() {
+            this.t2mSvc.restApi.getUsers(this.project.id, (users) => {
+                this.users = users;
+            });
         }
 
         private checkExistenceDebounced() {

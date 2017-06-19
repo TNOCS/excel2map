@@ -8,6 +8,7 @@ module Table2Map {
     var PROJECT_URL = '/api/projects';
     var LAYER_URL = '/api/layers';
     var RESOURCES_URL = '/api/resources';
+    var PROJECT_MEMBERS_URL = '/api/projectmembers';
 
     export class Table2MapApiManager {
         constructor(private $http: ng.IHttpService) {}
@@ -188,6 +189,22 @@ module Table2Map {
                 })
                 .catch((err) => {
                     console.warn(`Error requesting featureType from ${layer.typeUrl}. ${err}`);
+                    cb(null);
+                });
+        }
+
+        public getUsers(projectId: string, cb: Function) {
+            let url = `${PROJECT_MEMBERS_URL}/${projectId}`;
+            this.$http.get(url, {
+                    timeout: 20000
+                })
+                .then((res: {
+                    data: any
+                }) => {
+                    cb(res.data);
+                })
+                .catch((err) => {
+                    console.warn(`Error requesting project members from ${url}. ${err.data}`);
                     cb(null);
                 });
         }
