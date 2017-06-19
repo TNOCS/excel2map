@@ -122,7 +122,9 @@ module Translations {
             READ: 'Bekijken',
             AUTHOR: 'Bekijken en bewerken',
             MANAGE: 'Bekijken, bewerken en beheren',
-            NO_MEMBERS: 'Er zijn geen gebruikers toegevoegd'
+            NO_MEMBERS: 'Er zijn geen gebruikers toegevoegd',
+            AUTODETECT_TYPES: 'Detecteer types',
+            AUTODETECT_TYPES_HELP: 'Detecteer van alle eigenschappen welk van type ze zijn, bijv. nummer, tekst, hyperlink, etc.'
         };
     }
 }

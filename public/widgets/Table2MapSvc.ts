@@ -413,30 +413,30 @@ module Table2Map {
                 }
                 if (layerData.layerDefinition.parameter1) {
                     this.geometryColumns[layerData.layerDefinition.parameter1] = {
-                        title: '',
+                        title: this.getColumnTitle(layerData.layerDefinition.parameter1),
                         code: layerData.layerDefinition.parameter1,
-                        index: 1
+                        index: this.getColumnIndex(layerData.layerDefinition.parameter1)
                     };
                 }
                 if (layerData.layerDefinition.parameter2) {
                     this.geometryColumns[layerData.layerDefinition.parameter2] = {
-                        title: '',
+                        title: this.getColumnTitle(layerData.layerDefinition.parameter2),
                         code: layerData.layerDefinition.parameter2,
-                        index: 2
+                        index: this.getColumnIndex(layerData.layerDefinition.parameter2)
                     };
                 }
                 if (layerData.layerDefinition.parameter3) {
                     this.geometryColumns[layerData.layerDefinition.parameter3] = {
-                        title: '',
+                        title: this.getColumnTitle(layerData.layerDefinition.parameter3),
                         code: layerData.layerDefinition.parameter3,
-                        index: 3
+                        index: this.getColumnIndex(layerData.layerDefinition.parameter3)
                     };
                 }
                 if (layerData.layerDefinition.parameter4) {
                     this.geometryColumns[layerData.layerDefinition.parameter4] = {
-                        title: '',
+                        title: this.getColumnTitle(layerData.layerDefinition.parameter4),
                         code: layerData.layerDefinition.parameter4,
-                        index: 4
+                        index: this.getColumnIndex(layerData.layerDefinition.parameter4)
                     };
                 }
                 // layerDef.data['layerDefinition']['parameter1'] = this.geometryColumns[this.geometryType.cols[0]].code;
@@ -592,6 +592,7 @@ module Table2Map {
                             console.warn(`Warning: parsing csv resulted in empty table`);
                             return;
                         }
+                        this.layerDataChanged();
                         this.$timeout(() => {
                             this.numberOfCols = Object.keys(jsonArr[0]).length;
                             if (this.numberOfCols > MAX_NR_COLUMNS) {
@@ -704,6 +705,7 @@ module Table2Map {
             layerDef.data['layerDefinition']['geometryType'] = Table2Map.getServerGeometryType(this.geometryTypeId, this.additionalInfo);
             layerDef.data['layerDefinition']['geometryKey'] = null; //Will be determined from data in MapLayerFactory
             layerDef.data['layerDefinition']['featureTypeId'] = this.featureType.id;
+            layerDef.data['layerDefinition']['nameLabel'] = this.featureType.style.nameLabel;
             layerDef.data['layerDefinition']['includeOriginalProperties'] = (this.additionalInfo && this.additionalInfo.length > 0);
             layerDef.data['properties'] = this.rowCollection;
             layerDef.data['propertyTypes'] = this.featureType.properties;
@@ -744,18 +746,36 @@ module Table2Map {
                 console.log(`Selected row ${JSON.stringify(row)}`);
             }
         }
+        private hasNameLabel(): boolean {
+            if (this.layer.data.layerDefinition && this.layer.data.layerDefinition.nameLabel) {
+                let title = this.layer.data.layerDefinition.nameLabel;
+                return _.some(this.headerCollection, (val: IHeaderObject) => {
+                    return val.title === title;
+                });
+            } else {
+                return false;
+            }
+        }
 
         /** Try to interpret the data, in order to select the geometry type and name label */
         private interpretDataColumns() {
-            if (this.layer.data && this.layer.data.layerDefinition && this.layer.data.layerDefinition.geometryType) return;
             let titles = _.pluck(this.headerCollection, 'title');
             let rows = this.rowCollection;
+            let hObj;
             // Find namelabel
-            let hObj = this.findHeader(NAME_LABELS);
-            if (hObj) {
-                this.featureType.style.nameLabel = hObj.code;
-            } else {
-                this.featureType.style.nameLabel = this.headerCollection[0].code;
+            if (!this.featureType.style.nameLabel) {
+                if (!this.hasNameLabel()) {
+                    hObj = this.findHeader(NAME_LABELS);
+                    if (hObj) {
+                        this.featureType.style.nameLabel = hObj.code;
+                    } else {
+                        this.featureType.style.nameLabel = this.headerCollection[0].code;
+                    }
+                }
+            }
+            if (this.layer.data && this.layer.data.layerDefinition && this.layer.data.layerDefinition.geometryType) { //Already selected 
+                this.selectGeoType();
+                return;
             }
             // Find geometry type
             hObj = this.findHeader(POSTCODE_LABELS);
@@ -988,6 +1008,17 @@ module Table2Map {
             }
         }
 
+        private getColumnIndex(col: string): number {
+            let hObj = _.findWhere(this.headerCollection, {
+                code: col
+            });
+            if (hObj) {
+                return hObj.index;
+            } else {
+                return 0;
+            }
+        }
+
         public updatePropertyPreview = _.debounce(this.updatePropertyPreviewDebounced, 1000);
 
         private updatePropertyPreviewDebounced() {
@@ -1063,7 +1094,8 @@ module Table2Map {
             }
         }
 
-        private generateFeatureType() {
+        private generateFeatureType(force: boolean = false) {
+            if (this.featureType.hasOwnProperty('_propertyTypeData') && !force) return; // Skip when fType already filled
             this.featureType._propertyTypeData = [];
             let properties = _.pluck(this.headerCollection, 'code');
             this.featureType.propertyTypeKeys = properties.join(';');
@@ -1265,7 +1297,7 @@ module Table2Map {
             var content = '<td colspan=\'3\'>' + title + '</td></tr>';
             // add values for properties with a "visibleInTooltip = true" propertyType, only in case they haven't been added already as filter or style
             let fType = this.featureType;
-            if (fType) {
+            if (fType && fType._propertyTypeData) {
                 let pTypes = fType._propertyTypeData.forEach((mi: IPropertyType) => {
                     if (mi.visibleInTooltip) {
                         if (feature.properties.hasOwnProperty(mi.label)) {

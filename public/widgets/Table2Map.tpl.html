@@ -438,16 +438,26 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="p-visibility" class="col-sm-3">{{'DATA_RANGE' | translate}}</label>
+                            <label for="p-range" class="col-sm-3">{{'DATA_RANGE' | translate}}</label>
                             <div class="col-sm-9 form-inline">
                                 <div class="row">
                                     <div class="col-xs-6 no-padding">
                                         <label for="p-min">{{'STATS.MIN' | translate}}</label>
-                                        <input type="number" class="form-control" data-ng-model="vm.t2mSvc.pType.min" id="p-min" />
+                                        <input type="number" class="form-control" data-ng-model="vm.t2mSvc.pType.min" id="p-min" style="max-width:100%"/>
                                     </div>
                                     <div class="col-xs-6 no-padding">
                                         <label for="p-max">{{'STATS.MAX' | translate}}</label>
-                                        <input type="number" class="form-control" data-ng-model="vm.t2mSvc.pType.max" id="p-max" />
+                                        <input type="number" class="form-control" data-ng-model="vm.t2mSvc.pType.max" id="p-max" style="max-width:100%"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="p-autofill-all" class="col-sm-3">{{'AUTODETECT_TYPES' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'AUTODETECT_TYPES_HELP' | translate}}"></i></span></label>
+                            <div class="col-sm-9 form-inline">
+                                <div class="row">
+                                    <div class="col-xs-12 no-padding">
+                                        <button class="btn btn-default" ng-click="vm.t2mSvc.generateFeatureType(true)" style="min-width: 64px;"><i class="fa fa-magic"></i></button>
                                     </div>
                                 </div>
                             </div>
