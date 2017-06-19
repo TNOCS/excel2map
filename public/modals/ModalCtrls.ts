@@ -374,10 +374,26 @@ module ModalCtrls {
 
         private addNewUser(user: IProjectUser) {
             //call server here
+            if (!this.users) this.users = [];
+            this.users.push(this.cloneUser(user));
             this.resetNewUser();
         }
 
+        private cloneUser(user: IProjectUser): IProjectUser {
+            let clone = <IProjectUser> {};
+            Object.keys(user).forEach((key) => {
+                if (key.indexOf('$$') < 0) {
+                    clone[key] = user[key];
+                }
+            });
+            return clone;
+        }
+
         private updateUserRole(user: IProjectUser) {
+            //call server here
+        }
+
+        private deleteUserRole(user: IProjectUser) {
             //call server here
         }
 

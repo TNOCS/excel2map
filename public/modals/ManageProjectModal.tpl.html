@@ -9,17 +9,18 @@
                 <tr>
                     <th>{{'USER' | translate}}</th>
                     <th>{{'RIGHTS' | translate}}</th>
-                    <th></th>
+                    <th colspan="2">{{'EDIT_RIGHTS' | translate}}</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-show="vm.users.length<1">
-                    <td colspan="3">{{'NO_MEMBERS' | translate}}</td>
+                <tr ng-show="!vm.users||vm.users.length<1">
+                    <td colspan="4">{{'NO_MEMBERS' | translate}}</td>
                 </tr>
                 <tr ng-repeat="user in vm.users">
                     <td>{{user.email}}</td>
-                    <td><select class="form-control" ng-options="action.val as action.key for action in vm.actions track by $index" ng-model="user.rights"></select></td>
-                    <td><button type="button" class="btn btn-primary" ng-click="vm.updateUserRole(user)" ng-disabled="user.email">{{'UPDATE' | translate}}</button></td>
+                    <td><select class="form-control" ng-options="action.val as action.key for action in vm.actions" ng-model="user.rights"></select></td>
+                    <td><button type="button" class="btn btn-primary" ng-click="vm.updateUserRole(user)" ng-disabled="false">{{'UPDATE' | translate}}</button></td>
+                    <td><button type="button" class="btn btn-danger" ng-click="vm.deleteUserRole(user)" ng-disabled="false" uib-tooltip="{{'DELETE_USER_RIGHTS' | translate}}" tooltip-placement="bottom" tooltip-popup-delay="1000"><i class="fa fa-times"></i></button></td>
                 </tr>
             </tbody>
         </table>

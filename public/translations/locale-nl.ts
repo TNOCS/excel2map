@@ -118,13 +118,16 @@ module Translations {
             USER: 'Gebruiker-email',
             RIGHTS: 'Toegangsrechten',
             EXISTING_USERS: 'Gebruikers met toegang',
+            EDIT_RIGHTS: 'Rechten aanpassen',
             ADD_USER: 'Gebruiker toevoegen',
             READ: 'Bekijken',
             AUTHOR: 'Bekijken en bewerken',
             MANAGE: 'Bekijken, bewerken en beheren',
             NO_MEMBERS: 'Er zijn geen gebruikers toegevoegd',
+            UPDATE: 'Toepassen',
             AUTODETECT_TYPES: 'Detecteer types',
-            AUTODETECT_TYPES_HELP: 'Detecteer van alle eigenschappen welk van type ze zijn, bijv. nummer, tekst, hyperlink, etc.'
+            AUTODETECT_TYPES_HELP: 'Detecteer van alle eigenschappen welk van type ze zijn, bijv. nummer, tekst, hyperlink, etc.',
+            DELETE_USER_RIGHTS: 'Verwijder alle rechten van deze gebruiker'
         };
     }
 }
