@@ -27,7 +27,11 @@ module ProjectsDirective {
     import Project = csComp.Services.Project;
     import ProjectLayer = csComp.Services.ProjectLayer;
     import ProjectGroup = csComp.Services.ProjectGroup;
+    import IProjectRights = Table2Map.IProjectRights;
 
+    export interface IAuthMessage {
+        message: Table2Map.IBaseRule[];
+    }
     export interface IProjectsDirectiveScope extends ng.IScope {
         vm: ProjectsDirectiveCtrl;
     }
@@ -62,6 +66,18 @@ module ProjectsDirective {
             private profileService: csComp.Services.ProfileService
         ) {
             $scope.vm = this;
+
+            $scope.canEdit = (p: Project) => {
+                return (p.hasOwnProperty('_auth') ? (p['_auth']['action'] & IProjectRights.Author) === IProjectRights.Author : false);
+            };
+
+            $scope.canView = (p: Project) => {
+                return (p.hasOwnProperty('_auth') ? (p['_auth']['action'] & IProjectRights.Read) === IProjectRights.Read : false);
+            };
+
+            $scope.canManage = (p: Project) => {
+                return (p.hasOwnProperty('_auth') ? (p['_auth']['action'] & IProjectRights.Manage) === IProjectRights.Manage : false);
+            };
 
             this.msgBusHandle = this.$messageBus.subscribe('profileservice', (title, profile) => {
                 this.handleProfileServiceMsg(title, profile);
@@ -109,14 +125,37 @@ module ProjectsDirective {
                 return;
             }
             $('#project-list-refresh').addClass('fa-spin');
-            let url = 'api/projects';
-            this.$http.get(url).then((res: any) => {
+            let projectsUrl = 'api/projects';
+            let authUrl = 'api/authorizations';
+            this.$http.get(projectsUrl).then((res: any) => {
                 let projects: _.Collection < Project > = res.data;
                 this.projects = _.toArray(projects);
+                this.$http.get(authUrl).then((res2: any) => {
+                    let auths: IAuthMessage = res2.data;
+                    this.updateProjectAuths(auths);
+                }).catch((err) => {
+                    console.warn(`Error getting projects: ${err}`);
+                }).finally(() => {
+                    $('#project-list-refresh').removeClass('fa-spin');
+                });
             }).catch((err) => {
                 console.warn(`Error getting projects: ${err}`);
             }).finally(() => {
                 $('#project-list-refresh').removeClass('fa-spin');
+            });
+        }
+
+        private updateProjectAuths(auths: IAuthMessage) {
+            if (!auths || !auths.message || !this.projects) return;
+            this.projects.forEach((p: Project) => {
+                let auth = _.find(auths.message, (a: any) => {
+                    return (a.resource.domain ? a.resource.domain === p.id : false);
+                });
+                if (auth) {
+                    p['_auth'] = auth;
+                } else {
+                    console.log(`Could not find permissions for project ${p.title}`);
+                }
             });
         }
 

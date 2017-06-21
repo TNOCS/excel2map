@@ -120,6 +120,7 @@ module Translations {
             EXISTING_USERS: 'Gebruikers met toegang',
             EDIT_RIGHTS: 'Rechten aanpassen',
             ADD_USER: 'Gebruiker toevoegen',
+            NONE: 'Geen',
             READ: 'Bekijken',
             AUTHOR: 'Bekijken en bewerken',
             MANAGE: 'Bekijken, bewerken en beheren',

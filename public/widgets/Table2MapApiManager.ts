@@ -8,7 +8,7 @@ module Table2Map {
     var PROJECT_URL = '/api/projects';
     var LAYER_URL = '/api/layers';
     var RESOURCES_URL = '/api/resources';
-    var PROJECT_MEMBERS_URL = '/api/projectmembers';
+    var PROJECT_MEMBERS_URL = '/api/authorizations';
 
     export class Table2MapApiManager {
         constructor(private $http: ng.IHttpService) {}
@@ -194,7 +194,7 @@ module Table2Map {
         }
 
         public getUsers(projectId: string, cb: Function) {
-            let url = `${PROJECT_MEMBERS_URL}/${projectId}`;
+            let url = `${PROJECT_MEMBERS_URL}/resources/${projectId}`;
             this.$http.get(url, {
                     timeout: 20000
                 })
@@ -205,6 +205,72 @@ module Table2Map {
                 })
                 .catch((err) => {
                     console.warn(`Error requesting project members from ${url}. ${err.data}`);
+                    cb(null);
+                });
+        }
+
+        public addOrDeleteUser(projectId: string, email: string, action: IProjectRights, decision: Decision, cb: Function) {
+            let privRequest = < IPrivilegeRequest > {
+                subject: {
+                    email: email
+                },
+                action: action,
+                resource: {
+                    domain: projectId,
+                    type: 'project'
+                },
+                decision: decision
+            };
+            let url = `${PROJECT_MEMBERS_URL}`;
+            this.$http.post(url, privRequest, {
+                    timeout: 20000
+                })
+                .then((res: {
+                    data: any
+                }) => {
+                    cb(res.data);
+                })
+                .catch((err) => {
+                    console.warn(`Error adding or deleting users from ${url}. ${err.data}`);
+                    cb(null);
+                });
+        }
+
+        public addUser(projectId: string, email: string, action: IProjectRights, cb: Function) {
+            this.addOrDeleteUser(projectId, email, action, Decision.Permit, cb);
+        }
+
+        public deleteUser(projectId: string, email: string, action: IProjectRights, cb: Function) {
+            this.addOrDeleteUser(projectId, email, IProjectRights.All, Decision.Deny, cb);
+        }
+
+        public updateUser(projectId: string, email: string, action: IProjectRights, meta: any, cb: Function) {
+            if (action === IProjectRights.None) {
+                this.deleteUser(projectId, email, IProjectRights.All, cb);
+            }
+            let privRequest = < IPrivilegeRequest > {
+                subject: {
+                    email: email
+                },
+                action: action,
+                resource: {
+                    domain: projectId,
+                    type: 'project'
+                },
+                decision: Decision.Permit,
+                meta: meta
+            };
+            let url = `${PROJECT_MEMBERS_URL}`;
+            this.$http.put(url, privRequest, {
+                    timeout: 20000
+                })
+                .then((res: {
+                    data: any
+                }) => {
+                    cb(res.data);
+                })
+                .catch((err) => {
+                    console.warn(`Error update user role ${url}. ${err.data}`);
                     cb(null);
                 });
         }

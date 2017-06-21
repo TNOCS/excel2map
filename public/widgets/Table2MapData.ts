@@ -2,6 +2,60 @@ module Table2Map {
 
     import IProperty = csComp.Services.IProperty;
 
+    export enum IProjectRights {
+        None = 0,
+            Create = 1,
+            Read = 2,
+            Update = 4,
+            Delete = 8,
+            Author = 6,
+            Manage = 15,
+            Approve = 16,
+            Assign = 32,
+            Delegate = 64,
+            Sign = 128,
+            All = 255
+    }
+
+    export enum IChoosableProjectRights {
+        NONE = IProjectRights.None,
+            READ = IProjectRights.Read,
+            AUTHOR = IProjectRights.Author,
+            MANAGE = IProjectRights.Manage
+    }
+
+    export enum Decision {
+        Deny = 0,
+            Permit = 1
+    }
+
+    export interface IProjectUser {
+        email: string;
+        rights: IProjectRights;
+        meta ? : any;
+    }
+
+    export interface Subject {
+        email: string;
+    }
+
+    export interface Resource {
+        id ? : string;
+        domain ? : string;
+    }
+
+    export interface IBaseRule {
+        desc ? : string;
+        subject: Subject;
+        action ? : Table2Map.IProjectRights;
+        resource ? : Resource;
+        meta ? : any;
+    }
+
+    export interface IPrivilegeRequest extends IBaseRule {
+        decision: Decision;
+    }
+
     export interface INameValueObject < T > {
         name: string;
         val: T;

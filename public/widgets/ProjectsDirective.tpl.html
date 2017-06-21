@@ -19,9 +19,15 @@
                 </tr>
                 <tr ng-repeat="project in vm.projects">
                     <td>{{project.title}}</td>
-                    <td class="text-center"><i class="fa fa-pencil pointer" ng-click="vm.editProject(project)" ></i></td>
-                    <td class="text-center"><i class="fa fa-eye pointer" ng-click="vm.showProject(project)" ></i></td>
-                    <td class="text-center"><i class="fa fa-cog pointer" ng-click="vm.manageProjectRights(project)" ></i></td>
+                    <td class="text-center">
+                        <button class="btn btn-transparent" ng-click="vm.editProject(project)" ng-disabled="!canEdit(project)"><i class="fa fa-pencil pointer" ></i></button>
+                    </td>
+                    <td class="text-center">
+                        <button class="btn btn-transparent" ng-click="vm.showProject(project)" ng-disabled="!canView(project)"><i class="fa fa-eye pointer" ></i></button>
+                    </td>
+                    <td class="text-center">
+                        <button class="btn btn-transparent" ng-click="vm.manageProjectRights(project)" ng-disabled="!canManage(project)"><i class="fa fa-cog pointer"></i></button>
+                    </td>
                 </tr>
             </tbody>
         </table>

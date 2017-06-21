@@ -8,8 +8,8 @@ import * as mongoose from 'mongoose';
 import * as bluebird from 'bluebird';
 import * as nodemailer from 'nodemailer'; // module hasn't been installed yet, only its typings
 import { IConfig } from './config/IConfig';
-import { NodeAuth, PolicySet, PolicyStoreFactory, CRUD, User, IUser, initPEP, DecisionCombinator, Resource, Rule, Decision, PrivilegeRequest, Subject, Action } from 'node_auth';
-import { sendInterceptor, PolicyStore } from 'node_auth';
+import { NodeAuth, IPolicySet, PolicyStoreFactory, CRUD, User, IUser, initPEP, DecisionCombinator, Resource, IRule, Decision, IPrivilegeRequest, Subject, Action } from 'node_auth';
+import { sendInterceptor, IPolicyStore } from 'node_auth';
 
 const config: IConfig = require('config');
 
@@ -40,7 +40,7 @@ db.once('open', () => {
 });
 
 // Load of create a policy store
-const policySets = <PolicySet[]>[{
+const policySets = <IPolicySet[]>[{
     name: 'Main policy set',
     combinator: 'first',
     policies: [
@@ -116,7 +116,7 @@ cs.server.route('*')
         next();
     });
 
-const policiesLoaded = (err: Error, ps: PolicyStore) => {
+const policiesLoaded = (err: Error, ps: IPolicyStore) => {
     if (err) { throw err; }
     const policyStore = ps;
 
@@ -163,6 +163,11 @@ const policiesLoaded = (err: Error, ps: PolicyStore) => {
             next();
         });
 
+    cs.server.route('/api/authorizations/resources/:id')
+        .get((req, res, next) => {
+            cop(req, res, next);
+        });
+
     cs.server.route('/api/projects')
         .get((req, res, next) => {
             console.log('GET /api/projects');
@@ -170,7 +175,7 @@ const policiesLoaded = (err: Error, ps: PolicyStore) => {
             // TODO cop should be here!
             sendInterceptor(res, (projects: { [key: string]: csweb.Project }) => {
                 // console.log(projects);
-                const privileges = policyStore.getPrivileges(req['user']);
+                const privileges = policyStore.getSubjectPrivileges(req['user']);
                 if (!req['user'].admin) {
                     const accessibleProjectIds = privileges.map(r => { return r.resource.domain; });
                     for (let key in projects) {

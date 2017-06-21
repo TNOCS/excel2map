@@ -290,31 +290,7 @@ module ModalCtrls {
         vm: ManageProjectModalCtrl;
     }
 
-    export enum IProjectRights {
-        None = 0,
-            Create = 1,
-            Read = 2,
-            Update = 4,
-            Delete = 8,
-            Author = 6,
-            Manage = 15,
-            Approve = 16,
-            Assign = 32,
-            Delegate = 64,
-            Sign = 128,
-            All = 255
-    }
-
-    export enum IChoosableProjectRights {
-        READ = IProjectRights.Read,
-            AUTHOR = IProjectRights.Author,
-            MANAGE = IProjectRights.Manage
-    }
-
-    export interface IProjectUser {
-        email: string;
-        rights: IProjectRights;
-    }
+    import IProjectUser = Table2Map.IProjectUser;
 
     export class ManageProjectModalCtrl {
         public static $inject = [
@@ -328,7 +304,10 @@ module ModalCtrls {
 
         private newUser: IProjectUser = < IProjectUser > {};
         private users: IProjectUser[] = [];
-        private actions: {key: string, val: any}[] = [];
+        private actions: {
+            key: string,
+            val: any
+        }[] = [];
 
         constructor(
             private $scope: IManageProjectModalScope,
@@ -340,10 +319,13 @@ module ModalCtrls {
 
             $scope.vm = this;
 
-            for (var a in ModalCtrls.IChoosableProjectRights) {
-                if (typeof ModalCtrls.IChoosableProjectRights[a] === 'number') {
-                    // this.actions[a] = ModalCtrls.IProjectRights[a];
-                    this.actions.push({ key: this.$translate.instant(a), val: ModalCtrls.IChoosableProjectRights[a]});
+            for (var a in Table2Map.IChoosableProjectRights) {
+                if (typeof Table2Map.IChoosableProjectRights[a] === 'number') {
+                    // this.actions[a] = Table2Map.IProjectRights[a];
+                    this.actions.push({
+                        key: this.$translate.instant(a),
+                        val: Table2Map.IChoosableProjectRights[a]
+                    });
                 }
             }
             this.requestUsers();
@@ -352,7 +334,20 @@ module ModalCtrls {
 
         private requestUsers() {
             this.t2mSvc.restApi.getUsers(this.project.id, (users) => {
-                this.users = users;
+                if (users && users.message) {
+                    //filter empty subjects
+                    users.message = users.message.filter((obj: Table2Map.IPrivilegeRequest) => {
+                        return obj.subject && obj.subject.email;
+                    });
+                    //parse loki objects
+                    this.users = _.map(users.message, (obj: Table2Map.IPrivilegeRequest) => {
+                        return {
+                            email: obj.subject.email,
+                            rights: obj.action,
+                            meta: obj.meta
+                        };
+                    });
+                }
             });
         }
 
@@ -366,21 +361,26 @@ module ModalCtrls {
 
         private resetNewUser() {
             this.newUser.email = '';
-            this.newUser.rights = < any > IChoosableProjectRights.READ;
+            this.newUser.rights = < any > Table2Map.IChoosableProjectRights.READ;
             if (this.$scope.$root.$$phase !== '$apply' && this.$scope.$root.$$phase !== '$digest') {
                 this.$scope.$apply();
             }
         }
 
         private addNewUser(user: IProjectUser) {
-            //call server here
-            if (!this.users) this.users = [];
-            this.users.push(this.cloneUser(user));
-            this.resetNewUser();
+            this.t2mSvc.restApi.addUser(this.project.id, user.email, user.rights, (result) => {
+                if (result && result.success) {
+                    if (!this.users) this.users = [];
+                    this.users.push(this.cloneUser(user));
+                } else {
+                    console.warn('Error add user.');
+                }
+                this.resetNewUser();
+            });
         }
 
         private cloneUser(user: IProjectUser): IProjectUser {
-            let clone = <IProjectUser> {};
+            let clone = < IProjectUser > {};
             Object.keys(user).forEach((key) => {
                 if (key.indexOf('$$') < 0) {
                     clone[key] = user[key];
@@ -390,11 +390,31 @@ module ModalCtrls {
         }
 
         private updateUserRole(user: IProjectUser) {
-            //call server here
+            this.t2mSvc.restApi.updateUser(this.project.id, user.email, user.rights, user.meta, (result) => {
+                if (result && result.success) {
+                    // Update user rights in interface
+                    _.find(this.users, (u) => {
+                        return u.email === user.email;
+                    }).rights = user.rights;
+                } else {
+                    console.warn('Error add user.');
+                }
+                this.resetNewUser();
+            });
         }
 
         private deleteUserRole(user: IProjectUser) {
-            //call server here
+            this.t2mSvc.restApi.deleteUser(this.project.id, user.email, user.rights, (result) => {
+                if (result && result.success) {
+                    if (!this.users) this.users = [];
+                    this.users = this.users.filter((u) => {
+                        return u.email !== user.email;
+                    });
+                } else {
+                    console.warn('Error add user.');
+                }
+                this.resetNewUser();
+            });
         }
 
         public ok() {
