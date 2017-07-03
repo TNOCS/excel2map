@@ -20,7 +20,7 @@
     "basic-auth": "^1.0.3",
     "bluebird": "^3.5.0",
     "config": "^1.26.1",
-    "csweb": "git://github.com/TNOCS/csWeb-dist.git#0.3.8",
+    "csweb": "git://github.com/TNOCS/csWeb-dist.git#0.3.10",
     "mongoose": "^4.10.5",
     "node_auth": "^0.3.1",
     "opn": "^4.0.1",

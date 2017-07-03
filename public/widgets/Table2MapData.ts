@@ -117,8 +117,14 @@ module Table2Map {
             drawingMode: 'Polygon',
             additionalInfo: ['', 'CBS']
         },
-        'Gemeente': {
-            name: 'Gemeente',
+        'Gemeente(2015)': {
+            name: 'Gemeente(2015)',
+            cols: ['Gemeentenaam of -code'],
+            drawingMode: 'Polygon',
+            additionalInfo: ['', 'CBS']
+        },
+        'Gemeente(2014)': {
+            name: 'Gemeente(2014)',
             cols: ['Gemeentenaam of -code'],
             drawingMode: 'Polygon',
             additionalInfo: ['', 'CBS']
