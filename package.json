@@ -22,7 +22,7 @@
     "config": "^1.26.1",
     "csweb": "git://github.com/TNOCS/csWeb-dist.git#0.3.8",
     "mongoose": "^4.10.5",
-    "node_auth": "^0.3.0",
+    "node_auth": "^0.3.1",
     "opn": "^4.0.1",
     "pg": "^4.4.3",
     "winston": "^2.3.1"
