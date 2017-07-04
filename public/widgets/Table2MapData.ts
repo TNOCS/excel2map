@@ -236,6 +236,7 @@ module Table2Map {
         nameLabel: string;
         includeOriginalProperties: boolean;
         defaultFeatureType: string;
+        defaultLegendProperty: string;
         geometryFile: string;
         geometryKey: string;
     }

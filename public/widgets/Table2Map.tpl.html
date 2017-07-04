@@ -246,6 +246,17 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="f-default-style" class="col-sm-3">{{'DEFAULT_STYLE_PROPERTY' | translate}}</label>
+                            <div class="col-sm-9">
+                                <div class="row form-inline">
+                                    <div class="col-sm-12 form-group">
+                                        <select id="f-default-style" class="form-control" ng-model="vm.t2mSvc.defaultLegendProperty"
+                                    ng-options="hdr.code as hdr.title for hdr in vm.t2mSvc.headerCollection"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="collapse" id="advancedIconSettings">
                             <div class="form-group">
                                 <label for="iconDimensions" class="col-sm-3">{{'ICON_DIMENSIONS' | translate}}</label>

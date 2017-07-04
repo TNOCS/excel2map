@@ -139,6 +139,7 @@ module Table2Map {
             clusterLevel: 14
         };
         public layer: ProjectLayer = < ProjectLayer > {};
+        public defaultLegendProperty: string;
         public featureType: IFeatureType = < IFeatureType > {};
         public feature: IFeature = < IFeature > {};
         public pType: IPropertyType = < IPropertyType > {};
@@ -340,6 +341,7 @@ module Table2Map {
                     return;
                 }
                 this.layer = layer;
+                this.defaultLegendProperty = layer.defaultLegendProperty;
                 this.changedFiles = (this.changedFiles & ~ChangedFiles.LayerData); // Layer data does not need to be updated
                 this.restApi.getResourceType(this.layer, (typeResource: csComp.Services.ITypesResource) => {
                     if (!typeResource) {
@@ -696,6 +698,7 @@ module Table2Map {
                 fitToMap: layer.fitToMap,
                 typeUrl: `api/resources/${this.featureType.id}`,
                 defaultFeatureType: `${this.featureType.id}`,
+                defaultLegendProperty: `api/resources/${this.featureType.id}#${this.defaultLegendProperty}`,
                 data: layer.data || {}
             };
             var geometryParams = _.values(this.geometryColumns);
@@ -749,7 +752,7 @@ module Table2Map {
             }
         }
         private hasNameLabel(): boolean {
-            if (this.layer.data.layerDefinition && this.layer.data.layerDefinition.nameLabel) {
+            if (this.layer.data && this.layer.data.layerDefinition && this.layer.data.layerDefinition.nameLabel) {
                 let title = this.layer.data.layerDefinition.nameLabel;
                 return _.some(this.headerCollection, (val: IHeaderObject) => {
                     return val.title === title;
@@ -1112,6 +1115,9 @@ module Table2Map {
                 pType = this.determineDataType(pType);
                 this.featureType._propertyTypeData.push(pType);
             });
+            // Set default style
+            let firstNumberType = _.findWhere(this.featureType._propertyTypeData, {type: 'number'});
+            if (firstNumberType) this.defaultLegendProperty = firstNumberType.label;
             this.sections = [{
                 name: 'Default',
                 val: null

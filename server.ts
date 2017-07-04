@@ -71,11 +71,11 @@ const policySets = <IPolicySet[]>[{
                     type: 'project'
                 }
             }, {
-                desc: 'Anyone can read public resources',
+                desc: 'Anyone can read cbs_gemeente_2015',
                 action: Action.Read,
                 decision: Decision.Permit,
                 resource: {
-                    articleID: ['public_article']
+                    domain: 'cbs_gemeente_2015'
                 }
             }, {
                 desc: 'Subscribed users can create new resources',
@@ -272,8 +272,8 @@ const policiesLoaded = (err: Error, ps: IPolicyStore) => {
         const bagDatabase = new csweb.BagDatabase(csCconfig);
         const osmDatabase = new csweb.NominatimSource(this.config);
         const mapLayerFactory = new csweb.MapLayerFactory([
-            bagDatabase,
-            osmDatabase], cs.messageBus, cs.api, cs.dir);
+            osmDatabase,
+            bagDatabase], cs.messageBus, cs.api, cs.dir);
 
         const apiRoutes = Router();
         apiRoutes.route('/projecttemplate')
