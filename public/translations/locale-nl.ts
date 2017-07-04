@@ -129,7 +129,9 @@ module Translations {
             UPDATE: 'Toepassen',
             AUTODETECT_TYPES: 'Detecteer types',
             AUTODETECT_TYPES_HELP: 'Detecteer van alle eigenschappen welk van type ze zijn, bijv. nummer, tekst, hyperlink, etc.',
-            DELETE_USER_RIGHTS: 'Verwijder alle rechten van deze gebruiker'
+            DELETE_USER_RIGHTS: 'Verwijder alle rechten van deze gebruiker',
+            DEFAULT_STYLE_PROPERTY: 'Standaard legenda',
+            EXIT_WIZARD: 'Keer terug naar het hoofdscherm'
         };
     }
 }

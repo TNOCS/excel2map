@@ -366,8 +366,8 @@ module Table2Map {
             fType.id = id;
             fType._propertyTypeData = _.values(typeResource.propertyTypeData);
             fType.style = fType.style || {};
-            if (fType.style.opacity <= 1) fType.style.opacity *= 100;
-            if (fType.style.fillOpacity <= 1) fType.style.fillOpacity *= 100;
+            if (fType.style.opacity > 1) fType.style.opacity /= 100;
+            if (fType.style.fillOpacity > 1) fType.style.fillOpacity /= 100;
             return fType;
         }
 
@@ -1442,10 +1442,10 @@ module Table2Map {
             link: (scope, element, attrs, ngModel) => {
                 if (ngModel) {
                     ngModel.$parsers.push((value) => {
-                        return (100 - value);
+                        return (100 - value) / 100;
                     });
                     ngModel.$formatters.push((value) => {
-                        return (100 - value);
+                        return (100 - (value * 100));
                     });
                 }
             }
