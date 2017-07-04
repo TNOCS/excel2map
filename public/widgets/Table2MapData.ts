@@ -33,6 +33,7 @@ module Table2Map {
         email: string;
         rights: IProjectRights;
         meta ? : any;
+        $loki ? : any;
     }
 
     export interface Subject {
@@ -42,6 +43,7 @@ module Table2Map {
     export interface Resource {
         id ? : string;
         domain ? : string;
+        type ? : string;
     }
 
     export interface IBaseRule {
@@ -50,6 +52,7 @@ module Table2Map {
         action ? : Table2Map.IProjectRights;
         resource ? : Resource;
         meta ? : any;
+        $loki ? : any;
     }
 
     export interface IPrivilegeRequest extends IBaseRule {
@@ -171,6 +174,7 @@ module Table2Map {
         let serverGeometryType = '';
         switch (id) {
             case 'Adres':
+            case 'Adres_simple':
                 if (!additional) {
                     serverGeometryType = 'Postcode6_en_huisnummer';
                 } else if (additional === 'Bouwjaar') {
@@ -186,6 +190,24 @@ module Table2Map {
                 break;
         }
         return serverGeometryType;
+    }
+
+    export function getBrowserGeometryType(id: string): string {
+        let browserGeometryType = '';
+        switch (id) {
+            case 'Postcode6_en_huisnummer':
+                browserGeometryType = 'Adres_simple';
+                break;
+            case 'Postcode6_en_huisnummer_met_bouwjaar':
+            case 'Postcode6_en_huisnummer_met_bag_en_woningtype':
+            case 'Postcode6_en_huisnummer_met_bag':
+                browserGeometryType = 'Adres';
+                break;
+            default:
+                browserGeometryType = id;
+                break;
+        }
+        return browserGeometryType;
     }
 
     export interface Table2MapLayerDefinition {

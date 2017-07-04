@@ -1,5 +1,7 @@
 module Table2Map {
 
+    export const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
     import Project = csComp.Services.Project;
     import ProjectGroup = csComp.Services.ProjectGroup;
     import ProjectLayer = csComp.Services.ProjectLayer;
@@ -11,7 +13,7 @@ module Table2Map {
     var PROJECT_MEMBERS_URL = '/api/authorizations';
 
     export class Table2MapApiManager {
-        constructor(private $http: ng.IHttpService) {}
+        constructor(private $http: ng.IHttpService, private $messageBus: csComp.Services.MessageBusService) {}
 
         public createProject(project: Project, cb: Function) {
             let url = PROJECT_URL;
@@ -107,6 +109,10 @@ module Table2Map {
                     },
                     timeout: TIMEOUT
                 }).then((result) => {
+                    if (result && result.data && result.data['notFound']) {
+                        let notFoundAdr = Object.keys(result.data['notFound']).join('\n');
+                        this.$messageBus.notify('Niet gevonden locaties:', notFoundAdr, csComp.Services.NotifyLocation.TopBar, csComp.Services.NotifyType.Normal, 10000);
+                    }
                     this.addLayerToProject(projectId, groupId, layer, cb);
                 }).catch((err) => {
                     cb(err);
@@ -194,7 +200,12 @@ module Table2Map {
         }
 
         public getUsers(projectId: string, cb: Function) {
-            let url = `${PROJECT_MEMBERS_URL}/resources/${projectId}`;
+            let resource: Resource = {
+                domain: projectId,
+                type: 'project'
+            };
+            let params = this.mapParameters(resource);
+            let url = `${PROJECT_MEMBERS_URL}/resources?${params}`;
             this.$http.get(url, {
                     timeout: 20000
                 })
@@ -244,23 +255,26 @@ module Table2Map {
             this.addOrDeleteUser(projectId, email, IProjectRights.All, Decision.Deny, cb);
         }
 
-        public updateUser(projectId: string, email: string, action: IProjectRights, meta: any, cb: Function) {
-            if (action === IProjectRights.None) {
-                this.deleteUser(projectId, email, IProjectRights.All, cb);
+        public updateUser(projectId: string, user: IProjectUser, cb: Function) {
+            if (user.rights === IProjectRights.None) {
+                this.deleteUser(projectId, user.email, IProjectRights.All, cb);
+                return;
             }
             let privRequest = < IPrivilegeRequest > {
                 subject: {
-                    email: email
+                    email: user.email
                 },
-                action: action,
+                action: user.rights,
                 resource: {
                     domain: projectId,
                     type: 'project'
                 },
                 decision: Decision.Permit,
-                meta: meta
+                meta: user.meta,
+                $loki: user.$loki
             };
-            let url = `${PROJECT_MEMBERS_URL}`;
+            let params = this.mapParameters(privRequest.resource);
+            let url = `${PROJECT_MEMBERS_URL}?${params}`;
             this.$http.put(url, privRequest, {
                     timeout: 20000
                 })
@@ -273,6 +287,12 @@ module Table2Map {
                     console.warn(`Error update user role ${url}. ${err.data}`);
                     cb(null);
                 });
+        }
+
+        private mapParameters(resource: Resource): string {
+            return _.map(resource, (val: any, key: string) => {
+                return key.concat('=', val);
+            }, '').join('&');
         }
 
         public loadLogo(imgUrl: string, cb: Function) {

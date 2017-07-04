@@ -19,3 +19,4 @@ public/data/api/
 .users.htpasswd
 public/data/images/
 typings/
+*.DS_Store

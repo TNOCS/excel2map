@@ -12,6 +12,7 @@ import { NodeAuth, IPolicySet, PolicyStoreFactory, CRUD, User, IUser, initPEP, D
 import { sendInterceptor, IPolicyStore } from 'node_auth';
 
 const config: IConfig = require('config');
+const csCconfig = new csweb.ConfigurationService('./configuration.json');
 
 (<any>mongoose).Promise = bluebird;
 // mongoose.connect('mongodb://localhost/test_e2m'); // connect to database
@@ -268,10 +269,10 @@ const policiesLoaded = (err: Error, ps: IPolicyStore) => {
 
         this.config = cs.config;
         this.config.add('server', 'http://localhost:' + cs.options.port);
-        // const bagDatabase = new csweb.BagDatabase(this.config);
+        const bagDatabase = new csweb.BagDatabase(csCconfig);
         const osmDatabase = new csweb.NominatimSource(this.config);
         const mapLayerFactory = new csweb.MapLayerFactory([
-            // bagDatabase,
+            bagDatabase,
             osmDatabase], cs.messageBus, cs.api, cs.dir);
 
         const apiRoutes = Router();

@@ -50,7 +50,7 @@ module Table2Map {
     export var CONVERSION_STEPS = ['Project- en kaartlaaginstellingen', 'Stijlconfiguratie', 'Data weergave'];
 
     /** Assumption of the number of columns before table is parsed. */
-    export var MAX_NR_COLUMNS = 100;
+    export var MAX_NR_COLUMNS = 128;
     /** Number of columns to show in the widget. */
     export var SHOW_NR_COLUMNS = 20;
     export var NUMBER_OF_STEPS = Object.keys(ConversionStep).length / 2;
@@ -190,7 +190,7 @@ module Table2Map {
             private $uibModal: ng.ui.bootstrap.IModalService,
             private $translate: ng.translate.ITranslateService
         ) {
-            this.restApi = new Table2MapApiManager($http);
+            this.restApi = new Table2MapApiManager($http, $messageBus);
 
             this.$dashboardService.widgetTypes['tableToMap'] = < csComp.Services.IWidget > {
                 id: 'tableToMap',
@@ -408,7 +408,7 @@ module Table2Map {
         private parseLayerDefinition(layerData: any) {
             if (layerData && layerData.hasOwnProperty('layerDefinition')) {
                 if (layerData.layerDefinition.geometryType) {
-                    this.geometryTypeId = layerData.layerDefinition.geometryType;
+                    this.geometryTypeId = Table2Map.getBrowserGeometryType(layerData.layerDefinition.geometryType);
                     this.selectGeoType();
                 }
                 if (layerData.layerDefinition.parameter1) {

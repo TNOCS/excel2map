@@ -337,18 +337,21 @@ module ModalCtrls {
                 if (users && users.message) {
                     //filter empty subjects
                     users.message = users.message.filter((obj: Table2Map.IPrivilegeRequest) => {
-                        return obj.subject && obj.subject.email;
+                        return obj.subject && obj.subject.email && obj.action !== Table2Map.IProjectRights.None;
                     });
                     //parse loki objects
-                    this.users = _.map(users.message, (obj: Table2Map.IPrivilegeRequest) => {
-                        return {
-                            email: obj.subject.email,
-                            rights: obj.action,
-                            meta: obj.meta
-                        };
-                    });
+                    this.users = _.map(users.message, this.parseLokiUser);
                 }
             });
+        }
+
+        private parseLokiUser(obj: Table2Map.IPrivilegeRequest) {
+            return {
+                email: obj.subject.email,
+                rights: obj.action,
+                meta: obj.meta,
+                $loki: obj.$loki
+            };
         }
 
         private checkExistenceDebounced() {
@@ -367,13 +370,20 @@ module ModalCtrls {
             }
         }
 
+        private validateEmail(mail: string) {
+            return Table2Map.emailRegex.test(mail);
+        }
+
         private addNewUser(user: IProjectUser) {
+            if (!user.email || !this.validateEmail(user.email)) {
+                return;
+            }
             this.t2mSvc.restApi.addUser(this.project.id, user.email, user.rights, (result) => {
-                if (result && result.success) {
+                if (result && result.success && result.message) {
                     if (!this.users) this.users = [];
-                    this.users.push(this.cloneUser(user));
+                    this.users.push(this.parseLokiUser(result.message));
                 } else {
-                    console.warn('Error add user.');
+                    console.warn('Error adding user.');
                 }
                 this.resetNewUser();
             });
@@ -390,12 +400,13 @@ module ModalCtrls {
         }
 
         private updateUserRole(user: IProjectUser) {
-            this.t2mSvc.restApi.updateUser(this.project.id, user.email, user.rights, user.meta, (result) => {
-                if (result && result.success) {
+            this.t2mSvc.restApi.updateUser(this.project.id, user, (result) => {
+                if (result && result.success && result.message) {
                     // Update user rights in interface
-                    _.find(this.users, (u) => {
+                    let u = _.find(this.users, (u) => {
                         return u.email === user.email;
-                    }).rights = user.rights;
+                    });
+                    u = this.parseLokiUser(result.message);
                 } else {
                     console.warn('Error add user.');
                 }

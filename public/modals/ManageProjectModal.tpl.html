@@ -37,9 +37,9 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><input type="text" class="form-control" ng-model="vm.newUser.email"></td>
+                    <td><input type="email" class="form-control" ng-model="vm.newUser.email" data-error="Ongeldig emailadres"></td>
                     <td><select class="form-control" ng-options="action.val as action.key for action in vm.actions" ng-model="vm.newUser.rights"></select></td>
-                    <td><button type="button" class="btn btn-primary" ng-click="vm.addNewUser(vm.newUser)" ng-disabled="!vm.newUser.email">{{'ADD' | translate}}</button></td>
+                    <td><button type="submit" class="btn btn-primary" ng-click="vm.addNewUser(vm.newUser)" ng-disabled="!vm.newUser.email">{{'ADD' | translate}}</button></td>
                 </tr>
             </tbody>
         </table>
