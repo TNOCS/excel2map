@@ -51,6 +51,7 @@ module Translations {
             DATA_TO_MAP: 'Data naar de kaart',
             STYLE_SETTINGS: 'Stijl instellingen',
             ADDITIONAL_INFO: 'Extra informatie',
+            ADDITIONAL_INFO_COLUMN_HELP: 'Voeg extra informatie toe aan de data, bijv. populatie-data voor gemeentes of BAG-gegevens voor adressen.',
             PROJECT_SETTINGS: 'Project instellingen',
             PROJECT_SETTINGS_HELP: '',
             DATA_PARSED_CORRECTLY: 'Data is goed verwerkt',

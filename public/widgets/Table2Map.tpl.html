@@ -147,7 +147,7 @@
                     <div class="col-xs-12 text-center">
                         <form name="dropBox">
                             <textarea rows="16" class="fill-height" id="drop-box" style="width:95%;margin-top: 24px" placeholder="{{'DROP_HERE' | translate}}"
-                                ng-model="vm.t2mSvc.textContent" ng-model-options='{ debounce: 1000 }' ng-change="vm.t2mSvc.updatedContent()"
+                                ng-model="vm.t2mSvc.textContent" ng-model-options='{ debounce: 1000 }' ng-change="vm.t2mSvc.updatedContent(false)"
                                 autofocus required></textarea>
                         </form>
                     </div>
@@ -222,6 +222,7 @@
                             <div class="col-sm-9" ng-show="vm.t2mSvc.geometryType">
                                 <select class="form-control inline-select" id="add-info" ng-model="vm.t2mSvc.additionalInfo" ng-options="info for info in vm.t2mSvc.geometryType.additionalInfo" ng-change="vm.t2mSvc.layerDataChanged(true)"
                                     ng-disabled="!vm.t2mSvc.geometryType || vm.t2mSvc.geometryType.additionalInfo.length < 1"></select>
+                                <i class="fa fa-question-circle pointer" style="padding: 0 16px 0 12px;" aria-hidden="true" uib-tooltip="{{'ADDITIONAL_INFO_COLUMN_HELP' | translate}}"></i>
                             </div>
                         </div>
                     </div>

@@ -318,6 +318,7 @@ module Table2Map {
                     if (!success) location.href = `/?dashboard=table2map&editproject=${this.layerService.project.id}`;
                 }
                 if (!result.layerId) {
+                    this.resetVariables();
                     this.project = project;
                     this.selectedGroup = _.find(this.project.groups, (group) => {
                         return group.id === result.groupId;
@@ -546,7 +547,7 @@ module Table2Map {
                 nameLabel: ''
             };
             this.feature = Table2Map.getDefaultFeature();
-            if (!this.layer) {
+            if (!this.layer || _.isEmpty(this.layer)) {
                 this.layer = < ProjectLayer > {};
                 this.layer.enabled = true;
                 this.layer.fitToMap = true;
@@ -692,6 +693,7 @@ module Table2Map {
                 title: layer.title,
                 description: layer.description,
                 enabled: layer.enabled,
+                fitToMap: layer.fitToMap,
                 typeUrl: `api/resources/${this.featureType.id}`,
                 defaultFeatureType: `${this.featureType.id}`,
                 data: layer.data || {}
