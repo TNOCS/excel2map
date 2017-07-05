@@ -87,8 +87,8 @@
                                     <input type="file" accept="image/png" id="logo-upload" style="margin-top:8px" />
                                 </button>
                                     </div>
-                                    <div class="col-sm-1 text-center fill-height">
-                                        <img class="grey-border" id="logoImage" ng-src="{{vm.t2mSvc.logoData}}" />
+                                    <div class="col-sm-7 text-center fill-height">
+                                        <img class="t2m-logo-image grey-border" id="logoImage" ng-src="{{vm.t2mSvc.logoData}}" />
                                     </div>
                                 </div>
                             </div>
@@ -250,8 +250,8 @@
                             <label for="f-default-style" class="col-sm-3">{{'DEFAULT_STYLE_PROPERTY' | translate}}</label>
                             <div class="col-sm-9">
                                 <div class="row form-inline">
-                                    <div class="col-sm-12 form-group">
-                                        <select id="f-default-style" class="form-control" ng-model="vm.t2mSvc.defaultLegendProperty"
+                                    <div class="col-sm-5 col-xs-10 form-group">
+                                        <select id="f-default-style" class="form-control full-width" ng-model="vm.t2mSvc.defaultLegendProperty"
                                     ng-options="hdr.code as hdr.title for hdr in vm.t2mSvc.headerCollection"></select>
                                     </div>
                                 </div>

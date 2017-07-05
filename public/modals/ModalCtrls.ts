@@ -242,6 +242,7 @@ module ModalCtrls {
             $(elm).popover({
                 animation: true,
                 content: popupElement,
+                placement: 'left',
                 html: true
             });
             $(elm).popover('show');

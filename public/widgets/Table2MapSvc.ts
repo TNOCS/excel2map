@@ -341,7 +341,7 @@ module Table2Map {
                     return;
                 }
                 this.layer = layer;
-                this.defaultLegendProperty = layer.defaultLegendProperty;
+                this.defaultLegendProperty = this.getDefaultLegendProperty(layer);
                 this.changedFiles = (this.changedFiles & ~ChangedFiles.LayerData); // Layer data does not need to be updated
                 this.restApi.getResourceType(this.layer, (typeResource: csComp.Services.ITypesResource) => {
                     if (!typeResource) {
@@ -358,6 +358,13 @@ module Table2Map {
                     this.startWizard();
                 });
             });
+        }
+
+        private getDefaultLegendProperty(layer: ProjectLayer): string {
+            if (!layer || !layer.defaultLegendProperty) return null;
+            if (layer.defaultLegendProperty.indexOf('#') >= 0) {
+                return layer.defaultLegendProperty.split('#').pop();
+            }
         }
 
         private getFeatureTypeFromResourceType(typeResource: csComp.Services.ITypesResource, typeUrl: string): csComp.Services.IFeatureType {
@@ -507,14 +514,16 @@ module Table2Map {
                     this.updatedContent();
                 } else if (fileType === 'icon') {
                     this.$timeout(() => {
-                        this.featureType.style.iconUri = ['images', file.name].join('/');
+                        if (file.name && file.name.indexOf(this.layer.id) !== 0) {
+                            this.featureType.style.iconUri = [`${this.layer.id}__${file.name}`].join('/');
+                        }
                         this.iconData = reader.result;
                         this.updateMarker();
                     }, 0);
                 } else {
                     this.$timeout(() => {
                         if (this.project) {
-                            this.project.logo = ['images', file.name].join('/');
+                            this.project.logo = [`${this.project.id}__${file.name}`].join('/');
                             this.logoData = reader.result;
                         }
                     }, 0);
@@ -544,8 +553,8 @@ module Table2Map {
                 strokeColor: '#000',
                 selectedStrokeColor: '#00f',
                 fillColor: '#3f3',
-                opacity: 100,
-                fillOpacity: 100,
+                opacity: 1,
+                fillOpacity: 1,
                 nameLabel: ''
             };
             this.feature = Table2Map.getDefaultFeature();
@@ -723,8 +732,8 @@ module Table2Map {
 
         /** Send the data and configuration to the server for conversion */
         private convert(featuresUpdated: boolean, cb: Function) {
-            this.sendIcon(this.iconData, `icon_${this.layer.id}_${this.featureType.style.iconUri}`);
-            this.sendIcon(this.logoData, `logo_${this.project.id}_${this.project.logo}`);
+            this.sendIcon(this.iconData, this.featureType.style.iconUri);
+            this.sendIcon(this.logoData, this.project.logo);
             this.sendResourceType(this.featureType);
             this.restApi.sendProject(this.project, (err) => {
                 if (err) console.warn(err);

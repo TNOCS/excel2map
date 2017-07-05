@@ -64,18 +64,17 @@ const policySets = <IPolicySet[]>[{
                 },
                 decision: Decision.Permit
             }, {
+                action: Action.Create | Action.Read,
+                resource: {
+                    type: 'image'
+                },
+                decision: Decision.Permit
+            }, {
                 subject: { email: 'erik.vullings@gmail.com' },
                 action: Action.Manage,
                 decision: Decision.Permit,
                 resource: {
                     type: 'project'
-                }
-            }, {
-                desc: 'Anyone can read cbs_gemeente_2015',
-                action: Action.Read,
-                decision: Decision.Permit,
-                resource: {
-                    domain: 'cbs_gemeente_2015'
                 }
             }, {
                 desc: 'Subscribed users can create new resources',
@@ -103,8 +102,7 @@ Winston.add(Winston.transports.Console, <Winston.ConsoleTransportOptions>{
 var cs = new csweb.csServer(__dirname, <csweb.csServerOptions>{
     port: 3004,
     swagger: false,
-    apiFolder: '/data/api',
-    connectors: {},
+    apiFolder: path.join(`${__dirname}`, 'private', 'data', 'api'),
     corrsEnabled: true,
     corrsSupportedMethods: '*'
 });
@@ -257,7 +255,16 @@ const policiesLoaded = (err: Error, ps: IPolicyStore) => {
             cop(req, res, next);
         });
 
+    cs.server.route('/api/files/:folder/:file')
+        .all((req, res, next) => {
+            req['resource'] = {
+                type: 'image'
+            };
+            cop(req, res, next);
+        });
+
     cs.server.use(ExpressStatic(path.resolve(__dirname, 'data')));
+    cs.server.use(ExpressStatic(path.resolve(__dirname, 'private', 'data', 'images')));
     // cs.server.use(auth);
 
     var debug = true;
