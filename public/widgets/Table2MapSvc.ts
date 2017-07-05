@@ -819,7 +819,7 @@ module Table2Map {
             // Find geometry type
             hObj = this.findHeader(BUURT_LABELS, false);
             if (hObj) {
-                this.geometryTypeId = 'Buurt';
+                this.geometryTypeId = 'Buurt(2016)';
                 this.selectGeoType();
                 this.geometryColumns = < Dictionary < IHeaderObject >> _.object(this.geometryType.cols, [hObj]);
                 return;

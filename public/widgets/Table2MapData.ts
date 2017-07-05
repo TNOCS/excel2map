@@ -120,20 +120,26 @@ module Table2Map {
             drawingMode: 'Polygon',
             additionalInfo: ['', 'CBS']
         },
+        'Gemeente(2016)': {
+            name: 'Gemeente(2016)',
+            cols: ['Gemeentenaam of -code'],
+            drawingMode: 'Polygon',
+            additionalInfo: ['', 'CBS']
+        },
         'Gemeente(2015)': {
             name: 'Gemeente(2015)',
             cols: ['Gemeentenaam of -code'],
             drawingMode: 'Polygon',
             additionalInfo: ['', 'CBS']
         },
-        'Gemeente(2014)': {
-            name: 'Gemeente(2014)',
-            cols: ['Gemeentenaam of -code'],
+        'Buurt(2016)': {
+            name: 'Buurt(2016)',
+            cols: ['Buurtcode'],
             drawingMode: 'Polygon',
-            additionalInfo: ['', 'CBS']
+            additionalInfo: []
         },
-        'Buurt': {
-            name: 'Buurten',
+        'Buurt(2014)': {
+            name: 'Buurt(2014)',
             cols: ['Buurtcode'],
             drawingMode: 'Polygon',
             additionalInfo: []
