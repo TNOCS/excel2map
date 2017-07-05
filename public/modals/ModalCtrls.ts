@@ -275,6 +275,86 @@ module ModalCtrls {
                 });
         }
 
+        private renameGroupQuestion($event, groupId: string) {
+            let elm = $event.currentTarget || $event.srcElement;
+            if (!elm) return;
+
+            const popupElement = this.$interpolate(`<div class="confirmation-popover"><div>{{'ENTER_NEW_TITLE' | translate}}</div><input id="popoverTitleInput" type="text"/><div class="btn-group"><button id="popover-no" class="btn btn-sm t2m-btn red">{{'CANCEL' | translate}}</button><button id="popover-yes" class="btn btn-sm t2m-btn green">{{'OK' | translate}}</button></div></div>`);
+            $(elm).popover({
+                animation: true,
+                content: popupElement,
+                placement: 'left',
+                html: true
+            });
+            $(elm).popover('show');
+            $('#popover-yes').on('click', () => {
+                var newTitle = $('#popoverTitleInput').val();
+                this.updateGroup(this.project.id, groupId, newTitle);
+                $(elm).popover('hide');
+            });
+            $('#popover-no').on('click', () => {
+                $(elm).popover('hide');
+            });
+        }
+
+        private removeGroupQuestion($event, groupId: string) {
+            let elm = $event.currentTarget || $event.srcElement;
+            if (!elm) return;
+
+            const popupElement = this.$interpolate(`<div class="confirmation-popover"><div>{{'REALLY_DELETE_GROUP' | translate}}</div><div class="btn-group"><button id="popover-no" class="btn btn-sm t2m-btn green">{{'NO' | translate}}</button><button id="popover-yes" class="btn btn-sm t2m-btn red" ng-click="vm.removeGroup()">{{'YES' | translate}}</button></div></div>`);
+            $(elm).popover({
+                animation: true,
+                content: popupElement,
+                placement: 'left',
+                html: true
+            });
+            $(elm).popover('show');
+            $('#popover-yes').on('click', () => {
+                this.removeGroup(this.project.id, groupId);
+                $(elm).popover('hide');
+            });
+            $('#popover-no').on('click', () => {
+                $(elm).popover('hide');
+            });
+        }
+
+        private removeGroup(projectId: string, groupId: string) {
+            let url = `/api/projects/${this.project.id}/group/${groupId}`;
+            this.$http.delete(url, {
+                    timeout: 10000
+                })
+                .then((res) => {
+                    if (res.status === 200) {
+                        console.log(`Removed group on server`);
+                        // Remove in scope too
+                        this.project.groups = this.project.groups.filter((g) => {
+                            return g.id !== groupId;
+                        });
+                    }
+                }).catch((err) => {
+                    console.warn(`Could not remove group: ${err}`);
+                });
+        }
+
+        private updateGroup(projectId: string, groupId: string, newTitle: string) {
+            let url = `/api/projects/${this.project.id}/group/${groupId}`;
+            this.$http.put(url, {id: groupId, title: newTitle}, {
+                    timeout: 10000
+                })
+                .then((res) => {
+                    if (res.status === 200) {
+                        console.log(`Updated group on server`);
+                        // Remove in scope too
+                        let group = _.find(this.project.groups, (g) => {
+                            return g.id === groupId;
+                        });
+                        group.title = newTitle;
+                    }
+                }).catch((err) => {
+                    console.warn(`Could not rename group: ${err}`);
+                });
+        }
+
         public ok() {
             this.$uibModalInstance.close({
                 groupId: this.groupId,

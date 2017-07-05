@@ -20,3 +20,5 @@ public/data/api/
 public/data/images/
 typings/
 *.DS_Store
+private/data/api/
+private/data/images/

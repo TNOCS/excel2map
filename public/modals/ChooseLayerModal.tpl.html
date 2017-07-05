@@ -4,7 +4,14 @@
 <div class="modal-body" style="height:80%;overflow-y:auto;">
     <h4>{{vm.project.title}}</h4>
     <div class="panel panel-default" ng-repeat="group in vm.project.groups">
-        <div class="panel-heading panel-title">{{group.title}}</div>
+        <div class="panel-heading panel-title">
+            <div class="row no-margin">
+                <div class="col-sm-10">{{group.title}}</div>
+                <button type="button" class="btn t2m-btn green col-sm-1" ng-click="vm.renameGroupQuestion($event, group.id)"><i class="fa fa-pencil"></i>
+                </button>
+                <button type="button" class="btn t2m-btn red col-sm-1" ng-click="vm.removeGroupQuestion($event, group.id)"><i class="fa fa-trash-o"></i>
+            </div>
+        </div>
         <div class="panel-body">
             <div class="btn-group full-width" ng-repeat="layer in group.layers">
                 <button type="button" class="btn t2m-btn col-xs-11" ng-click="vm.selectLayer(group.id, layer.id, true)" ng-class="{'active': vm.activeId == layer.id}"

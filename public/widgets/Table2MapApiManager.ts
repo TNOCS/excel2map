@@ -80,6 +80,21 @@ module Table2Map {
             });
         }
 
+        public deleteGroup(projectId: string, groupId: string, cb: Function) {
+            if (!projectId || !groupId) {
+                cb('No group provided');
+                return;
+            }
+            let url = `api/projects/${projectId}/group/${groupId}`;
+            this.$http.delete(url, {
+                timeout: TIMEOUT
+            }).then((result) => {
+                cb(null);
+            }).catch((err) => {
+                cb(err);
+            });
+        }
+
         public sendLayer(projectId: string, groupId: string, layer: ProjectLayer, featuresUpdated: boolean, cb: Function) {
             if (!layer || !projectId || !groupId) {
                 cb('No layer provided');
