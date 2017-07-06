@@ -489,17 +489,43 @@ module Table2Map {
             });
         }
 
+        private parseXlsx(data: any) {
+            if (!( < any > window).XLSX) return;
+            var XLSX = ( < any > window).XLSX;
+            let workbook: any;
+            try {
+                workbook = XLSX.read(data, {type: 'binary'});
+            } catch (error) {
+                return;
+            }
+            if (!workbook) return;
+            let sheetNames = workbook.SheetNames;
+            console.log(`Found ${sheetNames.length} sheets`);
+            if (sheetNames.length <= 0) return;
+            console.log(`Processing sheet ${sheetNames[0]}...`);
+            let sheet: any = workbook.Sheets[sheetNames[0]];
+            let csvContent = XLSX.utils.sheet_to_csv(sheet, {
+                FS: ';',
+                RS: '\n'
+            });
+            return csvContent;
+        }
+
         /** Reads a file */
         public readFile(file: any, fileType: 'data' | 'icon' | 'logo') {
             if (!this.uploadAvailable) {
                 this.$messageBus.notifyError('Cannot upload files', 'Try using a modern browser (Chrome, FireFox, Edge) to be able to upload files, or use the copy/paste option.');
                 return;
             }
+            var parseXlsx = false;
             if (!file || !file.name || file.name.indexOf('.') < 0) {
                 this.$messageBus.notifyError('Cannot upload this file', 'The file should have one of these extensions: ' + this.printExtensions(this.fileExtensions[fileType]));
                 return;
             } else {
                 var ext = file.name.split('.').pop();
+                if (ext === 'xls' || ext === 'xlsx') {
+                    parseXlsx = true;
+                }
                 if (!_.contains(this.fileExtensions[fileType], ext.toLowerCase())) {
                     this.$messageBus.notifyError('Cannot upload this file', 'The file should have one of these extensions: ' + this.printExtensions(this.fileExtensions[fileType]));
                     return;
@@ -510,7 +536,18 @@ module Table2Map {
             reader.onload = (e) => {
                 if (fileType === 'data') {
                     this.layerDataChanged(); // Layer data needs to be updated
-                    this.textContent = reader.result;
+                    if (parseXlsx) {
+                        let csvContent = this.parseXlsx(reader.result);
+                        if (!csvContent) {
+                            this.$messageBus.notifyError('Error parsing xlsx', '');
+                            return;
+                        } else {
+                            this.textContent = csvContent;
+                            console.log('Correctly parsed xlsx to csv');
+                        }
+                    } else {
+                        this.textContent = reader.result;
+                    }
                     this.updatedContent();
                 } else if (fileType === 'icon') {
                     this.$timeout(() => {
@@ -531,7 +568,11 @@ module Table2Map {
             };
 
             if (fileType === 'data') {
-                reader.readAsText(file);
+                if (parseXlsx) {
+                    reader.readAsBinaryString(file);
+                } else {
+                    reader.readAsText(file);
+                }
             } else {
                 reader.readAsDataURL(file);
             }
@@ -1125,7 +1166,9 @@ module Table2Map {
                 this.featureType._propertyTypeData.push(pType);
             });
             // Set default style
-            let firstNumberType = _.findWhere(this.featureType._propertyTypeData, {type: 'number'});
+            let firstNumberType = _.findWhere(this.featureType._propertyTypeData, {
+                type: 'number'
+            });
             if (firstNumberType) this.defaultLegendProperty = firstNumberType.label;
             this.sections = [{
                 name: 'Default',

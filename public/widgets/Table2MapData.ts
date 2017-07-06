@@ -285,7 +285,7 @@ module Table2Map {
 
     export function getDefaultFileExtensions() {
         return {
-            'data': ['csv', 'mat'],
+            'data': ['csv', 'mat', 'xlsx'],
             'icon': ['png'],
             'logo': ['png']
         };

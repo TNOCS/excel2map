@@ -107,7 +107,7 @@
                     "allowFullscreen": true,
                     "data" : {
                         "hideTitle": false,
-                        "dataExtensions": ["csv", "mat"],
+                        "dataExtensions": ["csv", "mat", "xlsx", "xls"],
                         "iconExtensions": ["png"],
                         "canMinimize": true
                     },
