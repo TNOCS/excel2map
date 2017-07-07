@@ -70,13 +70,6 @@ const policySets = <IPolicySet[]>[{
                 },
                 decision: Decision.Permit
             }, {
-                subject: { email: 'erik.vullings@gmail.com' },
-                action: Action.Manage,
-                decision: Decision.Permit,
-                resource: {
-                    type: 'project'
-                }
-            }, {
                 desc: 'Subscribed users can create new resources',
                 subject: {
                     subscribed: true
