@@ -83,9 +83,10 @@
                             <div class="col-sm-9" id="pj-logo">
                                 <div class="row fill-height">
                                     <div class="col-sm-5 form-group">
-                                        <button class="file-upload-label btn" for="logo-upload"><i class="fa fa-picture-o small-padding" aria-hidden="true"></i><span>{{ 'UPLOAD_ICON' | translate}}</span>
+                                    <!-- https://stackoverflow.com/a/20843201 -->
+                                        <div class="file-upload-label btn" for="logo-upload"><i class="fa fa-picture-o small-padding" aria-hidden="true"></i><span>{{ 'UPLOAD_ICON' | translate}}</span>
                                     <input type="file" accept="image/png" id="logo-upload" style="margin-top:8px" />
-                                </button>
+                                </div>
                                     </div>
                                     <div class="col-sm-7 text-center fill-height">
                                         <img class="t2m-logo-image grey-border" id="logoImage" ng-src="{{vm.t2mSvc.logoData}}" />
@@ -232,9 +233,9 @@
                             <div class="col-sm-9">
                                 <div class="row form-inline">
                                     <div class="col-sm-5 form-group">
-                                        <button id="f-icon" class="file-upload-label btn" for="icon-upload"><i class="fa fa-picture-o small-padding" aria-hidden="true"></i><span>{{ 'UPLOAD_ICON' | translate}}</span>
+                                        <div id="f-icon" class="file-upload-label btn" for="icon-upload"><i class="fa fa-picture-o small-padding" aria-hidden="true"></i><span>{{ 'UPLOAD_ICON' | translate}}</span>
                                     <input type="file" accept="image/png" id="icon-upload" style="margin-top:8px" />
-                                </button>
+                                </div>
                                     </div>
                                     <div class="col-sm-1 text-center">
                                         <img class="grey-border" id="iconImage" ng-src="{{vm.t2mSvc.iconData}}" />
