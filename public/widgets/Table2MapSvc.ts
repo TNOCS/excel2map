@@ -335,6 +335,8 @@ module Table2Map {
         private loadLayerForWizard(project: Project, layerId: string) {
             this.project = project;
             this.selectedGroup = this.findGroupForLayer(layerId);
+            this.clusterOptions.clustering = this.selectedGroup.clustering;
+            this.clusterOptions.clusterLevel = this.selectedGroup.clusterLevel;
             this.restApi.getLayer(project.id, layerId, (layer) => {
                 if (!layer) {
                     this.$messageBus.notify('ERROR_GETTING_LAYER', 'ERROR_GETTING_LAYER');
@@ -731,10 +733,10 @@ module Table2Map {
             let groupDef = {
                 id: group.id,
                 title: group.title,
-                clusterLevel: group.clusterLevel,
-                clustering: group.clustering
+                clusterLevel: this.clusterOptions.clusterLevel,
+                clustering: this.clusterOptions.clustering
             };
-            this.restApi.sendGroup(projectId, group, (err) => {
+            this.restApi.sendGroup(projectId, <csComp.Services.ProjectGroup>groupDef, (err) => {
                 cb(err);
             });
         }

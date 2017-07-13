@@ -134,7 +134,9 @@ module Translations {
             DELETE_USER_RIGHTS: 'Verwijder alle rechten van deze gebruiker',
             DEFAULT_STYLE_PROPERTY: 'Standaard legenda',
             EXIT_WIZARD: 'Keer terug naar het hoofdscherm',
-            DELETE_PROJECT: 'Verwijder het project. Kan niet ongedaan woren gemaakt!'
+            DELETE_PROJECT: 'Verwijder het project. Kan niet ongedaan woren gemaakt!',
+            MANAGE_PROJECT_HELP: 'Pas de toegangsrechten per gebruiker aan voor dit project. Ook biedt dit scherm de mogelijkheid om het project te verwijderen.',
+            EDIT_LAYER_HELP: 'Kies een kaartlaag om te bewerken, verwijderen of maak een nieuwe kaartlaag.'
         };
     }
 }
