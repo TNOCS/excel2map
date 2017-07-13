@@ -1,391 +1,391 @@
-"gemeentenaam";"openbareruimtenaam";"huisnummer";"huisletter";"huisnummertoevoeging";"postcode";"woonplaatsnaam";"provincienaam";"lon";"lat";"bouwjaar"
-"'s-Gravenhage";"Weissenbruchstraat";193;"";"";"2596GE";"'s-Gravenhage";"Zuid-Holland";4.32446402335053;52.0915840213469;1929
-"'s-Hertogenbosch";"Industriestraat";12;"A";"";"5391BR";"Nuland";"Noord-Brabant";5.44249506360152;51.7231925571879;2012
-"Aa en Hunze";"Broek";14;"";"";"9511PT";"Gieterveen";"Drenthe";6.83526677070586;53.025369880389;1956
-"Aalburg";"Kortakker";9;"";"";"4264AE";"Veen";"Noord-Brabant";5.09874464009355;51.7727262862008;2001
-"Aalsmeer";"Legmeerdijk";161;"";"kwek";"1432KA";"Aalsmeer";"Noord-Holland";4.8131967293399;52.2803330716232;1980
-"Aalten";"Dr. Smitstraat";10;"";"";"7091DX";"Dinxperlo";"Gelderland";6.48611580080288;51.8641987818593;2015
-"Achtkarspelen";"Hillebrandsreed";26;"";"";"9287NN";"Twijzelerheide";"Friesland";6.03646614820816;53.2403105796014;1985
-"Alblasserdam";"Brederostraat";34;"g";"22";"2951TG";"Alblasserdam";"Zuid-Holland";4.67143294288315;51.8656593214927;1969
-"Albrandswaard";"Julianahof";9;"";"";"3161AR";"Rhoon";"Zuid-Holland";4.41738263825847;51.8574984024455;2011
-"Alkmaar";"Muiderwaard";673;"";"";"1824XP";"Alkmaar";"Noord-Holland";4.75147265408367;52.6467523512662;1973
-"Almelo";"De Pijlstaart";10;"";"";"7609TZ";"Almelo";"Overijssel";6.63977990998337;52.3289682601801;1996
-"Almere";"Saturnussingel";249;"";"";"1363RG";"Almere";"Flevoland";5.16015358814272;52.358364303259;2014
-"Alphen-Chaam";"Baarlesebaan";3;"";"";"5131RP";"Alphen";"Noord-Brabant";4.99660620791578;51.4706140500912;2003
-"Alphen aan den Rijn";"Zonneveldhof";16;"";"";"2394CZ";"Hazerswoude-Rijndijk";"Zuid-Holland";4.59732775919862;52.1306028166523;2012
-"Ameland";"Terpelânnen";11;"";"";"9161DX";"Hollum";"Friesland";5.6432908879419;53.439889742555;1984
-"Amersfoort";"Sara Burgerhartsingel";139;"";"";"3813NE";"Amersfoort";"Utrecht";5.39490357018993;52.1734471994143;1984
-"Amstelveen";"Heemstede";234;"";"";"1187MG";"Amstelveen";"Noord-Holland";4.81872755872647;52.2800732515225;2012
-"Amsterdam";"Zeeburgerpad";177;"";"";"1019DZ";"Amsterdam";"Noord-Holland";4.93459483324089;52.3667229562627;
-"Apeldoorn";"Hoge Bergweg";16;"";"H136";"7361GS";"Beekbergen";"Gelderland";6.00745566190308;52.1386550268445;2012
-"Appingedam";"Abel Eppensstraat";44;"a";"";"9902HJ";"Appingedam";"Groningen";6.87375271163235;53.3186926472558;1991
-"Arnhem";"Hoogezandstraat";4;"";"";"6835DM";"Arnhem";"Gelderland";5.90294231653219;51.9503221193661;1973
-"Assen";"Aar";14;"L";"";"9406GB";"Assen";"Drenthe";6.53676360876152;52.9971930754056;1965
-"Asten";"Burgemeester Frenckenstraat";18;"";"";"5721EZ";"Asten";"Noord-Brabant";5.74698237043674;51.4044509304733;2010
-"Baarle-Nassau";"Nassaupark";23;"";"";"5111WZ";"Baarle-Nassau";"Noord-Brabant";4.92896139793311;51.439837654871;2016
-"Baarn";"Ericastraat";15;"";"";"3742SG";"Baarn";"Utrecht";5.29732402307741;52.2047962980114;2002
-"Barendrecht";"Van Kronenburgvliet";24;"";"";"2992TG";"Barendrecht";"Zuid-Holland";4.53228810416584;51.847430614462;1986
-"Barneveld";"Dorkinglaan";12;"";"";"3772PR";"Barneveld";"Gelderland";5.5939315108673;52.126787956956;2014
-"Bedum";"De Hazelaar";23;"";"";"9781VJ";"Bedum";"Groningen";6.61255136807218;53.2954717824383;1981
-"Beek";"Schoolstraat";2;"c";"";"6176BZ";"Spaubeek";"Limburg";5.83996885645663;50.9381473903294;1920
-"Beemster";"Winterjanpad";5;"";"";"1461JG";"Zuidoostbeemster";"Noord-Holland";4.94054482299575;52.5199114061859;2011
-"Beesel";"Het Vloot";10;"";"";"5953DX";"Reuver";"Limburg";6.08060910645385;51.2856960194765;2000
-"Bellingwedde";"Venneweg";31;"";"";"9566PA";"Veelerveen";"Groningen";7.12163049527084;53.0569270218796;1953
-"Berg en Dal";"Dakotastraat";17;"";"";"6562HE";"Groesbeek";"Gelderland";5.94456708248335;51.7596226554313;2011
-"Bergeijk";"Weebosch";114;"";"";"5571NH";"Bergeijk";"Noord-Brabant";5.29685341282102;51.3065311772044;1950
-"Bergen (L.)";"Droogstal";9;"a";"";"5856AX";"Wellerlooi";"Limburg";6.14198258672257;51.5249885185921;1964
-"Bergen (NH.)";"Rooseveltstraat";16;"";"";"1931VN";"Egmond aan Zee";"Noord-Holland";4.62627252242586;52.615621578193;1967
-"Bergen op Zoom";"Schoolstraat";1;"g";"";"4611MD";"Bergen op Zoom";"Noord-Brabant";4.28956800385985;51.4936389230038;2012
-"Berkelland";"Beatrixstraat";1;"l";"";"7161DJ";"Neede";"Gelderland";6.61472047366638;52.1331360035695;2011
-"Bernheze";"Monseigneur Zwijsenstraat";10;"";"";"5384JE";"Heesch";"Noord-Brabant";5.52394545244423;51.7281565599573;1970
-"Best";"Voetboog";5;"";"";"5684DH";"Best";"Noord-Brabant";5.38112508796671;51.5058669667035;2016
-"Beuningen";"Jonkerstraat";41;"";"";"6551DD";"Weurt";"Gelderland";5.81097998806488;51.8559558633691;1970
-"Beverwijk";"Wijkermeerweg";44;"U";"";"1948NW";"Beverwijk";"Noord-Holland";4.66488515161904;52.4768965404524;2012
-"Binnenmaas";"Amaliastraat";1;"";"";"3295DZ";"'s-Gravendeel";"Zuid-Holland";4.62037550987089;51.7765826326623;2013
-"Bladel";"Rondweg";25;"";"k150";"5531AJ";"Bladel";"Noord-Brabant";5.21702523157009;51.3626022381402;1963
-"Blaricum";"Kooltjespad";6;"";"";"1261DP";"Blaricum";"Noord-Holland";5.23768740623956;52.2772185727111;1994
-"Bloemendaal";"Haarlemmerstraat";131;"";"";"2121AL";"Bennebroek";"Noord-Holland";4.58688931871317;52.3178832691161;2010
-"Bodegraven-Reeuwijk";"Beiershof";65;"";"";"2411JS";"Bodegraven";"Zuid-Holland";4.74993882986209;52.0797123657608;1970
-"Boekel";"Leeuweriklaan";21;"";"";"5427SM";"Boekel";"Noord-Brabant";5.68116036683848;51.5988626436948;1973
-"Borger-Odoorn";"Westeresweg";25;"";"";"7875BC";"Exloo";"Drenthe";6.85922212301359;52.8800195078452;1971
-"Borne";"Binnensingel";11;"";"";"7623MB";"Borne";"Overijssel";6.77069851152104;52.2929390434574;2013
-"Borsele";"Marktstraat";21;"";"";"4453AJ";"'s-Heerenhoek";"Zeeland";3.77040685416357;51.4524078770528;1973
-"Boxmeer";"Merletgaarde";28;"";"";"5821BW";"Vierlingsbeek";"Noord-Brabant";6.00731634296891;51.5964249809574;2012
-"Boxtel";"Bunderhoef";10;"";"";"5283TX";"Boxtel";"Noord-Brabant";5.3316418823559;51.5976246725404;
-"Breda";"Baarschot";34;"E";"";"4817ZZ";"Breda";"Noord-Brabant";4.84146940927009;51.5932957668063;
-"Brielle";"Eewasstraat";28;"";"";"3237AL";"Vierpolders";"Zuid-Holland";4.18042841551138;51.8771194973312;1970
-"Bronckhorst";"Raadhuisstraat";1;"";"";"7255BK";"Hengelo (Gld)";"Gelderland";6.31031672792193;52.0514149543574;1900
-"Brummen";"Brahmsstraat";14;"";"";"6961AP";"Eerbeek";"Gelderland";6.05325518563507;52.107985092008;1973
-"Brunssum";"Hazenkampstraat";18;"";"";"6445BN";"Brunssum";"Limburg";5.97393967029555;50.9317206517944;1927
-"Bunnik";"Beughof";14;"";"";"3984LN";"Odijk";"Utrecht";5.22980277531915;52.0473897533042;1999
-"Bunschoten";"Zuiderzeekade";23;"";"";"3751HA";"Bunschoten-Spakenburg";"Utrecht";5.3828664543802;52.2564745755781;
-"Buren";"J. Bosschaartstraat";31;"";"";"4112LM";"Beusichem";"Gelderland";5.2905687609506;51.9462677810446;1999
-"Capelle aan den IJssel";"Merellaan";378;"";"";"2903GM";"Capelle aan den IJssel";"Zuid-Holland";4.58972114956842;51.9346469890883;2013
-"Castricum";"Dorpsstraat";54;"";"";"1901EM";"Castricum";"Noord-Holland";4.66245044568729;52.5467216805574;2006
-"Coevorden";"Eserstraat";24;"";"";"7849PH";"De Kiel";"Drenthe";6.74956365487173;52.8632750553227;1992
-"Cranendonck";"Europalaan-Noord";22;"";"";"6021EH";"Budel";"Noord-Brabant";5.57373500535522;51.2788178037425;2011
-"Cromstrijen";"Molendijk";94;"";"";"3286BJ";"Klaaswaal";"Zuid-Holland";4.44052792836325;51.7734529492547;1938
-"Cuijk";"Saffierdreef";20;"";"";"5431WS";"Cuijk";"Noord-Brabant";5.87054403639608;51.7375984634198;1962
-"Culemborg";"van Pallandtdreef";29;"";"";"4101KC";"Culemborg";"Gelderland";5.23488093313849;51.9591885066047;2007
-"Dalfsen";"Meidoornlaan";17;"";"";"7721EX";"Dalfsen";"Overijssel";6.24824604762557;52.5104547869249;1972
-"Dantumadiel";"Tjaerdawei";42;"a";"";"9105KG";"Rinsumageast";"Friesland";5.94587448740909;53.2971597350528;2008
-"De Bilt";"Ruigenhoeksedijk";19;"";"";"3737MP";"Groenekan";"Utrecht";5.14187296144721;52.1256959139516;1890
-"De Fryske Marren";"Wielenlaan";38;"";"";"8526GG";"Boornzwaag";"Friesland";5.74465215906156;52.9582607049873;1966
-"De Marne";"Westerklooster";3;"A";"";"9977RA";"Kloosterburen";"Groningen";6.38493464478535;53.3878304010487;1962
-"De Ronde Venen";"Vinkenkade";41;"R";"5";"3645AP";"Vinkeveen";"Utrecht";4.96802276601447;52.247246749541;2003
-"De Wolden";"Meppelerweg";22;"";"213";"7921VR";"Zuidwolde";"Drenthe";6.42374109184818;52.677722677572;2008
-"Delft";"Stieltjesweg";428;"";"";"2628CK";"Delft";"Zuid-Holland";4.3767679853871;52.0004513089692;1930
-"Delfzijl";"A.E. Gorterweg";62;"";"";"9946PE";"Woldendorp";"Groningen";7.03233713404721;53.2762568984509;1980
-"Den Helder";"Duinroosstraat";149;"";"";"1783GD";"Den Helder";"Noord-Holland";4.73309483126646;52.9404534055654;1962
-"Deurne";"Lagebrugweg";2;"";"";"5759PK";"Helenaveen";"Noord-Brabant";5.91215043914701;51.387019901776;1960
-"Deventer";"Landsherenlaan";99;"";"";"7415XH";"Deventer";"Overijssel";6.15825292830777;52.2710851212339;2010
-"Diemen";"Bergwijkdreef";606;"";"";"1112XZ";"Diemen";"Noord-Holland";4.95829182799276;52.3261618760577;2009
-"Dinkelland";"Brandlichterweg";50;"B";"";"7591NE";"Denekamp";"Overijssel";7.01916978970091;52.3763837087559;2011
-"Doesburg";"Veerpoortdijk";87;"";"";"6981LA";"Doesburg";"Gelderland";6.12884301049806;52.0146032881806;2009
-"Doetinchem";"Anna Blamanstraat";3;"";"";"7002AA";"Doetinchem";"Gelderland";6.30356377840932;51.9736739527566;
-"Dongen";"Europaplein";79;"";"";"5101VX";"Dongen";"Noord-Brabant";4.92231859380538;51.6272119859201;1969
-"Dongeradeel";"Rondweg-Noord";54;"A";"01";"9101AE";"Dokkum";"Friesland";5.99285403949694;53.3277880369888;2011
-"Dordrecht";"Tweelingenstraat";95;"";"";"3318BS";"Dordrecht";"Zuid-Holland";4.67830248004433;51.7892256048168;1967
-"Drechterland";"Zeger Davidzonweg";44;"";"";"1606XB";"Venhuizen";"Noord-Holland";5.21687062870675;52.6678468857655;
-"Drimmelen";"Thijssenweg";10;"J";"";"4927PC";"Hooge Zwaluwe";"Noord-Brabant";4.74745333788498;51.6694962987272;2015
-"Dronten";"De Schipbeek";17;"";"";"8253RD";"Dronten";"Flevoland";5.70912805941458;52.5383383325437;2006
-"Druten";"Celestinelaan";69;"";"";"6651TD";"Druten";"Gelderland";5.60172110119336;51.8922413990254;2009
-"Duiven";"Westsingel";20;"";"";"6921RX";"Duiven";"Gelderland";6.01304438647386;51.9563178749793;
-"Echt-Susteren";"Vuchterstraat";1;"";"";"6105AN";"Maria Hoop";"Limburg";5.99952364016908;51.0985440659043;1938
-"Edam-Volendam";"De Ster";8;"";"";"1474AE";"Oosthuizen";"Noord-Holland";4.99134727840119;52.568045483506;2011
-"Ede";"Brinkstraat";13;"";"";"6721WR";"Bennekom";"Gelderland";5.67473891602007;51.999174686677;1920
-"Eemnes";"Ploeglaan";2;"A";"05";"3755HT";"Eemnes";"Utrecht";5.25929957103241;52.2506284905588;2009
-"Eemsmond";"J. Cohenstraat";15;"b";"";"9981JD";"Uithuizen";"Groningen";6.67521977451884;53.4040099353843;2011
-"Eersel";"Steenstraat";10;"";"";"5521KT";"Eersel";"Noord-Brabant";5.31916017195602;51.3534788907356;1978
-"Eijsden-Margraten";"Papenweg";17;"";"";"6261NE";"Mheer";"Limburg";5.79558410341904;50.7776550897401;9999
-"Eindhoven";"Byrdstraat";61;"";"";"5623PL";"Eindhoven";"Noord-Brabant";5.47922575039896;51.4542299837642;1953
-"Elburg";"Gerichtenweg";51;"";"";"8085PW";"Doornspijk";"Gelderland";5.84047986522772;52.4287981571535;1950
-"Emmen";"Langestraat";77;"";"";"7891GE";"Klazienaveen";"Drenthe";6.98236252178258;52.7243770732899;1907
-"Enkhuizen";"Dirk Wierengastraat";44;"";"";"1602TK";"Enkhuizen";"Noord-Holland";5.28120686389921;52.7127694585225;2014
-"Enschede";"J.J. van Deinselaan";34;"";"61";"7541PE";"Enschede";"Overijssel";6.90128945387461;52.2073081749703;2012
-"Epe";"Laan van Fasna";62;"";"";"8171KH";"Vaassen";"Gelderland";5.97341057767211;52.2839704209483;9999
-"Ermelo";"Branderskamp";91;"";"";"3851XV";"Ermelo";"Gelderland";5.63105279265511;52.301719306621;2011
-"Etten-Leur";"Koetsierhof";38;"";"";"4871KL";"Etten-Leur";"Noord-Brabant";4.66180045312344;51.5901105695339;2012
-"Ferwerderadiel";"Concordiastrjitte";23;"";"";"9112HW";"Burdaard";"Friesland";5.86998887739454;53.2898782327068;2002
-"Franekeradeel";"P J Troelstrastraat";12;"";"";"8802RD";"Franeker";"Friesland";5.53785402239619;53.1962263050672;1978
-"Geertruidenberg";"Julianastraat";8;"";"";"4931CW";"Geertruidenberg";"Noord-Brabant";4.85896130945863;51.6995190211892;1954
-"Geldermalsen";"Kuyckshof";24;"";"";"4194AG";"Meteren";"Gelderland";5.29215384241572;51.8702613284697;2011
-"Geldrop-Mierlo";"Hazelaar";104;"";"";"5664VL";"Geldrop";"Noord-Brabant";5.55902281036716;51.4127978147938;1967
-"Gemert-Bakel";"Bunder";20;"";"";"5421AG";"Gemert";"Noord-Brabant";5.70503206488193;51.5526742908651;1991
-"Gennep";"Picardie";7;"";"";"6591JA";"Gennep";"Limburg";5.97220853277924;51.6986993702285;9999
-"Giessenlanden";"Neerpolderseweg";108;"A";"H023";"3381JV";"Giessenburg";"Zuid-Holland";4.86681605405471;51.8344995748609;2003
-"Gilze en Rijen";"Molenschotsebaan";21;"";"g3";"5124NG";"Molenschot";"Noord-Brabant";4.89424047571198;51.5791534900785;
-"Goeree-Overflakkee";"Oostplaatseweg";19;"";"";"3241LV";"Middelharnis";"Zuid-Holland";4.19388071505525;51.7633464423587;2010
-"Goes";"Pykeswegje";92;"";"";"4462PC";"Goes";"Zeeland";3.89559959381465;51.4858832986147;2012
-"Goirle";"Klein Kraaivenstraat";22;"";"";"5051ES";"Goirle";"Noord-Brabant";5.05228716014222;51.5200091976265;1964
-"Gooise Meren";"Cereslaan";105;"";"";"1402LJ";"Bussum";"Noord-Holland";5.16601176434241;52.2721356082265;1931
-"Gorinchem";"Westwagenstraat";41;"";"";"4201HE";"Gorinchem";"Zuid-Holland";4.97139781324876;51.8304772493252;1995
-"Gouda";"Goudkade";56;"";"";"2802AA";"Gouda";"Zuid-Holland";4.69137256868889;52.0114753302803;
-"Grave";"Maasstraat";12;"a";"";"5361GG";"Grave";"Noord-Brabant";5.74135131530414;51.7602978458362;1999
-"Groningen";"Multatulistraat";103;"";"";"9721NH";"Groningen";"Groningen";6.5647075570302;53.1964507320444;1963
-"Grootegast";"Bossingel";2;"B";"";"9865VL";"Opende";"Groningen";6.19196687179417;53.1567547493702;
-"Gulpen-Wittem";"Beutenaken";5;"";"";"6278NA";"Beutenaken";"Limburg";5.85506023305579;50.7803879184469;1970
-"Haaksbergen";"Oostendorperweg";41;"";"Z";"7481VE";"Haaksbergen";"Overijssel";6.73828932512776;52.1352518001028;1960
-"Haaren";"Driehoeven";56;"";"";"5076BJ";"Haaren";"Noord-Brabant";5.22676420505345;51.6000729957261;1990
-"Haarlem";"Spiegelstraat";23;"";"";"2011BN";"Haarlem";"Noord-Holland";4.64413875231112;52.3795069011456;1976
-"Haarlemmerliede en Spaarnwoude";"Zijkanaal F Oost";6;"";"";"1165LX";"Halfweg";"Noord-Holland";4.75280485908243;52.3869040887777;
-"Haarlemmermeer";"IJweg";345;"";"";"1161EZ";"Zwanenburg";"Noord-Holland";4.73738928313337;52.3647973126526;
-"Halderberge";"Bosanemoon";9;"";"";"4741JE";"Hoeven";"Noord-Brabant";4.57927889180454;51.5697705561556;2012
-"Hardenberg";"Kruserbrink";101;"";"";"7772XJ";"Hardenberg";"Overijssel";6.6236662386871;52.5780026218275;1962
-"Harderwijk";"Zijpenbergerhout";23;"";"";"3845JT";"Harderwijk";"Gelderland";5.60259014804549;52.3229114231608;2010
-"Hardinxveld-Giessendam";"Rembrandthof";99;"";"";"3372XV";"Hardinxveld-Giessendam";"Zuid-Holland";4.88380230531175;51.8245565872111;2002
-"Haren";"Eenkoorn";1;"";"";"9751WJ";"Haren Gn";"Groningen";6.60929942518461;53.1815619151188;2016
-"Harlingen";"De Phoenix";2;"";"";"8862TW";"Harlingen";"Friesland";5.42648452303939;53.1628071161136;1983
-"Hattem";"Koningin Wilhelminalaan";2;"A";"66";"8051PA";"Hattem";"Gelderland";6.05720026124036;52.4566217128827;1960
-"Heemskerk";"Simon van Haerlemstraat";174;"";"";"1962VG";"Heemskerk";"Noord-Holland";4.6788691230054;52.5069695431872;1900
-"Heemstede";"Cruquiushaven";9;"";"";"2102LX";"Heemstede";"Noord-Holland";4.63574285162238;52.341522227871;
-"Heerde";"Bonenburgerlaan";66;"";"";"8181HH";"Heerde";"Gelderland";6.04143866995845;52.3828206780375;9999
-"Heerenveen";"Bûterwâl";7;"A";"";"8491ES";"Akkrum";"Friesland";5.83353031116728;53.0506713502349;1920
-"Heerhugowaard";"Middenweg";593;"";"";"1704BH";"Heerhugowaard";"Noord-Holland";4.85242877438681;52.7164852941168;1930
-"Heerlen";"Peter Schunckstraat";562;"";"";"6418XS";"Heerlen";"Limburg";6.00912720029023;50.8638584579953;1967
-"Heeze-Leende";"Biesven";6;"b";"";"5595DD";"Leende";"Noord-Brabant";5.5468072917544;51.3518407059801;2013
-"Heiloo";"De Houtwal";16;"";"";"1852RP";"Heiloo";"Noord-Holland";4.69835190151086;52.610050037138;2010
-"Hellendoorn";"Holterweg";91;"";"";"7441DE";"Nijverdal";"Overijssel";6.45784016745966;52.3524861236349;1960
-"Hellevoetsluis";"Moriaanseweg Oost";201;"";"";"3223AH";"Hellevoetsluis";"Zuid-Holland";4.13888952921912;51.8389485085256;1897
-"Helmond";"Trompetstraat";21;"";"";"5702JE";"Helmond";"Noord-Brabant";5.66403045942437;51.4988602555848;2011
-"Hendrik-Ido-Ambacht";"Agaat Oomstraat";3;"";"";"3342GJ";"Hendrik-Ido-Ambacht";"Zuid-Holland";4.62258275973283;51.8396438443809;1995
-"Hengelo";"Burenweg";70;"";"";"7555PV";"Hengelo";"Overijssel";6.7515468932745;52.286005613337;1912
-"het Bildt";"de Finne";30;"";"";"9047KT";"Minnertsga";"Friesland";5.58993673118509;53.2488460491954;1979
-"Heumen";"Willem Alexanderstraat";35;"";"";"6611CE";"Overasselt";"Gelderland";5.78417197737492;51.7622442192987;1990
-"Heusden";"Castellum";12;"";"";"5256GZ";"Oudheusden";"Noord-Brabant";5.13658051703364;51.7240849146853;2010
-"Hillegom";"Hyacinthenlaan";16;"";"";"2182DE";"Hillegom";"Zuid-Holland";4.5612378628168;52.284174933397;1975
-"Hilvarenbeek";"Van Hoornstraat";18;"";"";"5081CE";"Hilvarenbeek";"Noord-Brabant";5.13410794274821;51.4867951419239;1966
-"Hilversum";"Schoolstraat";70;"";"";"1211AZ";"Hilversum";"Noord-Holland";5.17835383210438;52.2285682609805;1978
-"Hof van Twente";"Koenderinkstraat";4;"";"";"7496AV";"Hengevelde";"Overijssel";6.63284631616631;52.1989393534057;1975
-"Hollands Kroon";"C. R. Waiboerstraat";1;"";"G06";"1761CK";"Anna Paulowna";"Noord-Holland";4.82815012244634;52.8617321967039;1971
-"Hoogeveen";"Weberstraat";5;"";"";"7903BD";"Hoogeveen";"Drenthe";6.49519750339426;52.7357603010173;1990
-"Hoogezand-Sappemeer";"Strandweg";6;"";"";"9606PR";"Kropswolde";"Groningen";6.69294645208778;53.1466827106924;1960
-"Hoorn";"Achterom";1;"";"133";"1621KP";"Hoorn";"Noord-Holland";5.05712063199847;52.6385287358395;1991
-"Horst aan de Maas";"Californischeweg";4;"b";"";"5971NV";"Grubbenvorst";"Limburg";6.13270344331156;51.4228223540289;
-"Houten";"Nikkelslag";12;"";"";"3991RD";"Houten";"Utrecht";5.15209467194711;52.0268044656102;2016
-"Huizen";"Boeg";26;"";"";"1276BN";"Huizen";"Noord-Holland";5.25546706653837;52.2946144425794;1969
-"Hulst";"Vinkebroeksestraat";2;"";"";"4564RB";"Sint Jansteen";"Zeeland";4.03952732589265;51.255607369256;2015
-"IJsselstein";"Praagsingel";148;"";"";"3404CN";"IJsselstein";"Utrecht";5.03889512838703;52.0103712897199;1998
-"Kaag en Braassem";"Sluis";25;"";"";"2376AS";"Nieuwe Wetering";"Zuid-Holland";4.62202332962752;52.2147236742796;2015
-"Kampen";"Steenovensdijk";17;"";"";"8262PL";"Kampen";"Overijssel";5.90389703674321;52.5656320467741;1935
-"Kapelle";"Boomweidelaan";34;"";"";"4423AP";"Schore";"Zeeland";3.99917099624717;51.4603714378949;1978
-"Katwijk";"De Poel";28;"";"";"2231TK";"Rijnsburg";"Zuid-Holland";4.43435362268479;52.1906176060659;2014
-"Kerkrade";"Nullanderstraat";96;"";"";"6461GE";"Kerkrade";"Limburg";6.06528308076172;50.8599610083218;1989
-"Koggenland";"Perengaard";19;"";"";"1648LH";"De Goorn";"Noord-Holland";4.94478470114836;52.6338034274816;2015
-"Kollumerland en Nieuwkruisland";"Cedelshof";23;"";"";"9298SB";"Kollumerzwaag";"Friesland";6.07969925485684;53.2609295893405;2002
-"Korendijk";"Oudendijk";68;"";"";"3267LR";"Goudswaard";"Zuid-Holland";4.28598307129398;51.7703416325292;1911
-"Krimpen aan den IJssel";"Van Utrechtweg";73;"";"";"2921LN";"Krimpen aan den IJssel";"Zuid-Holland";4.57635431238965;51.9083641040986;1989
-"Krimpenerwaard";"Lageweg";30;"";"";"2935CE";"Ouderkerk aan den IJssel";"Zuid-Holland";4.64332723267009;51.9659173029572;2016
-"Laarbeek";"Ten Bleek";22;"";"";"5741WT";"Beek en Donk";"Noord-Brabant";5.62094126002877;51.5304424626109;2014
-"Landerd";"Rootstraat";14;"";"";"5411AX";"Zeeland";"Noord-Brabant";5.6775412779296;51.6941965781511;1975
-"Landgraaf";"Voorterhof";27;"";"";"6373AG";"Landgraaf";"Limburg";6.01771737579214;50.9096810461826;1978
-"Landsmeer";"Buitenhuislaan";38;"";"";"1121RM";"Landsmeer";"Noord-Holland";4.90542827051347;52.427377623448;2013
-"Langedijk";"Molengroet";1;"";"628";"1723PX";"Noord-Scharwoude";"Noord-Holland";4.7701537676313;52.6953848561747;
-"Lansingerland";"Forsythiastraat";9;"";"";"2651TC";"Berkel en Rodenrijs";"Zuid-Holland";4.48633880839568;52.0014812406929;1967
-"Laren";"Slangenweg";21;"";"";"1251RT";"Laren";"Noord-Holland";5.22447913227723;52.2493829985242;1959
-"Leek";"Dokter G. de Vrieshof";14;"";"";"9354BL";"Zevenhuizen";"Groningen";6.34485762924991;53.1231694572265;1971
-"Leerdam";"Thorbeckesingel";14;"";"";"4142AN";"Leerdam";"Zuid-Holland";5.08571554701239;51.8921022240316;2015
-"Leeuwarden";"Surinamestraat";19;"a";"";"8931CW";"Leeuwarden";"Friesland";5.78656565339809;53.1881258803285;2014
-"Leeuwarderadeel";"De Greiden";40;"";"";"9055LR";"Britsum";"Friesland";5.78883438044101;53.2518621806485;1995
-"Leiden";"Lambdakade";94;"";"";"2321KM";"Leiden";"Zuid-Holland";4.49263803318718;52.14317873933;2014
-"Leiderdorp";"Persant Snoepweg";11;"";"";"2353KA";"Leiderdorp";"Zuid-Holland";4.54708163373963;52.1618232220373;
-"Leidschendam-Voorburg";"Prins Bernhardlaan";66;"M";"";"2264CE";"Leidschendam";"Zuid-Holland";4.39280001652648;52.0878133325479;2016
-"Lelystad";"Rode Klif";21;"";"";"8223CA";"Lelystad";"Flevoland";5.48501469677742;52.521569490032;1972
-"Leudal";"Vestjenshoek";4;"a";"";"6095NT";"Baexem";"Limburg";5.85998631756335;51.2391509042647;1967
-"Leusden";"Maximaplein";68;"";"";"3832JS";"Leusden";"Utrecht";5.40905752486074;52.1182576379575;2011
-"Lingewaal";"Leijenburgplein";13;"";"";"4161AR";"Heukelum";"Gelderland";5.0745785147461;51.8711598653326;2012
-"Lingewaard";"van Gelrestraat";78;"";"";"6851LG";"Huissen";"Gelderland";5.93285854978587;51.9374652854557;2016
-"Lisse";"Voerman";200;"";"";"2163BP";"Lisse";"Zuid-Holland";4.56773773916498;52.2654799046908;1982
-"Littenseradiel";"Skildyk";10;"";"";"9024EN";"Weidum";"Friesland";5.74190803223926;53.1450530840192;1999
-"Lochem";"Ruiterweg";35;"";"G07";"7213BL";"Gorssel";"Gelderland";6.20690956460901;52.1997721686044;2003
-"Loon op Zand";"Lindenlaan";12;"";"";"5175BW";"Loon op Zand";"Noord-Brabant";5.08164088054579;51.6292506509124;1987
-"Lopik";"Zuidzijdseweg";100;"A";"";"3415PR";"Polsbroek";"Utrecht";4.86055802485708;51.9800959037926;1970
-"Loppersum";"Onderdendamsterweg";15;"";"";"9991TB";"Middelstum";"Groningen";6.62727066438053;53.3392765138703;1880
-"Losser";"Richterstraat";81;"";"";"7582BW";"Losser";"Overijssel";7.00471671308609;52.2533185884315;1972
-"Maasdriel";"Weikesstraat";11;"";"";"5335LE";"Alem";"Gelderland";5.34453504898834;51.7861818711222;1956
-"Maasgouw";"De Tes";14;"";"";"6099EB";"Beegden";"Limburg";5.9140196180616;51.1935510177848;2011
-"Maassluis";"Wipperspark";132;"";"";"3141RD";"Maassluis";"Zuid-Holland";4.26667555657149;51.9224063230828;1976
-"Maastricht";"Nijverheidsweg";8;"G";"01";"6227AL";"Maastricht";"Limburg";5.72256437379072;50.8423647930836;9999
-"Marum";"Spoorstraat";22;"";"";"9363BJ";"Marum";"Groningen";6.27013112051557;53.1481759806887;1966
-"Medemblik";"Korenmarkt";4;"";"";"1681PB";"Zwaagdijk-Oost";"Noord-Holland";5.14938018217491;52.6998375681929;1992
-"Meerssen";"Sint Josephstraat";90;"";"";"6231EG";"Meerssen";"Limburg";5.74125160857905;50.8870822253603;1953
-"Menameradiel";"Spoorstrjitte";11;"";"";"9033WJ";"Deinum";"Friesland";5.72624318884314;53.1909521862009;1965
-"Menterwolde";"Borgercompagniesterweg";43;"";"";"9632TC";"Borgercompagnie";"Groningen";6.80890727332292;53.1318336301889;1935
-"Meppel";"Tuinweg";2;"";"";"7944AD";"Meppel";"Drenthe";6.18988227341635;52.680326432921;1955
-"Middelburg";"Leliëndaalseweg";3;"";"";"4333RC";"Middelburg";"Zeeland";3.60221016331445;51.5200877428375;9999
-"Midden-Delfland";"Hadrianuslaan";15;"";"";"2635BV";"Den Hoorn";"Zuid-Holland";4.32170328976824;52.0098948238777;2015
-"Midden-Drenthe";"Violenstraat";18;"";"";"9411GH";"Beilen";"Drenthe";6.50630699308487;52.8617948423303;1961
-"Mill en Sint Hubert";"Ganzenroer";2;"";"";"5454HN";"Sint Hubert";"Noord-Brabant";5.80510074641073;51.6781340562362;1982
-"Moerdijk";"Kasteelweg";111;"";"";"4761BN";"Zevenbergen";"Noord-Brabant";4.60595129862834;51.6434283421491;1997
-"Molenwaard";"Gijbelandsedijk";14;"";"";"2974VC";"Brandwijk";"Zuid-Holland";4.80743948766922;51.873274402108;2012
-"Montferland";"Haverveld";55;"";"";"6942ME";"Didam";"Gelderland";6.1420315093614;51.9401867197433;2002
-"Montfoort";"Johannes Poststraat";8;"";"";"3417ER";"Montfoort";"Utrecht";4.95495778709523;52.0463851161895;1969
-"Mook en Middelaar";"Rijksweg";6;"";"";"6584AB";"Molenhoek";"Limburg";5.86974389527977;51.7612314021918;1956
-"Neder-Betuwe";"Meester J van Dolderenstraat";17;"";"";"4041VB";"Kesteren";"Gelderland";5.57654205465992;51.9301291561427;2013
-"Nederweert";"Wessemerdijk";12;"";"";"6031SG";"Nederweert";"Limburg";5.78024088817978;51.2526018222289;1948
-"Neerijnen";"Groote Hof";3;"";"";"4064CN";"Varik";"Gelderland";5.36589847614886;51.8222318142052;2014
-"Nieuwegein";"Kruyderlaan";29;"";"36";"3431BM";"Nieuwegein";"Utrecht";5.08703212813795;52.0299624028458;2015
-"Nieuwkoop";"Stobbeweg";14;"H";"";"2461EX";"Ter Aar";"Zuid-Holland";4.70951748138995;52.1786269155682;2012
-"Nijkerk";"Hoefslag";132;"";"";"3862KD";"Nijkerk";"Gelderland";5.49122826896429;52.2139873655891;1975
-"Nijmegen";"Tolboekstraat";15;"";"";"6537TE";"Nijmegen";"Gelderland";5.78235981979386;51.818034877944;
-"Nissewaard";"Molendijk";74;"a";"";"3227CD";"Oudenhoorn";"Zuid-Holland";4.18245060993717;51.8281671789784;1968
-"Noord-Beveland";"Trintellaan";19;"";"";"4484RH";"Kortgene";"Zeeland";3.81542777449671;51.5541983780817;2013
-"Noordenveld";"Matsloot";1003;"";"";"9749TJ";"Matsloot";"Drenthe";6.4499960576073;53.192580468973;
-"Noordoostpolder";"Schweitzersingel";38;"";"";"8302ZJ";"Emmeloord";"Flevoland";5.74221899581578;52.725207552488;2010
-"Noordwijk";"van Struykstraat";31;"";"";"2203HC";"Noordwijk";"Zuid-Holland";4.45342477032896;52.2446599998236;1973
-"Noordwijkerhout";"Leidsevaart";27;"";"ws";"2211WB";"Noordwijkerhout";"Zuid-Holland";4.5000329975728;52.2476877348981;
-"Nuenen, Gerwen en Nederwetten";"Beekstraat";41;"";"";"5673NA";"Nuenen";"Noord-Brabant";5.56340874663066;51.4749180543561;1956
-"Nunspeet";"Stationslaan";10;"a";"";"8071CM";"Nunspeet";"Gelderland";5.78218729098715;52.3753084732056;2005
-"Nuth";"Eijkenderweg";5;"";"";"6361DE";"Nuth";"Limburg";5.88521172333839;50.912591001485;
-"Oegstgeest";"Sterreschans";239;"";"";"2342BP";"Oegstgeest";"Zuid-Holland";4.45594742827791;52.1774980954076;2014
-"Oirschot";"Dekkerstraat";4;"";"";"5091TL";"Oost West en Middelbeers";"Noord-Brabant";5.24653371886325;51.4775158184898;1976
-"Oisterwijk";"Het Brieltje";3;"";"";"5066EZ";"Moergestel";"Noord-Brabant";5.18680867976377;51.5432960271711;
-"Oldambt";"Grintweg";68;"";"";"9675HJ";"Winschoten";"Groningen";7.02347214407531;53.149141625454;2008
-"Oldebroek";"Bovenheigraaf";174;"";"";"8091BZ";"Wezep";"Gelderland";5.99311109546803;52.4598588211802;2013
-"Oldenzaal";"Bereklauw";80;"";"";"7577ES";"Oldenzaal";"Overijssel";6.92840630319624;52.3278599721166;1985
-"Olst-Wijhe";"Hannie Schaftlaan";11;"";"";"8121KE";"Olst";"Overijssel";6.11132711000579;52.3340946162612;
-"Ommen";"Kerkweg";1;"";"";"8148PX";"Lemele";"Overijssel";6.41449512841089;52.4525822353223;1986
-"Onderbanken";"Broekstraat";45;"";"";"6451BH";"Schinveld";"Limburg";5.98186892928994;50.973057434431;1957
-"Oost Gelre";"Theo de Groenstraat";16;"";"";"7141GJ";"Groenlo";"Gelderland";6.61843905227658;52.0458058364532;2011
-"Oosterhout";"Sint Antoniusstraat";92;"";"";"4902PV";"Oosterhout";"Noord-Brabant";4.86760154156083;51.6362274135267;2013
-"Ooststellingwerf";"Dwarshaer";23;"";"B031";"8431GV";"Oosterwolde";"Friesland";6.29621534609967;52.9853704031101;1968
-"Oostzaan";"Spoetnikstraat";25;"";"";"1511DG";"Oostzaan";"Noord-Holland";4.8728629994083;52.4491313350104;2013
-"Opmeer";"Koninginneweg";18;"";"";"1716DH";"Opmeer";"Noord-Holland";4.9427434839149;52.7014810016279;
-"Opsterland";"Lijnbaan";7;"";"";"8401VL";"Gorredijk";"Friesland";6.06630972416743;53.0028669997563;1982
-"Oss";"Strepenakker";26;"";"";"5373ES";"Herpen";"Noord-Brabant";5.63736869505651;51.7748338566114;2015
-"Oud-Beijerland";"Julianastraat";43;"A";"";"3262SH";"Oud-Beijerland";"Zuid-Holland";4.41495893567222;51.8236447627577;1920
-"Oude IJsselstreek";"Staringstraat";3;"";"";"7061XZ";"Terborg";"Gelderland";6.34933053734163;51.9206704765883;1916
-"Ouder-Amstel";"Kerkstraat";30;"";"";"1191JC";"Ouderkerk aan de Amstel";"Noord-Holland";4.90260661565928;52.2963159849391;1900
-"Oudewater";"Oude Singel";11;"";"2";"3421ED";"Oudewater";"Utrecht";4.8686576539104;52.026163584788;2015
-"Overbetuwe";"Bachstraat";29;"k";"216";"6661CP";"Elst";"Gelderland";5.85078729568024;51.9213466361965;1982
-"Papendrecht";"Irispad";4;"";"";"3353VB";"Papendrecht";"Zuid-Holland";4.6906494062395;51.8300381657071;1995
-"Peel en Maas";"Pastoor Vullinghsstraat";3;"";"";"5985PG";"Grashoek";"Limburg";5.94148345597827;51.3611615343239;1976
-"Pekela";"Rembrandtlaan";15;"";"";"9663BP";"Nieuwe Pekela";"Groningen";6.9667039299311;53.0817747030995;1975
-"Pijnacker-Nootdorp";"Oude Leedeweg";123;"";"";"2641NN";"Pijnacker";"Zuid-Holland";4.42449426071755;51.9877017112537;1920
-"Purmerend";"Middenakker";50;"";"";"1446GS";"Purmerend";"Noord-Holland";4.98571516887482;52.5120528648751;1990
-"Putten";"Hoge Engweg";4;"";"8";"3882TA";"Putten";"Gelderland";5.60146169586774;52.2490571756268;
-"Raalte";"Bentinckstraat";7;"";"";"8101BA";"Raalte";"Overijssel";6.27075651687465;52.3853575557337;1974
-"Reimerswaal";"Maartenbroersweg";75;"";"";"4417BK";"Hansweert";"Zeeland";4.00238999183614;51.4522713872171;
-"Renkum";"Laakweg";3;"";"";"6862XA";"Oosterbeek";"Gelderland";5.85037179471527;51.9810960162086;1955
-"Renswoude";"Ruiterpad";1;"";"";"3927GZ";"Renswoude";"Utrecht";5.54149957012614;52.0775443904445;
-"Reusel-De Mierden";"Smeelakkers";10;"";"";"5096CJ";"Hulsel";"Noord-Brabant";5.17963421020469;51.3896511849879;1996
-"Rheden";"Reigerstraat";30;"d";"";"6883ES";"Velp";"Gelderland";5.98049722993754;51.9883305858829;1975
-"Rhenen";"Houweg";9;"";"";"3921DB";"Elst Ut";"Utrecht";5.49075940570972;51.9868679236168;1971
-"Ridderkerk";"Westmolendijk";102;"";"";"2985XK";"Ridderkerk";"Zuid-Holland";4.60647639392145;51.868318485636;
-"Rijnwaarden";"Rijnstraat";36;"";"";"6916BD";"Tolkamer";"Gelderland";6.10234003799264;51.8514771209056;1990
-"Rijssen-Holten";"Reggesingel";50;"";"";"7461AK";"Rijssen";"Overijssel";6.51994389147859;52.3135120398445;1989
-"Rijswijk";"Dr H. Colijnlaan";175;"";"";"2283XG";"Rijswijk";"Zuid-Holland";4.32371856933845;52.0423184714706;1958
-"Roerdalen";"Daelenbroekweg";5;"";"";"6075ER";"Herkenbosch";"Limburg";6.06720301546386;51.1540987487848;9999
-"Roermond";"Boven de Wolfskuil";3;"B";"24";"6049LX";"Herten";"Limburg";5.96220981734688;51.1647338833726;2012
-"Roosendaal";"Rector Hellemonsstraat";8;"";"";"4702RH";"Roosendaal";"Noord-Brabant";4.47764563303935;51.5434447039563;1952
-"Rotterdam";"Alsemstraat";12;"";"";"3193TA";"Hoogvliet Rotterdam";"Zuid-Holland";4.34392082024046;51.8679900800068;1965
-"Rozendaal";"Kleiberglaan";1;"";"";"6891DK";"Rozendaal";"Gelderland";5.97211264075497;52.0040690208388;1959
-"Rucphen";"Bremstraat";1;"A";"";"4711CD";"St. Willebrord";"Noord-Brabant";4.5898152596462;51.5574994324693;9999
-"Schagen";"Park De Luwe Stek";107;"";"";"1738JV";"Waarland";"Noord-Holland";4.84237127207318;52.7216109471958;
-"Scherpenzeel";"Eikenlaan";5;"";"";"3925VG";"Scherpenzeel";"Gelderland";5.48969019438959;52.0826754647641;1964
-"Schiedam";"Muiderslotstraat";59;"";"";"3123TA";"Schiedam";"Zuid-Holland";4.36962388975177;51.9454841780889;1988
-"Schiermonnikoog";"Klein Zwitserland";13;"";"";"9166RE";"Schiermonnikoog";"Friesland";6.14622873728759;53.4792273937458;1960
-"Schijndel";"Willem van Oranjelaan";29;"";"";"5482CJ";"Schijndel";"Noord-Brabant";5.4550278211545;51.6122426672996;1998
-"Schinnen";"Stationsstraat";54;"";"";"6365CK";"Schinnen";"Limburg";5.87916502679588;50.9386712130623;1960
-"Schouwen-Duiveland";"Hoogenboomlaan";11;"a";"MM05";"4325DD";"Renesse";"Zeeland";3.74839407185278;51.7247540580914;1997
-"Simpelveld";"Brandstraat";67;"";"";"6369XB";"Simpelveld";"Limburg";5.97770369495468;50.8332371486704;1966
-"Sint-Michielsgestel";"Kloosterhof";7;"N";"";"5258HH";"Berlicum";"Noord-Brabant";5.40280917820235;51.6769272579113;2013
-"Sint-Oedenrode";"Boekweit";9;"";"";"5491NP";"Sint-Oedenrode";"Noord-Brabant";5.45036924539417;51.5666261923157;
-"Sint Anthonis";"Noordstraat";34;"";"";"5446XB";"Wanroij";"Noord-Brabant";5.8128701602092;51.6585754963196;1900
-"Sittard-Geleen";"Tudderenderweg";307;"A";"8";"6137LA";"Sittard";"Limburg";5.89364694574063;51.0095642879128;
-"Sliedrecht";"Beyerinckstraat";2;"h";"";"3364AX";"Sliedrecht";"Zuid-Holland";4.75923290540543;51.8326216165268;
-"Slochteren";"Damsterweg";2;"";"";"9629PD";"Steendam";"Groningen";6.84517878829082;53.2695789032177;
-"Sluis";"Eedeweg";28;"";"";"4527AK";"Aardenburg";"Zeeland";3.44105796298493;51.2695999491298;
-"Smallingerland";"Raadhuisplein";62;"";"";"9203EB";"Drachten";"Friesland";6.09987253678921;53.1049907430681;2014
-"Soest";"Meent";23;"";"";"3762DX";"Soest";"Utrecht";5.27640051460965;52.1874195126219;
-"Someren";"Bosselerstraat";5;"";"";"5711XN";"Someren";"Noord-Brabant";5.71628647769706;51.3895534206656;1965
-"Son en Breugel";"Eemshof";3;"";"";"5691PH";"Son en Breugel";"Noord-Brabant";5.48495603994763;51.5284494072548;
-"Stadskanaal";"Molenstraat";12;"";"";"9584AT";"Mussel";"Groningen";7.04015400290788;52.9574274530559;2011
-"Staphorst";"Ebbinge Wubbenlaan";49;"";"";"7951AB";"Staphorst";"Overijssel";6.20204206961688;52.6535744868498;
-"Stede Broec";"Rak";32;"";"";"1611JX";"Bovenkarspel";"Noord-Holland";5.24149930481781;52.7014209229684;1993
-"Steenbergen";"Panneman";47;"";"";"4651WL";"Steenbergen";"Noord-Brabant";4.3262709906887;51.5935726955562;1990
-"Steenwijkerland";"Veneweg";251;"l";"";"7946LV";"Wanneperveen";"Overijssel";6.07611309655373;52.6910168404518;
-"Stein";"Julianaweg";12;"";"";"6171XD";"Stein";"Limburg";5.76477681398141;50.9613998065435;
-"Stichtse Vecht";"Dudok de Witstraat";48;"";"";"3621CS";"Breukelen";"Utrecht";4.9989265623088;52.1707095272092;1955
-"Strijen";"Steenplaats";18;"a";"";"3291EW";"Strijen";"Zuid-Holland";4.56704716693471;51.7329723735518;
-"Súdwest-Fryslân";"De Krânse";23;"";"";"8748GK";"Witmarsum";"Friesland";5.46236525017783;53.0982881519268;2010
-"Ten Boer";"Redgerstraat";37;"";"";"9791BH";"Ten Boer";"Groningen";6.69362200531934;53.2710325899422;2010
-"Terneuzen";"Puntstraat";6;"";"";"4543CW";"Zaamslag";"Zeeland";3.91162983533931;51.3092729941545;1948
-"Terschelling";"Raadhuisstraat";3;"A";"";"8881BM";"West-Terschelling";"Friesland";5.2156996798035;53.3589404111884;1850
-"Texel";"Vlamkast";45;"";"";"1792CR";"Oudeschild";"Noord-Holland";4.84864534109876;53.0403049257562;2011
-"Teylingen";"Pieter Woutersstraat";13;"";"";"2215MB";"Voorhout";"Zuid-Holland";4.4888684169053;52.2255813553956;2006
-"Tholen";"Langeweg";27;"a";"";"4694BK";"Scherpenisse";"Zeeland";4.10888205804326;51.54780070256;2012
-"Tiel";"Burgemeester Van Altenastraat";7;"";"";"4001VB";"Tiel";"Gelderland";5.42268057775729;51.8828151811906;1960
-"Tilburg";"Scherpenzeelerf";5;"";"";"5035LS";"Tilburg";"Noord-Brabant";4.98354044547616;51.5800135001139;
-"Tubbergen";"De Steenbrei";22;"a";"";"7661PE";"Vasse";"Overijssel";6.83331155363526;52.4361725835833;2010
-"Twenterand";"Kerkallee";9;"";"";"7683PX";"Den Ham";"Overijssel";6.48584488405553;52.461360233568;
-"Tynaarlo";"Tienelsweg";33;"B";"247";"9471PA";"Zuidlaren";"Drenthe";6.65898542097699;53.0977423391981;
-"Tytsjerksteradiel";"Lageweg";10;"";"";"9251JW";"Burgum";"Friesland";5.99000828694625;53.1919573303686;1968
-"Uden";"Zeelandsedijk";10;"d";"267";"5408SM";"Volkel";"Noord-Brabant";5.68200813764898;51.6583794898193;1991
-"Uitgeest";"Lagendijk";22;"";"0015";"1911MT";"Uitgeest";"Noord-Holland";4.7430601208819;52.5173143762561;1890
-"Uithoorn";"Boterdijk";66;"";"ME";"1424NH";"De Kwakel";"Noord-Holland";4.80733903553747;52.2400528878478;
-"Urk";"Industrierondweg";20;"a";"";"8321EB";"Urk";"Flevoland";5.60977298260164;52.6578687809231;
-"Utrecht";"Tweede Westerparklaan";149;"";"";"3544VP";"Utrecht";"Utrecht";5.04795350440457;52.0910360447612;
-"Utrechtse Heuvelrug";"van Galenlaan";63;"";"";"3941VC";"Doorn";"Utrecht";5.33777126317374;52.0473238831662;1965
-"Vaals";"Mommegats";5;"";"";"6294AN";"Vijlen";"Limburg";5.96774571664414;50.7897981852226;
-"Valkenburg aan de Geul";"Poststraat";16;"";"";"6301DZ";"Valkenburg";"Limburg";5.8324374045094;50.8653294841479;2006
-"Valkenswaard";"Leonardusdal";65;"";"";"5551CD";"Valkenswaard";"Noord-Brabant";5.43341311319308;51.3558880194306;1972
-"Veendam";"Oostlaan";271;"";"";"9642PS";"Veendam";"Groningen";6.85978846147575;53.1030903433824;1972
-"Veenendaal";"Gorterpad";3;"";"";"3906XD";"Veenendaal";"Utrecht";5.52439986423203;52.0278904647321;
-"Veere";"Brouwershoofd";1;"";"";"4354NV";"Vrouwenpolder";"Zeeland";3.61815427332221;51.5837623882123;1979
-"Veghel";"Turfven";29;"";"";"5464PL";"Veghel";"Noord-Brabant";5.56395239364624;51.631969643508;2007
-"Veldhoven";"Bosuil";1;"";"";"5508KG";"Veldhoven";"Noord-Brabant";5.38880050681422;51.4330753998853;1990
-"Velsen";"Radarstraat";108;"V";"";"1973ZD";"IJmuiden";"Noord-Holland";4.60531554019841;52.454535725197;2010
-"Venlo";"Adelborstenstraat";15;"";"";"5914LX";"Venlo";"Limburg";6.17488414717111;51.3865276305826;2015
-"Venray";"Deputé Petersstraat";34;"";"";"5808BC";"Oirlo";"Limburg";6.04304576081216;51.5111160647693;
-"Vianen";"Middelwaard";5;"";"";"4133LB";"Vianen";"Utrecht";5.05934784674113;51.9858455023978;
-"Vlaardingen";"Holyweg";31;"";"";"3137KB";"Vlaardingen";"Zuid-Holland";4.33360691505861;51.9387917491161;
-"Vlagtwedde";"Munnekemoer West";34;"";"";"9561NK";"Ter Apel";"Groningen";7.08256129920407;52.8441543042588;
-"Vlieland";"Middenweg";37;"H";"";"8899BA";"Vlieland";"Friesland";5.06855680237964;53.2964277759861;1975
-"Vlissingen";"President Rooseveltlaan";733;"a";"";"4383NG";"Vlissingen";"Zeeland";3.5836684950798;51.4558478746479;2002
-"Voerendaal";"Heerlerweg";93;"";"";"6367AC";"Voerendaal";"Limburg";5.93978840261119;50.8749766088535;1935
-"Voorschoten";"Krimkade";71;"a";"";"2251JZ";"Voorschoten";"Zuid-Holland";4.46103844124984;52.1324173318653;1956
-"Voorst";"Kruizemuntstraat";40;"";"";"7383XM";"Voorst";"Gelderland";6.13976501119269;52.1681557648308;1992
-"Vught";"Olmenlaan";17;"";"";"5261XL";"Vught";"Noord-Brabant";5.29282323343447;51.6607928321212;
-"Waalre";"Broekweg";30;"";"";"5581VV";"Waalre";"Noord-Brabant";5.44185787117056;51.3977700309015;
-"Waalwijk";"Nederveenweg";18;"a";"";"5161PA";"Sprang-Capelle";"Noord-Brabant";4.98367389315714;51.6947632615418;
-"Waddinxveen";"Mercuriusweg";7;"M";"";"2741TB";"Waddinxveen";"Zuid-Holland";4.65351345144239;52.0348925701689;2014
-"Wageningen";"Bellostraat";43;"";"";"6706EX";"Wageningen";"Gelderland";5.67706060978607;51.977245151512;2014
-"Wassenaar";"Slingerweg";7;"A";"";"2243GT";"Wassenaar";"Zuid-Holland";4.35731263272165;52.1312469527618;1975
-"Waterland";"'t Spil";22;"";"";"1141SE";"Monnickendam";"Noord-Holland";5.03720840556193;52.4504495778263;1975
-"Weert";"Maasenweg";39;"";"";"6003AH";"Weert";"Limburg";5.70153544956685;51.2647364667789;2010
-"Weesp";"Utrechtseweg";698;"s";"";"1381GW";"Weesp";"Noord-Holland";5.06047046722968;52.2970786718618;
-"Werkendam";"Buitenkade";3;"";"";"4255GW";"Nieuwendijk";"Noord-Brabant";4.92476850067906;51.7683484738473;1994
-"West Maas en Waal";"Schansedijk";14;"";"";"6626BA";"Alphen";"Gelderland";5.49215122877395;51.8346816233669;
-"Westerveld";"Broekemastraat";43;"";"";"7981DE";"Diever";"Drenthe";6.3079955521819;52.8579051360732;
-"Westervoort";"Hamersestraat";29;"m";"1";"6931EV";"Westervoort";"Gelderland";5.97417771058272;51.9642423525872;2014
-"Westland";"Dijkweg";151;"";"";"2675AD";"Honselersdijk";"Zuid-Holland";4.22111872271592;52.0034572297012;1911
-"Weststellingwerf";"Hoofdstraat West";13;"";"";"8391AK";"Noordwolde";"Friesland";6.13929813390873;52.8903739255914;1942
-"Westvoorne";"Kerkweg";8;"";"";"3235XL";"Rockanje";"Zuid-Holland";4.07730589623275;51.8745995648741;9999
-"Wierden";"Anjelierstraat";6;"";"";"7641CG";"Wierden";"Overijssel";6.59551141339455;52.3605649820671;1957
-"Wijchen";"Klompenmaker";24;"";"";"6603JM";"Wijchen";"Gelderland";5.74039694840785;51.7956614145087;2010
-"Wijdemeren";"Legakker";13;"";"";"1394KV";"Nederhorst den Berg";"Noord-Holland";5.04747147284855;52.2573525138222;1981
-"Wijk bij Duurstede";"Flavius";32;"";"";"3962MA";"Wijk bij Duurstede";"Utrecht";5.33409262591337;51.9848747282761;2015
-"Winsum";"Leerlooierij";30;"";"";"9951JT";"Winsum";"Groningen";6.52835764464497;53.3266466064355;1980
-"Winterswijk";"Kastanjelaan";88;"a";"";"7101LZ";"Winterswijk";"Gelderland";6.72897626587903;51.9699228394814;
-"Woensdrecht";"Dorpsstraat";4;"a";"";"4635BC";"Huijbergen";"Noord-Brabant";4.37867641409144;51.4327750133224;2015
-"Woerden";"Hoge Rijndijk";4;"";"23";"3449HA";"Woerden";"Utrecht";4.87196546926711;52.0854279239698;2011
-"Wormerland";"Dorpsstraat";84;"";"";"1534NM";"Oostknollendam";"Noord-Holland";4.79395837287146;52.5201079863308;1921
-"Woudenberg";"'t Schilt";16;"";"";"3931VH";"Woudenberg";"Utrecht";5.4135940555504;52.0818633247533;2005
-"Woudrichem";"Stadshaven";12;"";"";"4285AZ";"Woudrichem";"Noord-Brabant";5.00186230835858;51.8189930479644;
-"Zaanstad";"Ringweg";302;"";"";"1507BS";"Zaandam";"Noord-Holland";4.78748081245306;52.4306183198533;
-"Zaltbommel";"Tolstraat";4;"b";"";"5301AX";"Zaltbommel";"Gelderland";5.24683198622885;51.8139198946206;2009
-"Zandvoort";"Wilhelminaweg";42;"";"";"2042NR";"Zandvoort";"Noord-Holland";4.53739823086914;52.3705341713421;1952
-"Zederik";"Kortenhoevenseweg";17;"";"";"4128CL";"Lexmond";"Zuid-Holland";5.03778012715101;51.9634228508441;1920
-"Zeewolde";"Wielseweg";3;"K";"W5";"3896LA";"Zeewolde";"Flevoland";5.44020863709685;52.2748175691901;
-"Zeist";"Meester Lasterielaan";8;"";"";"3734JC";"Den Dolder";"Utrecht";5.23477314707101;52.1442165843384;2010
-"Zevenaar";"Beekseweg";39;"";"";"6909DN";"Babberich";"Gelderland";6.13971482325807;51.9058022474246;1931
-"Zoetermeer";"Wethouder Van Wellstraat";18;"";"";"2721DT";"Zoetermeer";"Zuid-Holland";4.55101635665231;52.0601724097913;2015
-"Zoeterwoude";"Rhijnvreugd";9;"a";"";"2382BG";"Zoeterwoude";"Zuid-Holland";4.52378543754508;52.1460231177756;
-"Zuidhorn";"Taling";18;"";"";"9843GG";"Grijpskerk";"Groningen";6.30070826358337;53.2613153165105;1977
-"Zuidplas";"Rietgors";8;"";"";"2841RS";"Moordrecht";"Zuid-Holland";4.661479232677;51.9876061518041;1981
-"Zundert";"van den Berghstraat";35;"";"";"4885AG";"Achtmaal";"Noord-Brabant";4.58251503994815;51.4518464647597;1966
-"Zutphen";"Kerkpad";102;"";"";"7203DT";"Zutphen";"Gelderland";6.22464252270884;52.147173460582;
-"Zwartewaterland";"Fazant";49;"";"";"8281GM";"Genemuiden";"Overijssel";6.04841306673984;52.6177154989099;1978
-"Zwijndrecht";"Bolero";50;"";"";"3335ED";"Zwijndrecht";"Zuid-Holland";4.60088719955402;51.8202963794507;
-"Zwolle";"Almelose Kanaal";55;"B";"";"8011KS";"Zwolle";"Overijssel";6.10371529422596;52.5119758029733;
+gemeentenaam;openbareruimtenaam;huisnummer;huisletter;huisnummertoevoeging;postcode;woonplaatsnaam;provincienaam;lon;lat;bouwjaar
+'s-Gravenhage;Weissenbruchstraat;193;;;2596GE;'s-Gravenhage;Zuid-Holland;4.32446402335053;52.0915840213469;1929
+'s-Hertogenbosch;Industriestraat;12;A;;5391BR;Nuland;Noord-Brabant;5.44249506360152;51.7231925571879;2012
+Aa en Hunze;Broek;14;;;9511PT;Gieterveen;Drenthe;6.83526677070586;53.025369880389;1956
+Aalburg;Kortakker;9;;;4264AE;Veen;Noord-Brabant;5.09874464009355;51.7727262862008;2001
+Aalsmeer;Legmeerdijk;161;;kwek;1432KA;Aalsmeer;Noord-Holland;4.8131967293399;52.2803330716232;1980
+Aalten;Dr. Smitstraat;10;;;7091DX;Dinxperlo;Gelderland;6.48611580080288;51.8641987818593;2015
+Achtkarspelen;Hillebrandsreed;26;;;9287NN;Twijzelerheide;Friesland;6.03646614820816;53.2403105796014;1985
+Alblasserdam;Brederostraat;34;g;22;2951TG;Alblasserdam;Zuid-Holland;4.67143294288315;51.8656593214927;1969
+Albrandswaard;Julianahof;9;;;3161AR;Rhoon;Zuid-Holland;4.41738263825847;51.8574984024455;2011
+Alkmaar;Muiderwaard;673;;;1824XP;Alkmaar;Noord-Holland;4.75147265408367;52.6467523512662;1973
+Almelo;De Pijlstaart;10;;;7609TZ;Almelo;Overijssel;6.63977990998337;52.3289682601801;1996
+Almere;Saturnussingel;249;;;1363RG;Almere;Flevoland;5.16015358814272;52.358364303259;2014
+Alphen-Chaam;Baarlesebaan;3;;;5131RP;Alphen;Noord-Brabant;4.99660620791578;51.4706140500912;2003
+Alphen aan den Rijn;Zonneveldhof;16;;;2394CZ;Hazerswoude-Rijndijk;Zuid-Holland;4.59732775919862;52.1306028166523;2012
+Ameland;Terpelânnen;11;;;9161DX;Hollum;Friesland;5.6432908879419;53.439889742555;1984
+Amersfoort;Sara Burgerhartsingel;139;;;3813NE;Amersfoort;Utrecht;5.39490357018993;52.1734471994143;1984
+Amstelveen;Heemstede;234;;;1187MG;Amstelveen;Noord-Holland;4.81872755872647;52.2800732515225;2012
+Amsterdam;Zeeburgerpad;177;;;1019DZ;Amsterdam;Noord-Holland;4.93459483324089;52.3667229562627;
+Apeldoorn;Hoge Bergweg;16;;H136;7361GS;Beekbergen;Gelderland;6.00745566190308;52.1386550268445;2012
+Appingedam;Abel Eppensstraat;44;a;;9902HJ;Appingedam;Groningen;6.87375271163235;53.3186926472558;1991
+Arnhem;Hoogezandstraat;4;;;6835DM;Arnhem;Gelderland;5.90294231653219;51.9503221193661;1973
+Assen;Aar;14;L;;9406GB;Assen;Drenthe;6.53676360876152;52.9971930754056;1965
+Asten;Burgemeester Frenckenstraat;18;;;5721EZ;Asten;Noord-Brabant;5.74698237043674;51.4044509304733;2010
+Baarle-Nassau;Nassaupark;23;;;5111WZ;Baarle-Nassau;Noord-Brabant;4.92896139793311;51.439837654871;2016
+Baarn;Ericastraat;15;;;3742SG;Baarn;Utrecht;5.29732402307741;52.2047962980114;2002
+Barendrecht;Van Kronenburgvliet;24;;;2992TG;Barendrecht;Zuid-Holland;4.53228810416584;51.847430614462;1986
+Barneveld;Dorkinglaan;12;;;3772PR;Barneveld;Gelderland;5.5939315108673;52.126787956956;2014
+Bedum;De Hazelaar;23;;;9781VJ;Bedum;Groningen;6.61255136807218;53.2954717824383;1981
+Beek;Schoolstraat;2;c;;6176BZ;Spaubeek;Limburg;5.83996885645663;50.9381473903294;1920
+Beemster;Winterjanpad;5;;;1461JG;Zuidoostbeemster;Noord-Holland;4.94054482299575;52.5199114061859;2011
+Beesel;Het Vloot;10;;;5953DX;Reuver;Limburg;6.08060910645385;51.2856960194765;2000
+Bellingwedde;Venneweg;31;;;9566PA;Veelerveen;Groningen;7.12163049527084;53.0569270218796;1953
+Berg en Dal;Dakotastraat;17;;;6562HE;Groesbeek;Gelderland;5.94456708248335;51.7596226554313;2011
+Bergeijk;Weebosch;114;;;5571NH;Bergeijk;Noord-Brabant;5.29685341282102;51.3065311772044;1950
+Bergen (L.);Droogstal;9;a;;5856AX;Wellerlooi;Limburg;6.14198258672257;51.5249885185921;1964
+Bergen (NH.);Rooseveltstraat;16;;;1931VN;Egmond aan Zee;Noord-Holland;4.62627252242586;52.615621578193;1967
+Bergen op Zoom;Schoolstraat;1;g;;4611MD;Bergen op Zoom;Noord-Brabant;4.28956800385985;51.4936389230038;2012
+Berkelland;Beatrixstraat;1;l;;7161DJ;Neede;Gelderland;6.61472047366638;52.1331360035695;2011
+Bernheze;Monseigneur Zwijsenstraat;10;;;5384JE;Heesch;Noord-Brabant;5.52394545244423;51.7281565599573;1970
+Best;Voetboog;5;;;5684DH;Best;Noord-Brabant;5.38112508796671;51.5058669667035;2016
+Beuningen;Jonkerstraat;41;;;6551DD;Weurt;Gelderland;5.81097998806488;51.8559558633691;1970
+Beverwijk;Wijkermeerweg;44;U;;1948NW;Beverwijk;Noord-Holland;4.66488515161904;52.4768965404524;2012
+Binnenmaas;Amaliastraat;1;;;3295DZ;'s-Gravendeel;Zuid-Holland;4.62037550987089;51.7765826326623;2013
+Bladel;Rondweg;25;;k150;5531AJ;Bladel;Noord-Brabant;5.21702523157009;51.3626022381402;1963
+Blaricum;Kooltjespad;6;;;1261DP;Blaricum;Noord-Holland;5.23768740623956;52.2772185727111;1994
+Bloemendaal;Haarlemmerstraat;131;;;2121AL;Bennebroek;Noord-Holland;4.58688931871317;52.3178832691161;2010
+Bodegraven-Reeuwijk;Beiershof;65;;;2411JS;Bodegraven;Zuid-Holland;4.74993882986209;52.0797123657608;1970
+Boekel;Leeuweriklaan;21;;;5427SM;Boekel;Noord-Brabant;5.68116036683848;51.5988626436948;1973
+Borger-Odoorn;Westeresweg;25;;;7875BC;Exloo;Drenthe;6.85922212301359;52.8800195078452;1971
+Borne;Binnensingel;11;;;7623MB;Borne;Overijssel;6.77069851152104;52.2929390434574;2013
+Borsele;Marktstraat;21;;;4453AJ;'s-Heerenhoek;Zeeland;3.77040685416357;51.4524078770528;1973
+Boxmeer;Merletgaarde;28;;;5821BW;Vierlingsbeek;Noord-Brabant;6.00731634296891;51.5964249809574;2012
+Boxtel;Bunderhoef;10;;;5283TX;Boxtel;Noord-Brabant;5.3316418823559;51.5976246725404;
+Breda;Baarschot;34;E;;4817ZZ;Breda;Noord-Brabant;4.84146940927009;51.5932957668063;
+Brielle;Eewasstraat;28;;;3237AL;Vierpolders;Zuid-Holland;4.18042841551138;51.8771194973312;1970
+Bronckhorst;Raadhuisstraat;1;;;7255BK;Hengelo (Gld);Gelderland;6.31031672792193;52.0514149543574;1900
+Brummen;Brahmsstraat;14;;;6961AP;Eerbeek;Gelderland;6.05325518563507;52.107985092008;1973
+Brunssum;Hazenkampstraat;18;;;6445BN;Brunssum;Limburg;5.97393967029555;50.9317206517944;1927
+Bunnik;Beughof;14;;;3984LN;Odijk;Utrecht;5.22980277531915;52.0473897533042;1999
+Bunschoten;Zuiderzeekade;23;;;3751HA;Bunschoten-Spakenburg;Utrecht;5.3828664543802;52.2564745755781;
+Buren;J. Bosschaartstraat;31;;;4112LM;Beusichem;Gelderland;5.2905687609506;51.9462677810446;1999
+Capelle aan den IJssel;Merellaan;378;;;2903GM;Capelle aan den IJssel;Zuid-Holland;4.58972114956842;51.9346469890883;2013
+Castricum;Dorpsstraat;54;;;1901EM;Castricum;Noord-Holland;4.66245044568729;52.5467216805574;2006
+Coevorden;Eserstraat;24;;;7849PH;De Kiel;Drenthe;6.74956365487173;52.8632750553227;1992
+Cranendonck;Europalaan-Noord;22;;;6021EH;Budel;Noord-Brabant;5.57373500535522;51.2788178037425;2011
+Cromstrijen;Molendijk;94;;;3286BJ;Klaaswaal;Zuid-Holland;4.44052792836325;51.7734529492547;1938
+Cuijk;Saffierdreef;20;;;5431WS;Cuijk;Noord-Brabant;5.87054403639608;51.7375984634198;1962
+Culemborg;van Pallandtdreef;29;;;4101KC;Culemborg;Gelderland;5.23488093313849;51.9591885066047;2007
+Dalfsen;Meidoornlaan;17;;;7721EX;Dalfsen;Overijssel;6.24824604762557;52.5104547869249;1972
+Dantumadiel;Tjaerdawei;42;a;;9105KG;Rinsumageast;Friesland;5.94587448740909;53.2971597350528;2008
+De Bilt;Ruigenhoeksedijk;19;;;3737MP;Groenekan;Utrecht;5.14187296144721;52.1256959139516;1890
+De Fryske Marren;Wielenlaan;38;;;8526GG;Boornzwaag;Friesland;5.74465215906156;52.9582607049873;1966
+De Marne;Westerklooster;3;A;;9977RA;Kloosterburen;Groningen;6.38493464478535;53.3878304010487;1962
+De Ronde Venen;Vinkenkade;41;R;5;3645AP;Vinkeveen;Utrecht;4.96802276601447;52.247246749541;2003
+De Wolden;Meppelerweg;22;;213;7921VR;Zuidwolde;Drenthe;6.42374109184818;52.677722677572;2008
+Delft;Stieltjesweg;428;;;2628CK;Delft;Zuid-Holland;4.3767679853871;52.0004513089692;1930
+Delfzijl;A.E. Gorterweg;62;;;9946PE;Woldendorp;Groningen;7.03233713404721;53.2762568984509;1980
+Den Helder;Duinroosstraat;149;;;1783GD;Den Helder;Noord-Holland;4.73309483126646;52.9404534055654;1962
+Deurne;Lagebrugweg;2;;;5759PK;Helenaveen;Noord-Brabant;5.91215043914701;51.387019901776;1960
+Deventer;Landsherenlaan;99;;;7415XH;Deventer;Overijssel;6.15825292830777;52.2710851212339;2010
+Diemen;Bergwijkdreef;606;;;1112XZ;Diemen;Noord-Holland;4.95829182799276;52.3261618760577;2009
+Dinkelland;Brandlichterweg;50;B;;7591NE;Denekamp;Overijssel;7.01916978970091;52.3763837087559;2011
+Doesburg;Veerpoortdijk;87;;;6981LA;Doesburg;Gelderland;6.12884301049806;52.0146032881806;2009
+Doetinchem;Anna Blamanstraat;3;;;7002AA;Doetinchem;Gelderland;6.30356377840932;51.9736739527566;
+Dongen;Europaplein;79;;;5101VX;Dongen;Noord-Brabant;4.92231859380538;51.6272119859201;1969
+Dongeradeel;Rondweg-Noord;54;A;01;9101AE;Dokkum;Friesland;5.99285403949694;53.3277880369888;2011
+Dordrecht;Tweelingenstraat;95;;;3318BS;Dordrecht;Zuid-Holland;4.67830248004433;51.7892256048168;1967
+Drechterland;Zeger Davidzonweg;44;;;1606XB;Venhuizen;Noord-Holland;5.21687062870675;52.6678468857655;
+Drimmelen;Thijssenweg;10;J;;4927PC;Hooge Zwaluwe;Noord-Brabant;4.74745333788498;51.6694962987272;2015
+Dronten;De Schipbeek;17;;;8253RD;Dronten;Flevoland;5.70912805941458;52.5383383325437;2006
+Druten;Celestinelaan;69;;;6651TD;Druten;Gelderland;5.60172110119336;51.8922413990254;2009
+Duiven;Westsingel;20;;;6921RX;Duiven;Gelderland;6.01304438647386;51.9563178749793;
+Echt-Susteren;Vuchterstraat;1;;;6105AN;Maria Hoop;Limburg;5.99952364016908;51.0985440659043;1938
+Edam-Volendam;De Ster;8;;;1474AE;Oosthuizen;Noord-Holland;4.99134727840119;52.568045483506;2011
+Ede;Brinkstraat;13;;;6721WR;Bennekom;Gelderland;5.67473891602007;51.999174686677;1920
+Eemnes;Ploeglaan;2;A;05;3755HT;Eemnes;Utrecht;5.25929957103241;52.2506284905588;2009
+Eemsmond;J. Cohenstraat;15;b;;9981JD;Uithuizen;Groningen;6.67521977451884;53.4040099353843;2011
+Eersel;Steenstraat;10;;;5521KT;Eersel;Noord-Brabant;5.31916017195602;51.3534788907356;1978
+Eijsden-Margraten;Papenweg;17;;;6261NE;Mheer;Limburg;5.79558410341904;50.7776550897401;9999
+Eindhoven;Byrdstraat;61;;;5623PL;Eindhoven;Noord-Brabant;5.47922575039896;51.4542299837642;1953
+Elburg;Gerichtenweg;51;;;8085PW;Doornspijk;Gelderland;5.84047986522772;52.4287981571535;1950
+Emmen;Langestraat;77;;;7891GE;Klazienaveen;Drenthe;6.98236252178258;52.7243770732899;1907
+Enkhuizen;Dirk Wierengastraat;44;;;1602TK;Enkhuizen;Noord-Holland;5.28120686389921;52.7127694585225;2014
+Enschede;J.J. van Deinselaan;34;;61;7541PE;Enschede;Overijssel;6.90128945387461;52.2073081749703;2012
+Epe;Laan van Fasna;62;;;8171KH;Vaassen;Gelderland;5.97341057767211;52.2839704209483;9999
+Ermelo;Branderskamp;91;;;3851XV;Ermelo;Gelderland;5.63105279265511;52.301719306621;2011
+Etten-Leur;Koetsierhof;38;;;4871KL;Etten-Leur;Noord-Brabant;4.66180045312344;51.5901105695339;2012
+Ferwerderadiel;Concordiastrjitte;23;;;9112HW;Burdaard;Friesland;5.86998887739454;53.2898782327068;2002
+Franekeradeel;P J Troelstrastraat;12;;;8802RD;Franeker;Friesland;5.53785402239619;53.1962263050672;1978
+Geertruidenberg;Julianastraat;8;;;4931CW;Geertruidenberg;Noord-Brabant;4.85896130945863;51.6995190211892;1954
+Geldermalsen;Kuyckshof;24;;;4194AG;Meteren;Gelderland;5.29215384241572;51.8702613284697;2011
+Geldrop-Mierlo;Hazelaar;104;;;5664VL;Geldrop;Noord-Brabant;5.55902281036716;51.4127978147938;1967
+Gemert-Bakel;Bunder;20;;;5421AG;Gemert;Noord-Brabant;5.70503206488193;51.5526742908651;1991
+Gennep;Picardie;7;;;6591JA;Gennep;Limburg;5.97220853277924;51.6986993702285;9999
+Giessenlanden;Neerpolderseweg;108;A;H023;3381JV;Giessenburg;Zuid-Holland;4.86681605405471;51.8344995748609;2003
+Gilze en Rijen;Molenschotsebaan;21;;g3;5124NG;Molenschot;Noord-Brabant;4.89424047571198;51.5791534900785;
+Goeree-Overflakkee;Oostplaatseweg;19;;;3241LV;Middelharnis;Zuid-Holland;4.19388071505525;51.7633464423587;2010
+Goes;Pykeswegje;92;;;4462PC;Goes;Zeeland;3.89559959381465;51.4858832986147;2012
+Goirle;Klein Kraaivenstraat;22;;;5051ES;Goirle;Noord-Brabant;5.05228716014222;51.5200091976265;1964
+Gooise Meren;Cereslaan;105;;;1402LJ;Bussum;Noord-Holland;5.16601176434241;52.2721356082265;1931
+Gorinchem;Westwagenstraat;41;;;4201HE;Gorinchem;Zuid-Holland;4.97139781324876;51.8304772493252;1995
+Gouda;Goudkade;56;;;2802AA;Gouda;Zuid-Holland;4.69137256868889;52.0114753302803;
+Grave;Maasstraat;12;a;;5361GG;Grave;Noord-Brabant;5.74135131530414;51.7602978458362;1999
+Groningen;Multatulistraat;103;;;9721NH;Groningen;Groningen;6.5647075570302;53.1964507320444;1963
+Grootegast;Bossingel;2;B;;9865VL;Opende;Groningen;6.19196687179417;53.1567547493702;
+Gulpen-Wittem;Beutenaken;5;;;6278NA;Beutenaken;Limburg;5.85506023305579;50.7803879184469;1970
+Haaksbergen;Oostendorperweg;41;;Z;7481VE;Haaksbergen;Overijssel;6.73828932512776;52.1352518001028;1960
+Haaren;Driehoeven;56;;;5076BJ;Haaren;Noord-Brabant;5.22676420505345;51.6000729957261;1990
+Haarlem;Spiegelstraat;23;;;2011BN;Haarlem;Noord-Holland;4.64413875231112;52.3795069011456;1976
+Haarlemmerliede en Spaarnwoude;Zijkanaal F Oost;6;;;1165LX;Halfweg;Noord-Holland;4.75280485908243;52.3869040887777;
+Haarlemmermeer;IJweg;345;;;1161EZ;Zwanenburg;Noord-Holland;4.73738928313337;52.3647973126526;
+Halderberge;Bosanemoon;9;;;4741JE;Hoeven;Noord-Brabant;4.57927889180454;51.5697705561556;2012
+Hardenberg;Kruserbrink;101;;;7772XJ;Hardenberg;Overijssel;6.6236662386871;52.5780026218275;1962
+Harderwijk;Zijpenbergerhout;23;;;3845JT;Harderwijk;Gelderland;5.60259014804549;52.3229114231608;2010
+Hardinxveld-Giessendam;Rembrandthof;99;;;3372XV;Hardinxveld-Giessendam;Zuid-Holland;4.88380230531175;51.8245565872111;2002
+Haren;Eenkoorn;1;;;9751WJ;Haren Gn;Groningen;6.60929942518461;53.1815619151188;2016
+Harlingen;De Phoenix;2;;;8862TW;Harlingen;Friesland;5.42648452303939;53.1628071161136;1983
+Hattem;Koningin Wilhelminalaan;2;A;66;8051PA;Hattem;Gelderland;6.05720026124036;52.4566217128827;1960
+Heemskerk;Simon van Haerlemstraat;174;;;1962VG;Heemskerk;Noord-Holland;4.6788691230054;52.5069695431872;1900
+Heemstede;Cruquiushaven;9;;;2102LX;Heemstede;Noord-Holland;4.63574285162238;52.341522227871;
+Heerde;Bonenburgerlaan;66;;;8181HH;Heerde;Gelderland;6.04143866995845;52.3828206780375;9999
+Heerenveen;Bûterwâl;7;A;;8491ES;Akkrum;Friesland;5.83353031116728;53.0506713502349;1920
+Heerhugowaard;Middenweg;593;;;1704BH;Heerhugowaard;Noord-Holland;4.85242877438681;52.7164852941168;1930
+Heerlen;Peter Schunckstraat;562;;;6418XS;Heerlen;Limburg;6.00912720029023;50.8638584579953;1967
+Heeze-Leende;Biesven;6;b;;5595DD;Leende;Noord-Brabant;5.5468072917544;51.3518407059801;2013
+Heiloo;De Houtwal;16;;;1852RP;Heiloo;Noord-Holland;4.69835190151086;52.610050037138;2010
+Hellendoorn;Holterweg;91;;;7441DE;Nijverdal;Overijssel;6.45784016745966;52.3524861236349;1960
+Hellevoetsluis;Moriaanseweg Oost;201;;;3223AH;Hellevoetsluis;Zuid-Holland;4.13888952921912;51.8389485085256;1897
+Helmond;Trompetstraat;21;;;5702JE;Helmond;Noord-Brabant;5.66403045942437;51.4988602555848;2011
+Hendrik-Ido-Ambacht;Agaat Oomstraat;3;;;3342GJ;Hendrik-Ido-Ambacht;Zuid-Holland;4.62258275973283;51.8396438443809;1995
+Hengelo;Burenweg;70;;;7555PV;Hengelo;Overijssel;6.7515468932745;52.286005613337;1912
+het Bildt;de Finne;30;;;9047KT;Minnertsga;Friesland;5.58993673118509;53.2488460491954;1979
+Heumen;Willem Alexanderstraat;35;;;6611CE;Overasselt;Gelderland;5.78417197737492;51.7622442192987;1990
+Heusden;Castellum;12;;;5256GZ;Oudheusden;Noord-Brabant;5.13658051703364;51.7240849146853;2010
+Hillegom;Hyacinthenlaan;16;;;2182DE;Hillegom;Zuid-Holland;4.5612378628168;52.284174933397;1975
+Hilvarenbeek;Van Hoornstraat;18;;;5081CE;Hilvarenbeek;Noord-Brabant;5.13410794274821;51.4867951419239;1966
+Hilversum;Schoolstraat;70;;;1211AZ;Hilversum;Noord-Holland;5.17835383210438;52.2285682609805;1978
+Hof van Twente;Koenderinkstraat;4;;;7496AV;Hengevelde;Overijssel;6.63284631616631;52.1989393534057;1975
+Hollands Kroon;C. R. Waiboerstraat;1;;G06;1761CK;Anna Paulowna;Noord-Holland;4.82815012244634;52.8617321967039;1971
+Hoogeveen;Weberstraat;5;;;7903BD;Hoogeveen;Drenthe;6.49519750339426;52.7357603010173;1990
+Hoogezand-Sappemeer;Strandweg;6;;;9606PR;Kropswolde;Groningen;6.69294645208778;53.1466827106924;1960
+Hoorn;Achterom;1;;133;1621KP;Hoorn;Noord-Holland;5.05712063199847;52.6385287358395;1991
+Horst aan de Maas;Californischeweg;4;b;;5971NV;Grubbenvorst;Limburg;6.13270344331156;51.4228223540289;
+Houten;Nikkelslag;12;;;3991RD;Houten;Utrecht;5.15209467194711;52.0268044656102;2016
+Huizen;Boeg;26;;;1276BN;Huizen;Noord-Holland;5.25546706653837;52.2946144425794;1969
+Hulst;Vinkebroeksestraat;2;;;4564RB;Sint Jansteen;Zeeland;4.03952732589265;51.255607369256;2015
+IJsselstein;Praagsingel;148;;;3404CN;IJsselstein;Utrecht;5.03889512838703;52.0103712897199;1998
+Kaag en Braassem;Sluis;25;;;2376AS;Nieuwe Wetering;Zuid-Holland;4.62202332962752;52.2147236742796;2015
+Kampen;Steenovensdijk;17;;;8262PL;Kampen;Overijssel;5.90389703674321;52.5656320467741;1935
+Kapelle;Boomweidelaan;34;;;4423AP;Schore;Zeeland;3.99917099624717;51.4603714378949;1978
+Katwijk;De Poel;28;;;2231TK;Rijnsburg;Zuid-Holland;4.43435362268479;52.1906176060659;2014
+Kerkrade;Nullanderstraat;96;;;6461GE;Kerkrade;Limburg;6.06528308076172;50.8599610083218;1989
+Koggenland;Perengaard;19;;;1648LH;De Goorn;Noord-Holland;4.94478470114836;52.6338034274816;2015
+Kollumerland en Nieuwkruisland;Cedelshof;23;;;9298SB;Kollumerzwaag;Friesland;6.07969925485684;53.2609295893405;2002
+Korendijk;Oudendijk;68;;;3267LR;Goudswaard;Zuid-Holland;4.28598307129398;51.7703416325292;1911
+Krimpen aan den IJssel;Van Utrechtweg;73;;;2921LN;Krimpen aan den IJssel;Zuid-Holland;4.57635431238965;51.9083641040986;1989
+Krimpenerwaard;Lageweg;30;;;2935CE;Ouderkerk aan den IJssel;Zuid-Holland;4.64332723267009;51.9659173029572;2016
+Laarbeek;Ten Bleek;22;;;5741WT;Beek en Donk;Noord-Brabant;5.62094126002877;51.5304424626109;2014
+Landerd;Rootstraat;14;;;5411AX;Zeeland;Noord-Brabant;5.6775412779296;51.6941965781511;1975
+Landgraaf;Voorterhof;27;;;6373AG;Landgraaf;Limburg;6.01771737579214;50.9096810461826;1978
+Landsmeer;Buitenhuislaan;38;;;1121RM;Landsmeer;Noord-Holland;4.90542827051347;52.427377623448;2013
+Langedijk;Molengroet;1;;628;1723PX;Noord-Scharwoude;Noord-Holland;4.7701537676313;52.6953848561747;
+Lansingerland;Forsythiastraat;9;;;2651TC;Berkel en Rodenrijs;Zuid-Holland;4.48633880839568;52.0014812406929;1967
+Laren;Slangenweg;21;;;1251RT;Laren;Noord-Holland;5.22447913227723;52.2493829985242;1959
+Leek;Dokter G. de Vrieshof;14;;;9354BL;Zevenhuizen;Groningen;6.34485762924991;53.1231694572265;1971
+Leerdam;Thorbeckesingel;14;;;4142AN;Leerdam;Zuid-Holland;5.08571554701239;51.8921022240316;2015
+Leeuwarden;Surinamestraat;19;a;;8931CW;Leeuwarden;Friesland;5.78656565339809;53.1881258803285;2014
+Leeuwarderadeel;De Greiden;40;;;9055LR;Britsum;Friesland;5.78883438044101;53.2518621806485;1995
+Leiden;Lambdakade;94;;;2321KM;Leiden;Zuid-Holland;4.49263803318718;52.14317873933;2014
+Leiderdorp;Persant Snoepweg;11;;;2353KA;Leiderdorp;Zuid-Holland;4.54708163373963;52.1618232220373;
+Leidschendam-Voorburg;Prins Bernhardlaan;66;M;;2264CE;Leidschendam;Zuid-Holland;4.39280001652648;52.0878133325479;2016
+Lelystad;Rode Klif;21;;;8223CA;Lelystad;Flevoland;5.48501469677742;52.521569490032;1972
+Leudal;Vestjenshoek;4;a;;6095NT;Baexem;Limburg;5.85998631756335;51.2391509042647;1967
+Leusden;Maximaplein;68;;;3832JS;Leusden;Utrecht;5.40905752486074;52.1182576379575;2011
+Lingewaal;Leijenburgplein;13;;;4161AR;Heukelum;Gelderland;5.0745785147461;51.8711598653326;2012
+Lingewaard;van Gelrestraat;78;;;6851LG;Huissen;Gelderland;5.93285854978587;51.9374652854557;2016
+Lisse;Voerman;200;;;2163BP;Lisse;Zuid-Holland;4.56773773916498;52.2654799046908;1982
+Littenseradiel;Skildyk;10;;;9024EN;Weidum;Friesland;5.74190803223926;53.1450530840192;1999
+Lochem;Ruiterweg;35;;G07;7213BL;Gorssel;Gelderland;6.20690956460901;52.1997721686044;2003
+Loon op Zand;Lindenlaan;12;;;5175BW;Loon op Zand;Noord-Brabant;5.08164088054579;51.6292506509124;1987
+Lopik;Zuidzijdseweg;100;A;;3415PR;Polsbroek;Utrecht;4.86055802485708;51.9800959037926;1970
+Loppersum;Onderdendamsterweg;15;;;9991TB;Middelstum;Groningen;6.62727066438053;53.3392765138703;1880
+Losser;Richterstraat;81;;;7582BW;Losser;Overijssel;7.00471671308609;52.2533185884315;1972
+Maasdriel;Weikesstraat;11;;;5335LE;Alem;Gelderland;5.34453504898834;51.7861818711222;1956
+Maasgouw;De Tes;14;;;6099EB;Beegden;Limburg;5.9140196180616;51.1935510177848;2011
+Maassluis;Wipperspark;132;;;3141RD;Maassluis;Zuid-Holland;4.26667555657149;51.9224063230828;1976
+Maastricht;Nijverheidsweg;8;G;01;6227AL;Maastricht;Limburg;5.72256437379072;50.8423647930836;9999
+Marum;Spoorstraat;22;;;9363BJ;Marum;Groningen;6.27013112051557;53.1481759806887;1966
+Medemblik;Korenmarkt;4;;;1681PB;Zwaagdijk-Oost;Noord-Holland;5.14938018217491;52.6998375681929;1992
+Meerssen;Sint Josephstraat;90;;;6231EG;Meerssen;Limburg;5.74125160857905;50.8870822253603;1953
+Menameradiel;Spoorstrjitte;11;;;9033WJ;Deinum;Friesland;5.72624318884314;53.1909521862009;1965
+Menterwolde;Borgercompagniesterweg;43;;;9632TC;Borgercompagnie;Groningen;6.80890727332292;53.1318336301889;1935
+Meppel;Tuinweg;2;;;7944AD;Meppel;Drenthe;6.18988227341635;52.680326432921;1955
+Middelburg;Leliëndaalseweg;3;;;4333RC;Middelburg;Zeeland;3.60221016331445;51.5200877428375;9999
+Midden-Delfland;Hadrianuslaan;15;;;2635BV;Den Hoorn;Zuid-Holland;4.32170328976824;52.0098948238777;2015
+Midden-Drenthe;Violenstraat;18;;;9411GH;Beilen;Drenthe;6.50630699308487;52.8617948423303;1961
+Mill en Sint Hubert;Ganzenroer;2;;;5454HN;Sint Hubert;Noord-Brabant;5.80510074641073;51.6781340562362;1982
+Moerdijk;Kasteelweg;111;;;4761BN;Zevenbergen;Noord-Brabant;4.60595129862834;51.6434283421491;1997
+Molenwaard;Gijbelandsedijk;14;;;2974VC;Brandwijk;Zuid-Holland;4.80743948766922;51.873274402108;2012
+Montferland;Haverveld;55;;;6942ME;Didam;Gelderland;6.1420315093614;51.9401867197433;2002
+Montfoort;Johannes Poststraat;8;;;3417ER;Montfoort;Utrecht;4.95495778709523;52.0463851161895;1969
+Mook en Middelaar;Rijksweg;6;;;6584AB;Molenhoek;Limburg;5.86974389527977;51.7612314021918;1956
+Neder-Betuwe;Meester J van Dolderenstraat;17;;;4041VB;Kesteren;Gelderland;5.57654205465992;51.9301291561427;2013
+Nederweert;Wessemerdijk;12;;;6031SG;Nederweert;Limburg;5.78024088817978;51.2526018222289;1948
+Neerijnen;Groote Hof;3;;;4064CN;Varik;Gelderland;5.36589847614886;51.8222318142052;2014
+Nieuwegein;Kruyderlaan;29;;36;3431BM;Nieuwegein;Utrecht;5.08703212813795;52.0299624028458;2015
+Nieuwkoop;Stobbeweg;14;H;;2461EX;Ter Aar;Zuid-Holland;4.70951748138995;52.1786269155682;2012
+Nijkerk;Hoefslag;132;;;3862KD;Nijkerk;Gelderland;5.49122826896429;52.2139873655891;1975
+Nijmegen;Tolboekstraat;15;;;6537TE;Nijmegen;Gelderland;5.78235981979386;51.818034877944;
+Nissewaard;Molendijk;74;a;;3227CD;Oudenhoorn;Zuid-Holland;4.18245060993717;51.8281671789784;1968
+Noord-Beveland;Trintellaan;19;;;4484RH;Kortgene;Zeeland;3.81542777449671;51.5541983780817;2013
+Noordenveld;Matsloot;1003;;;9749TJ;Matsloot;Drenthe;6.4499960576073;53.192580468973;
+Noordoostpolder;Schweitzersingel;38;;;8302ZJ;Emmeloord;Flevoland;5.74221899581578;52.725207552488;2010
+Noordwijk;van Struykstraat;31;;;2203HC;Noordwijk;Zuid-Holland;4.45342477032896;52.2446599998236;1973
+Noordwijkerhout;Leidsevaart;27;;ws;2211WB;Noordwijkerhout;Zuid-Holland;4.5000329975728;52.2476877348981;
+Nuenen, Gerwen en Nederwetten;Beekstraat;41;;;5673NA;Nuenen;Noord-Brabant;5.56340874663066;51.4749180543561;1956
+Nunspeet;Stationslaan;10;a;;8071CM;Nunspeet;Gelderland;5.78218729098715;52.3753084732056;2005
+Nuth;Eijkenderweg;5;;;6361DE;Nuth;Limburg;5.88521172333839;50.912591001485;
+Oegstgeest;Sterreschans;239;;;2342BP;Oegstgeest;Zuid-Holland;4.45594742827791;52.1774980954076;2014
+Oirschot;Dekkerstraat;4;;;5091TL;Oost West en Middelbeers;Noord-Brabant;5.24653371886325;51.4775158184898;1976
+Oisterwijk;Het Brieltje;3;;;5066EZ;Moergestel;Noord-Brabant;5.18680867976377;51.5432960271711;
+Oldambt;Grintweg;68;;;9675HJ;Winschoten;Groningen;7.02347214407531;53.149141625454;2008
+Oldebroek;Bovenheigraaf;174;;;8091BZ;Wezep;Gelderland;5.99311109546803;52.4598588211802;2013
+Oldenzaal;Bereklauw;80;;;7577ES;Oldenzaal;Overijssel;6.92840630319624;52.3278599721166;1985
+Olst-Wijhe;Hannie Schaftlaan;11;;;8121KE;Olst;Overijssel;6.11132711000579;52.3340946162612;
+Ommen;Kerkweg;1;;;8148PX;Lemele;Overijssel;6.41449512841089;52.4525822353223;1986
+Onderbanken;Broekstraat;45;;;6451BH;Schinveld;Limburg;5.98186892928994;50.973057434431;1957
+Oost Gelre;Theo de Groenstraat;16;;;7141GJ;Groenlo;Gelderland;6.61843905227658;52.0458058364532;2011
+Oosterhout;Sint Antoniusstraat;92;;;4902PV;Oosterhout;Noord-Brabant;4.86760154156083;51.6362274135267;2013
+Ooststellingwerf;Dwarshaer;23;;B031;8431GV;Oosterwolde;Friesland;6.29621534609967;52.9853704031101;1968
+Oostzaan;Spoetnikstraat;25;;;1511DG;Oostzaan;Noord-Holland;4.8728629994083;52.4491313350104;2013
+Opmeer;Koninginneweg;18;;;1716DH;Opmeer;Noord-Holland;4.9427434839149;52.7014810016279;
+Opsterland;Lijnbaan;7;;;8401VL;Gorredijk;Friesland;6.06630972416743;53.0028669997563;1982
+Oss;Strepenakker;26;;;5373ES;Herpen;Noord-Brabant;5.63736869505651;51.7748338566114;2015
+Oud-Beijerland;Julianastraat;43;A;;3262SH;Oud-Beijerland;Zuid-Holland;4.41495893567222;51.8236447627577;1920
+Oude IJsselstreek;Staringstraat;3;;;7061XZ;Terborg;Gelderland;6.34933053734163;51.9206704765883;1916
+Ouder-Amstel;Kerkstraat;30;;;1191JC;Ouderkerk aan de Amstel;Noord-Holland;4.90260661565928;52.2963159849391;1900
+Oudewater;Oude Singel;11;;2;3421ED;Oudewater;Utrecht;4.8686576539104;52.026163584788;2015
+Overbetuwe;Bachstraat;29;k;216;6661CP;Elst;Gelderland;5.85078729568024;51.9213466361965;1982
+Papendrecht;Irispad;4;;;3353VB;Papendrecht;Zuid-Holland;4.6906494062395;51.8300381657071;1995
+Peel en Maas;Pastoor Vullinghsstraat;3;;;5985PG;Grashoek;Limburg;5.94148345597827;51.3611615343239;1976
+Pekela;Rembrandtlaan;15;;;9663BP;Nieuwe Pekela;Groningen;6.9667039299311;53.0817747030995;1975
+Pijnacker-Nootdorp;Oude Leedeweg;123;;;2641NN;Pijnacker;Zuid-Holland;4.42449426071755;51.9877017112537;1920
+Purmerend;Middenakker;50;;;1446GS;Purmerend;Noord-Holland;4.98571516887482;52.5120528648751;1990
+Putten;Hoge Engweg;4;;8;3882TA;Putten;Gelderland;5.60146169586774;52.2490571756268;
+Raalte;Bentinckstraat;7;;;8101BA;Raalte;Overijssel;6.27075651687465;52.3853575557337;1974
+Reimerswaal;Maartenbroersweg;75;;;4417BK;Hansweert;Zeeland;4.00238999183614;51.4522713872171;
+Renkum;Laakweg;3;;;6862XA;Oosterbeek;Gelderland;5.85037179471527;51.9810960162086;1955
+Renswoude;Ruiterpad;1;;;3927GZ;Renswoude;Utrecht;5.54149957012614;52.0775443904445;
+Reusel-De Mierden;Smeelakkers;10;;;5096CJ;Hulsel;Noord-Brabant;5.17963421020469;51.3896511849879;1996
+Rheden;Reigerstraat;30;d;;6883ES;Velp;Gelderland;5.98049722993754;51.9883305858829;1975
+Rhenen;Houweg;9;;;3921DB;Elst Ut;Utrecht;5.49075940570972;51.9868679236168;1971
+Ridderkerk;Westmolendijk;102;;;2985XK;Ridderkerk;Zuid-Holland;4.60647639392145;51.868318485636;
+Rijnwaarden;Rijnstraat;36;;;6916BD;Tolkamer;Gelderland;6.10234003799264;51.8514771209056;1990
+Rijssen-Holten;Reggesingel;50;;;7461AK;Rijssen;Overijssel;6.51994389147859;52.3135120398445;1989
+Rijswijk;Dr H. Colijnlaan;175;;;2283XG;Rijswijk;Zuid-Holland;4.32371856933845;52.0423184714706;1958
+Roerdalen;Daelenbroekweg;5;;;6075ER;Herkenbosch;Limburg;6.06720301546386;51.1540987487848;9999
+Roermond;Boven de Wolfskuil;3;B;24;6049LX;Herten;Limburg;5.96220981734688;51.1647338833726;2012
+Roosendaal;Rector Hellemonsstraat;8;;;4702RH;Roosendaal;Noord-Brabant;4.47764563303935;51.5434447039563;1952
+Rotterdam;Alsemstraat;12;;;3193TA;Hoogvliet Rotterdam;Zuid-Holland;4.34392082024046;51.8679900800068;1965
+Rozendaal;Kleiberglaan;1;;;6891DK;Rozendaal;Gelderland;5.97211264075497;52.0040690208388;1959
+Rucphen;Bremstraat;1;A;;4711CD;St. Willebrord;Noord-Brabant;4.5898152596462;51.5574994324693;9999
+Schagen;Park De Luwe Stek;107;;;1738JV;Waarland;Noord-Holland;4.84237127207318;52.7216109471958;
+Scherpenzeel;Eikenlaan;5;;;3925VG;Scherpenzeel;Gelderland;5.48969019438959;52.0826754647641;1964
+Schiedam;Muiderslotstraat;59;;;3123TA;Schiedam;Zuid-Holland;4.36962388975177;51.9454841780889;1988
+Schiermonnikoog;Klein Zwitserland;13;;;9166RE;Schiermonnikoog;Friesland;6.14622873728759;53.4792273937458;1960
+Schijndel;Willem van Oranjelaan;29;;;5482CJ;Schijndel;Noord-Brabant;5.4550278211545;51.6122426672996;1998
+Schinnen;Stationsstraat;54;;;6365CK;Schinnen;Limburg;5.87916502679588;50.9386712130623;1960
+Schouwen-Duiveland;Hoogenboomlaan;11;a;MM05;4325DD;Renesse;Zeeland;3.74839407185278;51.7247540580914;1997
+Simpelveld;Brandstraat;67;;;6369XB;Simpelveld;Limburg;5.97770369495468;50.8332371486704;1966
+Sint-Michielsgestel;Kloosterhof;7;N;;5258HH;Berlicum;Noord-Brabant;5.40280917820235;51.6769272579113;2013
+Sint-Oedenrode;Boekweit;9;;;5491NP;Sint-Oedenrode;Noord-Brabant;5.45036924539417;51.5666261923157;
+Sint Anthonis;Noordstraat;34;;;5446XB;Wanroij;Noord-Brabant;5.8128701602092;51.6585754963196;1900
+Sittard-Geleen;Tudderenderweg;307;A;8;6137LA;Sittard;Limburg;5.89364694574063;51.0095642879128;
+Sliedrecht;Beyerinckstraat;2;h;;3364AX;Sliedrecht;Zuid-Holland;4.75923290540543;51.8326216165268;
+Slochteren;Damsterweg;2;;;9629PD;Steendam;Groningen;6.84517878829082;53.2695789032177;
+Sluis;Eedeweg;28;;;4527AK;Aardenburg;Zeeland;3.44105796298493;51.2695999491298;
+Smallingerland;Raadhuisplein;62;;;9203EB;Drachten;Friesland;6.09987253678921;53.1049907430681;2014
+Soest;Meent;23;;;3762DX;Soest;Utrecht;5.27640051460965;52.1874195126219;
+Someren;Bosselerstraat;5;;;5711XN;Someren;Noord-Brabant;5.71628647769706;51.3895534206656;1965
+Son en Breugel;Eemshof;3;;;5691PH;Son en Breugel;Noord-Brabant;5.48495603994763;51.5284494072548;
+Stadskanaal;Molenstraat;12;;;9584AT;Mussel;Groningen;7.04015400290788;52.9574274530559;2011
+Staphorst;Ebbinge Wubbenlaan;49;;;7951AB;Staphorst;Overijssel;6.20204206961688;52.6535744868498;
+Stede Broec;Rak;32;;;1611JX;Bovenkarspel;Noord-Holland;5.24149930481781;52.7014209229684;1993
+Steenbergen;Panneman;47;;;4651WL;Steenbergen;Noord-Brabant;4.3262709906887;51.5935726955562;1990
+Steenwijkerland;Veneweg;251;l;;7946LV;Wanneperveen;Overijssel;6.07611309655373;52.6910168404518;
+Stein;Julianaweg;12;;;6171XD;Stein;Limburg;5.76477681398141;50.9613998065435;
+Stichtse Vecht;Dudok de Witstraat;48;;;3621CS;Breukelen;Utrecht;4.9989265623088;52.1707095272092;1955
+Strijen;Steenplaats;18;a;;3291EW;Strijen;Zuid-Holland;4.56704716693471;51.7329723735518;
+Súdwest-Fryslân;De Krânse;23;;;8748GK;Witmarsum;Friesland;5.46236525017783;53.0982881519268;2010
+Ten Boer;Redgerstraat;37;;;9791BH;Ten Boer;Groningen;6.69362200531934;53.2710325899422;2010
+Terneuzen;Puntstraat;6;;;4543CW;Zaamslag;Zeeland;3.91162983533931;51.3092729941545;1948
+Terschelling;Raadhuisstraat;3;A;;8881BM;West-Terschelling;Friesland;5.2156996798035;53.3589404111884;1850
+Texel;Vlamkast;45;;;1792CR;Oudeschild;Noord-Holland;4.84864534109876;53.0403049257562;2011
+Teylingen;Pieter Woutersstraat;13;;;2215MB;Voorhout;Zuid-Holland;4.4888684169053;52.2255813553956;2006
+Tholen;Langeweg;27;a;;4694BK;Scherpenisse;Zeeland;4.10888205804326;51.54780070256;2012
+Tiel;Burgemeester Van Altenastraat;7;;;4001VB;Tiel;Gelderland;5.42268057775729;51.8828151811906;1960
+Tilburg;Scherpenzeelerf;5;;;5035LS;Tilburg;Noord-Brabant;4.98354044547616;51.5800135001139;
+Tubbergen;De Steenbrei;22;a;;7661PE;Vasse;Overijssel;6.83331155363526;52.4361725835833;2010
+Twenterand;Kerkallee;9;;;7683PX;Den Ham;Overijssel;6.48584488405553;52.461360233568;
+Tynaarlo;Tienelsweg;33;B;247;9471PA;Zuidlaren;Drenthe;6.65898542097699;53.0977423391981;
+Tytsjerksteradiel;Lageweg;10;;;9251JW;Burgum;Friesland;5.99000828694625;53.1919573303686;1968
+Uden;Zeelandsedijk;10;d;267;5408SM;Volkel;Noord-Brabant;5.68200813764898;51.6583794898193;1991
+Uitgeest;Lagendijk;22;;0015;1911MT;Uitgeest;Noord-Holland;4.7430601208819;52.5173143762561;1890
+Uithoorn;Boterdijk;66;;ME;1424NH;De Kwakel;Noord-Holland;4.80733903553747;52.2400528878478;
+Urk;Industrierondweg;20;a;;8321EB;Urk;Flevoland;5.60977298260164;52.6578687809231;
+Utrecht;Tweede Westerparklaan;149;;;3544VP;Utrecht;Utrecht;5.04795350440457;52.0910360447612;
+Utrechtse Heuvelrug;van Galenlaan;63;;;3941VC;Doorn;Utrecht;5.33777126317374;52.0473238831662;1965
+Vaals;Mommegats;5;;;6294AN;Vijlen;Limburg;5.96774571664414;50.7897981852226;
+Valkenburg aan de Geul;Poststraat;16;;;6301DZ;Valkenburg;Limburg;5.8324374045094;50.8653294841479;2006
+Valkenswaard;Leonardusdal;65;;;5551CD;Valkenswaard;Noord-Brabant;5.43341311319308;51.3558880194306;1972
+Veendam;Oostlaan;271;;;9642PS;Veendam;Groningen;6.85978846147575;53.1030903433824;1972
+Veenendaal;Gorterpad;3;;;3906XD;Veenendaal;Utrecht;5.52439986423203;52.0278904647321;
+Veere;Brouwershoofd;1;;;4354NV;Vrouwenpolder;Zeeland;3.61815427332221;51.5837623882123;1979
+Veghel;Turfven;29;;;5464PL;Veghel;Noord-Brabant;5.56395239364624;51.631969643508;2007
+Veldhoven;Bosuil;1;;;5508KG;Veldhoven;Noord-Brabant;5.38880050681422;51.4330753998853;1990
+Velsen;Radarstraat;108;V;;1973ZD;IJmuiden;Noord-Holland;4.60531554019841;52.454535725197;2010
+Venlo;Adelborstenstraat;15;;;5914LX;Venlo;Limburg;6.17488414717111;51.3865276305826;2015
+Venray;Deputé Petersstraat;34;;;5808BC;Oirlo;Limburg;6.04304576081216;51.5111160647693;
+Vianen;Middelwaard;5;;;4133LB;Vianen;Utrecht;5.05934784674113;51.9858455023978;
+Vlaardingen;Holyweg;31;;;3137KB;Vlaardingen;Zuid-Holland;4.33360691505861;51.9387917491161;
+Vlagtwedde;Munnekemoer West;34;;;9561NK;Ter Apel;Groningen;7.08256129920407;52.8441543042588;
+Vlieland;Middenweg;37;H;;8899BA;Vlieland;Friesland;5.06855680237964;53.2964277759861;1975
+Vlissingen;President Rooseveltlaan;733;a;;4383NG;Vlissingen;Zeeland;3.5836684950798;51.4558478746479;2002
+Voerendaal;Heerlerweg;93;;;6367AC;Voerendaal;Limburg;5.93978840261119;50.8749766088535;1935
+Voorschoten;Krimkade;71;a;;2251JZ;Voorschoten;Zuid-Holland;4.46103844124984;52.1324173318653;1956
+Voorst;Kruizemuntstraat;40;;;7383XM;Voorst;Gelderland;6.13976501119269;52.1681557648308;1992
+Vught;Olmenlaan;17;;;5261XL;Vught;Noord-Brabant;5.29282323343447;51.6607928321212;
+Waalre;Broekweg;30;;;5581VV;Waalre;Noord-Brabant;5.44185787117056;51.3977700309015;
+Waalwijk;Nederveenweg;18;a;;5161PA;Sprang-Capelle;Noord-Brabant;4.98367389315714;51.6947632615418;
+Waddinxveen;Mercuriusweg;7;M;;2741TB;Waddinxveen;Zuid-Holland;4.65351345144239;52.0348925701689;2014
+Wageningen;Bellostraat;43;;;6706EX;Wageningen;Gelderland;5.67706060978607;51.977245151512;2014
+Wassenaar;Slingerweg;7;A;;2243GT;Wassenaar;Zuid-Holland;4.35731263272165;52.1312469527618;1975
+Waterland;'t Spil;22;;;1141SE;Monnickendam;Noord-Holland;5.03720840556193;52.4504495778263;1975
+Weert;Maasenweg;39;;;6003AH;Weert;Limburg;5.70153544956685;51.2647364667789;2010
+Weesp;Utrechtseweg;698;s;;1381GW;Weesp;Noord-Holland;5.06047046722968;52.2970786718618;
+Werkendam;Buitenkade;3;;;4255GW;Nieuwendijk;Noord-Brabant;4.92476850067906;51.7683484738473;1994
+West Maas en Waal;Schansedijk;14;;;6626BA;Alphen;Gelderland;5.49215122877395;51.8346816233669;
+Westerveld;Broekemastraat;43;;;7981DE;Diever;Drenthe;6.3079955521819;52.8579051360732;
+Westervoort;Hamersestraat;29;m;1;6931EV;Westervoort;Gelderland;5.97417771058272;51.9642423525872;2014
+Westland;Dijkweg;151;;;2675AD;Honselersdijk;Zuid-Holland;4.22111872271592;52.0034572297012;1911
+Weststellingwerf;Hoofdstraat West;13;;;8391AK;Noordwolde;Friesland;6.13929813390873;52.8903739255914;1942
+Westvoorne;Kerkweg;8;;;3235XL;Rockanje;Zuid-Holland;4.07730589623275;51.8745995648741;9999
+Wierden;Anjelierstraat;6;;;7641CG;Wierden;Overijssel;6.59551141339455;52.3605649820671;1957
+Wijchen;Klompenmaker;24;;;6603JM;Wijchen;Gelderland;5.74039694840785;51.7956614145087;2010
+Wijdemeren;Legakker;13;;;1394KV;Nederhorst den Berg;Noord-Holland;5.04747147284855;52.2573525138222;1981
+Wijk bij Duurstede;Flavius;32;;;3962MA;Wijk bij Duurstede;Utrecht;5.33409262591337;51.9848747282761;2015
+Winsum;Leerlooierij;30;;;9951JT;Winsum;Groningen;6.52835764464497;53.3266466064355;1980
+Winterswijk;Kastanjelaan;88;a;;7101LZ;Winterswijk;Gelderland;6.72897626587903;51.9699228394814;
+Woensdrecht;Dorpsstraat;4;a;;4635BC;Huijbergen;Noord-Brabant;4.37867641409144;51.4327750133224;2015
+Woerden;Hoge Rijndijk;4;;23;3449HA;Woerden;Utrecht;4.87196546926711;52.0854279239698;2011
+Wormerland;Dorpsstraat;84;;;1534NM;Oostknollendam;Noord-Holland;4.79395837287146;52.5201079863308;1921
+Woudenberg;'t Schilt;16;;;3931VH;Woudenberg;Utrecht;5.4135940555504;52.0818633247533;2005
+Woudrichem;Stadshaven;12;;;4285AZ;Woudrichem;Noord-Brabant;5.00186230835858;51.8189930479644;
+Zaanstad;Ringweg;302;;;1507BS;Zaandam;Noord-Holland;4.78748081245306;52.4306183198533;
+Zaltbommel;Tolstraat;4;b;;5301AX;Zaltbommel;Gelderland;5.24683198622885;51.8139198946206;2009
+Zandvoort;Wilhelminaweg;42;;;2042NR;Zandvoort;Noord-Holland;4.53739823086914;52.3705341713421;1952
+Zederik;Kortenhoevenseweg;17;;;4128CL;Lexmond;Zuid-Holland;5.03778012715101;51.9634228508441;1920
+Zeewolde;Wielseweg;3;K;W5;3896LA;Zeewolde;Flevoland;5.44020863709685;52.2748175691901;
+Zeist;Meester Lasterielaan;8;;;3734JC;Den Dolder;Utrecht;5.23477314707101;52.1442165843384;2010
+Zevenaar;Beekseweg;39;;;6909DN;Babberich;Gelderland;6.13971482325807;51.9058022474246;1931
+Zoetermeer;Wethouder Van Wellstraat;18;;;2721DT;Zoetermeer;Zuid-Holland;4.55101635665231;52.0601724097913;2015
+Zoeterwoude;Rhijnvreugd;9;a;;2382BG;Zoeterwoude;Zuid-Holland;4.52378543754508;52.1460231177756;
+Zuidhorn;Taling;18;;;9843GG;Grijpskerk;Groningen;6.30070826358337;53.2613153165105;1977
+Zuidplas;Rietgors;8;;;2841RS;Moordrecht;Zuid-Holland;4.661479232677;51.9876061518041;1981
+Zundert;van den Berghstraat;35;;;4885AG;Achtmaal;Noord-Brabant;4.58251503994815;51.4518464647597;1966
+Zutphen;Kerkpad;102;;;7203DT;Zutphen;Gelderland;6.22464252270884;52.147173460582;
+Zwartewaterland;Fazant;49;;;8281GM;Genemuiden;Overijssel;6.04841306673984;52.6177154989099;1978
+Zwijndrecht;Bolero;50;;;3335ED;Zwijndrecht;Zuid-Holland;4.60088719955402;51.8202963794507;
+Zwolle;Almelose Kanaal;55;B;;8011KS;Zwolle;Overijssel;6.10371529422596;52.5119758029733;
