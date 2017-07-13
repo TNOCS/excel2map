@@ -509,6 +509,17 @@ module ModalCtrls {
             });
         }
 
+        private deleteProject() {
+            this.t2mSvc.restApi.deleteProject(this.project.id, (result) => {
+                if (result && result.success) {
+                    console.log('Deleted project.');
+                } else {
+                    console.warn('Error add user.');
+                }
+                this.cancel();
+            });
+        }
+
         public ok() {
             this.$uibModalInstance.close(true);
         }

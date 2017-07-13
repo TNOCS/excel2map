@@ -50,6 +50,21 @@ module Table2Map {
                 });
         }
 
+        public deleteProject(projectId: string, cb: Function) {
+            if (!projectId) {
+                cb();
+                return;
+            }
+            let url = `api/projects/${projectId}`;
+            this.$http.delete(url, {
+                timeout: TIMEOUT
+            }).then((result) => {
+                cb(null);
+            }).catch((err) => {
+                cb(err);
+            });
+        }
+
         public sendProject(project: Project, cb: Function) {
             if (!project) {
                 cb('No project provided');

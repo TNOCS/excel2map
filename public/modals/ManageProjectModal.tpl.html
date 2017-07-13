@@ -44,6 +44,10 @@
             </tbody>
         </table>
     </div>
+    <div style="margin: 48px 32px;">
+        <div>{{'DELETE_PROJECT' | translate}}</div>
+        <button class="btn btn-primary btn-warning" ng-click="vm.deleteProject()" ng-disabled="false">{{'DELETE' | translate}}</button>
+    </div>
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-default" ng-click="vm.cancel()">{{'CLOSE' | translate}}</button>

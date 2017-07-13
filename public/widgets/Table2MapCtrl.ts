@@ -164,28 +164,33 @@ module Table2Map {
                 let file = ( < any > $('#file-upload')[0]).files[0];
                 this.t2mSvc.readFile(file, 'data');
             });
-            document.getElementById('drop-box').addEventListener('drop', (evt) => {
-                this.fileDropped(evt);
-                ( < HTMLElement > event.target).style.background = '';
-                ( < HTMLElement > event.target).style.borderWidth = '';
-            }, false);
 
-            document.getElementById('drop-box').addEventListener('dragenter', (event) => {
-                ( < HTMLElement > event.target).style.background = 'rgba(100, 255, 100, 0.3)';
-                ( < HTMLElement > event.target).style.borderWidth = '3px';
-            }, false);
+            if (navigator.userAgent && navigator.userAgent.toLowerCase().match(/chrome/)) {
+                document.getElementById('drop-box').addEventListener('drop', (evt) => {
+                    evt.preventDefault();
+                    this.fileDropped(evt);
+                    ( < HTMLElement > event.target).style.background = '';
+                    ( < HTMLElement > event.target).style.borderWidth = '';
+                }, false);
 
-            document.getElementById('drop-box').addEventListener('dragleave', (event) => {
-                // reset background of potential drop target when the draggable element leaves it
-                ( < HTMLElement > event.target).style.background = '';
-                ( < HTMLElement > event.target).style.borderWidth = '';
-            }, false);
+                document.getElementById('drop-box').addEventListener('dragenter', (event) => {
+                    ( < HTMLElement > event.target).style.background = 'rgba(100, 255, 100, 0.3)';
+                    ( < HTMLElement > event.target).style.borderWidth = '3px';
+                }, false);
 
-            document.getElementById('drop-box').addEventListener('dragend', (event) => {
-                // reset background of potential drop target when the dragevent ends
-                ( < HTMLElement > event.target).style.background = '';
-                ( < HTMLElement > event.target).style.borderWidth = '';
-            }, false);
+                document.getElementById('drop-box').addEventListener('dragleave', (event) => {
+                    // reset background of potential drop target when the draggable element leaves it
+                    event.preventDefault();
+                    ( < HTMLElement > event.target).style.background = '';
+                    ( < HTMLElement > event.target).style.borderWidth = '';
+                }, false);
+
+                document.getElementById('drop-box').addEventListener('dragend', (event) => {
+                    // reset background of potential drop target when the dragevent ends
+                    ( < HTMLElement > event.target).style.background = '';
+                    ( < HTMLElement > event.target).style.borderWidth = '';
+                }, false);
+            }
 
             $('#icon-upload').change(() => {
                 this.imageSelected('icon');
