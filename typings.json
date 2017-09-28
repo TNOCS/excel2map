@@ -56,7 +56,10 @@
   "dependencies": {
     "basic-auth": "registry:npm/basic-auth#1.0.4+20160811001003",
     "bluebird": "registry:npm/bluebird#3.4.1+20160909132857",
+    "express": "registry:npm/express#4.14.0+20170217205433",
     "http-status-codes": "registry:dt/http-status-codes#1.0.5+20160428043022",
+    "nodemailer-direct-transport": "registry:dt/nodemailer-direct-transport#1.0.2+20161128184045",
+    "nodemailer-smtp-transport": "registry:dt/nodemailer-smtp-transport#1.0.2+20161128184045",
     "opn": "registry:npm/opn#4.0.0+20160326092750"
   }
 }

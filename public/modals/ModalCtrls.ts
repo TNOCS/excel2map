@@ -211,6 +211,7 @@ module ModalCtrls {
 
         private groupId: string;
         private layerId: string;
+        private clone: boolean;
 
         constructor(
             private $scope: IChooseLayerModalScope,
@@ -231,6 +232,13 @@ module ModalCtrls {
         private createLayer(groupId: string) {
             this.groupId = groupId;
             this.layerId = null;
+            this.ok();
+        }
+
+        private cloneLayer($event, groupId: string, layerId: string) {
+            this.groupId = groupId;
+            this.layerId = layerId;
+            this.clone = true;
             this.ok();
         }
 
@@ -358,7 +366,8 @@ module ModalCtrls {
         public ok() {
             this.$uibModalInstance.close({
                 groupId: this.groupId,
-                layerId: this.layerId
+                layerId: this.layerId,
+                clone: this.clone
             });
         }
 
@@ -379,6 +388,7 @@ module ModalCtrls {
             '$uibModalInstance',
             '$http',
             '$translate',
+            '$interpolate',
             'tableToMapSvc',
             'project'
         ];
@@ -395,6 +405,7 @@ module ModalCtrls {
             private $uibModalInstance: any,
             private $http: ng.IHttpService,
             private $translate: ng.translate.ITranslateService,
+            private $interpolate: ng.IInterpolateService,
             private t2mSvc: Table2Map.Table2MapSvc,
             private project: csComp.Services.Project) {
 
@@ -506,6 +517,26 @@ module ModalCtrls {
                     console.warn('Error add user.');
                 }
                 this.resetNewUser();
+            });
+        }
+
+        private deleteProjectQuestion($event) {
+            let elm = $event.currentTarget || $event.srcElement;
+            if (!elm) return;
+
+            const popupElement = this.$interpolate(`<div class="confirmation-popover"><div>{{'REALLY_DELETE_PROJECT' | translate}}</div><div class="btn-group"><button id="popover-no" class="btn btn-sm t2m-btn green">{{'NO' | translate}}</button><button id="popover-yes" class="btn btn-sm t2m-btn red" ng-click="vm.deleteProject()">{{'YES' | translate}}</button></div></div>`);
+            $(elm).popover({
+                animation: true,
+                content: popupElement,
+                placement: 'left',
+                html: true
+            });
+            $(elm).popover('show');
+            $('#popover-yes').on('click', () => {
+                this.deleteProject();
+            });
+            $('#popover-no').on('click', () => {
+                $(elm).popover('hide');
             });
         }
 

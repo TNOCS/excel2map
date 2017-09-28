@@ -312,7 +312,8 @@ module Table2Map {
 
             modalInstance.result.then((result: {
                 groupId: string,
-                layerId: string
+                layerId: string,
+                clone: boolean
             }) => {
                 if (this.layerService.project.activeDashboard.id !== 'table2map') {
                     let success = this.startWizard();
@@ -325,14 +326,14 @@ module Table2Map {
                         return group.id === result.groupId;
                     });
                 } else {
-                    this.loadLayerForWizard(project, result.layerId);
+                    this.loadLayerForWizard(project, result.layerId, result.clone);
                 }
             }, () => {
                 console.log('Modal dismissed at: ' + new Date());
             });
         }
 
-        private loadLayerForWizard(project: Project, layerId: string) {
+        private loadLayerForWizard(project: Project, layerId: string, clone: boolean) {
             this.project = project;
             this.selectedGroup = this.findGroupForLayer(layerId);
             this.clusterOptions.clustering = this.selectedGroup.clustering;
@@ -357,9 +358,25 @@ module Table2Map {
                     this.getIconData(this.featureType.style.iconUri);
                     this.updatedContent(false);
                     this.parseLayerDefinition(this.layer.data);
+                    if (clone) {
+                        let newLayerGuid = csComp.Helpers.getGuid();
+                        this.replacePropertyContent(this.layer, 'url', this.layer.id, newLayerGuid);
+                        this.layer.id = newLayerGuid;
+                        this.layer.title += ' (kopie)';
+                        let newTypeGuid = csComp.Helpers.getGuid();
+                        this.replacePropertyContent(this.layer, 'defaultLegendProperty', this.featureType.id, newTypeGuid);
+                        this.replacePropertyContent(this.layer, 'defaultFeatureType', this.featureType.id, newTypeGuid);
+                        this.replacePropertyContent(this.layer, 'typeUrl', this.featureType.id, newTypeGuid);
+                        this.featureType.id = newTypeGuid;
+                    }
                     this.startWizard();
                 });
             });
+        }
+
+        private replacePropertyContent(obj: Object, prop: string, oldVal: string, newVal: string) {
+            if (!obj || !_.isObject(obj) || !obj.hasOwnProperty(prop) || typeof obj[prop] !== 'string') return;
+            obj[prop] = obj[prop].replace(oldVal, newVal);
         }
 
         private getDefaultLegendProperty(layer: ProjectLayer): string {
@@ -605,6 +622,7 @@ module Table2Map {
                 this.layer = < ProjectLayer > {};
                 this.layer.enabled = true;
                 this.layer.fitToMap = true;
+                this.layer.opacity = 95;
             }
             if (!this.layer.id) this.layer.id = csComp.Helpers.getGuid();
             $('#iconImage').attr('src', DEFAULT_MARKER_ICON);
@@ -751,6 +769,7 @@ module Table2Map {
                 typeUrl: `api/resources/${this.featureType.id}`,
                 defaultFeatureType: `${this.featureType.id}`,
                 defaultLegendProperty: `api/resources/${this.featureType.id}#${this.defaultLegendProperty}`,
+                opacity: layer.opacity || 95,
                 data: layer.data || {}
             };
             var geometryParams = _.values(this.geometryColumns);
@@ -1273,7 +1292,8 @@ module Table2Map {
         });
 
         private updateMarkerDebounced() {
-            if (!this.feature || !this.feature.geometry || !this.featureType || !this.featureType.style || !this.featureType.style.drawingMode) return;
+            if (!this.feature.geometry) this.feature.geometry = <csComp.Services.IGeoJsonGeometry>{};
+            if (!this.feature || !this.featureType || !this.featureType.style || !this.featureType.style.drawingMode) return;
             let drawingMode = this.featureType.style.drawingMode;
             if (this.marker) this.previewMap.removeLayer(this.marker);
             this.feature.geometry.type = drawingMode;
