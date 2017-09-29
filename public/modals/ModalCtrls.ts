@@ -520,6 +520,36 @@ module ModalCtrls {
             });
         }
 
+        private cloneProjectQuestion($event) {
+            let elm = $event.currentTarget || $event.srcElement;
+            if (!elm) return;
+
+            const popupElement = this.$interpolate(`<div class="confirmation-popover"><div>{{'REALLY_CLONE_PROJECT' | translate}}</div><div class="btn-group"><button id="popover-no" class="btn btn-sm t2m-btn green">{{'NO' | translate}}</button><button id="popover-yes" class="btn btn-sm t2m-btn red" ng-click="vm.cloneProject()">{{'YES' | translate}}</button></div></div>`);
+            $(elm).popover({
+                animation: true,
+                content: popupElement,
+                placement: 'left',
+                html: true
+            });
+            $(elm).popover('show');
+            $('#popover-yes').on('click', () => {
+                this.cloneProject();
+            });
+            $('#popover-no').on('click', () => {
+                $(elm).popover('hide');
+            });
+        }
+
+        private cloneProject() {
+            this.t2mSvc.restApi.cloneProject(this.project.title, this.project.id, (result) => {
+                console.log(result);
+                if (result.result === HTTPStatusCodes.OK) {
+                    //notify
+                }
+                this.ok();
+            });
+        }
+
         private deleteProjectQuestion($event) {
             let elm = $event.currentTarget || $event.srcElement;
             if (!elm) return;

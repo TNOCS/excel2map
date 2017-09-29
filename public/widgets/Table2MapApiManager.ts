@@ -80,6 +80,29 @@ module Table2Map {
             });
         }
 
+        public cloneProject(title: string, projectId: string, cb: Function) {
+            if (!projectId) {
+                cb('No projectId provided');
+                return;
+            }
+            // First create a new project as clone target
+            this.createProject(<any>{title: title + ' (kopie)'}, (createdProject) => {
+                if (!createdProject) {
+                    console.log('Could not create a new project');
+                    cb();
+                    return;
+                }
+                let url = `api/cloneproject/${projectId}/${createdProject.id}`;
+                this.$http.get(url, {
+                    timeout: TIMEOUT
+                }).then((result) => {
+                    cb(result);
+                }).catch((err) => {
+                    cb(err);
+                });
+            });
+        }
+
         public sendGroup(projectId: string, group: ProjectGroup, cb: Function) {
             if (!group || !projectId) {
                 cb('No group provided');

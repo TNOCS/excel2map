@@ -116,7 +116,9 @@ module Translations {
             COPY_LAYER: 'Dupliceer deze kaartlaag',
             DELETE_LAYER: 'Verwijder deze kaartlaag',
             DELETE: 'Verwijderen',
+            CLONE: 'Dupliceren',
             REALLY_DELETE_LAYER: 'Wil je deze kaartlaag echt verwijderen? Dit kan niet ongedaan worden gemaakt!',
+            REALLY_CLONE_PROJECT: 'Wil je dit project echt dupliceren? Dit kan enkele momenten duren.',
             REALLY_DELETE_PROJECT: 'Wil je dit project echt verwijderen? Dit kan niet ongedaan worden gemaakt!',
             REALLY_DELETE_GROUP: 'Wil je deze groep echt verwijderen? Dit verwijdert ook alle kaartlagen in de groep en kan niet ongedaan worden gemaakt!',
             LOGIN_WARNING: 'Niet ingelogd',
@@ -138,9 +140,11 @@ module Translations {
             DELETE_USER_RIGHTS: 'Verwijder alle rechten van deze gebruiker',
             DEFAULT_STYLE_PROPERTY: 'Standaard legenda',
             EXIT_WIZARD: 'Keer terug naar het hoofdscherm',
-            DELETE_PROJECT: 'Verwijder het project. Kan niet ongedaan woren gemaakt!',
+            DELETE_PROJECT: 'Verwijder het project. Kan niet ongedaan worden gemaakt!',
+            CLONE_PROJECT: 'Dupliceer het project inclusief alle groepen en lagen.',
             MANAGE_PROJECT_HELP: 'Pas de toegangsrechten per gebruiker aan voor dit project. Ook biedt dit scherm de mogelijkheid om het project te verwijderen.',
-            EDIT_LAYER_HELP: 'Kies een kaartlaag om te bewerken, verwijderen of maak een nieuwe kaartlaag.'
+            EDIT_LAYER_HELP: 'Kies een kaartlaag om te bewerken, verwijderen of maak een nieuwe kaartlaag.',
+            ERROR_GETTING_FEATURE_TYPE: 'Fout bij het ophalen van de kaartlaag-stijl'
         };
     }
 }

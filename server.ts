@@ -248,6 +248,16 @@ const policiesLoaded = (err: Error, ps: IPolicyStore) => {
             cop(req, res, next);
         });
 
+    cs.server.route('/api/cloneproject/:projectId/:clonedProjectId')
+        .get((req, res, next) => {
+            console.log('cloneproject');
+            req['resource'] = {
+                type: 'project',
+                domain: req.headers.domain
+            };
+            cop(req, res, next);
+        });
+
     cs.server.route('/api/files/:folder/:file')
         .all((req, res, next) => {
             req['resource'] = {
@@ -287,6 +297,19 @@ const policiesLoaded = (err: Error, ps: IPolicyStore) => {
             .post((req, res, next) => {
                 console.log('convertlayer');
                 mapLayerFactory.addGeometryRequest(req, res);
+                // next();
+            });
+
+        apiRoutes.route('/api/cloneproject/:projectId/:clonedProjectId')
+            .get((req, res, next) => {
+                console.log('cloneproject');
+                cs.api.cloneProject(req.params['projectId'], req.params['clonedProjectId'], {}, (result: csweb.CallbackResult) => {
+                    if (result.result === csweb.ApiResult.OK) {
+                        res.sendStatus(HTTPStatusCodes.OK);
+                    } else {
+                        res.sendStatus(HTTPStatusCodes.INTERNAL_SERVER_ERROR);
+                    }
+                });
                 // next();
             });
 

@@ -45,6 +45,10 @@
         </table>
     </div>
     <div style="margin: 48px 32px;">
+        <div>{{'CLONE_PROJECT' | translate}}</div>
+        <button class="btn btn-primary btn-warning" ng-click="vm.cloneProjectQuestion($event)" ng-disabled="false">{{'CLONE' | translate}}</button>
+    </div>
+    <div style="margin: 48px 32px;">
         <div>{{'DELETE_PROJECT' | translate}}</div>
         <button class="btn btn-primary btn-warning" ng-click="vm.deleteProjectQuestion($event)" ng-disabled="false">{{'DELETE' | translate}}</button>
     </div>
