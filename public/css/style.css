@@ -381,3 +381,7 @@ a:hover {
     background-color: #dff0d8!important;
     color: grey;
 }
+
+.mca-criterion {
+    width: 240px;
+}

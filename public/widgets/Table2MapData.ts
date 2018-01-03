@@ -174,6 +174,18 @@ module Table2Map {
             drawingMode: 'Point',
             additionalInfo: []
         },
+        'Zorgkantoorregios': {
+            name: `Zorgkantoorregio's`,
+            cols: ['Zorgkantoor naam'],
+            drawingMode: 'Polygon',
+            additionalInfo: []
+        },
+        'Regioplus': {
+            name: `RegioPlus regio's`,
+            cols: ['RegioPlus naam'],
+            drawingMode: 'Polygon',
+            additionalInfo: []
+        }
     };
 
     export function getServerGeometryType(id: string, additional: string): string {
