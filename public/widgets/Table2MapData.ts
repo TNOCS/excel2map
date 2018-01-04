@@ -185,6 +185,12 @@ module Table2Map {
             cols: ['RegioPlus naam'],
             drawingMode: 'Polygon',
             additionalInfo: []
+        },
+        'GGD_Regios': {
+            name: `GGD regio's`,
+            cols: ['GGD naam'],
+            drawingMode: 'Polygon',
+            additionalInfo: []
         }
     };
 
