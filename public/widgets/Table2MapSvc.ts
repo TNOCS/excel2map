@@ -632,7 +632,7 @@ module Table2Map {
         public updatedContent(resetVariables: boolean = true) {
             if (resetVariables) this.resetVariables();
             this.headerCollection.length = 0;
-            this.headerCollection = _.map(Table2Map.defaultHeaders(MAX_NR_COLUMNS), (code: string, index: number) => {
+            this.headerCollection = _.map(Table2Map.defaultHeaders(MAX_NR_COLUMNS, this.layer.id), (code: string, index: number) => {
                 return {
                     code: code,
                     title: '',

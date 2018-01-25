@@ -330,7 +330,15 @@ module Table2Map {
         return 'images/marker.png';
     }
 
-    export function defaultHeaders(total: number): string[] {
+    /**
+     * Creates an array of 'a', 'b', 'c', etc.  
+     * If a string is supplied, the first 4 digits of its hash will be used as prefix
+     */
+    export function defaultHeaders(total: number, id ? : string): string[] {
+        var prefix;
+        if (id) {
+            prefix = id.hashCode();
+        }
         let ordA = 'A'.charCodeAt(0);
         let ordZ = 'Z'.charCodeAt(0);
         let len = ordZ - ordA + 1;
@@ -342,7 +350,7 @@ module Table2Map {
                 s = String.fromCharCode(n % len + ordA) + s;
                 n = Math.floor(n / len) - 1;
             }
-            result.push(s);
+            (prefix) ? result.push(`${prefix}${s}`) : result.push(s);
         }
         return result;
     }

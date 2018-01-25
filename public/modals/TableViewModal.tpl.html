@@ -16,7 +16,7 @@
                 <tbody>
                     <tr class="row no-margin" ng-repeat="item in vm.itemsToSelect">
                         <td class="small-padding bold">{{item}}</td>
-                        <td class="small-padding" ng-show="vm.selectedColumns.length > $index">{{'COLUMN' | translate}} {{vm.selectedColumns[$index].code}}</td>
+                        <td class="small-padding" ng-show="vm.selectedColumns.length > $index">{{'COLUMN' | translate}} {{vm.selectedColumns[$index].title}}</td>
                         <td class="small-padding" ng-hide="vm.selectedColumns.length > $index" style="min-width:120px">{{'NO_COLUMN_SELECTED' | translate}}</td>
                         <td class="small-padding" ng-show="vm.selectedColumns.length > $index">({{vm.selectedColumns[$index].title}})</td>
                         <td ng-hide="$last || vm.selectedColumns.length - 1 <= $index" class="pointer" ng-click="vm.swapRows($index)" uib-tooltip="{{'SWAP_ROWS' | translate}}"><img class="swap-arrows" src="images/swap-arrows.png" /> </td>
@@ -37,7 +37,7 @@
             <tr class="csv-table-header">
                 <!--st-sort="{{col}}"-->
                 <th ng-click="vm.selectCol(headerObj, $index)" ng-repeat="headerObj in vm.headerCollection" uib-tooltip="{{headerObj.title}}">
-                    {{headerObj.code}}</th>
+                    {{headerObj.title}}</th>
             </tr>
             <tr>
                 <th colspan="{{vm.headerCollection.length}}">

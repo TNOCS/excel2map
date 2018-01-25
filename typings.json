@@ -19,7 +19,6 @@
     "crossfilter": "registry:dt/crossfilter#0.0.0+20160317120654",
     "d3": "github:rinzeb/DefinitelyTyped/d3/d3.d.ts#3de292f2aab5566a0030af48b9cd7bcae6392696",
     "dc": "github:rinzeb/DefinitelyTyped/dcjs/dc.d.ts#3de292f2aab5566a0030af48b9cd7bcae6392696",
-    "es2015-promise": "registry:env/es2015-promise#1.0.0+20160526151700",
     "form-data": "registry:dt/form-data#0.0.0+20160724024111",
     "fs-extra": "registry:dt/fs-extra#0.0.0+20161004190449",
     "geojson": "registry:dt/geojson#0.0.0+20160619034323",

@@ -8,17 +8,18 @@
     "noLib": false,
     "sourceMap": true
   },
-  "files": [
-    "./public/bower_components/csweb/dist-bower/csComp.d.ts",
-    "./typings/index.d.ts"
-  ],
   "include": [
     "./public/app/*.ts",
     "./public/modals/*.ts",
     "./public/widgets/*.ts",
     "./public/translations/*.ts",
+    "./node_modules/@types/**/*.d.ts",
     "./searchData/*.ts",
     "./server.ts"
+  ],
+  "files": [
+    "./public/bower_components/csweb/dist-bower/csComp.d.ts",
+    "./typings/index.d.ts"
   ],
   "exclude": [
     "../csWeb/out/**/*.*",
