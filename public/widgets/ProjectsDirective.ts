@@ -125,8 +125,8 @@ module ProjectsDirective {
                 return;
             }
             $('#project-list-refresh').addClass('fa-spin');
-            let projectsUrl = 'api/projects';
-            let authUrl = 'api/authorizations';
+            let projectsUrl = `${Table2Map.DEPLOY_PATH}/api/projects`;
+            let authUrl = `${Table2Map.DEPLOY_PATH}/api/authorizations`;
             this.$http.get(projectsUrl).then((res: any) => {
                 let projects: _.Collection < Project > = res.data;
                 this.projects = _.toArray(projects);

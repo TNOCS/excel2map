@@ -1,4 +1,8 @@
 module App {
+
+    // Should be set to '/zelfkaartenmaken' for server on zodk
+    const deployPath = Table2Map.DEPLOY_PATH;
+
     import IFeature = csComp.Services.IFeature;
 
     export interface IAppLocationService extends ng.ILocationService {
@@ -116,7 +120,7 @@ module App {
             this.profileService.startLogin();
             this.profileService.validate = (username: string, password: string, cb: (success: boolean, profile?: csComp.Services.IProfile) => void) => {
                 this.$http
-                    .post('/api/login', { email: username, password: password })
+                    .post(deployPath + '/api/login', { email: username, password: password })
                     .then((result: { data: { success: boolean, token: string, user: csComp.Services.IProfile} }) => {
                         if (result.data.success) {
                             this.profileService.token = result.data.token;
@@ -127,7 +131,7 @@ module App {
                         console.log(err);
                         console.log('Trying to get a new token...');
                         this.$http
-                            .post('/api/login', { email: username, password: password }, {headers: {'Authorization': ''}})
+                            .post(deployPath + '/api/login', { email: username, password: password }, {headers: {'Authorization': ''}})
                             .then((result: { data: { success: boolean, token: string, user: csComp.Services.IProfile} }) => {
                                 if (result.data.success) {
                                     this.profileService.token = result.data.token;
@@ -143,7 +147,7 @@ module App {
             };
             this.profileService.signup = (name: string, username: string, password: string, cb: (success: boolean, profile?: csComp.Services.IProfile) => void) => {
                 this.$http
-                    .post('/api/signup', { name: name, email: username, password: password })
+                    .post(deployPath + '/api/signup', { name: name, email: username, password: password })
                     .then((result: { status: number, data: { success: boolean, token: string, user: csComp.Services.IProfile} }) => {
                         if (result.status === HTTPStatusCodes.CREATED) {
                             this.profileService.token = result.data.token;

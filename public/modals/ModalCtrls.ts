@@ -263,7 +263,7 @@ module ModalCtrls {
         }
 
         private removeLayer(groupId: string, layerId: string) {
-            let url = `/api/projects/${this.project.id}/group/${groupId}/layer/${layerId}`;
+            let url = `${Table2Map.DEPLOY_PATH}/api/projects/${this.project.id}/group/${groupId}/layer/${layerId}`;
             this.$http.delete(url, {
                     timeout: 10000
                 })
@@ -327,7 +327,7 @@ module ModalCtrls {
         }
 
         private removeGroup(projectId: string, groupId: string) {
-            let url = `/api/projects/${this.project.id}/group/${groupId}`;
+            let url = `${Table2Map.DEPLOY_PATH}/api/projects/${this.project.id}/group/${groupId}`;
             this.$http.delete(url, {
                     timeout: 10000
                 })
@@ -345,7 +345,7 @@ module ModalCtrls {
         }
 
         private updateGroup(projectId: string, groupId: string, newTitle: string) {
-            let url = `/api/projects/${this.project.id}/group/${groupId}`;
+            let url = `${Table2Map.DEPLOY_PATH}/api/projects/${this.project.id}/group/${groupId}`;
             this.$http.put(url, {id: groupId, title: newTitle}, {
                     timeout: 10000
                 })
