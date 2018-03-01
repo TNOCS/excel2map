@@ -54,7 +54,7 @@ module Table2Map {
     export var SHOW_NR_COLUMNS = 20;
     export var NUMBER_OF_STEPS = Object.keys(ConversionStep).length / 2;
     export var MAX_ICON_SIZE = 20 * 1024; // 20kB
-    export var DEFAULT_MARKER_ICON = 'images/marker.png';
+    export var DEFAULT_MARKER_ICON = Table2Map.getDefaultIconUri();
     export var NAME_LABELS = ['naam', 'name'];
     export var POSTCODE_LABELS = ['postcode', 'postal', 'zip'];
     export var H_NR_LABELS = ['huisnummer', 'huisnr', 'nr'];

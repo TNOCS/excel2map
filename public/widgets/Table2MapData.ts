@@ -327,7 +327,7 @@ module Table2Map {
     }
 
     export function getDefaultIconUri() {
-        return 'images/marker.png';
+        return `${Table2Map.DEPLOY_PATH}/images/marker.png`;
     }
 
     /**
