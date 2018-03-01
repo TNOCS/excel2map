@@ -51,7 +51,9 @@ module Translations {
             ADDITIONAL_INFO: 'Additional information',
             PROJECT_SETTINGS: 'Project settings',
             DATA_PARSED_CORRECTLY: 'Data was loaded correctly',
-            SELECT_NR_COLUMNS: 'Selected {{nr}} columns'
+            SELECT_NR_COLUMNS: 'Selected {{nr}} columns',
+            MISSING_LOCATIONS: 'Missing locations',
+            DATA_NOT_CONVERTED_CORRECTLY: 'Not all data was parsed correctly'
         };
     }
 }

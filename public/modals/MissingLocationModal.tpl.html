@@ -1,0 +1,11 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{'MISSING_LOCATIONS' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'MISSING_LOCATIONS' | translate}}" tooltip-placement="bottom"></i></span></h4>
+</div>
+<div class="modal-body">
+    <ul>
+        <li ng-repeat="(key, val) in vm.notFoundLocations">{{key}}</li>
+    </ul>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" ng-click="vm.ok()" style="text-transform:capitalize;">{{'OK' | translate}}</button>
+</div>

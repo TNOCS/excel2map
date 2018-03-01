@@ -196,6 +196,37 @@ module ModalCtrls {
         }
     }
 
+    export interface IMissingLocationModalScope extends ng.IScope {
+        vm: MissingLocationModalCtrl;
+    }
+
+    export class MissingLocationModalCtrl {
+        public static $inject = [
+            '$scope',
+            '$uibModalInstance',
+            '$http',
+            'notFoundLocations'
+        ];
+
+
+        constructor(
+            private $scope: IMissingLocationModalScope,
+            private $uibModalInstance: any,
+            private $http: ng.IHttpService,
+            private notFoundLocations: any) {
+
+            $scope.vm = this;
+        }
+
+        public ok() {
+            this.$uibModalInstance.close();
+        }
+
+        public cancel() {
+            this.$uibModalInstance.dismiss('cancel');
+        }
+    }
+
     export interface IChooseLayerModalScope extends ng.IScope {
         vm: ChooseLayerModalCtrl;
     }

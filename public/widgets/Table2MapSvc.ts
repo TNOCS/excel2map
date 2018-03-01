@@ -165,6 +165,7 @@ module Table2Map {
         private iconData: string; // Icon in base64 format
         private logoData: string; // Project logo in base64 format
         private conversionSteps: string[] = CONVERSION_STEPS;
+        public notFoundLocations: Record<string, any>;
 
         public static $inject = [
             '$http',
@@ -191,7 +192,7 @@ module Table2Map {
             private $uibModal: ng.ui.bootstrap.IModalService,
             private $translate: ng.translate.ITranslateService
         ) {
-            this.restApi = new Table2MapApiManager($http, $messageBus);
+            this.restApi = new Table2MapApiManager($http, $messageBus, this);
 
             this.$dashboardService.widgetTypes['tableToMap'] = < csComp.Services.IWidget > {
                 id: 'tableToMap',
@@ -1448,6 +1449,17 @@ module Table2Map {
 
         private updateFeatureTooltip(e: L.LeafletMouseEvent) {
             if (this.popup != null && e.latlng != null) this.popup.setLatLng(e.latlng);
+        }
+
+        public handleConversionResultMessage(result: any) {
+            if (result && result.data && result.data['notFound']) {
+                if (_.isEmpty(result.data['notFound']) {
+                    this.notFoundLocations = null;
+                } else {
+                    this.notFoundLocations = result.data['notFound'];
+                    this.$messageBus.notify('Niet gevonden locaties:', Object.keys(this.notFoundLocations).join('\n'),  csComp.Services.NotifyLocation.TopBar, csComp.Services.NotifyType.Normal, 10000);
+                }
+            }
         }
     }
 

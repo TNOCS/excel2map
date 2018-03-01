@@ -207,6 +207,23 @@ module Table2Map {
             window.location.href = `/?dashboard=main`;
         }
 
+        private showMissingLocations() {
+            // Create the modal containing the table
+            var notFoundLocations = this.t2mSvc.notFoundLocations;
+            var modalInstance = this.$uibModal.open({
+                templateUrl: 'modals/MissingLocationModal.tpl.html',
+                controller: 'MissingLocationModalCtrl',
+                size: 'lg',
+                resolve: {
+                    notFoundLocations: () => notFoundLocations
+                }
+            });
+
+            modalInstance.result.then(() => {}, (reason ? : string) => {
+                console.log(`MissingLocationModalCtrl dismissed. ${reason || ''}`);
+            });
+        }
+
         private switchToOverview() {
             var db = this.layerService.findDashboardById('main');
             this.$messageBus.publish('dashboard-main', 'activated', db);

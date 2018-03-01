@@ -13,7 +13,7 @@ module Table2Map {
     var PROJECT_MEMBERS_URL = '/api/authorizations';
 
     export class Table2MapApiManager {
-        constructor(private $http: ng.IHttpService, private $messageBus: csComp.Services.MessageBusService) {}
+        constructor(private $http: ng.IHttpService, private $messageBus: csComp.Services.MessageBusService, private t2mSvc: Table2Map.Table2MapSvc) {}
 
         public createProject(project: Project, cb: Function) {
             let url = PROJECT_URL;
@@ -162,10 +162,7 @@ module Table2Map {
                     },
                     timeout: TIMEOUT
                 }).then((result) => {
-                    if (result && result.data && result.data['notFound']) {
-                        let notFoundAdr = Object.keys(result.data['notFound']).join('\n');
-                        this.$messageBus.notify('Niet gevonden locaties:', notFoundAdr, csComp.Services.NotifyLocation.TopBar, csComp.Services.NotifyType.Normal, 10000);
-                    }
+                    this.t2mSvc.handleConversionResultMessage(result);
                     this.addLayerToProject(projectId, groupId, layer, cb);
                 }).catch((err) => {
                     cb(err);
