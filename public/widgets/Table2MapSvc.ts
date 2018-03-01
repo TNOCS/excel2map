@@ -722,7 +722,7 @@ module Table2Map {
 
         private openProject() {
             // window.location.href = `/?project=${this.project.id}`; // open in same tab/window
-            window.open(`http://www.zorgopdekaart.nl/zelfkaartenmaken/public/index.html?project=${this.project.id}`, '_blank'); // open in new tab/window
+            window.open(`${Table2Map.DEPLOY_URL}?project=${this.project.id}`, '_blank'); // open in new tab/window
         }
 
         private sendIcon(base64Data: string, fileName: string) {
@@ -737,7 +737,7 @@ module Table2Map {
         private sendResourceType(fType: IFeatureType) {
             let resourceType = {
                 id: fType.id,
-                url: `http://www.zorgopdekaart.nl/zelfkaartenmaken/api/resources/${fType.id}`,
+                url: `${Table2Map.DEPLOY_PATH}/api/resources/${fType.id}`,
                 featureTypes: {},
                 propertyTypeData: _.object(_.pluck(fType._propertyTypeData, 'label'), fType._propertyTypeData)
             };
@@ -766,11 +766,11 @@ module Table2Map {
                 description: layer.description,
                 enabled: layer.enabled,
                 fitToMap: layer.fitToMap,
-                typeUrl: `http://www.zorgopdekaart.nl/zelfkaartenmaken/api/resources/${this.featureType.id}`,
+                typeUrl: `${Table2Map.DEPLOY_PATH}/api/resources/${this.featureType.id}`,
                 defaultFeatureType: `${this.featureType.id}`,
-                defaultLegendProperty: `http://www.zorgopdekaart.nl/zelfkaartenmaken/api/resources/${this.featureType.id}#${this.defaultLegendProperty}`,
+                defaultLegendProperty: `${Table2Map.DEPLOY_PATH}/api/resources/${this.featureType.id}#${this.defaultLegendProperty}`,
                 opacity: layer.opacity || 95,
-                url: `http://www.zorgopdekaart.nl/zelfkaartenmaken/api/layers/${layer.id}`,
+                url: `${Table2Map.DEPLOY_PATH}/api/layers/${layer.id}`,
                 data: layer.data || {}
             };
             var geometryParams = _.values(this.geometryColumns);
@@ -1453,7 +1453,7 @@ module Table2Map {
 
         public handleConversionResultMessage(result: any) {
             if (result && result.data && result.data['notFound']) {
-                if (_.isEmpty(result.data['notFound']) {
+                if (_.isEmpty(result.data['notFound'])) {
                     this.notFoundLocations = null;
                 } else {
                     this.notFoundLocations = result.data['notFound'];
