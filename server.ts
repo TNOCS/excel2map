@@ -14,9 +14,18 @@ import { sendInterceptor, IPolicyStore } from 'node_auth';
 const config: IConfig = require('config');
 const csCconfig = new csweb.ConfigurationService('./configuration.json');
 
+// Should be set to true for server on zodk
+const runOnZODKServer = true;
+const zodkServerAddress = 'http://www.zorgopdekaart.nl/zelfkaartenmaken';
+const port = process.env.PORT || 3004;
+const deployPath = process.env.deployPath || '';
+console.log('Process env port: ' + port);
+console.log('deployPath: ' + deployPath );
+
 (<any>mongoose).Promise = bluebird;
 // mongoose.connect('mongodb://localhost/test_e2m'); // connect to database
 mongoose.connect(config.mongodb); // connect to database
+console.log(config.mongodb.substring(0, 19));
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -93,7 +102,7 @@ Winston.add(Winston.transports.Console, <Winston.ConsoleTransportOptions>{
 });
 
 var cs = new csweb.csServer(__dirname, <csweb.csServerOptions>{
-    port: 3004,
+    port: port,
     swagger: false,
     apiFolder: path.join(`${__dirname}`, 'private', 'data', 'api'),
     corrsEnabled: true,
@@ -103,8 +112,8 @@ var cs = new csweb.csServer(__dirname, <csweb.csServerOptions>{
 cs.server.route('*')
     .all((req, res, next) => {
         console.log(`${req.method}: ${req.url}`);
-        // if (req.body) { console.log(req.body); }
-        // console.log(`HEADERS: ${JSON.stringify(req.headers, null, 2)}`);
+        if (req.body) { console.log(req.body); }
+        console.log(`HEADERS: ${JSON.stringify(req.headers, null, 2)}`);
         next();
     });
 
@@ -116,6 +125,7 @@ const policiesLoaded = (err: Error, ps: IPolicyStore) => {
         secretKey: 'MyBigSectetThatShouldBeReplacedInProduction',
         blockUnauthenticatedUser: false, // if true, default, no unauthenticated user will pass beyond this point
         policyStore: policyStore,
+        api: deployPath + '/api',
         verify: {
             route: true,
             baseUrl: 'WWW.MYDOMAIN.COM/api/activate',
@@ -141,7 +151,7 @@ const policiesLoaded = (err: Error, ps: IPolicyStore) => {
     const cop = pep.getPolicyEnforcer('Main policy set', { resource: { type: 'project' } });
     const policyEditor = policyStore.getPolicyEditor('dynamic_rules', 'Main policy set');
 
-    cs.server.route('/api/authorizations')
+    cs.server.route(deployPath + '/api/authorizations')
         .get((req, res, next) => {
             next();
         })
@@ -155,18 +165,18 @@ const policiesLoaded = (err: Error, ps: IPolicyStore) => {
             next();
         });
 
-    cs.server.route('/api/authorizations/resources/:id')
+    cs.server.route(deployPath + '/api/authorizations/resources/:id')
         .get((req, res, next) => {
             cop(req, res, next);
         });
 
-    cs.server.route('/api/projects')
+    cs.server.route(deployPath + '/api/projects')
         .get((req, res, next) => {
             console.log('GET /api/projects');
             console.log(JSON.stringify(req['user'], null, 2));
-            // TODO cop should be here!
+            // TODO cop should be here! 
             sendInterceptor(res, (projects: { [key: string]: csweb.Project }) => {
-                // console.log(projects);
+                console.log(`Received ${Object.keys(projects).length} projects, now filtering...`);
                 const privileges = policyStore.getSubjectPrivileges(req['user']);
                 if (!req['user'].admin) {
                     const accessibleProjectIds = privileges.map(r => { return r.resource.domain; });
@@ -176,7 +186,7 @@ const policiesLoaded = (err: Error, ps: IPolicyStore) => {
                         delete projects[key];
                     }
                 }
-                // console.log(privileges);
+                console.log(privileges);
                 // res['body'] = projectFilter(privileges, projects);
                 cop(req, res, next);
             });
@@ -196,6 +206,7 @@ const policiesLoaded = (err: Error, ps: IPolicyStore) => {
             const email = (<IUser>req['user']).email;
             const id = (<IUser>req['user'])._id;
             console.log('POST /api/projects AUTHN SUCCEEDED');
+            console.log(JSON.stringify(req['user'], null, 2));
             sendInterceptor(res, (body) => {
                 console.log('INTERCEPTING SEND: /api/projects');
                 console.log(JSON.stringify(body, null, 2));
@@ -217,7 +228,7 @@ const policiesLoaded = (err: Error, ps: IPolicyStore) => {
             next();
         });
 
-    cs.server.route('/api/projects/:domain')
+    cs.server.route(deployPath + '/api/projects/:domain')
         .all((req, res, next) => {
             req['resource'] = {
                 type: 'project',
@@ -226,7 +237,7 @@ const policiesLoaded = (err: Error, ps: IPolicyStore) => {
             cop(req, res, next);
         });
 
-    cs.server.route('/api/layers/:layerId')
+    cs.server.route(deployPath + '/api/layers/:layerId')
         .all((req, res, next) => {
             req['resource'] = {
                 type: 'project',
@@ -238,7 +249,7 @@ const policiesLoaded = (err: Error, ps: IPolicyStore) => {
             cop(req, res, next);
         });
 
-    cs.server.route('/api/convertlayer/:layerId')
+    cs.server.route(deployPath + '/api/convertlayer/:layerId')
         .post((req, res, next) => {
             console.log('convertlayer');
             req['resource'] = {
@@ -248,7 +259,7 @@ const policiesLoaded = (err: Error, ps: IPolicyStore) => {
             cop(req, res, next);
         });
 
-    cs.server.route('/api/cloneproject/:projectId/:clonedProjectId')
+    cs.server.route(deployPath + '/api/cloneproject/:projectId/:clonedProjectId')
         .get((req, res, next) => {
             console.log('cloneproject');
             req['resource'] = {
@@ -258,7 +269,7 @@ const policiesLoaded = (err: Error, ps: IPolicyStore) => {
             cop(req, res, next);
         });
 
-    cs.server.route('/api/files/:folder/:file')
+    cs.server.route(deployPath + '/api/files/:folder/:file')
         .all((req, res, next) => {
             req['resource'] = {
                 type: 'image'
@@ -266,11 +277,20 @@ const policiesLoaded = (err: Error, ps: IPolicyStore) => {
             cop(req, res, next);
         });
 
+
+    cs.server.route(deployPath + '/helloworld')
+        .all((req, res, next) => {
+            res.send('Hello 1');
+        });
+
     cs.server.use(ExpressStatic(path.resolve(__dirname, 'data')));
     cs.server.use(ExpressStatic(path.resolve(__dirname, 'private', 'data', 'images')));
     // cs.server.use(auth);
 
     var debug = true;
+    this.config = cs.config;
+    this.config.add('server', (runOnZODKServer ? zodkServerAddress : 'http://localhost:') + port);
+    this.config.add('baseUrl', (runOnZODKServer ? deployPath + '/api' : null));
 
     cs.start(() => {
 
@@ -278,7 +298,8 @@ const policiesLoaded = (err: Error, ps: IPolicyStore) => {
         // const cop = pep.getPolicyEnforcer('Main policy set');
 
         this.config = cs.config;
-        this.config.add('server', 'http://localhost:' + cs.options.port);
+        this.config.add('server', (runOnZODKServer ? zodkServerAddress : 'http://localhost:') + port);
+        this.config.add('baseUrl', (runOnZODKServer ? deployPath + '/api' : null));
         const bagDatabase = new csweb.BagDatabase(csCconfig);
         const osmDatabase = new csweb.NominatimSource(this.config);
         const mapLayerFactory = new csweb.MapLayerFactory([
@@ -286,21 +307,21 @@ const policiesLoaded = (err: Error, ps: IPolicyStore) => {
             bagDatabase], cs.messageBus, cs.api, cs.dir);
 
         const apiRoutes = Router();
-        apiRoutes.route('/projecttemplate')
+        apiRoutes.route(deployPath + '/projecttemplate')
             .post((req, res, next) => {
                 console.log('projecttemplate');
                 next();
             })
             .post(mapLayerFactory.process);
 
-        apiRoutes.route('/api/convertlayer/:layerId')
+        apiRoutes.route(deployPath + '/api/convertlayer/:layerId')
             .post((req, res, next) => {
                 console.log('convertlayer');
                 mapLayerFactory.addGeometryRequest(req, res);
                 // next();
             });
 
-        apiRoutes.route('/api/cloneproject/:projectId/:clonedProjectId')
+        apiRoutes.route(deployPath + '/api/cloneproject/:projectId/:clonedProjectId')
             .get((req, res, next) => {
                 console.log('cloneproject');
                 cs.api.cloneProject(req.params['projectId'], req.params['clonedProjectId'], {}, (result: csweb.CallbackResult) => {
@@ -313,7 +334,7 @@ const policiesLoaded = (err: Error, ps: IPolicyStore) => {
                 // next();
             });
 
-        apiRoutes.route('/updategrouptitle')
+        apiRoutes.route(deployPath + '/updategrouptitle')
             .post((req, res) => {
                 const creds = req['user']; // auth(req);
                 if (req.body) {
@@ -333,9 +354,9 @@ const policiesLoaded = (err: Error, ps: IPolicyStore) => {
                 }
             });
 
-        apiRoutes.route('/clearproject')
+        apiRoutes.route(deployPath + '/clearproject')
             .post((req, res) => {
-                const creds = req['user']; // auth(req);
+                const creds = req['user']; //  auth(req);
                 if (req.body) {
                     const data = req.body;
                     if (!data.hasOwnProperty('projectId')) {
@@ -355,22 +376,24 @@ const policiesLoaded = (err: Error, ps: IPolicyStore) => {
                 }
             });
 
-        apiRoutes.route('/bagsearchaddress')
+        apiRoutes.route(deployPath + '/bagsearchaddress')
             .post(mapLayerFactory.processBagSearchQuery);
 
         cs.server.use(apiRoutes);
 
         console.log('Excel2map functions started');
         // Open start webpage
-        if (!debug) opn('http://localhost:' + cs.options.port);
+        if (!debug) opn('http://localhost:' + port);
     });
 };
 
 const policiesFile = 'policies.json';
 fs.exists(policiesFile, exists => {
     if (exists) {
+        console.log('PolicyStoreFactory loading... ');
         PolicyStoreFactory(policiesFile, policiesLoaded);
     } else {
+        console.log('PolicyStoreFactory creating...');
         PolicyStoreFactory(policiesFile, policiesLoaded, policySets);
     }
 });

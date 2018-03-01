@@ -1,5 +1,4 @@
 module Table2Map {
-
     export interface ICSVParseSettings {
         delimiter: string;
         decimalCharacter: string;
@@ -723,7 +722,7 @@ module Table2Map {
 
         private openProject() {
             // window.location.href = `/?project=${this.project.id}`; // open in same tab/window
-            window.open(`/?project=${this.project.id}`, '_blank'); // open in new tab/window
+            window.open(`http://www.zorgopdekaart.nl/zelfkaartenmaken/public/index.html?project=${this.project.id}`, '_blank'); // open in new tab/window
         }
 
         private sendIcon(base64Data: string, fileName: string) {
@@ -738,7 +737,7 @@ module Table2Map {
         private sendResourceType(fType: IFeatureType) {
             let resourceType = {
                 id: fType.id,
-                url: `api/resources/${fType.id}`,
+                url: `http://www.zorgopdekaart.nl/zelfkaartenmaken/api/resources/${fType.id}`,
                 featureTypes: {},
                 propertyTypeData: _.object(_.pluck(fType._propertyTypeData, 'label'), fType._propertyTypeData)
             };
@@ -767,10 +766,11 @@ module Table2Map {
                 description: layer.description,
                 enabled: layer.enabled,
                 fitToMap: layer.fitToMap,
-                typeUrl: `api/resources/${this.featureType.id}`,
+                typeUrl: `http://www.zorgopdekaart.nl/zelfkaartenmaken/api/resources/${this.featureType.id}`,
                 defaultFeatureType: `${this.featureType.id}`,
-                defaultLegendProperty: `api/resources/${this.featureType.id}#${this.defaultLegendProperty}`,
+                defaultLegendProperty: `http://www.zorgopdekaart.nl/zelfkaartenmaken/api/resources/${this.featureType.id}#${this.defaultLegendProperty}`,
                 opacity: layer.opacity || 95,
+                url: `http://www.zorgopdekaart.nl/zelfkaartenmaken/api/layers/${layer.id}`,
                 data: layer.data || {}
             };
             var geometryParams = _.values(this.geometryColumns);

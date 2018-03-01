@@ -7,10 +7,11 @@ module Table2Map {
     import ProjectLayer = csComp.Services.ProjectLayer;
 
     var TIMEOUT = 30000;
-    var PROJECT_URL = '/api/projects';
-    var LAYER_URL = '/api/layers';
-    var RESOURCES_URL = '/api/resources';
-    var PROJECT_MEMBERS_URL = '/api/authorizations';
+    export const DEPLOY_PATH = '/zelfkaartenmaken' || '';
+    const PROJECT_URL = DEPLOY_PATH + '/api/projects';
+    const LAYER_URL = DEPLOY_PATH + '/api/layers';
+    const RESOURCES_URL = DEPLOY_PATH + '/api/resources';
+    const PROJECT_MEMBERS_URL = DEPLOY_PATH + '/api/authorizations';
 
     export class Table2MapApiManager {
         constructor(private $http: ng.IHttpService, private $messageBus: csComp.Services.MessageBusService, private t2mSvc: Table2Map.Table2MapSvc) {}
@@ -18,7 +19,8 @@ module Table2Map {
         public createProject(project: Project, cb: Function) {
             let url = PROJECT_URL;
             this.$http.post(url, {
-                    title: project.title || 'Mijn titel'
+                    title: project.title || 'Mijn titel',
+                    layerDirectory: `${LAYER_URL}`
                 }, {
                     timeout: 20000
                 })
@@ -55,7 +57,7 @@ module Table2Map {
                 cb();
                 return;
             }
-            let url = `api/projects/${projectId}`;
+            let url = `${DEPLOY_PATH}/api/projects/${projectId}`;
             this.$http.delete(url, {
                 timeout: TIMEOUT
             }).then((result) => {
@@ -70,7 +72,7 @@ module Table2Map {
                 cb('No project provided');
                 return;
             }
-            let url = `api/projects/${project.id}`;
+            let url = `${DEPLOY_PATH}/api/projects/${project.id}`;
             this.$http.put(url, project, {
                 timeout: TIMEOUT
             }).then((result) => {
@@ -92,7 +94,7 @@ module Table2Map {
                     cb();
                     return;
                 }
-                let url = `api/cloneproject/${projectId}/${createdProject.id}`;
+                let url = `${DEPLOY_PATH}/api/cloneproject/${projectId}/${createdProject.id}`;
                 this.$http.get(url, {
                     timeout: TIMEOUT
                 }).then((result) => {
@@ -108,7 +110,7 @@ module Table2Map {
                 cb('No group provided');
                 return;
             }
-            let url = `api/projects/${projectId}/group/${group.id}`;
+            let url = `${DEPLOY_PATH}/api/projects/${projectId}/group/${group.id}`;
             this.$http.put(url, group, {
                 timeout: TIMEOUT
             }).then((result) => {
@@ -123,7 +125,7 @@ module Table2Map {
                 cb('No group provided');
                 return;
             }
-            let url = `api/projects/${projectId}/group/${groupId}`;
+            let url = `${DEPLOY_PATH}/api/projects/${projectId}/group/${groupId}`;
             this.$http.delete(url, {
                 timeout: TIMEOUT
             }).then((result) => {
@@ -140,7 +142,7 @@ module Table2Map {
             }
             if (!featuresUpdated) {
                 //send layer
-                let url = `api/layers/${layer.id}`;
+                let url = `${DEPLOY_PATH}/api/layers/${layer.id}`;
                 this.$http.put(url, layer, {
                     headers: {
                         'Domain': projectId
@@ -153,7 +155,7 @@ module Table2Map {
                 });
             } else {
                 // convert layer
-                let url = `api/convertlayer/${layer.id}`;
+                let url = `${DEPLOY_PATH}/api/convertlayer/${layer.id}`;
                 this.$http.post(url, {
                     layer: layer
                 }, {
@@ -191,7 +193,7 @@ module Table2Map {
 
         public addLayerToProject(projectId: string, groupId: string, layer: ProjectLayer, cb: Function) {
             //add layer to project
-            let url = `api/projects/${projectId}/group/${groupId}/layer/${layer.id}`;
+            let url = `${DEPLOY_PATH}/api/projects/${projectId}/group/${groupId}/layer/${layer.id}`;
             this.$http.post(url, layer, {
                 timeout: TIMEOUT
             }).then((result) => {
@@ -206,7 +208,7 @@ module Table2Map {
                 cb('No icon provided');
                 return;
             }
-            let url = `api/files/${folder}/${filePath}`;
+            let url = `${DEPLOY_PATH}/api/files/${folder}/${filePath}`;
             this.$http.post(url, {
                 base64: b64
             }, {

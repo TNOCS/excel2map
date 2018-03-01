@@ -1,12 +1,14 @@
 {
   "compilerOptions": {
     "target": "es5",
+    "lib": ["es5", "es6", "dom"],
     "module": "commonjs",
     "declaration": false,
     "noImplicitAny": false,
     "removeComments": false,
     "noLib": false,
-    "sourceMap": true
+    "sourceMap": true,
+    "moduleResolution": "node"
   },
   "include": [
     "./public/app/*.ts",
@@ -14,7 +16,6 @@
     "./public/widgets/*.ts",
     "./public/translations/*.ts",
     "./node_modules/@types/**/*.d.ts",
-    "./searchData/*.ts",
     "./server.ts"
   ],
   "files": [
