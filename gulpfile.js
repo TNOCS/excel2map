@@ -16,6 +16,7 @@ var templateCache = require('gulp-angular-templatecache');
 var deploy        = require('gulp-gh-pages');
 var purify        = require('gulp-purifycss');
 var concatCss     = require('gulp-concat-css');
+var sass          = require('gulp-sass');
 
 /** Destination of the client/server distribution */
 var dest = 'dist/';
@@ -54,7 +55,7 @@ gulp.task('dist_client', function() {
     gulp.src('./public/images/**/*.*')
         .pipe(plumber())
         .pipe(gulp.dest(dest + 'public/images/'));
-    // Copy index files and favicon        
+    // Copy index files and favicon
     gulp.src(['./public/*.html', './public/favicon.ico', './public/mode-json.js'])
         .pipe(plumber())
         .pipe(gulp.dest(dest + 'public/'));
@@ -79,8 +80,8 @@ gulp.task('dist_server', function() {
         .pipe(changed(dest + 'node_modules/'))
         .pipe(gulp.dest(dest + 'node_modules/'));
    gulp.src('node_modules/csweb/dist-npm/package.json')
-        .pipe(plumber())        
-        .pipe(gulp.dest(dest + 'node_modules/csweb/'));        
+        .pipe(plumber())
+        .pipe(gulp.dest(dest + 'node_modules/csweb/'));
     return gulp.src('node_modules/csweb/dist-npm/**/*.*')
         .pipe(plumber())
         .pipe(changed(dest + 'node_modules/csweb/dist-npm/'))
@@ -121,7 +122,7 @@ gulp.task('install', function(cb) {
 gulp.task('init', function(cb) {
   runSequence(
     'update_tsconfig',
-    'tsc',
+    'build-css',
     cb
   );
 });
@@ -151,6 +152,26 @@ gulp.task('deploy-githubpages', function() {
         }));
 });
 
+gulp.task('build-css', function() {
+    return gulp.src('public/css/style.scss')
+        // .pipe(sourcemaps.init())
+        .pipe(sass())
+        // .pipe(cachebust.resources())
+        // .pipe(sourcemaps.write('public/css/'))
+        .pipe(gulp.dest('public/css'));
+});
+
+var watchOptions = {
+    interval: 750, // default 100
+    debounceDelay: 1000, // default 500
+    mode: 'watch'
+};
+
+gulp.task('watch', function (cb) {
+    gulp.watch('public/css/*', watchOptions, ['build-css']);
+    gulp.watch('public/css/styles/*.scss', watchOptions, ['build-css']);
+});
+
 // var watchTS = gulp.watch('./**/*.ts');
 // watchTS.on('added', function(event) {
 //   console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
@@ -176,4 +197,4 @@ gulp.task('deploy-githubpages', function() {
 
 gulp.task('deploy', ['dist_client', 'deploy-githubpages']);
 
-gulp.task('default', ['init']);
+gulp.task('default', ['init', 'watch']);

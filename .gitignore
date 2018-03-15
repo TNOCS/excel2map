@@ -6,6 +6,8 @@ public/data/templates/
 public/**/*.js
 public/**/*.js.map
 
+public/css/*.css
+
 .vscode
 
 server.js.map
