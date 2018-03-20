@@ -1,0 +1,188 @@
+<div id="rp-content">
+
+    <div class="profile" ng-if="!vm.isLoggedIn()">
+
+      <div class="header">
+        Inloggen
+      </div>
+
+      <h3>Log in om zelf kaarten te kunnen maken</h3>
+      <div class="content">
+        <div>
+          <h4>Ik heb al een account</h4>
+          <form name="loginForm" ng-submit="vm.validateUser()" novalidate>
+
+              <div class="form-group" ng-class="{ 'has-error': loginForm.userName.$invalid }">
+                  <span class="help-block" ng-show="loginForm.userName.$error.required">Not a valid username</span>
+                  <input type="text" class="" name="userName" id="userName" ng-model="vm.userName" placeholder="E-mail adres"
+                      required>
+              </div>
+
+              <div class="form-group" ng-class="{ 'has-error': loginForm.userPassword.$required }">
+                  <span class="help-block" ng-show="loginForm.userPassword.$error.required">Not a valid password</span>
+                  <input type="password" class="" name="userPassword" id="userPassword" ng-model="vm.userPassword" placeholder="Wachtwoord"
+                      required>
+              </div>
+
+              <div>
+              <button ng-disabled="!loginForm.$valid" type="submit" class="button">
+                  Inloggen
+              </button>
+              </div>
+          </form>
+        </div>
+
+        <div>
+          <!-- <h4>Ik ben nieuw hier</h4> -->
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="navigation" ng-if="vm.isLoggedIn()">
+
+        <div class="topnav">
+            <a ng-click="vm.editProject()">Project aanpassen</a>
+            <a ng-click="vm.logout()">Uitloggen</a>
+        </div>
+
+
+        <div ng-show="vm.layerCount > 0" ng-class="{'active': vm.panel == vm.Panel.info}" data-ng-click="vm.openData()">
+            <span class="icon-marker"></span><span class="title">{{'DATA' | translate}}</span>
+        </div>
+
+        <div class="disabled" ng-show="vm.layerCount == 0" uib-tooltip="{{'DATA' | translate}}" tooltip-placement="bottom">
+           <span class="icon-marker"></span><span class="title">{{'DATA' | translate}}</span>
+        </div>
+
+        <div ng-class="{'active': vm.panel == vm.Panel.layer}" data-ng-click="vm.openLayers()">
+            <span class="icon-kaartlagen"></span><span class="title">{{'LAYERS' | translate}} ({{vm.layerCount}})</span>
+        </div>
+
+        <div class="disabled" uib-tooltip="{{'NO_FILTERS' | translate}}" tooltip-placement="bottom" ng-show="vm.filterCount == 0">
+            <span class="icon-filter"></span><span class="title">{{'FILTERS' | translate}} (0)</span>
+        </div>
+
+        <div ng-show="vm.filterCount > 0" data-ng-click="vm.openFilters()" ng-class="{'active': vm.panel == vm.Panel.filter}">
+            <span class="icon-filter"></span><span class="title">{{'FILTERS' | translate}} ({{vm.filterCount}})</span>
+        </div>
+
+        <div ng-class="{'active': vm.panel == vm.Panel.mca}" data-ng-click="vm.openMCA()">
+            <span class="icon-mca"></span><span class="title title-last">MCA</span>
+        </div>
+<!--
+        <div data-ng-click="vm.close()" class="pull-right" uib-tooltip="{{'CLOSE' | translate}}" tooltip-placement="bottom">
+            <span class="icon-sluit">
+        </div> -->
+    </div>
+
+    <div class="info" ng-if="vm.isLoggedIn()">
+        <div ng-show="vm.propertyTable.title == '' && vm.layerCount > 0 && vm.panel == vm.Panel.info" class="hint-text">
+            <div class="hint-title">
+                <img src="images/hint.svg"> Klik op de kaart
+            </div>
+            Klik op een feature op de kaart om detailinformatie te zien.
+        </div>
+
+        <div ng-show="vm.panel == vm.Panel.info && vm.propertyTable.title != ''" class="header">
+            <div class="title">
+                {{vm.propertyTable.title}}
+            </div>
+            <div class="subtitle">
+                Op kaartlaag {{vm.propertyTable.layerTitle}}
+            </div>
+
+            <div class="dataexport" ng-click="vm.openTable()">
+                <span class="icon-downloaden"></span>
+                <span class="link">Data weergave en download</span>
+            </div>
+        </div>
+
+        <div ng-show="vm.panel == vm.Panel.info && vm.propertyTable.title != ''" class="ptable">
+            <div class="row">
+
+                <div class="row" ng-repeat="section in vm.propertyTable.sections track by $index">
+
+                    <div data-toggle="collapse" data-target="#collapse-{{$index}}">
+                        <div class="title">{{section.title? section.title : 'Gegevens'}}<span class="fa fa-caret-up"></span><span class="fa fa-caret-down"></span>
+                        </div>
+                    </div>
+
+                    <div ng-show="section.type==='table'" class="row collapse in" id="collapse-{{$index}}">
+
+                        <div class="row table" ng-repeat="row in section.rows">
+                            <div ng-show="row.type !== 'textarea'">
+                                <div class="col-xs-8" >
+                                    <div ng-if="row.coProperty.canStyle">
+                                        <a ng-click="vm.setStyle(section.group, row.coProperty)" ng-class="{'active-style': row.coProperty.feature._gui['style'][row.coProperty.property]}" uib-popover="{{(row.description) ? row.description : ''}}" popover-placement="left" popover-trigger="'mouseenter'">{{row.title}}</a>
+
+                                        <div ng-show="row.coProperty.feature._gui['style'][row.coProperty.property]">
+                                            <span class="toggle-text" ng-show="!vm.isFilterActive(row.coProperty)" ng-click="vm.setFilter(row.coProperty)" ng-class="{'active-filter': vm.isFilterActive(row.coProperty)}">Open filter <span class="icon-filter"></span></span>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if="!row.coProperty.canStyle"  uib-popover="{{(row.description) ? row.description : ''}}" popover-placement="left"
+                                    popover-trigger="'mouseenter'">
+                                        {{row.title}}
+                                    </div>
+                                </div>
+                                <div ng-show="row.values.length===1" class="col-xs-4 value" data-ng-bind-html="row.values[0] | trusted"></div>
+                                <div ng-show="row.values.length===2" class="col-xs-2 value" data-ng-bind-html="row.values[0] | trusted"></div>
+                                <div ng-show="row.values.length===2" class="col-xs-2 value" data-ng-bind-html="row.values[1] | trusted"></div>
+                            </div>
+
+                            <div ng-if="vm.isFilterActive(row.coProperty)">
+                                <zodkbar-filter inline="true" filter="vm.filtersFor(row.coProperty)"></zodkbar-filter>
+                            </div>
+
+                            <div ng-show="row.type === 'textarea'">
+                                <div>{{row.title}}:</div>
+                                <div ng-repeat="val in row.values track by $index" data-ng-bind-html="val | trusted"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-show="section.type==='full-row'">
+                        <div class="row" ng-repeat="row in section.rows">
+                            <div>
+                                <div class="col-xs-12" data-ng-bind-html="row.values[0] | trusted"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-show="vm.panel == vm.Panel.layer" id="widget-zodklayer-parent">
+    </div>
+
+    <div id="filters" ng-show="vm.panel == vm.Panel.filter">
+        <div class="hint-text" ng-show="vm.filterCount > 1">
+            Meerdere filters actief op de zelfde kaartlaag werken als <strong>AND</strong>
+        </div>
+        <div ng-show="vm.filterCount == 0" class="hint-text">
+            <div class="hint-title">
+                Filters
+            </div>
+            U heeft geen filters actief.
+        </div>
+
+        <div class="filter-content">
+            <span ng-show="vm.filterCount > 0" class="toggle-text" ng-click="vm.closeAllFilters()">Sluit alle filters <span class="icon-sluit"></span></span>
+
+            <div data-ng-repeat="group in vm.layerService.project.groups" data-ng-show="group.filters.length>0">
+                <div class="title">{{group.title}}</div>
+                <div data-ng-repeat="filter in group.filters">
+                    <zodkbar-filter inline="false"></zodkbar-filter>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-show="vm.panel == vm.Panel.mca" id="widget-zodkmca-parent">
+        <mca class="tab-pane" id="mca"></mca>
+    </div>
+
+
+</div>

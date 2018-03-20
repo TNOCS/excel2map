@@ -48,6 +48,8 @@ module App {
         activeLayer: csComp.Services.ProjectLayer;
         nrOfActiveTabs: number;
 
+        public ZodkRightPanelVisible: boolean = true;
+
         // dependencies are injected via AngularJS $injector
         // controller's name is registered in Application.ts and specified from ng-controller attribute in index.html
         constructor(
@@ -110,14 +112,31 @@ module App {
                 }
             });
 
+            this.$messageBusService.subscribe('zodk', (title, value: any) => {
+                switch (title) {
+                    case 'home':
+                        location.href = 'http://www.zorgopdekaart.nl';
+                        break;
+                    case 'openpanel':
+                        this.ZodkRightPanelVisible = true;
+                        break;
+                    case 'closepanel':
+                        this.ZodkRightPanelVisible = false;
+                        break;
+                    case 'startlogin':
+                        break;
+                }
+            });
+
             //$messageBusService.subscribe('sidebar', this.sidebarMessageReceived);
             $messageBusService.subscribe('feature', this.featureMessageReceived);
             $messageBusService.subscribe('layer', this.layerMessageReceived);
 
-            var rpt = csComp.Helpers.createRightPanelTab('featureprops', 'featureprops', null, 'Selected feature', '{{\'FEATURE_INFO\' | translate}}', 'info');
+            var rpt = csComp.Helpers.createRightPanelTab('zodkrightpanel', 'zodkrightpanel', null, 'Selected feature', '{{\'FEATURE_INFO\' | translate}}', 'info');
             this.$messageBusService.publish('rightpanel', 'activate', rpt);
+
             this.$layerService.visual.rightPanelVisible = false; // otherwise, the rightpanel briefly flashes open before closing.
-            this.profileService.startLogin();
+
             this.profileService.validate = (username: string, password: string, cb: (success: boolean, profile?: csComp.Services.IProfile) => void) => {
                 this.$http
                     .post(deployPath + '/api/login', { email: username, password: password })
@@ -179,6 +198,14 @@ module App {
         }
 
         get showNavigation() { return this.$dashboardService._search && this.$dashboardService._search.isActive; }
+
+        private openRightPanel() {
+            this.$messageBusService.publish('zodk', 'openpanel');
+        }
+
+        private closeRightPanel() {
+            this.$messageBusService.publish('zodk', 'closepanel');
+        }
 
         /**
          * Publish a toggle request.
@@ -303,6 +330,14 @@ module App {
                 this.$scope.showTabDropdown = false;
             }
         };
+
+        zoomIn() {
+            this.$mapService.getMap().zoomIn();
+        }
+
+        zoomOut() {
+            this.$mapService.getMap().zoomOut();
+        }
     }
 
     // Start the application
@@ -387,6 +422,15 @@ module App {
                 return input.replace(/\w\S*/g, (txt) => {
                     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
                 });
+            };
+        })
+        .filter('trusted', ($sce) => {
+            return (html) => {
+                if (html === undefined || html === null) {
+                    return $sce.trustAsHtml(html);
+                } else {
+                    return $sce.trustAsHtml(html.toString());
+                }
             };
         })
         .controller('appCtrl', AppCtrl)

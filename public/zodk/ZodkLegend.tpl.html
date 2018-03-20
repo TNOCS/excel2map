@@ -1,0 +1,35 @@
+<div>
+    <div data-ng-if="vm.activeStyle" class="fullbox-shadow legendbar legend-box">
+        <div>
+            <div class="title">{{vm.leg.description}}
+            <div class="pointer pull-right" ng-click="vm.$layerService.removeStyle(vm.activeStyle)">
+                <span class="icon-sluit"></span>
+            </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="subtitle"></div>
+        </div>
+
+
+        <div data-ng-repeat="(key, le) in vm.leg.legendEntries | reverse" class="legend-keys legend-key-{{key}}">
+            <div ng-if="key < vm.leg.legendEntries.length-1" class="legend-color" ng-style="vm.getStyle(vm.leg, le, key)"></div>
+            <div class="legend-label">{{le.label}}</div>
+        </div>
+
+    </div>
+
+    <div class="legend-box fullbox-shadow">
+        <div class="title">Geselecteerde kaartlagen</div>
+        <div class="subtitle">Locaties en gebieden</div>
+
+        <div ng-repeat="legendItem in legendItems">
+
+            <div class="legendTile" ng-if="legendItem.showicon"><img ng-src="{{legendItem.uri}}" class="media-object"></div>
+            <div ng-if="!legendItem.showicon" class="legendTile"><img ng-src="/images/gebied.svg" class="media-object"></div>
+
+            <div class="description-label">{{legendItem.title}}</div>
+        </div>
+
+        <div ng-if="!legendItems.length" class="">{{'NO_LAYER_ACTIVE' | translate}}</div>
+    </div>
+</div>

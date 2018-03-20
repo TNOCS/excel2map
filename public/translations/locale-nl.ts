@@ -146,7 +146,20 @@ module Translations {
             EDIT_LAYER_HELP: 'Kies een kaartlaag om te bewerken, verwijderen of maak een nieuwe kaartlaag.',
             DATA_NOT_CONVERTED_CORRECTLY: 'Niet alle data was correct geconverteerd',
             ERROR_GETTING_FEATURE_TYPE: 'Fout bij het ophalen van de kaartlaag-stijl',
-            MISSING_LOCATIONS: 'Missende locaties'
+            MISSING_LOCATIONS: 'Missende locaties',
+            NO_LEGEND_AVAILABLE: 'Er is geen legenda beschikbaar voor de huidige kaart.',
+            SHOW_LABELS: 'Toon plaatsnamen',
+            CHOOSE_BASELAYER: 'Kies een kaartweergave',
+            BASELAYER_NOT_AVAILABLE: 'Kaartweergave niet beschikbaar',
+            BASELAYER_NOT_AVAILABLE_WITH_LABELS: 'Deze kaartweergave is niet beschikbaar met plaatsnamen',
+            BASELAYER_NOT_AVAILABLE_WITHOUT_LABELS: 'Deze kaartweergave is niet beschikbaar zonder plaatsnamen',
+            TOON_INFO: 'Toon info',
+            NO_LAYER_ACTIVE: 'Er is geen kaartlaag actief',
+            FILTERS: 'Filters',
+            NO_FILTERS: 'U heeft geen filters actief',
+            LAYERS: 'Kaartlagen',
+            DATA: 'Informatie',
+            DOWNLOAD_SELECTION_AS: 'Download deze selectie als'
         };
     }
 }

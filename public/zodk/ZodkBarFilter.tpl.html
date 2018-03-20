@@ -1,0 +1,20 @@
+<div class="filter">
+    <div>
+        <h4 ng-show="!vm.inline">{{filter.title}}</h4>
+        <span class="toggle-text" ng-click="vm.remove()">Sluit filter <span class="icon-sluit"></span></span>
+    </div>
+
+    <div ng-if="vm.inline">
+        <div id="filter_inline_{{filter.id}}"></div>
+    </div>
+
+    <div ng-if="!vm.inline">
+        <div id="filter_{{filter.id}}"></div>
+    </div>
+
+    <div>
+        <input type="text" ng-model="filter.from" ng-blur="vm.updateRange()" />
+        <span class="to-text">{{'TO' | translate}}</span>
+        <input type="text" ng-model="filter.to" ng-blur="vm.updateRange()" />
+    </div>
+</div>

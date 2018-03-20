@@ -65,7 +65,7 @@ module EditLayerHeaderDirective {
 
         private getProjectAuth() {
             if (!this.checkLogin()) {
-                this.profileService.startLogin();
+                this.$messageBus.publish('zodk', 'startlogin');
                 return;
             }
             let authUrl = 'api/authorizations';

@@ -66,6 +66,12 @@
     <script src="widgets/ArrayUtils.js"></script>
     <script src="widgets/StringUtils.js"></script>
     <script src="widgets/ProjectsDirective.js"></script>
+    <script src="zodk/ZodkRightPanel.js"></script>
+    <script src="zodk/ZodkPropertyView.js"></script>
+    <script src="zodk/ZodkBarFilterCtrl.js"></script>
+    <script src="zodk/ZodkLayer.js"></script>
+    <script src="zodk/ZodkBaselayers.js"></script>
+    <script src="zodk/ZodkLegend.js"></script>
     <script src="app/app.js"></script>
     <script src="widgets/Table2MapSvc.js"></script>
     <script src="bower_components/csweb/dist-bower/csTemplates.js"></script>
@@ -81,17 +87,20 @@
     <!-- endbuild -->
 
     <div class="body" style="top:0">
+        <div id="title-container">
+            <h2 class="map-title">
+                <img ng-src="{{vm.$layerService.project.logo}}" class="title-logo">
+                {{vm.$layerService.project.title}}
+            </h2>
+        </div>
+
         <map mapid="main" class="map-main" ng-show="vm.$layerService.visual.mapVisible" ng-style="{width: vm.$layerService.visual.mapWidth ? vm.$layerService.visual.mapWidth : '100%', left: vm.$layerService.visual.alignMapRight ? vm.$layerService.visual.mapWidth : 0}"></map>
 
 
         <!-- Link to views -->
-        <div class="navbar-collapse collapse">
-
-
+        <!-- <div class="navbar-collapse collapse"> -->
 
             <!-- Dashboard selection -->
-
-
             <!-- Select renderer -->
             <!--<ul ng-if="false" class="nav navbar-nav" style="float:right">
                     <li data-ng-if="vm.$layerService.activeMapRenderer.title!='leaflet'"><a data-ng-click="vm.$layerService.selectRenderer('leaflet')">2D</a></li>
@@ -99,19 +108,19 @@
                 </ul>-->
 
 
-        </div>
+        <!-- </div> -->
     </div>
 
     <!--<div style="position: absolute;width: 100%;height:100%;pointer-events: none;display:table">-->
-    <div class="sidebar">
+    <!-- <div class="sidebar"> -->
 
-        <div ng-show="vm.$layerService.visual.leftPanelVisible" class="leftpanel leftpanel-entrance" ng-cloak>
+        <!-- <div ng-show="vm.$layerService.visual.leftPanelVisible" class="leftpanel leftpanel-entrance" ng-cloak>
             <div class="leftpanel-container">
                 <!-- http://stackoverflow.com/questions/1575141/make-div-100-height-of-browser-window -->
-                <div class="leftpanel-tab">
+                <!-- <div class="leftpanel-tab">
                     <!-- required for floating -->
                     <!-- Nav tabs -->
-                    <ul id="left_menu_headers" class="nav nav-pills">
+                    <!--<ul id="left_menu_headers" class="nav nav-pills">
                         <li class="lp-tab close-tab" ng-click="vm.$layerService.visual.leftPanelVisible = !vm.$layerService.visual.leftPanelVisible;vm.$messageBusService.publish('search','reset')">
                             <div>
                                 <i class="fa fa-times"></i>
@@ -270,42 +279,42 @@
                         </li>
                     </ul>
                 </div>
-
-                <div class="leftpanel-content">
+ -->
+                <!-- <div class="leftpanel-content"> -->
                     <!-- Tab panes -->
-                    <div class="tab-content ">
+<!--                     <div class="tab-content ">
                         <navigate ng-show="vm.showNavigation" class="tab-pane" id="navigate"></navigate>
                         <base-map-list class="tab-pane" id="basestyles"></base-map-list>
-                        <layers-directive class="tab-pane active" id="layers"></layers-directive>
-                        <filter-list ng-hide="vm.$layerService.noFilters" class="tab-pane" id="filters"></filter-list>
-                        <div class="tab-pane" id="styles"><style-list></style-list></div>
-                        <mca class="tab-pane" id="mca" ng-show="vm.$layerService.project.mcas || vm.$mapServer.isExpert()"></mca>
-                        <feature-list class="tab-pane" id="features"></feature-list>
+                        <layers-directive class="tab-pane active" id="layers"></layers-directive> -->
+    <!--                     <filter-list ng-hide="vm.$layerService.noFilters" class="tab-pane" id="filters"></filter-list> -->
+<!--                         <div class="tab-pane" id="styles"><style-list></style-list></div> -->
+<!--                         <mca class="tab-pane" id="mca" ng-show="vm.$layerService.project.mcas || vm.$mapServer.isExpert()"></mca> -->
+<!--                         <feature-list class="tab-pane" id="features"></feature-list>
                         <legend-list class="tab-pane" id="legend"></legend-list>
                         <dashboard-selection class="tab-pane" id="dashboardselection"></dashboard-selection>
-                        <project-settings class="tab-pane" id="settings"></project-settings>
-                    </div>
-                </div>
+                        <project-settings class="tab-pane" id="settings"></project-settings> -->
+                    <!-- </div> -->
+<!--                 </div>
             </div>
-        </div>
+ </div>
+ -->
         <dashboardirective container="main" class="dashboard-container" dashboard="vm.$dashboardService.mainDashboard"></dashboardirective>
+    <!-- </div> -->
+
+    <div id="rightpanel" ng-show="vm.ZodkRightPanelVisible">
+        <div id="rightpanelTabs">
+            <div id="rightpanelTabPanes"></div>
+        </div>
     </div>
 
-    <div id="rightpanel" class="rightpanel">
-        <div id="rightpanelTabContainer" class="tabbable tabs-left rightpanelContainer">
-            <!-- Nav tabs -->
-            <ul id="rightpanelTabs" class="nav nav-tabs rightpanelTabs" ng-class="{'rightpanelTabs-collapsed' : !vm.$layerService.visual.rightPanelVisible}">
-                <li style="margin-top:5px" ng-style="!vm.$layerService.visual.rightPanelVisible && {'opacity':0}" ng-click="vm.$layerService.visual.rightPanelVisible = false"
-                    uib-popover="{{'HIDE_PANEL' | translate}}" popover-placement="left" popover-trigger="'mouseenter'" popover-append-to-body="true">
-                    <a class="rightpanel-hidetab">
-                        <span class="fa fa-2x fa-chevron-right"></span>
-                    </a>
-                </li>
-            </ul>
-            <div id="rightpanelTabPanes" ng-show="vm.$layerService.visual.rightPanelVisible" class="tab-content rightpanelTabPanes">
-            </div>
-        </div>
+    <div id="close-rightpanel" ng-click="vm.closeRightPanel()" class="fullbox-shadow" ng-show="vm.ZodkRightPanelVisible">
+        <span class="icon-pijl_nav_rechts"></span>
     </div>
+
+    <div id="open-rightpanel" ng-click="vm.openRightPanel()" class="fullbox-shadow" ng-show="!vm.ZodkRightPanelVisible">
+        <span class="icon-pijl_nav_links"></span>
+    </div>
+
 
     <!--Loading spinner-->
     <div data-ng-show="layersLoading>0" id="loadingspinner" style="margin:0px auto; width:200px; height:100px;">
@@ -317,38 +326,58 @@
     </div>
 
 
-    <div id="header-box" class="header-box" ng-show="vm.$layerService.visual.navbarVisible">
+<!--     <div id="header-box" class="header-box" ng-show="vm.$layerService.visual.navbarVisible">
         <a class="menutoggle" style="color:black" ng-click="vm.$layerService.visual.leftPanelVisible = !vm.$layerService.visual.leftPanelVisible;vm.$messageBusService.publish('search','reset')"
             uib-tooltip="Open/sluit het menu" tooltip-placement="bottom" tooltip-popup-delay="500">
             <i class="fa fa-bars"></i>
         </a>
 
-        <search-header></search-header>
+        <search-header></search-header> -->
         <!--<div class="fa fa-search search-icon" style="font-size:24px;margin-top:12px;float:left" ng-click="sv=!sv;vm.$layerService.visual.leftPanelVisible = true"></div>
         <input type="text" style="margin-top:10px;float:left" ng-show="sv" />-->
-        <project-header-selection></project-header-selection>
+<!--         <project-header-selection></project-header-selection>
         <dashboard-header-selection></dashboard-header-selection>
         <edit-layer-header-directive></edit-layer-header-directive>
-    </div>
+    </div> -->
 
-    <div class="righttab-box" style="padding-right:30px;display:none">
+    <!-- <div class="righttab-box" style="padding-right:30px;display:none"> -->
         <!-- Search form -->
         <!-- <offline-search class="navbar-form navbar-right" style="margin-right:0"></offline-search> -->
         <!-- Expert mode switch -->
-        <div class="navbar-form navbar-right toggle-icon">
+<!--         <div class="navbar-form navbar-right toggle-icon">
             <expert-mode style="margin-left: -30px;margin-top: 4px;"></expert-mode>
-        </div>
+        </div> -->
         <!--<profile-header class="navbar-form navbar-right" style="outline:none; margin: 5px -5px 0 0; color: white"></profile-header>-->
         <!-- Language switch -->
-        <div ng-if="vm.$layerService.touchMode" ng-click="vm.$layerService.touchMode=false" class="navbar-form navbar-right toggle-icon">
+<!--         <div ng-if="vm.$layerService.touchMode" ng-click="vm.$layerService.touchMode=false" class="navbar-form navbar-right toggle-icon">
             <img src="bower_components/csweb/dist-bower/images/widgets/touchbutton.png" style="width:30px;height:30px;margin-top:7px;margin-left:-13px" />
         </div>
         <div ng-if="!vm.$layerService.touchMode" ng-click="vm.$layerService.touchMode=true" class="navbar-form navbar-right toggle-icon">
             <span class="fa fa-mouse-pointer" style="font-size:18px;margin-top:10px" />
         </div>
-    </div>
-    <div id="bottom-panel">
+    </div> -->
+
+<!--     <div id="bottom-panel">
         <timeline data-ng-show="vm.$mapService.timelineVisible && !vm.$layerService.isMobile" style="height: 100vh;"></timeline>
+    </div> -->
+
+    <div id="widget-zodklegend-parent"></div>
+
+    <div id="floatnav" class="fullbox-shadow">
+        <div id="widget-zodkbaselayers-parent" class="floatnav-content collapse fullbox-shadow">
+        </div>
+        <span ng-click="vm.openTable()" uib-tooltip="Data weergave en download">
+            <img src="images/dataview_2.svg" class="fn-icon">
+        </span>
+        <span data-toggle="collapse" data-target="#widget-zodkbaselayers-parent" uib-tooltip="Kaartweergave">
+            <img src="images/wereldbol.svg" class="fn-icon">
+        </span>
+        <span ng-click="vm.zoomIn()" uib-tooltip="Zoom-in">
+            <img src="images/zoom_in.svg" class="fn-icon">
+        </span>
+        <span ng-click="vm.zoomOut()" uib-tooltip="Zoom-uit">
+            <img src="images/zoom_out.svg" class="fn-icon">
+        </span>
     </div>
 </body>
 </html>

@@ -1,0 +1,56 @@
+#floatnav {
+    position: absolute;
+    right: $rightpanel-width + 10;
+    bottom: 10px;
+    padding: 5px;
+    background-color: white;
+}
+
+#floatnav .popup {
+    padding-bottom: 20px;
+}
+
+#floatnav .floatnav-content.collapse,
+.floatnav-content.collapsing {
+    width: 300px;
+    position: absolute;
+    z-index: 400;
+    bottom: 50px;
+    right: 100px;
+}
+
+#floatnav .title {
+    font-size: 16px;
+    line-height: 32px;
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+    margin-left: 5px;
+}
+
+#floatnav .entries {
+    padding: 16px 0px 0px 5px;
+}
+
+#floatnav .entries img {
+    width: 32px;
+}
+
+#floatnav .map-title {
+    line-height: 32px;
+    padding: 0;
+    color: $vws-donkerblauw-1
+}
+
+#floatnav .mapnames-title {
+    line-height: 32px;
+    padding: 0;
+}
+
+#floatnav .fn-icon {
+    height: 34px;
+    padding: 5px 8px 5px 8px;
+}
+
+#floatnav span {
+    border-right: 1px solid #ccc;
+}

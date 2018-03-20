@@ -1,0 +1,37 @@
+div.profile .header {
+  text-align: right;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 5px;
+}
+
+div.profile h4 {
+  color: black;
+  font-weight: bold;
+}
+
+div.profile .content {
+  background-color: #f7f7f7;
+  padding: 10px;
+}
+
+div.profile input {
+  width: 100%;
+  padding: 5px 5px 5px 15px;
+}
+
+div.profile .button {
+  background-color: $t2m-yellow;
+  width: 100%;
+  padding: 10px;
+  font-weight: bold;
+
+  border: 0px;
+  text-align: left;
+  padding-left: 15px;
+}
+
+div.profile .button:disabled {
+  background-color: #ccc;
+  color: #999;
+}

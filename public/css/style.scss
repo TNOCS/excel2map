@@ -1,3 +1,27 @@
+$vws-donkerblauw-1: #01689b;
+$vws-donkerpaars-1: #42145f;
+$t2m-yellow: #ffcf40;
+$rightpanel-width: 460px;
+$info-bg-color: #f2eeee;
+$info-link-color: rgb(12, 96, 163);
+
+@import 'styles/fonts';
+@import 'styles/helpers';
+
+body {
+    font-family: "RO Sans";
+    font-size: 18px;
+}
+
+/** hide csWeb features **/
+
+.rightpanel-closebutton {
+    display: none;
+}
+
+
+/** T2M **/
+
 .fill-height {
     height: 100%;
 }
@@ -384,4 +408,16 @@ a:hover {
 
 .mca-criterion {
     width: 240px;
+}
+
+@import 'styles/icons';
+@import 'styles/legend';
+@import 'styles/floatnav';
+@import 'styles/map';
+@import 'styles/rightpanel';
+@import 'styles/profile';
+
+ /*Force MCA*/
+#mca {
+    display: inherit !important;
 }

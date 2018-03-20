@@ -1,0 +1,358 @@
+#rightpanel {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: 1031;
+    font-size: 16px;
+    background: white;
+}
+
+@media screen and (min-width:600px) {
+    #rightpanel {
+        max-width: $rightpanel-width;
+    }
+
+}
+
+#rightpanel.ng-hide-add {
+    transform: rotateY(0);
+    transform-origin: right;
+    transition: all 0.3s ease-in;
+}
+
+#rightpanel.ng-hide-add.ng-hide-add-active {
+    transform: rotateY(-90deg);
+}
+
+#rightpanel.ng-hide-remove {
+    transform: rotateY(-90deg);
+    transform-origin: right;
+    transition: all 0.4s ease-out;
+}
+
+#rightpanel.ng-hide-remove.ng-hide-remove-active {
+    transform: rotateY(0);
+}
+
+#rightpanelTabs {
+    height: 100%;
+    width: 100%;
+}
+
+#rightpanelTabPanes {
+    height: 100%;
+    width: 100%;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, .2);
+    padding: 10px 15px 0px 15px;
+}
+
+#rp-content {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    display: -ms-flex;
+    flex-direction: column;
+    -ms-flex-direction: column;
+}
+
+/** Navigation **/
+#rp-content .navigation {
+    /*margin: 10px 0px 10px 0px;*/
+}
+
+#rp-content .navigation div {
+    display: inline-block;
+    font-size: 20px;
+    padding-right: 6px;
+    cursor: pointer;
+}
+
+#rp-content .navigation div.pull-right {
+    padding-right: 0px;
+}
+
+#rp-content .navigation .title {
+    color: black;
+    border-right: solid 1px #ccc;
+    font-size: 16px;
+    line-height: 20px;
+    vertical-align: top;
+    padding: 0px 10px 0px 5px;
+}
+
+#rp-content .navigation .title-last {
+    border-right: 0px;
+    padding-right: 0px;
+}
+
+#rp-content .navigation .icon-filter,
+#rp-content .navigation .icon-sluit {
+    display: inline-block;
+    font-size: 15px;
+    line-height: 20px;
+    vertical-align: top;
+}
+
+#rp-content .navigation .disabled,
+#rp-content .navigation .disabled .title {
+    color: #aaa;
+}
+
+#rp-content .navigation .active,
+#rp-content .navigation .active .title {
+    color: $info-link-color;
+    font-weight: bold;
+}
+
+#rp-content .navigation div.topnav {
+    display: block;
+    border-bottom: solid 1px #ccc;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    text-align: right;
+}
+
+#rp-content .navigation div.topnav a {
+    color: black;
+    font-size: 16px;
+    line-height: 20px;
+    padding-left: 10px;
+}
+
+
+
+/** General **/
+#rp-content a {
+    color: $info-link-color;
+    text-decoration: none;
+}
+
+#rp-content div.hint-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#rp-content div.hint-title img {
+    height: 30px;
+}
+
+#rp-content div.hint-text {
+    background-color: $info-bg-color;
+    padding: 15px;
+    color: black;
+    margin-bottom: 10px;
+}
+
+#rp-content .link {
+    color: $info-link-color;
+    cursor: pointer;
+}
+
+#rp-content .toggle-text {
+    color: $info-link-color;
+    cursor: pointer;
+}
+
+#rp-content .toggle-text span {
+    padding-left: 10px;
+    font-size: 12px;
+}
+
+#rp-content .fa-caret-up,
+#rp-content .fa-caret-down {
+    padding-left: 10px;
+}
+
+#rp-content .collapsed .fa-caret-up,
+#rp-content .fa-caret-down {
+    display: none;
+}
+
+#rp-content .collapsed .fa-caret-down {
+    display: inline;
+}
+
+#rp-content .info .ptable,
+#rp-content .layers .layer-content,
+#rp-content .filter-content {
+    padding: 0px 12px 20px 12px;
+}
+
+/** Information **/
+#rp-content .info {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+#rp-content .info .header {
+    background: $info-bg-color;
+    padding: 15px 15px 15px 15px;
+    margin-bottom: 10px;
+}
+
+#rp-content .info .header .title {
+    line-height: 22px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+#rp-content .info .header .subtitle {
+    color: #666;
+    font-size: 18px;
+    padding-bottom: 15px;
+}
+
+#rp-content .info .header .dataexport .icon-downloaden {
+    padding: 0px 10px 0px 0px;
+    font-size: 26px;
+}
+
+#rp-content .info .header .dataexport span {
+    line-height: 26px;
+    vertical-align: top;
+}
+
+#rp-content .info .ptable {
+    overflow-y: auto;
+    height: 100%;
+}
+
+#rp-content .info .ptable .title {
+    margin: 15px 0px 8px 0px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#rp-content .info .ptable .table {
+    border-bottom: solid 1px #ccc;
+    padding: 8px 0px;
+}
+
+#rp-content .info .ptable .table .col-xs-8,
+#rp-content .info .ptable .table .col-xs-4 {
+    padding: 0px;
+}
+
+#rp-content .info .ptable .table .value {
+    text-align: right;
+}
+
+#rp-content .info .ptable a.active-style {
+    font-weight: bold;
+}
+
+
+/** Layers **/
+#widget-zodklayer-parent {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+#widget-zodklayer-parent .layers {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+#widget-zodklayer-parent .layer-content {
+    overflow-y: auto;
+}
+
+#widget-zodklayer-parent h3 {
+    font-size: 22px;
+    font-weight: bold;
+    margin-left: 0px;
+    margin-bottom: 5px;
+}
+
+#widget-zodklayer-parent .title {
+    font-size: 18px;
+    padding-top: 2px;
+    cursor: pointer;
+    padding-left: 0px;
+}
+
+/** Filters **/
+#filters .title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+div.filter input {
+    width: 70px;
+    padding-left: 8px;
+}
+
+div.filter .to-text {
+    padding: 0px 8px;
+}
+
+/** open/close buttons **/
+#open-rightpanel {
+    position: absolute;
+    right: 0;
+    z-index: 80;
+    background: white;
+    height: 44px;
+    top: 40px;
+    cursor: pointer;
+    align-items: center;
+    display: flex;
+}
+
+#close-rightpanel {
+    position: absolute;
+    right: $rightpanel-width;
+    z-index: 80;
+    background: white;
+    height: 44px;
+    top: 40px;
+    cursor: pointer;
+    align-items: center;
+    display: flex;
+}
+
+#close-rightpanel span, #open-rightpanel span {
+    color: $t2m-yellow;
+    padding: 10px;
+    font-size: 25px;
+}
+
+/* DC Charts */
+.dc-chart rect.bar {
+    fill: #99bacf;
+}
+
+.dc-chart .axis line, .dc-chart .axis path {
+    stroke: inherit;
+}
+
+.dc-chart .resize path {
+    d: path("M 0, 78 m -7, 0 a 5,5 0 1,0 15,0 a 5,5 0 1,0 -15,0");
+}
+
+.dc-chart .brush .resize path {
+    fill: #005287;
+    stroke: #005287;
+}
+
+.dc-chart .brush rect.extent {
+    fill: #005287;
+    height: 4px;
+    y: 76;
+}
+
+@supports (-webkit-appearance:none) {
+    .dc-chart .brush rect.extent {
+        fill-opacity: 1;
+    }
+}

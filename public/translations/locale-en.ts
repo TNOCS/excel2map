@@ -53,7 +53,20 @@ module Translations {
             DATA_PARSED_CORRECTLY: 'Data was loaded correctly',
             SELECT_NR_COLUMNS: 'Selected {{nr}} columns',
             MISSING_LOCATIONS: 'Missing locations',
-            DATA_NOT_CONVERTED_CORRECTLY: 'Not all data was parsed correctly'
+            DATA_NOT_CONVERTED_CORRECTLY: 'Not all data was parsed correctly',
+            NO_LEGEND_AVAILABLE: 'Er is geen legenda beschikbaar voor de huidige kaart.',
+            SHOW_LABELS: 'Toon plaatsnamen',
+            CHOOSE_BASELAYER: 'Kies een kaartweergave',
+            BASELAYER_NOT_AVAILABLE: 'Kaartweergave niet beschikbaar',
+            BASELAYER_NOT_AVAILABLE_WITH_LABELS: 'Deze kaartweergave is niet beschikbaar met plaatsnamen',
+            BASELAYER_NOT_AVAILABLE_WITHOUT_LABELS: 'Deze kaartweergave is niet beschikbaar zonder plaatsnamen',
+            TOON_INFO: 'Toon info',
+            NO_LAYER_ACTIVE: 'Er is geen kaartlaag actief',
+            FILTERS: 'Filters',
+            NO_FILTERS: 'U heeft geen filters actief',
+            LAYERS: 'Layers',
+            DATA: 'Data',
+            DOWNLOAD_SELECTION_AS: 'Download deze selectie als'
         };
     }
 }

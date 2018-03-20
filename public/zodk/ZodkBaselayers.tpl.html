@@ -1,0 +1,28 @@
+<div class="popup">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="title">{{'CHOOSE_BASELAYER' | translate}}</div>
+        </div>
+    </div>
+
+    <div class="row entries pointer" data-ng-repeat="bl in data.baselayers" ng-click="vm.selectBaselayer(bl)" data-toggle="collapse" data-target="#widget-zodkbaselayers-parent">
+        <div class="col-xs-3">
+            <img ng-src="{{bl.image}}"></img>
+        </div>
+        <div class="col-xs-9 map-title">
+            {{bl.title}}
+        </div>
+    </div>
+
+    <div class="row entries pointer">
+        <div class="col-xs-3">
+            <div class="zodk-checkbox">
+                <input type="checkbox" ng-model="data.showLabels" ng-change="vm.selectBaselayer()" id="showlabels"></input>
+                <label for="showlabels"></label>
+            </div>
+        </div>
+        <div class="col-xs-9 mapnames-title">
+            <div>{{'SHOW_LABELS' | translate}}</div>
+        </div>
+    </div>
+</div>

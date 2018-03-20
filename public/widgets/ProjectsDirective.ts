@@ -121,7 +121,7 @@ module ProjectsDirective {
 
         private getUserProjects() {
             if (!this.checkLogin()) {
-                this.profileService.startLogin();
+                this.$messageBus.publish('zodk', 'startlogin');
                 return;
             }
             $('#project-list-refresh').addClass('fa-spin');

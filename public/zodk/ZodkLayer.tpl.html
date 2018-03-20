@@ -1,0 +1,24 @@
+<div class="layers">
+  <div class="hint-text">Selecteer hieronder &eacute;&eacute;n of meerdere kaartlagen om informatie op de kaart te tonen.</div>
+
+  <div class="layer-content">
+    <span class="toggle-text" ng-click="vm.turnOffLayers()">Sluit alle kaartlagen
+      <span class="icon-sluit"></span>
+    </span>
+
+    <div data-ng-repeat="group in vm.layerService.project.groups | filter: vm.filterHiddenGroups">
+      <h3>{{group.title}}</h3>
+      <div data-ng-repeat="layer in group.layers" uib-popover="{{layer.description}}" popover-placement="left" popover-trigger="'mouseenter'" >
+        <div class="row" ng-click="vm.toggleLayer(layer)" >
+          <div class="col-xs-2 zodk-checkbox" >
+            <input type="checkbox" ng-checked="layer.enabled" id="{{layer.title}}">
+            <label for"{{layer.title}}"></label>
+          </div>
+          <div class="col-xs-10 title">
+            {{layer.title}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

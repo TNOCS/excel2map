@@ -14,6 +14,7 @@
     "./public/app/*.ts",
     "./public/modals/*.ts",
     "./public/widgets/*.ts",
+    "./public/zodk/*.ts",
     "./public/translations/*.ts",
     "./node_modules/@types/**/*.d.ts",
     "./server.ts"
