@@ -24,3 +24,4 @@ typings/
 *.DS_Store
 private/data/api/
 private/data/images/
+backup/

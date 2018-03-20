@@ -69,7 +69,7 @@ module zodk {
             this.inline = $scope.inline();
 
             if (this.inline) {
-                $scope.filter = $scope.filter();
+                $scope.filter = (<any>$scope).filter();
             }
             else {
                 var par = <any>$scope.$parent;

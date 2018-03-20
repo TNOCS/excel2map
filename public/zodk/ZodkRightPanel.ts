@@ -210,7 +210,7 @@ module ZodkRightPanel {
             location.href = `/?dashboard=table2map&editproject=${this.layerService.project.id}`;
         }
 
-        public setStyle(g: csComp.Services.ProjectGroup, property: csComp.FeatureProps.CallOutProperty) {
+        public setStyle(g: csComp.Services.ProjectGroup, property: FeatureProps.CallOutProperty) {
             // disable all styles, we only want 1 active at the same time
             let current = false
             this.layerService.project.groups.forEach((group: csComp.Services.ProjectGroup) => {

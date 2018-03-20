@@ -22,7 +22,7 @@ module ZodkRightPanel {
         values: any[];
         description: string;
         property: csComp.Services.IPropertyType;
-        coProperty: csComp.FeatureProps.CallOutProperty;
+        coProperty: FeatureProps.CallOutProperty;
     }
 
     export type IPropertyTableSectionType = 'table' | 'full-row';
@@ -123,7 +123,7 @@ module ZodkRightPanel {
                             break;
                     }
 
-                    let cop: csComp.FeatureProps.CallOutProperty = {
+                    let cop: FeatureProps.CallOutProperty = {
                         key: pt.title,
                         value: value,
                         property: pt.label,
@@ -134,7 +134,7 @@ module ZodkRightPanel {
                         isFilter: true,
                         isSensor: false,
                         propertyType: pt
-                    };
+                    } as FeatureProps.CallOutProperty;
                     section.rows.push({
                         title: pt.title,
                         label: pt.label,

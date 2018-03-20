@@ -77,20 +77,6 @@ module zodk {
         }
 
         private toggleLayer(layer: csComp.Services.ProjectLayer): void {
-
-            /** If the layer will be enabled and has the attr uniqueActive
-                we disable current layers that are active with the attr uniqueActive */
-
-            if (!layer.enabled && layer.group.uniqueActive) {
-                    this.layerService.project.groups.forEach((group: csComp.Services.ProjectGroup) => {
-                    group.layers.forEach((current_layer: csComp.Services.ProjectLayer) => {
-                        if (current_layer.enabled && group.uniqueActive){
-                            this.layerService.toggleLayer(current_layer)
-                        }
-                    });
-                });
-            }
-
             this.layerService.toggleLayer(layer);
         }
 
