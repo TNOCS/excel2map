@@ -37,7 +37,7 @@ module ProjectsDirective {
     }
 
     export class ProjectsDirectiveCtrl {
-        private msgBusHandle: csComp.Services.MessageBusHandle;
+        private msgBusHandles: csComp.Services.MessageBusHandle[] = [];
         private projects: Project[] = [];
 
         public static $inject = [
@@ -79,9 +79,13 @@ module ProjectsDirective {
                 return (p.hasOwnProperty('_auth') ? (p['_auth']['action'] & IProjectRights.Manage) === IProjectRights.Manage : false);
             };
 
-            this.msgBusHandle = this.$messageBus.subscribe('profileservice', (title, profile) => {
+            this.msgBusHandles.push(this.$messageBus.subscribe('profileservice', (title, profile) => {
                 this.handleProfileServiceMsg(title, profile);
-            });
+            }));
+
+            this.msgBusHandles.push(this.$messageBus.subscribe('zodk', (title, profile) => {
+                this.handleZodkMsg(title, profile);
+            }));
 
             this.init();
         }
@@ -97,6 +101,16 @@ module ProjectsDirective {
                     break;
                 case 'logout':
                     this.clearProjectsList();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private handleZodkMsg(title, msg) {
+            switch (msg) {
+                case 'new-project':
+                    this.createProject();
                     break;
                 default:
                     break;

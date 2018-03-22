@@ -4,8 +4,8 @@
 <div class="modal-body">
     <form name="createProjectForm" class="form">
         <div class="form-group">
-            <label for="title">{{'TITLE' | translate}}: </label>
-            <input id="title" type="text" ng-model="vm.title" ng-change="vm.inputChanged()" required/>
+            <!-- <label for="create-project-title">{{'TITLE' | translate}}: </label> -->
+            <input id="create-project-title" type="text" placeholder="Titel van het project" ng-model="vm.title" ng-change="vm.inputChanged()" required/>
             <span class="text-danger" ng-show="!createProjectForm.$pristine&&vm.idStatus==='invalid'">{{'INVALID_INPUT' | translate}}</span>
             <span class="text-info" ng-show="vm.idStatus==='checking'">{{'CHECKING' | translate}}</span>
             <span class="text-success" ng-show="vm.idStatus==='ok'"><i class="fa fa-check"></i></span>
@@ -13,6 +13,6 @@
     </form>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-default" ng-click="vm.cancel()">{{'CLOSE' | translate}}</button>
-    <button type="button" class="btn btn-primary" ng-click="vm.ok()" style="text-transform:capitalize;" ng-disabled="vm.idStatus!=='ok'">{{'CREATE_BUTTON' | translate}}</button>
+    <button type="button" class="btn t2m-btn t2m-btn-lg grey pull-left" ng-click="vm.cancel()">{{'CANCEL' | translate}}</button>
+    <button type="button" class="btn t2m-btn t2m-btn-lg yellow pull-left" ng-click="vm.ok()" style="text-transform:capitalize;" ng-disabled="vm.idStatus!=='ok'">{{'CREATE_BUTTON' | translate}}</button>
 </div>

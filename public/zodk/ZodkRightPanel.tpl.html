@@ -43,8 +43,9 @@
     <div class="navigation" ng-if="vm.isLoggedIn()">
 
         <div class="topnav">
-            <a ng-class="{'active': vm.panel == vm.Panel.overzicht}" ng-click="vm.openProjectOverzicht()">Overzicht projecten</a>
-            <a ng-click="vm.editProject()">Project aanpassen</a>
+            <a ng-click="vm.newProject()" ng-show="vm.hideSubNav">{{'CREATE_NEW_PROJECT' | translate}}</a>
+            <a ng-class="{'active': vm.panel == vm.Panel.overzicht}" ng-click="vm.openProjectOverzicht()">{{'PROJECTS_LIST' | translate}}</a>
+            <a ng-click="vm.editProject()" ng-show="!vm.hideSubNav">{{'EDIT_PROJECT' | translate}}</a>
             <a ng-click="vm.logout()">Uitloggen</a>
         </div>
 

@@ -216,6 +216,10 @@ module ZodkRightPanel {
             this.updatePanel();
         }
 
+        public newProject() {
+            this.publish('zodk', 'new-project');
+        }
+
         private updatePanel() {
             if (this.widePanels.indexOf(this.panel) < 0) {
                 $('#rightpanel').removeClass('rightpanel-lg');

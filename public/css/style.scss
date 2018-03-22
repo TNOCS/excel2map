@@ -180,18 +180,32 @@ td.st-selected {
 
 .modal-header {
     height: 10%;
+    border: none;
 }
 
 .modal-content {
     height: 100%;
+    border-radius: 0px;
+}
+
+.modal-title {
+    font-size: 24px;
+    font-weight: bold;
 }
 
 .modal-footer {
     height: 10%;
+    border: none;
 }
 
 .modal {
     overflow-y: hidden!important;
+}
+
+input#create-project-title {
+    line-height: 1.9;
+    min-width: 300px;
+    font-size: 20px;
 }
 
 .inline-select {
@@ -357,11 +371,28 @@ a:hover {
 
 .t2m-btn {
     border-radius: 0px;
+    border: none;
     background-color: #aad8fe;
     background-image: none!important;
     text-shadow: none;
     box-shadow: none;
     -webkit-box-shadow: none;
+}
+
+.t2m-btn-lg {
+    height: 48px;
+    width: 128px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+.t2m-btn.yellow {
+    background-color: $t2m-yellow;
+}
+
+.t2m-btn.grey {
+    background-color: lightgrey;
 }
 
 .t2m-btn.green {
