@@ -2,41 +2,40 @@
 
     <div class="profile" ng-if="!vm.isLoggedIn()">
 
-      <div class="header">
-        Inloggen
-      </div>
-
-      <h3>Log in om zelf kaarten te kunnen maken</h3>
-      <div class="content">
-        <div>
-          <h4>Ik heb al een account</h4>
-          <form name="loginForm" ng-submit="vm.validateUser()" novalidate>
-
-              <div class="form-group" ng-class="{ 'has-error': loginForm.userName.$invalid }">
-                  <span class="help-block" ng-show="loginForm.userName.$error.required">Not a valid username</span>
-                  <input type="text" class="" name="userName" id="userName" ng-model="vm.userName" placeholder="E-mail adres"
-                      required>
-              </div>
-
-              <div class="form-group" ng-class="{ 'has-error': loginForm.userPassword.$required }">
-                  <span class="help-block" ng-show="loginForm.userPassword.$error.required">Not a valid password</span>
-                  <input type="password" class="" name="userPassword" id="userPassword" ng-model="vm.userPassword" placeholder="Wachtwoord"
-                      required>
-              </div>
-
-              <div>
-              <button ng-disabled="!loginForm.$valid" type="submit" class="button">
-                  Inloggen
-              </button>
-              </div>
-          </form>
+        <div class="header">
+            Inloggen
         </div>
 
-        <div>
-          <!-- <h4>Ik ben nieuw hier</h4> -->
-        </div>
+        <h3>Log in om zelf kaarten te kunnen maken</h3>
+        <div class="content">
+            <div>
+                <h4>Ik heb al een account</h4>
+                <form name="loginForm" ng-submit="vm.validateUser()" novalidate>
 
-      </div>
+                    <div class="form-group" ng-class="{ 'has-error': loginForm.userName.$invalid }">
+                        <span class="help-block" ng-show="loginForm.userName.$error.required">Not a valid username</span>
+                        <input type="text" class="" name="userName" id="userName" ng-model="vm.userName" placeholder="E-mail adres" required>
+                    </div>
+
+                    <div class="form-group" ng-class="{ 'has-error': loginForm.userPassword.$required }">
+                        <span class="help-block" ng-show="loginForm.userPassword.$error.required">Not a valid password</span>
+                        <input type="password" class="" name="userPassword" id="userPassword" ng-model="vm.userPassword" placeholder="Wachtwoord"
+                            required>
+                    </div>
+
+                    <div>
+                        <button ng-disabled="!loginForm.$valid" type="submit" class="button">
+                            Inloggen
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div>
+                <!-- <h4>Ik ben nieuw hier</h4> -->
+            </div>
+
+        </div>
 
     </div>
 
@@ -51,30 +50,36 @@
 
         <div class="subnav" ng-show="!vm.hideSubNav">
             <div ng-show="vm.layerCount > 0" ng-class="{'active': vm.panel == vm.Panel.info}" data-ng-click="vm.openData()">
-                <span class="icon-marker"></span><span class="title">{{'DATA' | translate}}</span>
+                <span class="icon-marker"></span>
+                <span class="title">{{'DATA' | translate}}</span>
             </div>
 
             <div class="disabled" ng-show="vm.layerCount == 0" uib-tooltip="{{'DATA' | translate}}" tooltip-placement="bottom">
-            <span class="icon-marker"></span><span class="title">{{'DATA' | translate}}</span>
+                <span class="icon-marker"></span>
+                <span class="title">{{'DATA' | translate}}</span>
             </div>
 
             <div ng-class="{'active': vm.panel == vm.Panel.layer}" data-ng-click="vm.openLayers()">
-                <span class="icon-kaartlagen"></span><span class="title">{{'LAYERS' | translate}} ({{vm.layerCount}})</span>
+                <span class="icon-kaartlagen"></span>
+                <span class="title">{{'LAYERS' | translate}} ({{vm.layerCount}})</span>
             </div>
 
             <div class="disabled" uib-tooltip="{{'NO_FILTERS' | translate}}" tooltip-placement="bottom" ng-show="vm.filterCount == 0">
-                <span class="icon-filter"></span><span class="title">{{'FILTERS' | translate}} (0)</span>
+                <span class="icon-filter"></span>
+                <span class="title">{{'FILTERS' | translate}} (0)</span>
             </div>
 
             <div ng-show="vm.filterCount > 0" data-ng-click="vm.openFilters()" ng-class="{'active': vm.panel == vm.Panel.filter}">
-                <span class="icon-filter"></span><span class="title">{{'FILTERS' | translate}} ({{vm.filterCount}})</span>
+                <span class="icon-filter"></span>
+                <span class="title">{{'FILTERS' | translate}} ({{vm.filterCount}})</span>
             </div>
 
             <div ng-class="{'active': vm.panel == vm.Panel.mca}" data-ng-click="vm.openMCA()">
-                <span class="icon-mca"></span><span class="title title-last">MCA</span>
+                <span class="icon-mca"></span>
+                <span class="title title-last">MCA</span>
             </div>
         </div>
-<!--
+        <!--
         <div data-ng-click="vm.close()" class="pull-right" uib-tooltip="{{'CLOSE' | translate}}" tooltip-placement="bottom">
             <span class="icon-sluit">
         </div> -->
@@ -108,7 +113,9 @@
                 <div class="row" ng-repeat="section in vm.propertyTable.sections track by $index">
 
                     <div data-toggle="collapse" data-target="#collapse-{{$index}}">
-                        <div class="title">{{section.title? section.title : 'Gegevens'}}<span class="fa fa-caret-up"></span><span class="fa fa-caret-down"></span>
+                        <div class="title">{{section.title? section.title : 'Gegevens'}}
+                            <span class="fa fa-caret-up"></span>
+                            <span class="fa fa-caret-down"></span>
                         </div>
                     </div>
 
@@ -116,17 +123,21 @@
 
                         <div class="row table" ng-repeat="row in section.rows">
                             <div ng-show="row.type !== 'textarea'">
-                                <div class="col-xs-8" >
+                                <div class="col-xs-8">
                                     <div ng-if="row.coProperty.canStyle">
-                                        <a ng-click="vm.setStyle(section.group, row.coProperty)" ng-class="{'active-style': row.coProperty.feature._gui['style'][row.coProperty.property]}" uib-popover="{{(row.description) ? row.description : ''}}" popover-placement="left" popover-trigger="'mouseenter'">{{row.title}}</a>
+                                        <a ng-click="vm.setStyle(section.group, row.coProperty)" ng-class="{'active-style': row.coProperty.feature._gui['style'][row.coProperty.property]}"
+                                            uib-popover="{{(row.description) ? row.description : ''}}" popover-placement="left"
+                                            popover-trigger="'mouseenter'">{{row.title}}</a>
 
                                         <div ng-show="row.coProperty.feature._gui['style'][row.coProperty.property]">
-                                            <span class="toggle-text" ng-show="!vm.isFilterActive(row.coProperty)" ng-click="vm.setFilter(row.coProperty)" ng-class="{'active-filter': vm.isFilterActive(row.coProperty)}">Open filter <span class="icon-filter"></span></span>
+                                            <span class="toggle-text" ng-show="!vm.isFilterActive(row.coProperty)" ng-click="vm.setFilter(row.coProperty)" ng-class="{'active-filter': vm.isFilterActive(row.coProperty)}">Open filter
+                                                <span class="icon-filter"></span>
+                                            </span>
                                         </div>
                                     </div>
 
-                                    <div ng-if="!row.coProperty.canStyle"  uib-popover="{{(row.description) ? row.description : ''}}" popover-placement="left"
-                                    popover-trigger="'mouseenter'">
+                                    <div ng-if="!row.coProperty.canStyle" uib-popover="{{(row.description) ? row.description : ''}}" popover-placement="left"
+                                        popover-trigger="'mouseenter'">
                                         {{row.title}}
                                     </div>
                                 </div>
@@ -162,7 +173,8 @@
 
     <div id="filters" ng-show="vm.panel == vm.Panel.filter">
         <div class="hint-text" ng-show="vm.filterCount > 1">
-            Meerdere filters actief op de zelfde kaartlaag werken als <strong>AND</strong>
+            Meerdere filters actief op de zelfde kaartlaag werken als
+            <strong>AND</strong>
         </div>
         <div ng-show="vm.filterCount == 0" class="hint-text">
             <div class="hint-title">
@@ -172,7 +184,9 @@
         </div>
 
         <div class="filter-content">
-            <span ng-show="vm.filterCount > 0" class="toggle-text" ng-click="vm.closeAllFilters()">Sluit alle filters <span class="icon-sluit"></span></span>
+            <span ng-show="vm.filterCount > 0" class="toggle-text" ng-click="vm.closeAllFilters()">Sluit alle filters
+                <span class="icon-sluit"></span>
+            </span>
 
             <div data-ng-repeat="group in vm.layerService.project.groups" data-ng-show="group.filters.length>0">
                 <div class="title">{{group.title}}</div>

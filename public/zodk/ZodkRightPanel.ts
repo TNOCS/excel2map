@@ -25,22 +25,17 @@ module ZodkRightPanel {
 
     export enum Panel {
         none = 0,
-        info = 1,
-        layer = 2,
-        filter = 3,
-        mca = 4,
-        overzicht = 5
+            info = 1,
+            layer = 2,
+            filter = 3,
+            mca = 4,
+            overzicht = 5
     }
 
     export interface IZodkRightPanelScope extends ng.IScope {
         vm: ZodkRightPanelCtrl;
         data: any;
     }
-
-    // export interface IZodkRightPanel {
-    //     id: string;
-    //     name: string;
-    // }
 
     export class ZodkRightPanelCtrl {
 
@@ -167,15 +162,13 @@ module ZodkRightPanel {
             };
         }
 
-        private removeItem(item: IFeature) {
-        }
+        private removeItem(item: IFeature) {}
 
         public publish(msg: string, data ? : any) {
             this.messageBusService.publish('zodk', msg, data);
         }
 
-        public exportToImage() {
-        }
+        public exportToImage() {}
 
         public close() {
             this.messageBusService.publish('zodk', 'closepanel');
@@ -275,17 +268,17 @@ module ZodkRightPanel {
             this.layerService.setPropertyFilter(coProperty);
         }
 
-        public isFilterActive(coProperty: FeatureProps.CallOutProperty):boolean {
+        public isFilterActive(coProperty: FeatureProps.CallOutProperty): boolean {
             if (this.filterCount < 1)
                 return false;
             return this.filterIndex(coProperty) > -1;
         }
 
-        public filtersFor(coProperty: FeatureProps.CallOutProperty):csComp.Services.GroupFilter {
+        public filtersFor(coProperty: FeatureProps.CallOutProperty): csComp.Services.GroupFilter {
             return this.activeFilters[this.filterIndex(coProperty)];
         }
 
-        private filterIndex(coProperty: FeatureProps.CallOutProperty):number {
+        private filterIndex(coProperty: FeatureProps.CallOutProperty): number {
             let key = coProperty.feature.layer.groupId + ":" + coProperty.property;
             return this.activeFilterKeys.indexOf(key);
         }
@@ -314,7 +307,7 @@ module ZodkRightPanel {
                     if (f.filterType === 'location' && this.locationFilterActive === false) this.locationFilterActive = true;
 
                     if (!f.dimension) {
-                        let info = (f.meta['propertyInfo']) ? f.meta['propertyInfo'] :this.layerService.calculatePropertyInfo(group, f.property);
+                        let info = (f.meta['propertyInfo']) ? f.meta['propertyInfo'] : this.layerService.calculatePropertyInfo(group, f.property);
                         let nBins = (f.meta['numberOfBins']) ? f.meta['numberOfBins'] : Math.ceil(Math.sqrt(Object.keys(group.markers).length));
                         let min = info.min;
                         let max = info.max;
