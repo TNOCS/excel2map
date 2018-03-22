@@ -24,10 +24,12 @@ module ZodkRightPanel {
     }]);
 
     export enum Panel {
+        none = 0,
         info = 1,
         layer = 2,
         filter = 3,
-        mca = 4
+        mca = 4,
+        overzicht = 5
     }
 
     export interface IZodkRightPanelScope extends ng.IScope {
@@ -59,7 +61,14 @@ module ZodkRightPanel {
         public userName: string;
         public userPassword: string;
 
+        private hideSubNav: boolean = false;
+
         Panel = Panel;
+
+        /* Panels that should increase width of the rightpanel */
+        private widePanels: Panel[] = [Panel.overzicht];
+        /* Panels that should show the second nav bar in the rightpanel */
+        private subNavPanels: Panel[] = [Panel.info, Panel.layer, Panel.filter, Panel.mca];
 
         public static $inject = [
             '$scope',
@@ -110,6 +119,7 @@ module ZodkRightPanel {
             this.propertyTable = new PropertyTable(this.layerService, this.$timeout);
 
             this.panel = Panel.info
+            this.hideSubNav = false;
 
             this.locationFilterActive = false;
             this.filterCount = 0;
@@ -151,6 +161,9 @@ module ZodkRightPanel {
                 case 'clear-rightpanel':
                     this.propertyTable.clearTable();
                     break;
+                case 'open-project-overzicht':
+                    this.openProjectOverzicht();
+                    break;
             };
         }
 
@@ -183,15 +196,39 @@ module ZodkRightPanel {
 
         public logout() {
             this.profileService.logoutUser();
+            this.panel = Panel.none;
+            this.updatePanel();
         }
 
         public openData() {
-            this.panel = Panel.info
+            this.panel = Panel.info;
             this.$scope.$broadcast('onFilterRefresh', '');
+            this.updatePanel();
         }
 
         public openLayers() {
-            this.panel = Panel.layer
+            this.panel = Panel.layer;
+            this.updatePanel();
+        }
+
+        public openProjectOverzicht() {
+            this.panel = Panel.overzicht;
+            this.updatePanel();
+        }
+
+        private updatePanel() {
+            if (this.widePanels.indexOf(this.panel) < 0) {
+                $('#rightpanel').removeClass('rightpanel-lg');
+                $('#close-rightpanel').removeClass('rightpanel-lg');
+            } else {
+                $('#rightpanel').addClass('rightpanel-lg');
+                $('#close-rightpanel').addClass('rightpanel-lg');
+            }
+            if (this.subNavPanels.indexOf(this.panel) < 0) {
+                this.hideSubNav = true;
+            } else {
+                this.hideSubNav = false;
+            }
         }
 
         public openFilters() {
@@ -200,10 +237,12 @@ module ZodkRightPanel {
             }
             this.panel = Panel.filter
             this.$scope.$broadcast('onFilterRefresh', '');
+            this.updatePanel();
         }
 
         public openMCA() {
             this.panel = Panel.mca
+            this.updatePanel();
         }
 
         private editProject() {

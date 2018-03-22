@@ -290,6 +290,9 @@ module Table2Map {
 
         private editProjectWithToken(projectId: string) {
             this.getProject(projectId, (project) => {
+                if (project && !project.featurePropsDirective) {
+                    project.featurePropsDirective = 'zodkrightpanel';
+                }
                 this.selectLayerForEditing(project);
             });
         }

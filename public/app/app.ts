@@ -6,7 +6,7 @@ module App {
     import IFeature = csComp.Services.IFeature;
 
     export interface IAppLocationService extends ng.ILocationService {
-        $$search: { layers: string };
+        $$search: { layers?: string, project?: string };
     }
 
     export interface IAppScope extends ng.IScope {
@@ -134,6 +134,11 @@ module App {
 
             var rpt = csComp.Helpers.createRightPanelTab('zodkrightpanel', 'zodkrightpanel', null, 'Selected feature', '{{\'FEATURE_INFO\' | translate}}', 'info');
             this.$messageBusService.publish('rightpanel', 'activate', rpt);
+            if (this.profileService.isLoggedIn() && !(this.$location.$$search && this.$location.$$search.project)) {
+                setTimeout(() => {
+                    this.$messageBusService.publish('zodk', 'open-project-overzicht');
+                }, 200);
+            }
 
             this.$layerService.visual.rightPanelVisible = false; // otherwise, the rightpanel briefly flashes open before closing.
 

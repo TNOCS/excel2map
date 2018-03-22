@@ -1,6 +1,6 @@
 {
     "id" : "excel2map",
-    "title" : "Excel2map",
+    "title" : "Zelf kaarten maken",
     "description" : "Excel2map lets you create your own geographical maps. It is developed by the Dutch Research Organisation TNO, in first instance for the Dutch Ministry of Health (VWS).",
     "logo" : "images/CommonSenseRound.png",
     "url" : "https://github.com/TNOCS/excel2map",
@@ -28,17 +28,7 @@
             "showLegend" : false,
             "showNavbar" : false,
             "showBackgroundImage" : false,
-            "widgets" : [{
-                    "id" : "2434881f-0644-46ea-5133-f45c3dde8c9e",
-                    "directive" : "projects-directive",
-                    "elementId" : "widget-2434881f-0644-46ea-5133-f45c3dde8c9e",
-                    "enabled" : true,
-                    "left" : "80px",
-                    "top" : "40px",
-                    "right" : "80px",
-                    "bottom" : "40px"
-                }
-            ]
+            "widgets" : []
         }, {
             "id" : "templates",
             "name" : "Templates",
@@ -124,5 +114,6 @@
     "expertMode" : 1,
     "baselayers" : {},
     "groups" : [],
-    "disableDrop": true
+    "disableDrop": true,
+    "featurePropsDirective": "zodkrightpanel"
 }

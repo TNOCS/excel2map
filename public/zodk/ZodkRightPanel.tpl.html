@@ -43,33 +43,35 @@
     <div class="navigation" ng-if="vm.isLoggedIn()">
 
         <div class="topnav">
+            <a ng-class="{'active': vm.panel == vm.Panel.overzicht}" ng-click="vm.openProjectOverzicht()">Overzicht projecten</a>
             <a ng-click="vm.editProject()">Project aanpassen</a>
             <a ng-click="vm.logout()">Uitloggen</a>
         </div>
 
+        <div class="subnav" ng-show="!vm.hideSubNav">
+            <div ng-show="vm.layerCount > 0" ng-class="{'active': vm.panel == vm.Panel.info}" data-ng-click="vm.openData()">
+                <span class="icon-marker"></span><span class="title">{{'DATA' | translate}}</span>
+            </div>
 
-        <div ng-show="vm.layerCount > 0" ng-class="{'active': vm.panel == vm.Panel.info}" data-ng-click="vm.openData()">
+            <div class="disabled" ng-show="vm.layerCount == 0" uib-tooltip="{{'DATA' | translate}}" tooltip-placement="bottom">
             <span class="icon-marker"></span><span class="title">{{'DATA' | translate}}</span>
-        </div>
+            </div>
 
-        <div class="disabled" ng-show="vm.layerCount == 0" uib-tooltip="{{'DATA' | translate}}" tooltip-placement="bottom">
-           <span class="icon-marker"></span><span class="title">{{'DATA' | translate}}</span>
-        </div>
+            <div ng-class="{'active': vm.panel == vm.Panel.layer}" data-ng-click="vm.openLayers()">
+                <span class="icon-kaartlagen"></span><span class="title">{{'LAYERS' | translate}} ({{vm.layerCount}})</span>
+            </div>
 
-        <div ng-class="{'active': vm.panel == vm.Panel.layer}" data-ng-click="vm.openLayers()">
-            <span class="icon-kaartlagen"></span><span class="title">{{'LAYERS' | translate}} ({{vm.layerCount}})</span>
-        </div>
+            <div class="disabled" uib-tooltip="{{'NO_FILTERS' | translate}}" tooltip-placement="bottom" ng-show="vm.filterCount == 0">
+                <span class="icon-filter"></span><span class="title">{{'FILTERS' | translate}} (0)</span>
+            </div>
 
-        <div class="disabled" uib-tooltip="{{'NO_FILTERS' | translate}}" tooltip-placement="bottom" ng-show="vm.filterCount == 0">
-            <span class="icon-filter"></span><span class="title">{{'FILTERS' | translate}} (0)</span>
-        </div>
+            <div ng-show="vm.filterCount > 0" data-ng-click="vm.openFilters()" ng-class="{'active': vm.panel == vm.Panel.filter}">
+                <span class="icon-filter"></span><span class="title">{{'FILTERS' | translate}} ({{vm.filterCount}})</span>
+            </div>
 
-        <div ng-show="vm.filterCount > 0" data-ng-click="vm.openFilters()" ng-class="{'active': vm.panel == vm.Panel.filter}">
-            <span class="icon-filter"></span><span class="title">{{'FILTERS' | translate}} ({{vm.filterCount}})</span>
-        </div>
-
-        <div ng-class="{'active': vm.panel == vm.Panel.mca}" data-ng-click="vm.openMCA()">
-            <span class="icon-mca"></span><span class="title title-last">MCA</span>
+            <div ng-class="{'active': vm.panel == vm.Panel.mca}" data-ng-click="vm.openMCA()">
+                <span class="icon-mca"></span><span class="title title-last">MCA</span>
+            </div>
         </div>
 <!--
         <div data-ng-click="vm.close()" class="pull-right" uib-tooltip="{{'CLOSE' | translate}}" tooltip-placement="bottom">
@@ -184,5 +186,7 @@
         <mca class="tab-pane" id="mca"></mca>
     </div>
 
-
+    <div ng-show="vm.panel == vm.Panel.overzicht" id="widget-zodkoverzicht-parent">
+        <projects-directive class="tab-pane" id="overzicht"></projects-directive>
+    </div>
 </div>

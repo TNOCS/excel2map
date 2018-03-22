@@ -1,6 +1,7 @@
 $vws-donkerblauw-1: #01689b;
 $vws-donkerpaars-1: #42145f;
 $t2m-yellow: #ffcf40;
+$rightpanel-width-lg: 960px;
 $rightpanel-width: 460px;
 $info-bg-color: #f2eeee;
 $info-link-color: rgb(12, 96, 163);
@@ -29,12 +30,6 @@ body {
 .t2m-logo-image {
     max-width: 100%;
     max-height: 72px;
-}
-
-.btn-transparent {
-    background-color: transparent;
-    border-color: #ddd;
-    padding: 2px 12px;
 }
 
 .btn.disabled, .btn[disabled], fieldset[disabled] .btn {
@@ -419,5 +414,10 @@ a:hover {
 
  /*Force MCA*/
 #mca {
+    display: inherit !important;
+}
+
+ /*Force project overzicht*/
+ #overzicht {
     display: inherit !important;
 }

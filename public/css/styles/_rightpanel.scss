@@ -11,11 +11,16 @@
     background: white;
 }
 
-@media screen and (min-width:600px) {
+@media screen and (min-width: $rightpanel-width + 140) {
     #rightpanel {
         max-width: $rightpanel-width;
     }
+}
 
+@media screen and (min-width: $rightpanel-width-lg) {
+    .rightpanel-lg {
+        max-width: $rightpanel-width-lg!important;
+    }
 }
 
 #rightpanel.ng-hide-add {
@@ -321,6 +326,10 @@ div.filter .to-text {
     display: flex;
 }
 
+#close-rightpanel.rightpanel-lg {
+    right: $rightpanel-width-lg;
+}
+
 #close-rightpanel span, #open-rightpanel span {
     color: $t2m-yellow;
     padding: 10px;
@@ -355,4 +364,42 @@ div.filter .to-text {
     .dc-chart .brush rect.extent {
         fill-opacity: 1;
     }
+}
+
+/* excel2map */
+
+.create-project {
+    background-color: $t2m-yellow;
+    font-size: 22px;
+}
+
+.project-table th {
+    font-weight: normal;
+}
+
+.project-table tbody {
+    font-weight: bold;
+}
+
+.btn-circle {
+    width: 32px;
+    height: 32px;
+    text-align: center;
+    padding: 1px 0;
+    font-size: 22px;
+    line-height: 1.42;
+    border-radius: 50%;
+    background-color: transparent;
+}
+
+.btn-circle:hover {
+    background-color: $t2m-yellow;
+}
+
+.btn-circle:hover:disabled {
+    background-color: grey;
+}
+
+.btn-transparent {
+    background-color: transparent;
 }
