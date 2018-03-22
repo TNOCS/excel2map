@@ -1,6 +1,7 @@
 $vws-donkerblauw-1: #01689b;
 $vws-donkerpaars-1: #42145f;
 $t2m-yellow: #ffcf40;
+$t2m-yellow-disabled: #fff0c3;
 $rightpanel-width-full: 1840px;
 $rightpanel-width-lg: 960px;
 $rightpanel-width: 460px;
@@ -124,7 +125,7 @@ td.st-selected {
 }
 
 .fixed-widget-header {
-    height: 70px;
+    height: 80px;
 }
 
 .fixed-widget-footer {
@@ -276,6 +277,12 @@ input#create-project-title {
 
 .larger-font {
     font-size: 110%;
+}
+
+.wizard-title {
+    font-size: 32px;
+    font-weight: bold;
+    display: inline;
 }
 
 .form-horizontal .form-group>label {
@@ -443,6 +450,7 @@ a:hover {
 @import 'styles/map';
 @import 'styles/rightpanel';
 @import 'styles/profile';
+@import 'styles/progress';
 
  /*Force MCA*/
 #mca {
