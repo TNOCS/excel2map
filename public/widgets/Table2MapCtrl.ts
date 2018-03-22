@@ -69,9 +69,6 @@ module Table2Map {
     }
 
     export class Table2MapCtrl {
-        private widget: csComp.Services.IWidget;
-        private parentWidget: JQuery;
-        private parentWidgetId: string;
         private dataProperties: {
             [key: string]: any
         };
@@ -104,11 +101,13 @@ module Table2Map {
         ) {
             $scope.vm = this;
             var par = < any > $scope.$parent;
-            this.widget = par.widget;
-            this.parentWidgetId = `${this.widget.elementId}-parent`;
-            this.parentWidget = $(`#${this.parentWidgetId}`);
 
-            $scope.data = < Table2MapData > this.widget.data || < Table2MapData > {};
+            $scope.data = < Table2MapData > {
+                "hideTitle": false,
+                "dataExtensions": ["csv", "mat", "xlsx", "xls"],
+                "iconExtensions": ["png"],
+                "canMinimize": true
+            };
             $scope.isOpen = true;
             $scope.geometryTypes = Table2Map.GEOMETRY_TYPES;
             $scope.stringFormats = Table2Map.STRING_FORMATS;
@@ -225,8 +224,8 @@ module Table2Map {
         }
 
         private switchToOverview() {
-            var db = this.layerService.findDashboardById('main');
-            this.$messageBus.publish('dashboard-main', 'activated', db);
+            // var db = this.layerService.findDashboardById('main');
+            // this.$messageBus.publish('dashboard-main', 'activated', db);
             console.log('switchToOverView');
         }
 
@@ -266,31 +265,6 @@ module Table2Map {
             evt.stopPropagation();
             evt.preventDefault();
             this.t2mSvc.readFile(evt.dataTransfer.files[0], 'data');
-        }
-
-        private canMinimize() {
-            return (this.$scope.data.hasOwnProperty('canMinimize')) ?
-                this.$scope.data['canMinimize'] :
-                true;
-        }
-
-        private minimize() {
-            this.$scope.minimized = !this.$scope.minimized;
-            if (this.$scope.minimized) {
-                this.parentWidget.css('height', '30px');
-            } else {
-                this.parentWidget.css('height', this.widget.height);
-            }
-        }
-
-        private canClose() {
-            return (this.$scope.data.hasOwnProperty('canClose')) ?
-                this.$scope.data['canClose'] :
-                true;
-        }
-
-        private close() {
-            this.parentWidget.hide();
         }
 
         public stop() {

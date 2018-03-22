@@ -1,6 +1,7 @@
 $vws-donkerblauw-1: #01689b;
 $vws-donkerpaars-1: #42145f;
 $t2m-yellow: #ffcf40;
+$rightpanel-width-full: 1840px;
 $rightpanel-width-lg: 960px;
 $rightpanel-width: 460px;
 $info-bg-color: #f2eeee;
@@ -451,4 +452,17 @@ a:hover {
  /*Force project overzicht*/
  #overzicht {
     display: inherit !important;
+}
+
+ /*Force wizard*/
+ #wizard {
+    display: inherit !important;
+}
+
+#widget-zodkwizard-parent {
+    height: 100%;
+}
+
+#zodkrightpanel-content {
+    height: 100%;
 }

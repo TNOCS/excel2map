@@ -23,6 +23,20 @@
     }
 }
 
+@media screen and (min-width: $rightpanel-width-full) {
+    .rightpanel-full {
+        max-width: $rightpanel-width-full!important;
+    }
+}
+
+.rightpanel-lg {
+    max-width: 100%;
+}
+
+.rightpanel-full {
+    max-width: 100%;
+}
+
 #rightpanel.ng-hide-add {
     transform: rotateY(0);
     transform-origin: right;
@@ -328,6 +342,10 @@ div.filter .to-text {
 
 #close-rightpanel.rightpanel-lg {
     right: $rightpanel-width-lg;
+}
+
+#close-rightpanel.rightpanel-full {
+    right: $rightpanel-width-full;
 }
 
 #close-rightpanel span, #open-rightpanel span {

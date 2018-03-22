@@ -29,7 +29,8 @@ module ZodkRightPanel {
             layer = 2,
             filter = 3,
             mca = 4,
-            overzicht = 5
+            overzicht = 5,
+            wizard = 6
     }
 
     export interface IZodkRightPanelScope extends ng.IScope {
@@ -62,6 +63,8 @@ module ZodkRightPanel {
 
         /* Panels that should increase width of the rightpanel */
         private widePanels: Panel[] = [Panel.overzicht];
+        /* Panels that should increase width of the rightpanel to fullscreen */
+        private fullWidthPanels: Panel[] = [Panel.wizard];
         /* Panels that should show the second nav bar in the rightpanel */
         private subNavPanels: Panel[] = [Panel.info, Panel.layer, Panel.filter, Panel.mca];
 
@@ -159,6 +162,9 @@ module ZodkRightPanel {
                 case 'open-project-overzicht':
                     this.openProjectOverzicht();
                     break;
+                case 'open-wizard':
+                    this.openWizard();
+                    break;
             };
         }
 
@@ -209,17 +215,24 @@ module ZodkRightPanel {
             this.updatePanel();
         }
 
+        public openWizard() {
+            this.panel = Panel.wizard;
+            this.updatePanel();
+        }
+
         public newProject() {
             this.publish('zodk', 'new-project');
         }
 
         private updatePanel() {
-            if (this.widePanels.indexOf(this.panel) < 0) {
-                $('#rightpanel').removeClass('rightpanel-lg');
-                $('#close-rightpanel').removeClass('rightpanel-lg');
-            } else {
+            $('#rightpanel').removeClass('rightpanel-lg rightpanel-full');
+            $('#close-rightpanel').removeClass('rightpanel-lg rightpanel-full');
+            if (this.widePanels.indexOf(this.panel) >= 0) {
                 $('#rightpanel').addClass('rightpanel-lg');
                 $('#close-rightpanel').addClass('rightpanel-lg');
+            } else if (this.fullWidthPanels.indexOf(this.panel) >= 0) {
+                $('#rightpanel').addClass('rightpanel-full');
+                $('#close-rightpanel').addClass('rightpanel-full');
             }
             if (this.subNavPanels.indexOf(this.panel) < 0) {
                 this.hideSubNav = true;

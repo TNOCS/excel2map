@@ -13,7 +13,7 @@
 
         <!--<div class="row text-center no-margin">
             <ul uib-pagination ng-model="vm.t2mSvc.currentStep" total-items="vm.t2mSvc.numberOfSteps" items-per-page="1" previous-text="{{'PREVIOUS_STEP' | translate}}"
-                next-text="{{'NEXT_STEP' | translate}}" ng-disabled="(dropBox.$invalid||loadProjectForm.$invalid||projectSettingsForm.$invalid||layerSettingsForm.$invalid)"></ul>
+                next-text="{{'NEXT_STEP' | translate}}" ng-disabled="(dropBox.$invalid||loadProjectForm.$invalid||projectSettingsForm.$invalid||LayerSettingsOldForm.$invalid)"></ul>
             <ul ng-show="vm.t2mSvc.rowCollection.length > 0" class="pagination pointer" aria-hidden="true" uib-tooltip="{{'SHOW_TABLE' | translate}}"
                 tooltip-placement="bottom" style="margin-left: 32px;">
                 <li>
@@ -25,7 +25,7 @@
         <div class="row text-center no-margin">
             <ul class="cd-breadcrumb triangle">
                 <li ng-repeat="step in vm.t2mSvc.conversionSteps track by $index" ng-class="{'current': vm.t2mSvc.currentStep === $index + 1}">
-                    <a ng-click="vm.t2mSvc.currentStep = $index + 1" ng-disabled="(dropBox.$invalid||projectSettingsForm.$invalid||layerSettingsForm.$invalid)">{{step}}</a>
+                    <a ng-click="vm.t2mSvc.currentStep = $index + 1" ng-disabled="(dropBox.$invalid||projectSettingsForm.$invalid||LayerSettingsOldForm.$invalid)">{{step}}</a>
                 </li>
             </ul>
             <span ng-show="vm.t2mSvc.rowCollection.length > 0" class="cd-breadcrumb triangle">
@@ -42,34 +42,14 @@
         </div>
 
     </div>
-    <div class="scrollable-widget-content" style="padding:0px;font-size:12px;margin:0px;" ng-hide="minimized" resize resize-y="80"
-        resize-relative-to-parent="true">
+    <div class="scrollable-widget-content" style="padding:0px;font-size:12px;margin:0px;" ng-hide="minimized" resize resize-y="150"
+        resize-relative-to-screen="true">
         <!-- UPLOAD-PAGE -->
         <div class="row" ng-show="vm.t2mSvc.currentStep === 1">
             <div class="row text-center">
                 <h4>{{'UPLOAD_TABULAR_DATA' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'UPLOAD_HELP' | translate}}"></i></span></h4>
             </div>
             <div class="col-sm-8 col-md-6 col-md-offset-1 col-lg-5">
-                <!--<form name="loadProjectForm" class="form-horizontal">
-                    <div class="form-group form-header">
-                        <h4 class="bold">{{'LOAD_OR_CREATE_PROJECT' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'UPLOAD_HELP' | translate}}"></i></span></h4>
-                    </div>
-                    <div class="form-group">
-                        <label for="p-projectid" class="col-sm-3">{{'PROJECT_ID' | translate}}</label>
-                        <div class="col-sm-9">
-                            <input type="text" id="p-projectid" data-ng-model="vm.t2mSvc.project.id" class="form-control" required/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="pw" class="col-sm-3">{{'PASSWORD' | translate}}</label>
-                        <div class="col-sm-6">
-                            <input type="password" class="form-control" id="project-password" ng-model="vm.t2mSvc.password" placeholder="Password">
-                        </div>
-                        <div class="col-sm-3">
-                            <button class="btn btn-primary" ng-click="vm.t2mSvc.requestProject()">{{'LOAD_OR_CREATE_BUTTON' | translate}}</button>
-                        </div>
-                    </div>
-                </form>-->
                 <div id="project-settings" ng-class="{'disabled-form': !vm.t2mSvc.project}">
                     <h4>{{'PROJECT_SETTINGS' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'PROJECT_SETTINGS_HELP' | translate}}"></i></span></h4>
                     <form name="projectSettingsForm" class="form-horizontal">
@@ -96,8 +76,18 @@
                             </div>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+        <!-- LAYER TITLE-PAGE -->
+        <div class="row" ng-show="vm.t2mSvc.currentStep === 2">
+            <div class="row text-center">
+                <h4>{{'UPLOAD_TABULAR_DATA' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'UPLOAD_HELP' | translate}}"></i></span></h4>
+            </div>
+            <div class="col-sm-8 col-md-6 col-md-offset-1 col-lg-5">
+                <div id="layer-settings" ng-class="{'disabled-form': !vm.t2mSvc.project}">
                     <h4>{{'LAYER_SETTINGS' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'LAYER_SETTINGS_HELP' | translate}}"></i></span></h4>
-                    <form name="layerSettingsForm" class="form-horizontal">
+                    <form name="LayerSettingsOldForm" class="form-horizontal">
                         <div class="form-group">
                             <label for="l-group" class="col-sm-3">{{'GROUP' | translate}}</label>
                             <div class="col-sm-9">
@@ -144,6 +134,13 @@
                     </form>
                 </div>
             </div>
+        </div>
+        <!-- UPLOAD-PAGE -->
+        <div class="row" ng-show="vm.t2mSvc.currentStep === 3">
+            <div class="row text-center">
+                <h4>{{'UPLOAD_TABULAR_DATA' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'UPLOAD_HELP' | translate}}"></i></span></h4>
+            </div>
+            <div class="col-sm-8 col-md-6 col-md-offset-1 col-lg-5"></div>
             <div class="col-sm-4 col-lg-offset-1 fill-height">
                 <div class="row">
                     <div class="col-xs-12 text-center">
@@ -166,7 +163,7 @@
             </div>
         </div>
         <!-- STYLE PAGE -->
-        <div class="row" ng-show="vm.t2mSvc.currentStep === 2">
+        <div class="row" ng-show="vm.t2mSvc.currentStep === 4">
             <h4 ng-hide="vm.t2mSvc.rowCollection.length > 0">{{'NO_DATA_TABLE' | translate}}</h4>
             <div class="col-sm-8" ng-show="vm.t2mSvc.rowCollection.length > 0">
                 <div class="row">
@@ -370,7 +367,7 @@
             </div>
         </div>
         <!-- PROPERTY TYPES -->
-        <div class="row" ng-show="vm.t2mSvc.currentStep === 3">
+        <div class="row" ng-show="vm.t2mSvc.currentStep === 5">
             <h4 ng-hide="vm.t2mSvc.rowCollection.length > 0">{{'NO_DATA_TABLE' | translate}}</h4>
             <div ng-show="vm.t2mSvc.rowCollection.length > 0" class="col-xs-8 col-md-5 col-md-offset-1">
                 <form id="propertySettingsForm" class="form-horizontal">

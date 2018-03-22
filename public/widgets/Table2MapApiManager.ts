@@ -21,7 +21,8 @@ module Table2Map {
             let url = PROJECT_URL;
             this.$http.post(url, {
                     title: project.title || 'Mijn titel',
-                    layerDirectory: `${LAYER_URL}`
+                    layerDirectory: `${LAYER_URL}`,
+                    featurePropsDirective: 'zodkrightpanel'
                 }, {
                     timeout: 20000
                 })

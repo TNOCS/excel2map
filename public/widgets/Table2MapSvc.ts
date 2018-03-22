@@ -40,13 +40,14 @@ module Table2Map {
     }
 
     export enum ConversionStep {
-        UploadData = 1,
-            StyleSettings = 2,
-            FeatureProps = 3,
-            LayerSettings = 4
+        ProjectSettings = 1,
+            LayerSettings = 2,
+            UploadData = 3,
+            StyleSettings = 4,
+            FeatureProps = 5
     }
 
-    export var CONVERSION_STEPS = ['Project- en kaartlaaginstellingen', 'Stijlconfiguratie', 'Data weergave'];
+    export var CONVERSION_STEPS = ['Project titel en logo invoeren', 'Kaartlaag groep, titel en beschrijving invoeren', 'Data uploaden', 'Stijlinstellingen aanpassen', 'Data weergave'];
 
     /** Assumption of the number of columns before table is parsed. */
     export var MAX_NR_COLUMNS = 128;
@@ -164,7 +165,7 @@ module Table2Map {
         private iconData: string; // Icon in base64 format
         private logoData: string; // Project logo in base64 format
         private conversionSteps: string[] = CONVERSION_STEPS;
-        public notFoundLocations: Record<string, any>;
+        public notFoundLocations: Record < string, any > ;
 
         public static $inject = [
             '$http',
@@ -199,7 +200,7 @@ module Table2Map {
                 description: 'Show Table2Map widget'
             };
 
-            this.currentStep = ConversionStep.UploadData;
+            this.currentStep = ConversionStep.ProjectSettings;
             this.numberOfSteps = Object.keys(ConversionStep).length / 2;
             this.metaData = {
                 nr: 0,
@@ -300,7 +301,7 @@ module Table2Map {
         private startWizard(): boolean {
             let dash = this.layerService.findDashboardById('table2map');
             if (!dash) return false;
-            this.$dashboardService.selectDashboard(dash, 'main');
+            this.$messageBus.publish('zodk', 'open-wizard');
             return true;
         }
 
@@ -516,7 +517,9 @@ module Table2Map {
             var XLSX = ( < any > window).XLSX;
             let workbook: any;
             try {
-                workbook = XLSX.read(data, {type: 'binary'});
+                workbook = XLSX.read(data, {
+                    type: 'binary'
+                });
             } catch (error) {
                 return;
             }
@@ -574,7 +577,7 @@ module Table2Map {
                 } else if (fileType === 'icon') {
                     this.$timeout(() => {
                         if (file.name && file.name.indexOf(this.layer.id) !== 0) {
-                            this.featureType.style.iconUri = [`${this.layer.id}__${file.name}`].join('/');
+                            this.featureType.style.iconUri = ['', 'zelfkaartenmaken', 'private', 'data', 'images', `${this.layer.id}__${file.name}`].join('/');
                         }
                         this.iconData = reader.result;
                         this.updateMarker();
@@ -582,7 +585,7 @@ module Table2Map {
                 } else {
                     this.$timeout(() => {
                         if (this.project) {
-                            this.project.logo = [`${this.project.id}__${file.name}`].join('/');
+                            this.project.logo = ['', 'zelfkaartenmaken', 'private', 'data', 'images', `${this.project.id}__${file.name}`].join('/');
                             this.logoData = reader.result;
                         }
                     }, 0);
@@ -757,7 +760,7 @@ module Table2Map {
                 clusterLevel: this.clusterOptions.clusterLevel,
                 clustering: this.clusterOptions.clustering
             };
-            this.restApi.sendGroup(projectId, <csComp.Services.ProjectGroup>groupDef, (err) => {
+            this.restApi.sendGroup(projectId, < csComp.Services.ProjectGroup > groupDef, (err) => {
                 cb(err);
             });
         }
@@ -1296,7 +1299,7 @@ module Table2Map {
         });
 
         private updateMarkerDebounced() {
-            if (!this.feature.geometry) this.feature.geometry = <csComp.Services.IGeoJsonGeometry>{};
+            if (!this.feature.geometry) this.feature.geometry = < csComp.Services.IGeoJsonGeometry > {};
             if (!this.feature || !this.featureType || !this.featureType.style || !this.featureType.style.drawingMode) return;
             let drawingMode = this.featureType.style.drawingMode;
             if (this.marker) this.previewMap.removeLayer(this.marker);
@@ -1460,7 +1463,7 @@ module Table2Map {
                     this.notFoundLocations = null;
                 } else {
                     this.notFoundLocations = result.data['notFound'];
-                    this.$messageBus.notify('Niet gevonden locaties:', Object.keys(this.notFoundLocations).join('\n'),  csComp.Services.NotifyLocation.TopBar, csComp.Services.NotifyType.Normal, 10000);
+                    this.$messageBus.notify('Niet gevonden locaties:', Object.keys(this.notFoundLocations).join('\n'), csComp.Services.NotifyLocation.TopBar, csComp.Services.NotifyType.Normal, 10000);
                 }
             }
         }

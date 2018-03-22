@@ -90,25 +90,7 @@
             "showLegend" : false,
             "showBackgroundImage" : false,
             "showNavbar" : false,
-            "widgets" : [{
-                    "id" : "table2mapwidget-id123",
-                    "directive" : "table-to-map",
-                    "title" : "Upload tabular data",
-                    "allowFullscreen": true,
-                    "data" : {
-                        "hideTitle": false,
-                        "dataExtensions": ["csv", "mat", "xlsx", "xls"],
-                        "iconExtensions": ["png"],
-                        "canMinimize": true
-                    },
-                    "enabled" : true,
-                    "inGridContainer" : false,
-                    "top" : "40px",
-                    "left" : "80px",
-                    "bottom" : "40px",
-                    "right" : "80px"
-                }
-            ]
+            "widgets" : []
         }
     ],
     "expertMode" : 1,
