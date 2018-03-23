@@ -31,7 +31,7 @@ body {
 
 .t2m-logo-image {
     max-width: 100%;
-    max-height: 72px;
+    max-height: 172px;
 }
 
 .btn.disabled, .btn[disabled], fieldset[disabled] .btn {
@@ -55,8 +55,8 @@ body {
 
 .grey-border {
     border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 4px;
+    border-radius: 0px;
+    padding: 0px;
 }
 
 .panel-border {
@@ -129,11 +129,17 @@ td.st-selected {
 }
 
 .fixed-widget-footer {
-    height: 10px;
+    height: 40px;
 }
 
 .scrollable-widget-content {
     overflow: auto;
+    background: #f4f4f4;
+}
+
+.wizard-width-limit {
+    max-width: 600px;
+    margin-top: 32px;
 }
 
 .fa-question-circle {
@@ -312,8 +318,17 @@ a[disabled] {
 }
 
 label {
-    color: rgb(57, 84, 96);
-    font-size: 13px;
+    color: black;
+    font-size: 18px;
+    padding: 1px;
+}
+
+input.form-control {
+    font-size: 18px;
+    height: 52px;
+    border-radius: 0px;
+    padding: 8px 14px;
+    margin: 4px 0px 24px;
 }
 
 a[aria-expanded=true] .fa-chevron-down {
@@ -390,9 +405,10 @@ a:hover {
 .t2m-btn-lg {
     height: 48px;
     width: 128px;
+    padding: 12px;
     font-size: 18px;
     font-weight: bold;
-    margin-right: 8px;
+    margin: 2px 8px 2px 2px;
 }
 
 .t2m-btn.yellow {
@@ -451,6 +467,7 @@ a:hover {
 @import 'styles/rightpanel';
 @import 'styles/profile';
 @import 'styles/progress';
+@import 'styles/checkbox';
 
  /*Force MCA*/
 #mca {

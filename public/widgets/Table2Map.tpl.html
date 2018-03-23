@@ -38,7 +38,7 @@
             </div>
         </div> 
     </div>
-    <div class="row">
+    <div class="row" style="margin: 0px">
         <div class="col-sm-4 col-md-3 col-lg-2">
             <ul class="SteppedProgress Vertical">
                 <li ng-repeat="step in vm.t2mSvc.conversionSteps track by $index" ng-class="{'complete': vm.t2mSvc.currentStep >= $index + 1}">
@@ -52,35 +52,27 @@
             </ul> -->
         </div>
         <div class="col-sm-8 col-md-9 col-lg-10">
-            <div class="scrollable-widget-content" style="padding:0px;font-size:12px;margin:0px;" ng-hide="minimized" resize resize-y="150"
+            <div class="scrollable-widget-content" style="padding:0px;font-size:12px;margin:0px;" ng-hide="minimized" resize resize-y="180"
                 resize-relative-to-screen="true">
-                <!-- UPLOAD-PAGE -->
+                <!-- PROJECT SETTINGS-PAGE -->
                 <div class="row" ng-show="vm.t2mSvc.currentStep === 1">
-                    <div class="row text-center">
-                        <h4>{{'UPLOAD_TABULAR_DATA' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'UPLOAD_HELP' | translate}}"></i></span></h4>
-                    </div>
-                    <div class="col-sm-8 col-md-6 col-md-offset-1 col-lg-5">
+                    <div class="col-sm-12 wizard-width-limit">
                         <div id="project-settings" ng-class="{'disabled-form': !vm.t2mSvc.project}">
-                            <h4>{{'PROJECT_SETTINGS' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'PROJECT_SETTINGS_HELP' | translate}}"></i></span></h4>
-                            <form name="projectSettingsForm" class="form-horizontal">
+                            <form name="projectSettingsForm">
                                 <div class="form-group">
-                                    <label for="pj-title" class="col-sm-3">{{'TITLE' | translate}}</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" id="pj-title" ng-model="vm.t2mSvc.project.title" class="form-control" />
-                                    </div>
+                                    <label for="pj-title">{{'PROJECT_TITLE' | translate}}</label>
+                                    <input type="text" id="pj-title" ng-model="vm.t2mSvc.project.title" class="form-control" />
                                 </div>
                                 <div class="form-group">
-                                    <label for="pj-logo" class="col-sm-3">{{'LOGO' | translate}}</label>
-                                    <div class="col-sm-9" id="pj-logo">
-                                        <div class="row fill-height">
-                                            <div class="col-sm-5 form-group">
-                                            <!-- https://stackoverflow.com/a/20843201 -->
-                                                <div class="file-upload-label btn" for="logo-upload"><i class="fa fa-picture-o small-padding" aria-hidden="true"></i><span>{{ 'UPLOAD_ICON' | translate}}</span>
-                                            <input type="file" accept="image/png" id="logo-upload" style="margin-top:8px" />
+                                    <label for="pj-logo">{{'PROJECT_LOGO' | translate}}</label>
+                                    <div class="row fill-height">
+                                        <div class="col-sm-7 fill-height" style="padding-left: 0px">
+                                            <img class="t2m-logo-image grey-border" id="logoImage" ng-src="{{vm.t2mSvc.logoData}}" />
                                         </div>
-                                            </div>
-                                            <div class="col-sm-7 text-center fill-height">
-                                                <img class="t2m-logo-image grey-border" id="logoImage" ng-src="{{vm.t2mSvc.logoData}}" />
+                                        <div class="col-sm-5 form-group">
+                                        <!-- https://stackoverflow.com/a/20843201 -->
+                                            <div class="file-upload-label btn t2m-btn t2m-btn-lg yellow" for="logo-upload" style="width: 100%"><i class="fa fa-picture-o small-padding" aria-hidden="true"></i><span>{{ 'UPLOAD_ICON' | translate}}</span>
+                                                <input type="file" accept="image/png" id="logo-upload" style="margin-top:8px" />
                                             </div>
                                         </div>
                                     </div>
@@ -91,52 +83,52 @@
                 </div>
                 <!-- LAYER TITLE-PAGE -->
                 <div class="row" ng-show="vm.t2mSvc.currentStep === 2">
-                    <div class="row text-center">
-                        <h4>{{'UPLOAD_TABULAR_DATA' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'UPLOAD_HELP' | translate}}"></i></span></h4>
-                    </div>
-                    <div class="col-sm-8 col-md-6 col-md-offset-1 col-lg-5">
+                    <div class="col-sm-12 wizard-width-limit">
                         <div id="layer-settings" ng-class="{'disabled-form': !vm.t2mSvc.project}">
-                            <h4>{{'LAYER_SETTINGS' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'LAYER_SETTINGS_HELP' | translate}}"></i></span></h4>
-                            <form name="LayerSettingsOldForm" class="form-horizontal">
+                            <form name="LayerSettingsOldForm">
                                 <div class="form-group">
-                                    <label for="l-group" class="col-sm-3">{{'GROUP' | translate}}</label>
-                                    <div class="col-sm-9">
-                                        <ui-select select-group-on-blur ng-model="vm.t2mSvc.selectedGroup" ng-blur="vm.t2mSvc.checkGroups()" ng-keyup="$event.keyCode == 13 && vm.t2mSvc.checkGroups()"
-                                            ng-class="{'ng-valid': vm.t2mSvc.selectedGroup.title, 'ng-invalid': !vm.t2mSvc.selectedGroup.title}">
-                                            <ui-select-match placeholder="{{'SELECT_OR_CREATE_GROUP' | translate}}">
-                                                <span ng-bind="$select.selected.title"></span>
-                                            </ui-select-match>
-                                            <ui-select-choices repeat="group in (vm.t2mSvc.project.groups | filter: $select.search) track by group.title">
-                                                <span ng-bind="group.title"></span>
-                                            </ui-select-choices>
-                                        </ui-select>
-                                    </div>
+                                    <label for="l-group">{{'GROUP' | translate}}</label>
+                                    <ui-select select-group-on-blur ng-model="vm.t2mSvc.selectedGroup" ng-blur="vm.t2mSvc.checkGroups()" ng-keyup="$event.keyCode == 13 && vm.t2mSvc.checkGroups()"
+                                        ng-class="{'ng-valid': vm.t2mSvc.selectedGroup.title, 'ng-invalid': !vm.t2mSvc.selectedGroup.title}">
+                                        <ui-select-match placeholder="{{'SELECT_OR_CREATE_GROUP' | translate}}">
+                                            <span ng-bind="$select.selected.title"></span>
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="group in (vm.t2mSvc.project.groups | filter: $select.search) track by group.title">
+                                            <span ng-bind="group.title"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
                                     <!-- Fake textbox to add validation support to ui-select-box -->
                                     <input type="text" id="dummy" ng-model="vm.t2mSvc.selectedGroup.title" style="display: none" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="l-title" class="col-sm-3">{{'TITLE' | translate}}</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" id="l-title" ng-model="vm.t2mSvc.layer.title" class="form-control" required/>
-                                    </div>
+                                    <label for="l-title">{{'LAYER_TITLE' | translate}}</label>
+                                    <input type="text" id="l-title" placeholder="{{'LAYER_TITLE' | translate}}" ng-model="vm.t2mSvc.layer.title" class="form-control" required/>
                                 </div>
                                 <div class="form-group">
-                                    <label for="l-descr" class="col-sm-3">{{'DESCRIPTION' | translate}}</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" id="l-descr" ng-model="vm.t2mSvc.layer.description" class="form-control" />
-                                    </div>
+                                    <label for="l-descr">{{'LAYER_DESCRIPTION' | translate}}</label>
+                                    <input type="text" id="l-descr" placeholder="{{'LAYER_DESCRIPTION' | translate}}" ng-model="vm.t2mSvc.layer.description" class="form-control" />
                                 </div>
                                 <div class="form-group">
-                                    <label for="l-checkboxes" class="col-sm-3"></label>
-                                    <div id="l-checkboxes" class="col-sm-9">
+                                    <label for="l-checkboxes"></label>
+                                    <div id="l-checkboxes">
                                         <div class="row">
                                             <div class="col-sm-6 form-group">
-                                                <label for="fitmap" uib-tooltip="{{'FIT_TO_MAP_HELP' | translate}}">{{'FIT_TO_MAP' | translate}}</label>
-                                                <input type="checkbox" id="fitmap" data-ng-model="vm.t2mSvc.layer.fitToMap" class="checkbox-primary">
+                                                <div class="zodk-checkbox">
+                                                    <input type="checkbox" id="fitmap" data-ng-model="vm.t2mSvc.layer.fitToMap">
+                                                    <label for="fitmap"></label>
+                                                    <div class="zodk-checkbox-text" uib-tooltip="{{'FIT_TO_MAP_HELP' | translate}}">
+                                                        {{'FIT_TO_MAP' | translate}}
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="col-sm-6 form-group">
-                                                <label for="l-enabled" uib-tooltip="{{'ENABLED_HELP' | translate}}">{{'ENABLED' | translate}}</label>
-                                                <input type="checkbox" id="l-enabled" data-ng-model="vm.t2mSvc.layer.enabled" class="checkbox-primary">
+                                                <div class="zodk-checkbox">
+                                                    <input type="checkbox" id="l-enabled" data-ng-model="vm.t2mSvc.layer.enabled">
+                                                    <label for="l-enabled"></label>
+                                                    <div class="zodk-checkbox-text" uib-tooltip="{{'ENABLED_HELP' | translate}}">
+                                                        {{'ENABLED' | translate}}
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -150,8 +142,7 @@
                     <div class="row text-center">
                         <h4>{{'UPLOAD_TABULAR_DATA' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'UPLOAD_HELP' | translate}}"></i></span></h4>
                     </div>
-                    <div class="col-sm-8 col-md-6 col-md-offset-1 col-lg-5"></div>
-                    <div class="col-sm-4 col-lg-offset-1 fill-height">
+                    <div class="col-sm-12 fill-height">
                         <div class="row">
                             <div class="col-xs-12 text-center">
                                 <form name="dropBox">

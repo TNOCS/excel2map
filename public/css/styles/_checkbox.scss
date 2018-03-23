@@ -1,0 +1,55 @@
+.zodk-checkbox input[type="checkbox"] {
+    visibility: hidden;
+}
+
+.zodk-checkbox {
+    margin: 2px;
+    position: relative;
+}
+
+.zodk-checkbox label {
+    cursor: pointer;
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+    margin-bottom: 0px;
+    top: 2px;
+    left: 0;
+    background: white;
+    border: 1px solid #333;
+}
+
+.zodk-checkbox label:after {
+    opacity: 0.01;
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 7px;
+    background: transparent;
+    top: 2px;
+    left: 2px;
+    border: 3px solid #0f578e;
+    border-top: none;
+    border-right: none;
+    transform: rotate(-45deg);
+}
+
+li.zodk-checkbox {
+    padding-top: 2px;
+}
+
+.zodk-checkbox label:hover::after {
+    opacity: 0.5;
+}
+
+.zodk-checkbox input[type=checkbox]:checked+label:after {
+    opacity: 1;
+}
+
+.zodk-checkbox-text {
+    display: inline;
+    padding: 0px 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
