@@ -90,7 +90,7 @@ module Translations {
             DATA_RANGE: 'Data bereik',
             ADVANCED_SETTINGS: 'Geavanceerde instellingen',
             SHOW_PROJECT: 'Open het aangemaakte project',
-            SHOW_TABLE: 'Toon een tabel met de data',
+            SHOW_TABLE: 'Toon de data in een tabel',
             TOO_MANY_COLS: 'Teveel kolommen',
             TOO_MANY_COLS_MSG: 'Er zijn teveel kolommen geselecteerd. Deselecteer een kolom voordat een nieuwe kolom geselecteerd kan worden.',
             FILE_TOO_LARGE: 'Bestand is te groot',

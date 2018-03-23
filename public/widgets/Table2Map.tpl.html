@@ -22,17 +22,16 @@
 
         <div class="row no-margin">
                 <div class="wizard-title">Nieuw project aanmaken  > {{vm.t2mSvc.currentStep}}. {{vm.t2mSvc.conversionSteps[vm.t2mSvc.currentStep - 1]}}
-                <span ng-show="vm.t2mSvc.rowCollection.length > 0">
-                    <div style="margin-left: 64px;display: inline" uib-tooltip="{{'SHOW_TABLE' | translate}}"
-                    tooltip-placement="bottom">
-                        <a ng-click="vm.t2mSvc.openTable('none', 0)" style="border-radius: 0.25em;">
+                <span class="larger-font small-padding pull-right pointer" uib-tooltip="{{'EXIT_WIZARD' | translate}}" tooltip-placement="left" ng-click="vm.closeWizard()"><i class="fa fa-times"></i></span>
+                <span class="larger-font small-padding pull-right pointer" style="margin-right:24px" ng-show="vm.t2mSvc.notFoundLocations" uib-tooltip="{{'DATA_NOT_CONVERTED_CORRECTLY' | translate}}" tooltip-placement="left" ng-click="vm.showMissingLocations()"><i class="fa fa-exclamation-triangle"></i></span>
+                <span class="pull-right" ng-show="vm.t2mSvc.rowCollection.length > 0">
+                    <div style="margin-right: 24px;display: inline">
+                        <a class="label-text" ng-click="vm.t2mSvc.openTable('none', 0)" style="border-radius: 0.25em;">
                             <i class="fa fa-table"></i>
-                            <span class="small-padding-left">{{'TABLE_LABEL' | translate}}</span>
+                            <span class="small-padding-left">{{'SHOW_TABLE' | translate}}</span>
                         </a>
                     </div>
                 </span>
-                <span class="larger-font small-padding pull-right pointer" uib-tooltip="{{'EXIT_WIZARD' | translate}}" tooltip-placement="left" ng-click="vm.closeWizard()"><i class="fa fa-times"></i></span>
-                <span class="larger-font small-padding pull-right pointer" style="margin-right:24px" ng-show="vm.t2mSvc.notFoundLocations" uib-tooltip="{{'DATA_NOT_CONVERTED_CORRECTLY' | translate}}" tooltip-placement="left" ng-click="vm.showMissingLocations()"><i class="fa fa-exclamation-triangle"></i></span>
             </div>
         </div> 
     </div>
@@ -548,5 +547,17 @@
         </div>
     </div>
     <div class="fixed-widget-footer">
+        <div class="row">
+            <div class="col-sm-4 col-md-3 col-lg-2"></div>
+            <div class="col-sm-8 col-md-9 col-lg-10">
+                <div class="row">
+                    <div class="col-sm-12 zodk-next-step">
+                        <div class="pointer" ng-click="vm.t2mSvc.currentStep=vm.t2mSvc.currentStep+1"  ng-hide="vm.t2mSvc.currentStep>=vm.t2mSvc.numberOfSteps">
+                            {{'NEXT_STEP' | translate}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

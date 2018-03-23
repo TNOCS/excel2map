@@ -350,6 +350,22 @@ label {
     padding: 1px;
 }
 
+.label-text {
+    color: black!important;
+    font-size: 18px;
+    padding: 1px;
+}
+
+.zodk-next-step {
+    color: white;
+    font-size: 24px;
+    background: rgb(172, 172, 172);
+    height: 50px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
 input.form-control {
     font-size: 18px;
     height: 52px;
@@ -487,11 +503,11 @@ a:hover {
     width: 240px;
 }
 
+@import 'styles/rightpanel';
 @import 'styles/icons';
 @import 'styles/legend';
 @import 'styles/floatnav';
 @import 'styles/map';
-@import 'styles/rightpanel';
 @import 'styles/profile';
 @import 'styles/progress';
 @import 'styles/checkbox';
