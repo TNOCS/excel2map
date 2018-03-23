@@ -362,8 +362,8 @@
                 <!-- PROPERTY TYPES -->
                 <div class="row" ng-show="vm.t2mSvc.currentStep === 5">
                     <h4 ng-hide="vm.t2mSvc.rowCollection.length > 0">{{'NO_DATA_TABLE' | translate}}</h4>
-                    <div ng-show="vm.t2mSvc.rowCollection.length > 0" class="col-xs-8 col-md-5 col-md-offset-1">
-                        <form id="propertySettingsForm" class="form-horizontal">
+                    <div ng-show="vm.t2mSvc.rowCollection.length > 0" class="col-xs-8  wizard-width-limit">
+                        <form id="propertySettingsForm">
                             <div class="form-group form-header">
                                 <h4>{{'PROPERTY_SETTINGS' | translate}}
                                     <span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'PROPERTY_SETTINGS_HELP' | translate}}"></i></span>
@@ -391,13 +391,21 @@
                             <div class="form-group">
                                 <label for="p-visibility">{{'VISIBILITY' | translate}}</label>
                                 <div class="row">
-                                    <div class="col-xs-6 no-padding">
-                                        <label for="p-callout">{{'VISIBLE_IN_CALLOUT' | translate}}</label>
-                                        <input type="checkbox" data-ng-model="vm.t2mSvc.pType.visibleInCallOut" id="p-callout" />
-                                    </div>
-                                    <div class="col-xs-6 no-padding">
-                                        <label for="p-tooltip">{{'VISIBLE_IN_TOOLTIP' | translate}}</label>
-                                        <input type="checkbox" data-ng-model="vm.t2mSvc.pType.visibleInTooltip" id="p-tooltip" />
+                                    <div class="zodk-checkbox">
+                                        <div class="col-xs-6 no-padding">
+                                            <input type="checkbox" data-ng-model="vm.t2mSvc.pType.visibleInCallOut" id="p-callout" />
+                                            <label for="p-callout"></label>
+                                            <div class="zodk-checkbox-text">
+                                                {{'VISIBLE_IN_CALLOUT' | translate}}
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6 no-padding">
+                                            <input type="checkbox" data-ng-model="vm.t2mSvc.pType.visibleInTooltip" id="p-tooltip" />
+                                            <label for="p-tooltip"></label>
+                                            <div class="zodk-checkbox-text">
+                                                {{'VISIBLE_IN_TOOLTIP' | translate}}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -475,7 +483,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="col-sm-4 col-lg-3 text-center" ng-show="vm.t2mSvc.rowCollection.length > 0">
+                    <div class="col-xs-4 col-lg-3 pull-right" ng-show="vm.t2mSvc.rowCollection.length > 0">
                         <div class="row">
                             <div class="form-group">
                                 <label for="select-preview-f">{{'SELECT_FEATURE_TO_PREVIEW' | translate}}</label>
