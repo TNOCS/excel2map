@@ -2,10 +2,13 @@ $vws-donkerblauw-1: #01689b;
 $vws-donkerpaars-1: #42145f;
 $t2m-yellow: #ffcf40;
 $t2m-yellow-disabled: #fff0c3;
-$rightpanel-width-full: 1840px;
+$t2m-grey: lightgrey;
+$rightpanel-width-full: 1480px;
 $rightpanel-width-lg: 960px;
 $rightpanel-width: 460px;
+$bg-color: #f4f4f4;
 $info-bg-color: #f2eeee;
+$footer-bg-color: #757575;
 $info-link-color: rgb(12, 96, 163);
 
 @import 'styles/fonts';
@@ -125,7 +128,7 @@ td.st-selected {
 }
 
 .fixed-widget-header {
-    height: 80px;
+    height: 64px;
 }
 
 .fixed-widget-footer {
@@ -134,11 +137,11 @@ td.st-selected {
 
 .scrollable-widget-content {
     overflow: auto;
-    background: #f4f4f4;
+    background: $bg-color;
 }
 
 .zodk-notification-box {
-    background: #eeeeee;
+    background: $info-bg-color;
     border: 1px solid #cccccc;
     font-size: 18px;
     padding: 14px 18px;
@@ -160,13 +163,17 @@ td.st-selected {
     white-space: pre-line;
 }
 
+.zodk-in-btn-text {
+    float: left;
+}
+
 .text-danger {
     color: #d81c18;
 }
 
 .wizard-width-limit {
     max-width: 600px;
-    margin-top: 32px;
+    margin-top: 20px;
 }
 
 .fa-question-circle {
@@ -177,6 +184,7 @@ td.st-selected {
 .file-upload-label {
     overflow: hidden;
     position: relative;
+    width: 168px;
 }
 
 .file-upload-label [type=file] {
@@ -255,8 +263,8 @@ input#create-project-title {
 #iconImage {
     width: 100%;
     height: 100%;
-    max-width: 30px;
-    min-width: 30px;
+    max-width: 48px;
+    min-width: 48px;
 }
 
 .leaflet-control-zoom-display {
@@ -313,7 +321,7 @@ input#create-project-title {
 }
 
 .wizard-title {
-    font-size: 32px;
+    font-size: 28px;
     font-weight: bold;
     display: inline;
 }
@@ -323,11 +331,19 @@ input#create-project-title {
 }
 
 #style-settings-section div {
-    text-align: right;
 }
 
 #style-settings-section input {
-    width: 72px;
+    width: 92px;
+}
+
+#iconDimensions>.row {
+    margin-bottom: 0px;
+}
+
+.sp-preview {
+    height: 36px;
+    width: 48px;
 }
 
 .small-padding-left {
@@ -348,6 +364,7 @@ label {
     color: black;
     font-size: 18px;
     padding: 1px;
+    margin: 8px 0px;
 }
 
 .label-text {
@@ -359,19 +376,26 @@ label {
 .zodk-next-step {
     color: white;
     font-size: 24px;
-    background: rgb(172, 172, 172);
+    background: $footer-bg-color;
     height: 50px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
 }
 
-input.form-control {
+input.form-control, select.form-control, span.form-control {
     font-size: 18px;
     height: 52px;
     border-radius: 0px;
     padding: 8px 14px;
-    margin: 4px 0px 24px;
+}
+
+span.ui-select-toggle {
+    padding-top: 12px;
+}
+
+span.form-control.ui-select-toggle, input.form-control.ui-select-search {
+    margin: 0px;
 }
 
 a[aria-expanded=true] .fa-chevron-down {
@@ -459,7 +483,7 @@ a:hover {
 }
 
 .t2m-btn.grey {
-    background-color: lightgrey;
+    background-color: $t2m-grey;
 }
 
 .t2m-btn.green {

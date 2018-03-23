@@ -161,16 +161,16 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-12 text-center">
+                            <div class="col-xs-12 text-center no-padding">
                                 <form name="dropBox">
-                                    <textarea rows="16" class="fill-height" id="drop-box" style="width:95%;margin-top: 24px" placeholder="{{'DRAG_FILE' | translate}}"
+                                    <textarea rows="16" class="fill-height" id="drop-box" style="width:95%;padding: 8px 12px;" placeholder="{{'DRAG_FILE' | translate}}"
                                         ng-model="vm.t2mSvc.textContent" ng-model-options='{ debounce: 1000 }' ng-change="vm.t2mSvc.updatedContent(false)"
                                         autofocus required></textarea>
                                 </form>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-12 text-center">
+                            <div class="col-xs-12 pull-right">
                                 <i class="fa fa-cog btn small-padding pointer" style="padding-left: 24px;" aria-hidden="true" uib-tooltip="{{'CSV_PARSE_SETTINGS' | translate}}"
                                     ng-click="vm.t2mSvc.openParseSettings()"></i>
                             </div>
@@ -180,102 +180,73 @@
                 <!-- STYLE PAGE -->
                 <div class="row" ng-show="vm.t2mSvc.currentStep === 4">
                     <h4 ng-hide="vm.t2mSvc.rowCollection.length > 0">{{'NO_DATA_TABLE' | translate}}</h4>
-                    <div class="col-sm-8" ng-show="vm.t2mSvc.rowCollection.length > 0">
-                        <div class="row">
-                            <h4>{{'STYLE_SETTINGS' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'STYLE_SETTINGS_HELP' | translate}}"></i></span></h4>
-                        </div>
-                        <form class="form-horizontal" id="style-settings-form">
-                            <div class="grey-border">
-                                <div class="form-group">
-                                    <label for="geo-type" class="col-sm-3">{{'GEOMETRY_TYPE' | translate}}</label>
-                                    <div class="col-sm-9">
-                                        <select class="form-control inline-select" id="geo-type" ng-change="vm.t2mSvc.selectGeoType(true)" ng-model="vm.t2mSvc.geometryTypeId"
-                                            ng-options="id as type.name for (id, type) in geometryTypes"></select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="geo-col" class="col-sm-3">{{'SELECT_GEOMETRY_COLUMNS' | translate}}</label>
-                                    <div class="col-sm-9">
-                                        <button if="geo-col" class="btn small-margin" ng-click="vm.t2mSvc.openTable()"><i class="fa fa-table small-padding"></i><span>{{'CHOOSE_DROPDOWN' | translate}}</span></button>
-                                        <span><i class="fa fa-question-circle pointer" style="padding: 0 16px 0 12px;" aria-hidden="true" uib-tooltip="{{'SELECT_GEOMETRY_COLUMNS_HELP' | translate}}"></i>
-                                        <div style="display: inline" translate="SELECT_NR_COLUMNS" translate-values="{nr: nrSelectedGeometryColumns}"></div>
-                                        </span>
-                                        <!--<table ng-show="'Object.keys(vm.t2mSvc.geometryColumns).length > 0'">
-                                            <tbody>
-                                                <tr class="row no-margin" ng-repeat="(geoInputTitle, headerObj) in vm.t2mSvc.geometryColumns">
-                                                    <td class="small-padding bold">{{geoInputTitle}}</td>
-                                                    <td class="small-padding">{{headerObj.title}}</td>
-                                                    <td class="small-padding">({{'COLUMN' | translate}} {{headerObj.code}})</td>
-                                                    <td ng-hide="$last" class="pointer" ng-click="vm.t2mSvc.swapRows($index)" uib-tooltip="{{'SWAP_ROWS' | translate}}"><img class="swap-arrows" src="images/swap-arrows.png" /> </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <div ng-hide="'Object.keys(vm.t2mSvc.geometryColumns).length > 0'">{{'SELECT_GEOMETRY_COLUMNS_HINT' | translate}}</div>-->
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="namelabel-col" class="col-sm-3">{{'SELECT_NAMELABEL_COLUMN' | translate}}</label>
-                                    <div class="col-sm-9">
-                                        <button if="namelabel-col" class="btn small-margin" ng-click="vm.t2mSvc.openTable('col', 1, true)"><i class="fa fa-table small-padding"></i><span>{{'CHOOSE_DROPDOWN' | translate}}</span></button>
-                                        <span><i class="fa fa-question-circle pointer" style="padding: 0 16px 0 12px;" aria-hidden="true" uib-tooltip="{{'SELECT_NAMELABEL_COLUMN_HELP' | translate}}"></i>
-                                            <div ng-show="vm.t2mSvc.featureType.style.nameLabel" style="display: inline">{{vm.t2mSvc.getColumnTitle(vm.t2mSvc.featureType.style.nameLabel)}} ({{'COLUMN' | translate}} {{vm.t2mSvc.featureType.style.nameLabel}})</div>
-                                            <div ng-hide="vm.t2mSvc.featureType.style.nameLabel" style="display: inline">{{'NO_NAMELABEL_SELECTED' | translate}}</div>
-                                        </span>
-                                        <!--<table ng-show="vm.t2mSvc.featureType.style.nameLabel">
-                                            <tbody>
-                                                <tr class="row no-margin">
-                                                    <td class="small-padding">{{vm.t2mSvc.getColumnTitle(vm.t2mSvc.featureType.style.nameLabel)}}</td>
-                                                    <td class="small-padding">({{'COLUMN' | translate}} {{vm.t2mSvc.featureType.style.nameLabel}})</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>-->
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="add-info" class="col-sm-3">{{'ADDITIONAL_INFO' | translate}}</label>
-                                    <div class="col-sm-9" ng-show="vm.t2mSvc.geometryType">
-                                        <select class="form-control inline-select" id="add-info" ng-model="vm.t2mSvc.additionalInfo" ng-options="info for info in vm.t2mSvc.geometryType.additionalInfo" ng-change="vm.t2mSvc.layerDataChanged(true)"
-                                            ng-disabled="!vm.t2mSvc.geometryType || vm.t2mSvc.geometryType.additionalInfo.length < 1"></select>
-                                        <i class="fa fa-question-circle pointer" style="padding: 0 16px 0 12px;" aria-hidden="true" uib-tooltip="{{'ADDITIONAL_INFO_COLUMN_HELP' | translate}}"></i>
-                                    </div>
+                    <div class="col-sm-8 wizard-width-limit" ng-show="vm.t2mSvc.rowCollection.length > 0">
+                        <form class="form" id="style-settings-form">
+                            <div class="form-group">
+                                <label for="geo-type">{{'GEOMETRY_TYPE' | translate}}</label>
+                                <div>
+                                    <select class="form-control inline-select" id="geo-type" ng-change="vm.t2mSvc.selectGeoType(true)" ng-model="vm.t2mSvc.geometryTypeId" ng-options="id as type.name for (id, type) in geometryTypes"></select>
                                 </div>
                             </div>
-                            <div class="grey-border" style="margin: 6px 0 0 0;" id="style-settings-section">
-                                <div class="form-group">
-                                    <label for="f-icon" class="col-sm-3">{{'ICON_IMAGE' | translate}}</label>
-                                    <div class="col-sm-9">
-                                        <div class="row form-inline">
-                                            <div class="col-sm-5 form-group">
-                                                <div id="f-icon" class="file-upload-label btn" for="icon-upload"><i class="fa fa-picture-o small-padding" aria-hidden="true"></i><span>{{ 'UPLOAD_ICON' | translate}}</span>
-                                            <input type="file" accept="image/png" id="icon-upload" style="margin-top:8px" />
+                            <div class="form-group">
+                                <label for="geo-col">{{'SELECT_GEOMETRY_COLUMNS' | translate}}</label>
+                                <span><i class="fa fa-question-circle pointer" style="padding: 0 16px 0 12px;" aria-hidden="true" uib-tooltip="{{'SELECT_GEOMETRY_COLUMNS_HELP' | translate}}"></i></span>
+                                <div>
+                                    <button id="geo-col" class="btn t2m-btn t2m-btn-lg grey" style="width:100%" ng-click="vm.t2mSvc.openTable()">
+                                        <div class="zodk-in-btn-text" translate="SELECT_NR_COLUMNS" translate-values="{nr: nrSelectedGeometryColumns}"></div>
+                                        <span class="pull-right" style="padding: 0px 16px;"><i class="fa fa-table small-padding"></i>
+                                        {{'EDIT' | translate}}</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="namelabel-col">{{'SELECT_NAMELABEL_COLUMN' | translate}}</label>
+                                <span><i class="fa fa-question-circle pointer" style="padding: 0 16px 0 12px;" aria-hidden="true" uib-tooltip="{{'SELECT_NAMELABEL_COLUMN_HELP' | translate}}"></i></span>
+                                <div>
+                                     <button id="namelabel-col" class="btn t2m-btn t2m-btn-lg grey" style="width:100%" ng-click="vm.t2mSvc.openTable('col', 1, true)">
+                                        <div class="zodk-in-btn-text" ng-show="vm.t2mSvc.featureType.style.nameLabel" style="display: inline">{{vm.t2mSvc.getColumnTitle(vm.t2mSvc.featureType.style.nameLabel)}} ({{'EDIT_COLS' | translate}} {{vm.t2mSvc.featureType.style.nameLabel}})</div>
+                                        <div class="zodk-in-btn-text" ng-hide="vm.t2mSvc.featureType.style.nameLabel" style="display: inline">{{'NO_NAMELABEL_SELECTED' | translate}}</div>
+                                        <span class="pull-right" style="padding: 0px 16px;"><i class="fa fa-table small-padding"></i>{{'EDIT_COLS' | translate}}</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="add-info">{{'ADDITIONAL_INFO' | translate}}</label><span><i class="fa fa-question-circle pointer" style="padding: 0 16px 0 12px;" aria-hidden="true" uib-tooltip="{{'ADDITIONAL_INFO_COLUMN_HELP' | translate}}"></i></span>
+                                <div ng-show="vm.t2mSvc.geometryType">
+                                    <select class="form-control inline-select" id="add-info" ng-model="vm.t2mSvc.additionalInfo" ng-options="info for info in vm.t2mSvc.geometryType.additionalInfo" ng-change="vm.t2mSvc.layerDataChanged(true)"
+                                        ng-disabled="!vm.t2mSvc.geometryType || vm.t2mSvc.geometryType.additionalInfo.length < 1"></select>
+                                    
+                                </div>
+                            </div>
+                            <div id="style-settings-section">
+                                <div class="row">
+                                    <div class="col-sm-6 form-group no-padding">
+                                        <label for="f-icon">{{'ICON_IMAGE' | translate}}</label>
+                                        <div id="f-icon">
+                                            <label class="file-upload-label btn t2m-btn t2m-btn-lg yellow" for="icon-upload" style="width: 172px"><i class="fa fa-picture-o small-padding" aria-hidden="true"></i><span>{{ 'UPLOAD_ICON' | translate}}</span>
+                                                <input type="file" accept="image/png" id="file-upload" style="margin-top:8px" />
+                                            </label>
+                                            <img class="grey-border" id="iconImage" ng-src="{{vm.t2mSvc.iconData}}" />
                                         </div>
-                                            </div>
-                                            <div class="col-sm-1 text-center">
-                                                <img class="grey-border" id="iconImage" ng-src="{{vm.t2mSvc.iconData}}" />
-                                            </div>
-                                            <div class="col-sm-6 form-group">
-                                                <label for="fill-col">{{'FILL_COLOR' | translate}}</label>
-                                                <spectrum-colorpicker name="fill-col" data-ng-model="vm.t2mSvc.featureType.style['fillColor']" options="{ cancelText: 'Cancel', chooseText: 'OK', preferredFormat: 'hex', showInput: true }"></spectrum-colorpicker>
-                                            </div>
+                                    </div>
+                                    <div class="col-sm-6 form-group">
+                                        <label for="f-fill-col">{{'FILL_COLOR' | translate}}</label>
+                                        <div id="f-fill-col">
+                                            <spectrum-colorpicker name="fill-col" data-ng-model="vm.t2mSvc.featureType.style['fillColor']" options="{ cancelText: 'Cancel', chooseText: 'OK', preferredFormat: 'hex', showInput: true }"></spectrum-colorpicker>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="f-default-style" class="col-sm-3">{{'DEFAULT_STYLE_PROPERTY' | translate}}</label>
-                                    <div class="col-sm-9">
-                                        <div class="row form-inline">
-                                            <div class="col-sm-5 col-xs-10 form-group">
-                                                <select id="f-default-style" class="form-control full-width" ng-model="vm.t2mSvc.defaultLegendProperty"
-                                            ng-options="hdr.code as hdr.title for hdr in vm.t2mSvc.headerCollection"></select>
-                                            </div>
-                                        </div>
+                                    <label for="f-default-style">{{'DEFAULT_STYLE_PROPERTY' | translate}}</label>
+                                    <div>
+                                        <select id="f-default-style" class="form-control full-width inline-select" ng-model="vm.t2mSvc.defaultLegendProperty" ng-options="hdr.code as hdr.title for hdr in vm.t2mSvc.headerCollection"></select>
                                     </div>
                                 </div>
                                 <div class="collapse" id="advancedIconSettings">
                                     <div class="form-group">
-                                        <label for="iconDimensions" class="col-sm-3">{{'ICON_DIMENSIONS' | translate}}</label>
-                                        <div class="col-sm-9" id="iconDimensions">
-                                            <div class="row form-inline">
+                                        <label for="iconDimensions">{{'ICON_DIMENSIONS' | translate}}</label>
+                                        <div id="iconDimensions">
+                                            <div class="row">
                                                 <div class="col-sm-6 form-group">
                                                     <label for="iconHeight">{{'ICON_HEIGHT' | translate}}</label>
                                                     <input type="number" min="0" max="320" name="iconHeight" data-ng-model="vm.t2mSvc.featureType.style['iconHeight']" class="form-control"
@@ -287,7 +258,7 @@
                                                         class="form-control" ng-disabled="vm.t2mSvc.featureType.style['drawingMode'] != 'Point'">
                                                 </div>
                                             </div>
-                                            <div class="row form-inline">
+                                            <div class="row">
                                                 <div class="col-sm-6 form-group">
                                                     <label for="transparency">{{'TRANSPARENCY' | translate}}</label>
                                                     <input type="number" step="5" min="0" max="100" name="transparency" ng-change="vm.t2mSvc.featureType.style['strokeOpacity']=vm.t2mSvc.featureType.style['opacity'];vm.t2mSvc.featureType.style['fillOpacity']=vm.t2mSvc.featureType.style['opacity']"
@@ -299,20 +270,24 @@
                                                         ng-disabled="vm.t2mSvc.featureType.style['drawingMode'] != 'Point'">
                                                 </div>
                                             </div>
-                                            <div class="row form-inline">
+                                            <div class="row">
                                                 <div class="col-sm-6 form-group">
                                                     <label for="stroke-col">{{'STROKE_COLOR' | translate}}</label>
-                                                    <spectrum-colorpicker name="stroke-col" data-ng-model="vm.t2mSvc.featureType.style['strokeColor']" options="{cancelText: 'Cancel', chooseText: 'OK', preferredFormat: 'hex'}"></spectrum-colorpicker>
+                                                    <div>
+                                                        <spectrum-colorpicker name="stroke-col" data-ng-model="vm.t2mSvc.featureType.style['strokeColor']" options="{cancelText: 'Cancel', chooseText: 'OK', preferredFormat: 'hex'}"></spectrum-colorpicker>
+                                                    </div>
                                                 </div>
                                                 <div class="col-sm-6 form-group">
                                                     <label for="stroke-w">{{'STROKE_WIDTH' | translate}}</label>
                                                     <input type="number" name="stroke-w" min="0" max="32" data-ng-model="vm.t2mSvc.featureType.style['strokeWidth']" class="form-control">
                                                 </div>
                                             </div>
-                                            <div class="row form-inline">
+                                            <div class="row">
                                                 <div class="col-sm-6 form-group">
                                                     <label for="sel-stroke-col">{{'SELECTED_STROKE_COLOR' | translate}}</label>
-                                                    <spectrum-colorpicker name="sel-stroke-col" data-ng-model="vm.t2mSvc.featureType.style['selectedStrokeColor']" options="{cancelText: 'Cancel', chooseText: 'OK', preferredFormat: 'hex'}"></spectrum-colorpicker>
+                                                    <div>
+                                                        <spectrum-colorpicker name="sel-stroke-col" data-ng-model="vm.t2mSvc.featureType.style['selectedStrokeColor']" options="{cancelText: 'Cancel', chooseText: 'OK', preferredFormat: 'hex'}"></spectrum-colorpicker>
+                                                    </div>
                                                 </div>
                                                 <div class="col-sm-6 form-group">
                                                     <label for="sel-stroke-w">{{'SELECTED_STROKE_WIDTH' | translate}}</label>
@@ -323,18 +298,21 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="clustering-group" class="col-sm-3">{{'CLUSTERING_OPTIONS' | translate}}</label>
-                                        <div class="col-sm-9" id="clustering-group">
-                                            <div class="row form-inline">
-                                                <div class="col-sm-6 form-group">
-                                                    <label for="clustering">{{'CLUSTERING' | translate}}</label>
-                                                    <input type="checkbox" id="clustering" data-ng-model="vm.t2mSvc.clusterOptions.clustering" class="checkbox-primary" ng-disabled="vm.t2mSvc.featureType.style['drawingMode'] != 'Point'">
+                                        <div class="row">
+                                            <div class="col-sm-6 form-group" style="padding-left:1px">
+                                                <label for="clusterToggle">{{'CLUSTERING' | translate}}</label>
+                                                <div class="zodk-checkbox" id="clusterToggle">
+                                                    <input type="checkbox" id="clustering" data-ng-model="vm.t2mSvc.clusterOptions.clustering" ng-disabled="vm.t2mSvc.featureType.style['drawingMode'] != 'Point'" style="width:16px;">
+                                                    <label for="clustering"></label>
+                                                    <div class="zodk-checkbox-text" uib-tooltip="{{'CLUSTER_TOGGLE' | translate}}">
+                                                        {{'CLUSTER_TOGGLE' | translate}}
+                                                    </div>
                                                 </div>
-                                                <div class="col-sm-6 form-group">
-                                                    <label for="clusterLevel">{{'CLUSTER_LEVEL' | translate}}</label>
-                                                    <input type="number" id="clusterLevel" data-ng-model="vm.t2mSvc.clusterOptions.clusterLevel" min="0" max="24" class="form-control"
-                                                        ng-disabled="vm.t2mSvc.featureType.style['drawingMode'] != 'Point'">
-                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 form-group">
+                                                <label for="clusterLevel">{{'CLUSTER_LEVEL' | translate}}</label>
+                                                <input type="number" id="clusterLevel" data-ng-model="vm.t2mSvc.clusterOptions.clusterLevel" min="0" max="24" class="form-control"
+                                                    ng-disabled="vm.t2mSvc.featureType.style['drawingMode'] != 'Point'">
                                             </div>
                                         </div>
                                     </div>
@@ -362,22 +340,22 @@
                             </div>
                         </form>
                     </div>
-                    <div class="col-sm-4" ng-show="vm.t2mSvc.rowCollection.length > 0">
-                        <div class="row">
+                    <div class="col-sm-4 wizard-width-limit pull-right" ng-show="vm.t2mSvc.rowCollection.length > 0">
+                        <div class="row no-margin" style="max-width: 400px;">
                             <h4>{{'STYLE_PREVIEW' | translate}}</h4>
+                            <div class="form-group">
+                                <label for="select-preview-f-2">{{'SELECT_FEATURE_TO_PREVIEW' | translate}}</label>
+                                <select class="form-control" id="select-preview-f-2" ng-options="vm.t2mSvc.rowCollection.indexOf(row) as row[vm.t2mSvc.featureType.style.nameLabel] for row in vm.t2mSvc.rowCollection"
+                                    ng-model="vm.t2mSvc.selectedRowIndex" ng-change="vm.t2mSvc.selectRowIndex(vm.t2mSvc.selectedRowIndex)"></select>
+                            </div>
+                        </div>
+                        <div class="row">
                             <label>{{'CURRENT_ZOOM' | translate}}: {{vm.t2mSvc.currentZoom}}</label>
                             <span style="margin-left: 32px;">
                                 <label ng-show="vm.t2mSvc.feature.isSelected">{{'FEATURE_SELECTED' | translate}}</label>
                                 <label ng-hide="vm.t2mSvc.feature.isSelected">{{'FEATURE_DESELECTED' | translate}}</label>
                             </span>
                             <div id="previewMap"></div>
-                        </div>
-                        <div class="row no-margin" style="max-width: 400px;">
-                            <div class="form-group">
-                                <label for="select-preview-f-2">{{'SELECT_FEATURE_TO_PREVIEW' | translate}}</label>
-                                <select class="form-control" id="select-preview-f-2" ng-options="vm.t2mSvc.rowCollection.indexOf(row) as row[vm.t2mSvc.featureType.style.nameLabel] for row in vm.t2mSvc.rowCollection"
-                                    ng-model="vm.t2mSvc.selectedRowIndex" ng-change="vm.t2mSvc.selectRowIndex(vm.t2mSvc.selectedRowIndex)"></select>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -392,80 +370,66 @@
                                 </h4>
                             </div>
                             <!--<div class="form-group larger-font bold">
-                                <label for="p-title" class="col-sm-3">{{'SELECTED_PROPERTY' | translate}}</label>
-                                <div class="col-sm-9">
-                                    <div ng-show="vm.t2mSvc.pType.title">{{vm.t2mSvc.pType.title}}</div>
-                                    <div ng-hide="vm.t2mSvc.pType.title">{{'NO_PROPERTY_SELECTED' | translate}}</div>
-                                </div>
+                                <label for="p-title">{{'SELECTED_PROPERTY' | translate}}</label>
+                                <div ng-show="vm.t2mSvc.pType.title">{{vm.t2mSvc.pType.title}}</div>
+                                <div ng-hide="vm.t2mSvc.pType.title">{{'NO_PROPERTY_SELECTED' | translate}}</div>
                             </div>-->
                             <div class="form-group">
-                                <label for="p-title" class="col-sm-3">{{'TITLE' | translate}}</label>
-                                <div class="col-sm-9">
-                                    <input type="text" data-ng-model="vm.t2mSvc.pType.title" class="form-control" />
-                                </div>
+                                <label for="p-title">{{'TITLE' | translate}}</label>
+                                <input type="text" data-ng-model="vm.t2mSvc.pType.title" class="form-control" />
                             </div>
                             <div class="form-group">
-                                <label for="p-description" class="col-sm-3">{{'DESCRIPTION' | translate}}</label>
-                                <div class="col-sm-9">
-                                    <input type="text" id="p-description" data-ng-model="vm.t2mSvc.pType.description" data-ng-change="vm.t2mSvc.updatePropertyPreview()"
-                                        class="form-control" />
-                                </div>
+                                <label for="p-description">{{'DESCRIPTION' | translate}}</label>
+                                <input type="text" id="p-description" data-ng-model="vm.t2mSvc.pType.description" data-ng-change="vm.t2mSvc.updatePropertyPreview()"
+                                    class="form-control" />
                             </div>
                             <div class="form-group">
-                                <label for="p-type" class="col-sm-3">{{'TYPE' | translate}}</label>
-                                <div class="col-sm-9">
-                                    <select data-ng-model="vm.t2mSvc.pType.type" id="p-type" ng-options="type as name for (type, name) in propertyTypeTypes"
-                                        class="form-control" />
-                                </div>
+                                <label for="p-type">{{'TYPE' | translate}}</label>
+                                <select data-ng-model="vm.t2mSvc.pType.type" id="p-type" ng-options="type as name for (type, name) in propertyTypeTypes"
+                                    class="form-control" />
                             </div>
                             <div class="form-group">
-                                <label for="p-visibility" class="col-sm-3">{{'VISIBILITY' | translate}}</label>
-                                <div class="col-sm-9">
-                                    <div class="row">
-                                        <div class="col-xs-6 no-padding">
-                                            <label for="p-callout">{{'VISIBLE_IN_CALLOUT' | translate}}</label>
-                                            <input type="checkbox" data-ng-model="vm.t2mSvc.pType.visibleInCallOut" id="p-callout" />
-                                        </div>
-                                        <div class="col-xs-6 no-padding">
-                                            <label for="p-tooltip">{{'VISIBLE_IN_TOOLTIP' | translate}}</label>
-                                            <input type="checkbox" data-ng-model="vm.t2mSvc.pType.visibleInTooltip" id="p-tooltip" />
-                                        </div>
+                                <label for="p-visibility">{{'VISIBILITY' | translate}}</label>
+                                <div class="row">
+                                    <div class="col-xs-6 no-padding">
+                                        <label for="p-callout">{{'VISIBLE_IN_CALLOUT' | translate}}</label>
+                                        <input type="checkbox" data-ng-model="vm.t2mSvc.pType.visibleInCallOut" id="p-callout" />
+                                    </div>
+                                    <div class="col-xs-6 no-padding">
+                                        <label for="p-tooltip">{{'VISIBLE_IN_TOOLTIP' | translate}}</label>
+                                        <input type="checkbox" data-ng-model="vm.t2mSvc.pType.visibleInTooltip" id="p-tooltip" />
                                     </div>
                                 </div>
                             </div>
                             <div class="collapse" id="advancedPropSettings">
                                 <div class="form-group">
-                                    <label for="p-sf" class="col-sm-3">{{'STRINGFORMAT' | translate}}</label>
-                                    <div class="col-sm-9">
-                                        <select data-ng-model="vm.t2mSvc.pType.stringFormat" id="p-sf" ng-options="entry.val as entry.name for entry in stringFormats" data-ng-change="vm.t2mSvc.updatePropertyPreview()"
-                                            class="form-control" ng-disabled="vm.t2mSvc.pType.type !== 'number'" />
-                                    </div>
+                                    <label for="p-sf">{{'STRINGFORMAT' | translate}}</label>
+                                    <select data-ng-model="vm.t2mSvc.pType.stringFormat" id="p-sf" ng-options="entry.val as entry.name for entry in stringFormats" data-ng-change="vm.t2mSvc.updatePropertyPreview()"
+                                        class="form-control" ng-disabled="vm.t2mSvc.pType.type !== 'number'" />
                                 </div>
                                 <div class="form-group">
-                                    <label for="p-section" class="col-sm-3">{{'SECTION' | translate}}</label>
-                                    <div class="col-sm-9 ">
-                                        <ui-select select-section-on-blur object-to-value ng-model="vm.t2mSvc.pType.section" ng-blur="vm.t2mSvc.checkSections()"
-                                            ng-keyup="$event.keyCode == 13 && vm.t2mSvc.checkSections()">
-                                            <ui-select-match placeholder="{{'SELECT_OR_CREATE_SECTION' | translate}}">
-                                                <span ng-bind="$select.selected.name"></span>
-                                            </ui-select-match>
-                                            <ui-select-choices repeat="section in vm.t2mSvc.sections | filter: $select.search track by section.name">
-                                                <span ng-bind="section.name"></span>
-                                            </ui-select-choices>
-                                        </ui-select>
-                                        <!--<div class="input-group">
-                                        <input class="form-control" type="text" list="sections" data-ng-model="vm.t2mSvc.pType.section" ng-keyup="$event.keyCode == 13 && vm.t2mSvc.checkSections()"
-                                            ng-blur="vm.t2mSvc.checkSections()">
-                                        <datalist id="sections">
-                                            <option ng-repeat="section in vm.t2mSvc.sections" value="{{section}}"></option>
-                                        </datalist>
-                                        <span class="input-group-btn" ng-click="vm.t2mSvc.pType.section = '';vm.t2mSvc.updatePropertyPreview()"><button class="btn btn-default" uib-tooltip="{{'CLEAR' | translate}}"><i class="fa fa-times"></i></button></span>
-                                    </div>-->
-                                    </div>
+                                    <label for="p-section">{{'SECTION' | translate}}</label>
+                                    <ui-select select-section-on-blur object-to-value ng-model="vm.t2mSvc.pType.section" ng-blur="vm.t2mSvc.checkSections()"
+                                        ng-keyup="$event.keyCode == 13 && vm.t2mSvc.checkSections()">
+                                        <ui-select-match placeholder="{{'SELECT_OR_CREATE_SECTION' | translate}}">
+                                            <span ng-bind="$select.selected.name"></span>
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="section in vm.t2mSvc.sections | filter: $select.search track by section.name">
+                                            <span ng-bind="section.name"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <!--<div class="input-group">
+                                    <input class="form-control" type="text" list="sections" data-ng-model="vm.t2mSvc.pType.section" ng-keyup="$event.keyCode == 13 && vm.t2mSvc.checkSections()"
+                                        ng-blur="vm.t2mSvc.checkSections()">
+                                    <datalist id="sections">
+                                        <option ng-repeat="section in vm.t2mSvc.sections" value="{{section}}"></option>
+                                    </datalist>
+                                    <span class="input-group-btn" ng-click="vm.t2mSvc.pType.section = '';vm.t2mSvc.updatePropertyPreview()"><button class="btn btn-default" uib-tooltip="{{'CLEAR' | translate}}"><i class="fa fa-times"></i></button></span>
+                                </div>-->
                                 </div>
                                 <div class="form-group">
-                                    <label for="p-range" class="col-sm-3">{{'DATA_RANGE' | translate}}</label>
-                                    <div class="col-sm-9 form-inline">
+                                    <label for="p-range">{{'DATA_RANGE' | translate}}</label>
+                                    <div class="form-inline">
                                         <div class="row">
                                             <div class="col-xs-6 no-padding">
                                                 <label for="p-min">{{'STATS.MIN' | translate}}</label>
@@ -479,8 +443,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="p-autofill-all" class="col-sm-3">{{'AUTODETECT_TYPES' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'AUTODETECT_TYPES_HELP' | translate}}"></i></span></label>
-                                    <div class="col-sm-9 form-inline">
+                                    <label for="p-autofill-all">{{'AUTODETECT_TYPES' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'AUTODETECT_TYPES_HELP' | translate}}"></i></span></label>
+                                    <div class="form-inline">
                                         <div class="row">
                                             <div class="col-xs-12 no-padding">
                                                 <button class="btn btn-default" ng-click="vm.t2mSvc.generateFeatureType(true)" style="min-width: 64px;"><i class="fa fa-magic"></i></button>
@@ -525,24 +489,23 @@
                     </div>
                 </div>
                 <!-- Layer settings -->
-                <div class="row" ng-show="vm.t2mSvc.currentStep === 4">
+                <!-- <div class="row" ng-show="vm.t2mSvc.currentStep === 4">
                     <div class="col-xs-8 col-md-5 col-md-offset-1">
                         <div class="form-group">
-                            <!--<label for="convert-btn">{{'DATA_TO_MAP' | translate}}</label>-->
+                            <label for="convert-btn">{{'DATA_TO_MAP' | translate}}</label>
                             <button id="convert-btn" class="btn btn-primary big-button" data-ng-click="vm.t2mSvc.convert()">{{'CONVERT' | translate}}</button>
                         </div>
                         <div class="form-group">
-                            <!--<label for="show-project">{{'SHOW_PROJECT' | translate}}</label>-->
+                            <label for="show-project">{{'SHOW_PROJECT' | translate}}</label>
                             <a style="font-size: 24px" id="show-project" target="_blank" ng-href="{{'http://localhost:3004/?project='+vm.t2mSvc.project.id}}">{{'SHOW_PROJECT' | translate}}</a>
                         </div>
                     </div>
                     <div class="col-xs-4 col-lg-3">
-                        <!--LAYER MENU PREVIEW
                         <div class="panel-border" style="min-height: 200px; margin-bottom: 24px">
                             <layerlistpreview></layerlistpreview>
-                        </div>-->
+                        </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

@@ -708,7 +708,7 @@ module Table2Map {
                             // if (this.project && this.project.title && this.selectedGroup && this.selectedGroup.id) {
                             //     this.currentStep = ConversionStep.StyleSettings;
                             // }
-                            let msg = `Scheidingsteken: ${this.csvParseSettings.delimiter}, Headers: ${(this.csvParseSettings.hasHeader ? 'ja' : 'nee')}\nResultaat: ${_.size(this.headerCollection)} kolommen & ${this.rowCollection.length} r.`;
+                            let msg = `Scheidingsteken: ${this.csvParseSettings.delimiter}, Headers: ${(this.csvParseSettings.hasHeader ? 'ja' : 'nee')}\nResultaat: ${_.size(this.headerCollection)} kolommen & ${this.rowCollection.length} rijen.`;
                             //this.$messageBus.notifyWithTranslation('DATA_PARSED_CORRECTLY', msg);
                             this.uploadNotificationMessage = {
                                 title: 'DATA_PARSED_CORRECTLY', 
