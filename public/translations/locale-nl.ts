@@ -9,7 +9,7 @@ module Translations {
             UPLOAD_FILE: 'Upload bestand',
             UPLOAD_FILE_DESCRIPTION: 'Upload het *.json bestand dat opgeslagen staat op je computer.',
             // DRAG_FILE: 'Sleep bestand naar deze widget.',
-            DRAG_FILE: 'Plak uw data in deze widget, of upload het bestand via de onderstaande knop.',
+            DRAG_FILE: 'Of klik hier om de data direct te plakken en te bewerken.',
             DRAG_FILE_DESCRIPTION: 'Sleep het json-bestand van je bestandsverkenner naar dit blok.',
             ERROR_UPLOADING_PROJECT: 'Fout bij het uploaden van het project',
             UNAUTHORIZED: 'Je bent niet bevoegd om dit project te wijzigen. Heb je het goede wachtwoord ingevuld?',

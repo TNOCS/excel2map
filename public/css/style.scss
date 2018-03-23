@@ -129,12 +129,39 @@ td.st-selected {
 }
 
 .fixed-widget-footer {
-    height: 40px;
+    height: 60px;
 }
 
 .scrollable-widget-content {
     overflow: auto;
     background: #f4f4f4;
+}
+
+.zodk-notification-box {
+    background: #eeeeee;
+    border: 1px solid #cccccc;
+    font-size: 18px;
+    padding: 14px 18px;
+}
+
+.zodk-notification-text {
+    vertical-align: middle;
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.zodk-notification-title {
+    display: block;
+    font-weight: bold;
+}
+
+.zodk-notification-description {
+    display: block;
+    white-space: pre-line;
+}
+
+.text-danger {
+    color: #d81c18;
 }
 
 .wizard-width-limit {
@@ -309,7 +336,7 @@ input#create-project-title {
 
 h4 {
     color: rgb(57, 84, 96);
-    font-style: bold;
+    font-weight: bold;
 }
 
 a[disabled] {

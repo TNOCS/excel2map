@@ -1,6 +1,6 @@
 <div class="all-widget-content fill-height">
     <div class="fixed-widget-header">
-        <div style="display: inline-block; margin-left: 2px;" ng-hide="data.hideTitle">
+        <!-- <div style="display: inline-block; margin-left: 2px;" ng-hide="data.hideTitle">
             <div style="display: inline-block; font-size:16px; font-weight:bold; margin-bottom:2px;">{{data.title}}</div>
             <div style="display: inline-block; margin-right:5px; position: absolute; top: 2px; right: 0px;">
                 <a class="widget-min-max-close" ng-click="vm.t2mSvc.close()" ng-if="vm.t2mSvc.canClose()"><i class="fa fa-times"></i></a>
@@ -8,9 +8,7 @@
                 <a class="widget-min-max-close" ng-click="vm.t2mSvc.minimize()" ng-show="vm.t2mSvc.canMinimize() && !minimized"> <i class="fa fa-minus"></i></a>
                 <a class="widget-min-max-close" ng-click="vm.t2mSvc.exportToPDF()"><i class="fa fa-save" uib-tooltip="{{'SAVE_AS_PDF' | translate}}" ng-show="vm.t2mSvc.exporterAvailable&&!minimized"></i></a>
             </div>
-        </div>
-
-
+        </div> -->
         <!--<div class="row text-center no-margin">
             <ul uib-pagination ng-model="vm.t2mSvc.currentStep" total-items="vm.t2mSvc.numberOfSteps" items-per-page="1" previous-text="{{'PREVIOUS_STEP' | translate}}"
                 next-text="{{'NEXT_STEP' | translate}}" ng-disabled="(dropBox.$invalid||loadProjectForm.$invalid||projectSettingsForm.$invalid||LayerSettingsOldForm.$invalid)"></ul>
@@ -52,7 +50,7 @@
             </ul> -->
         </div>
         <div class="col-sm-8 col-md-9 col-lg-10">
-            <div class="scrollable-widget-content" style="padding:0px;font-size:12px;margin:0px;" ng-hide="minimized" resize resize-y="180"
+            <div class="scrollable-widget-content" style="padding:0px;font-size:12px;margin:0px;" ng-hide="minimized" resize resize-y="200"
                 resize-relative-to-screen="true">
                 <!-- PROJECT SETTINGS-PAGE -->
                 <div class="row" ng-show="vm.t2mSvc.currentStep === 1">
@@ -112,7 +110,7 @@
                                     <label for="l-checkboxes"></label>
                                     <div id="l-checkboxes">
                                         <div class="row">
-                                            <div class="col-sm-6 form-group">
+                                            <div class="col-sm-6 form-group" style="padding-left:1px">
                                                 <div class="zodk-checkbox">
                                                     <input type="checkbox" id="fitmap" data-ng-model="vm.t2mSvc.layer.fitToMap">
                                                     <label for="fitmap"></label>
@@ -139,10 +137,30 @@
                 </div>
                 <!-- UPLOAD-PAGE -->
                 <div class="row" ng-show="vm.t2mSvc.currentStep === 3">
-                    <div class="row text-center">
-                        <h4>{{'UPLOAD_TABULAR_DATA' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'UPLOAD_HELP' | translate}}"></i></span></h4>
-                    </div>
-                    <div class="col-sm-12 fill-height">
+                    <div class="col-sm-12 fill-height wizard-width-limit">
+                        <div class="row">
+                            <div class="col-sm-12">
+                            <h4>{{'UPLOAD_TABULAR_DATA' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'UPLOAD_HELP' | translate}}"></i></span></h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label class="file-upload-label btn t2m-btn t2m-btn-lg yellow" for="file-upload" style="width:220px"><i class="fa fa-upload small-padding" aria-hidden="true"></i><span>{{ 'UPLOAD_FILE' | translate}}</span>
+                                    <input type="file" id="file-upload" style="margin-top:8px" />
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="vm.t2mSvc.uploadNotificationMessage">
+                            <div class="col-xs-12">
+                                <div class="zodk-notification-box" ng-class="{'text-success': vm.t2mSvc.uploadNotificationMessage.isOk, 'text-danger': !vm.t2mSvc.uploadNotificationMessage.isOk}">
+                                    <i class="fa" ng-class="{'fa-check': vm.t2mSvc.uploadNotificationMessage.isOk, 'fa-times': !vm.t2mSvc.uploadNotificationMessage.isOk}"aria-hidden="true"></i>
+                                    <div class="zodk-notification-text">
+                                        <div class="zodk-notification-title">{{vm.t2mSvc.uploadNotificationMessage.title | translate}}</div>
+                                        <div class="zodk-notification-description">{{vm.t2mSvc.uploadNotificationMessage.description}}</div> 
+                                    </div>
+                                </div>                               
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-xs-12 text-center">
                                 <form name="dropBox">
@@ -154,9 +172,6 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-12 text-center">
-                                <label class="file-upload-label btn btn-primary" for="file-upload"><i class="fa fa-upload small-padding" aria-hidden="true"></i><span>{{ 'UPLOAD_FILE' | translate}}</span>
-                                <input type="file" id="file-upload" style="margin-top:8px" />
-                            </label>
                                 <i class="fa fa-cog btn small-padding pointer" style="padding-left: 24px;" aria-hidden="true" uib-tooltip="{{'CSV_PARSE_SETTINGS' | translate}}"
                                     ng-click="vm.t2mSvc.openParseSettings()"></i>
                             </div>

@@ -47,6 +47,12 @@ module Table2Map {
             FeatureProps = 5
     }
 
+    export interface INotificationMsg {
+        title: string;
+        description: string;
+        isOk: boolean;
+    }
+
     export var CONVERSION_STEPS = ['Project titel en logo invoeren', 'Kaartlaag groep, titel en beschrijving invoeren', 'Data uploaden', 'Stijlinstellingen aanpassen', 'Data weergave'];
 
     /** Assumption of the number of columns before table is parsed. */
@@ -166,6 +172,7 @@ module Table2Map {
         private logoData: string; // Project logo in base64 format
         private conversionSteps: string[] = CONVERSION_STEPS;
         public notFoundLocations: Record < string, any > ;
+        private uploadNotificationMessage: INotificationMsg;
 
         public static $inject = [
             '$http',
@@ -701,12 +708,22 @@ module Table2Map {
                             // if (this.project && this.project.title && this.selectedGroup && this.selectedGroup.id) {
                             //     this.currentStep = ConversionStep.StyleSettings;
                             // }
-                            let msg = `Delimiter: ${this.csvParseSettings.delimiter}, Headers: ${(this.csvParseSettings.hasHeader ? 'yes' : 'no')}\nResult: ${_.size(this.headerCollection)} columns & ${this.rowCollection.length} rows.`;
-                            this.$messageBus.notifyWithTranslation('DATA_PARSED_CORRECTLY', msg);
+                            let msg = `Scheidingsteken: ${this.csvParseSettings.delimiter}, Headers: ${(this.csvParseSettings.hasHeader ? 'ja' : 'nee')}\nResultaat: ${_.size(this.headerCollection)} kolommen & ${this.rowCollection.length} r.`;
+                            //this.$messageBus.notifyWithTranslation('DATA_PARSED_CORRECTLY', msg);
+                            this.uploadNotificationMessage = {
+                                title: 'DATA_PARSED_CORRECTLY', 
+                                description: msg,
+                                isOk: true
+                            };
                         }, 0);
                     })
                     .on('error', (err) => {
                         console.warn(`Error parsing csv: ${err}`);
+                        this.uploadNotificationMessage = {
+                            title: 'DATA_NOT_CONVERTED_CORRECTLY', 
+                            description: err,
+                            isOk: false
+                        };
                     });
             } catch (error) {
                 console.warn(error);
