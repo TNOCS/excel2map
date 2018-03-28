@@ -1,5 +1,6 @@
 $vws-donkerblauw-1: #01689b;
 $vws-donkerpaars-1: #42145f;
+$t2m-red: #ff4040;
 $t2m-yellow: #ffcf40;
 $t2m-yellow-disabled: #fff0c3;
 $t2m-grey: lightgrey;
@@ -123,6 +124,10 @@ td.st-selected {
     padding: 4px;
 }
 
+.padding-right {
+    padding-right: 8px;
+}
+
 .all-widget-content {
     position: relative;
 }
@@ -222,7 +227,7 @@ td.st-selected {
 }
 
 .modal-header {
-    height: 10%;
+    height: 60px;
     border: none;
 }
 
@@ -237,8 +242,9 @@ td.st-selected {
 }
 
 .modal-footer {
-    height: 10%;
+    height: 60px;
     border: none;
+    padding: 12px;
 }
 
 .modal {
@@ -326,6 +332,12 @@ input#create-project-title {
     display: inline;
 }
 
+.manage-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 12px 0px;
+}
+
 .form-horizontal .form-group>label {
     text-align: right;
 }
@@ -339,6 +351,10 @@ input#create-project-title {
 
 #iconDimensions>.row {
     margin-bottom: 0px;
+}
+
+a.disabled {
+    cursor: not-allowed!important;
 }
 
 .sp-preview {
@@ -459,7 +475,24 @@ a:hover {
     cursor: pointer;
 }
 
+@media(min-width: 1200px) {
+    .modal-lg {
+        width: 1160px;
+    }
+}
+
+.title-row > div {
+    font-size: smaller;
+    font-weight: bold;
+}
+
+.manage-modal-content .row {
+    margin: 0 0 10px 0;
+}
+
 .t2m-btn {
+    font-size: 18px;
+    font-weight: bold;
     border-radius: 0px;
     border: none;
     background-color: #aad8fe;
@@ -469,17 +502,39 @@ a:hover {
     -webkit-box-shadow: none;
 }
 
+.t2m-btn-sm {
+    font-size: 16px;
+    height: 32px;
+    min-width: 72px;
+    padding: 6px;
+    margin: 1px 4px 1px 1px;
+}
+
 .t2m-btn-lg {
     height: 48px;
-    width: 128px;
+    min-width: 128px;
     padding: 12px;
-    font-size: 18px;
-    font-weight: bold;
     margin: 2px 8px 2px 2px;
+}
+
+.t2m-btn-square {
+    height: 48px;
+    width: 48px;
+    padding: 12px;
+    margin: 2px 8px 2px 2px;
+}
+
+.t2m-btn-height {
+    height: 48px;
+    line-height: 48px;
 }
 
 .t2m-btn.yellow {
     background-color: $t2m-yellow;
+}
+
+.t2m-btn.red {
+    background-color: $t2m-red;
 }
 
 .t2m-btn.grey {
@@ -497,6 +552,13 @@ a:hover {
 .t2m-btn-icon {
     padding: 4px 8px;
     font-size: 110%;
+}
+
+.t2m-div-btn-style {
+    height: 48px;
+    padding: 12px;
+    margin: 2px 8px 2px 2px;
+    background: lightgrey;
 }
 
 .confirmation-popover {

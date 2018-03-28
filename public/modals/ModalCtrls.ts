@@ -558,8 +558,10 @@ module ModalCtrls {
             const popupElement = this.$interpolate(`<div class="confirmation-popover"><div>{{'REALLY_CLONE_PROJECT' | translate}}</div><div class="btn-group"><button id="popover-no" class="btn btn-sm t2m-btn green">{{'NO' | translate}}</button><button id="popover-yes" class="btn btn-sm t2m-btn red" ng-click="vm.cloneProject()">{{'YES' | translate}}</button></div></div>`);
             $(elm).popover({
                 animation: true,
+                container: 'body',
                 content: popupElement,
                 placement: 'left',
+                trigger: 'focus',
                 html: true
             });
             $(elm).popover('show');
@@ -588,8 +590,10 @@ module ModalCtrls {
             const popupElement = this.$interpolate(`<div class="confirmation-popover"><div>{{'REALLY_DELETE_PROJECT' | translate}}</div><div class="btn-group"><button id="popover-no" class="btn btn-sm t2m-btn green">{{'NO' | translate}}</button><button id="popover-yes" class="btn btn-sm t2m-btn red" ng-click="vm.deleteProject()">{{'YES' | translate}}</button></div></div>`);
             $(elm).popover({
                 animation: true,
+                container: 'body',
                 content: popupElement,
                 placement: 'left',
+                trigger: 'focus',
                 html: true
             });
             $(elm).popover('show');

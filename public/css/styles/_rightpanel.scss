@@ -117,7 +117,8 @@
 }
 
 #rp-content .navigation .disabled,
-#rp-content .navigation .disabled .title {
+#rp-content .navigation .disabled .title,
+#rp-content .navigation div.topnav a.disabled {
     color: #aaa;
 }
 

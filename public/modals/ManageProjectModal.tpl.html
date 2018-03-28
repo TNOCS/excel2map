@@ -1,59 +1,60 @@
 <div class="modal-header">
-    <h4 class="modal-title" ng-init="projectname={name:vm.project.title}">{{'MANAGE_PROJECT' | translate:projectname}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'MANAGE_PROJECT_HELP' | translate}}" tooltip-placement="bottom"></i></span></h4>
+    <h4 class="modal-title">{{'MANAGE_PROJECT' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'MANAGE_PROJECT_HELP' | translate}}" tooltip-placement="bottom"></i></span></h4>
 </div>
 <div class="modal-body">
-    <div style="margin: 22px 32px;">
-        <div>{{'EXISTING_USERS' | translate}}</div>
-        <table class="project-table table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th>{{'USER' | translate}}</th>
-                    <th>{{'RIGHTS' | translate}}</th>
-                    <th colspan="2">{{'EDIT_RIGHTS' | translate}}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-show="!vm.users||vm.users.length<1">
-                    <td colspan="4">{{'NO_MEMBERS' | translate}}</td>
-                </tr>
-                <tr ng-repeat="user in vm.users">
-                    <td>{{user.email}}</td>
-                    <td><select class="form-control" ng-options="action.val as action.key for action in vm.actions" ng-model="user.rights"></select></td>
-                    <td><button type="button" class="btn btn-primary" ng-click="vm.updateUserRole(user)" ng-disabled="false">{{'UPDATE' | translate}}</button></td>
-                    <td><button type="button" class="btn btn-danger" ng-click="vm.deleteUserRole(user)" ng-disabled="false" uib-tooltip="{{'DELETE_USER_RIGHTS' | translate}}" tooltip-placement="bottom" tooltip-popup-delay="1000"><i class="fa fa-times"></i></button></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div style="margin: 48px 32px;">
-        <div>{{'ADD_USER' | translate}}</div>
-        <table class="project-table table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th>{{'USER' | translate}}</th>
-                    <th>{{'RIGHTS' | translate}}</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><input type="email" class="form-control" ng-model="vm.newUser.email" data-error="Ongeldig emailadres"></td>
-                    <td><select class="form-control" ng-options="action.val as action.key for action in vm.actions" ng-model="vm.newUser.rights"></select></td>
-                    <td><button type="submit" class="btn btn-primary" ng-click="vm.addNewUser(vm.newUser)" ng-disabled="!vm.newUser.email">{{'ADD' | translate}}</button></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div style="margin: 48px 32px;">
-        <div>{{'CLONE_PROJECT' | translate}}</div>
-        <button class="btn btn-primary btn-warning" ng-click="vm.cloneProjectQuestion($event)" ng-disabled="false">{{'CLONE' | translate}}</button>
-    </div>
-    <div style="margin: 48px 32px;">
-        <div>{{'DELETE_PROJECT' | translate}}</div>
-        <button class="btn btn-primary btn-warning" ng-click="vm.deleteProjectQuestion($event)" ng-disabled="false">{{'DELETE' | translate}}</button>
-    </div>
+    <div class="scrollable-widget-content manage-modal-content" resize resize-y="200" resize-relative-to-screen="true">
+        <div class="row">
+            <div class="col-sm-12 manage-title">{{vm.project.title}}</div>
+        </div>
+        <div class="row title-row">
+            <div class="col-sm-3">{{'SHARED_WITH' | translate}}</div>
+            <div class="col-sm-4">{{'RIGHTS' | translate}}</div>
+            <div class="col-sm-3"></div>
+            <div class="col-sm-2">{{'DELETE_USERS' | translate}}</div>
+        </div>
+        <div class="row" ng-show="!vm.users||vm.users.length<1">
+            <div class="col-sm-12">{{'NO_MEMBERS' | translate}}</div>
+        </div>
+        <div class="row" ng-repeat="user in vm.users">
+            <div class="col-sm-3"><div class="t2m-div-btn-style"><i class="fa fa-user padding-right" aria-hidden="true"></i>{{user.email}}</div></div>
+            <div class="col-sm-4"><select class="form-control" ng-options="action.val as action.key for action in vm.actions" ng-model="user.rights"></select></div>
+            <div class="col-sm-3"><button type="button" class="btn t2m-btn t2m-btn-lg yellow" ng-click="vm.updateUserRole(user)" ng-disabled="false"><i class="fa fa-wrench padding-right" aria-hidden="true"></i>{{'UPDATE' | translate}}</button></div>
+            <div class="col-sm-2"><button type="button" class="btn t2m-btn t2m-btn-square grey" ng-click="vm.deleteUserRole(user)" ng-disabled="false" uib-tooltip="{{'DELETE_USER_RIGHTS' | translate}}" tooltip-placement="bottom" tooltip-popup-delay="1000"><i class="fa fa-times"></i></button></div>
+        </div>
+
+        <div class="row title-row">
+            <div class="col-sm-3">{{'ADD_USER' | translate}}</div>
+            <div class="col-sm-4">{{'RIGHTS' | translate}}</div>
+            <div class="col-sm-3"></div>
+            <div class="col-sm-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3"><input type="email" class="form-control" ng-model="vm.newUser.email" data-error="Ongeldig emailadres"></div>
+            <div class="col-sm-4"><select class="form-control" ng-options="action.val as action.key for action in vm.actions" ng-model="vm.newUser.rights"></select></div>
+            <div class="col-sm-3"><button type="button" class="btn t2m-btn t2m-btn-lg yellow" ng-click="vm.addNewUser(vm.newUser)" ng-disabled="!vm.newUser.email"><i class="fa fa-plus padding-right" aria-hidden="true"></i>{{'UPDATE' | translate}}</button></div>
+            <div class="col-sm-2"></div>
+        </div>
+
+        <div class="row title-row" style="margin-top:32px;padding-top:16px;border-top:1px solid lightgrey;">
+            <div class="col-sm-7">{{'ADVANCED_ACTIONS' | translate}}</div>
+            <div class="col-sm-5"></div>
+        </div>
+        <div class="row">
+            <div class="col-sm-7 t2m-btn-height">{{'CLONE_PROJECT' | translate}}</div>
+                <div class="col-sm-5">
+                <button class="btn t2m-btn t2m-btn-lg yellow" ng-click="vm.cloneProjectQuestion($event)" ng-disabled="false">{{'CLONE' | translate}}</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-7 t2m-btn-height">{{'DELETE_PROJECT' | translate}}</div>
+            <div class="col-sm-5">
+                <button class="btn t2m-btn t2m-btn-lg red" ng-click="vm.deleteProjectQuestion($event)" ng-disabled="false">{{'DELETE' | translate}}</button>
+            </div>
+        </div>
+    </div>  
+
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-default" ng-click="vm.cancel()">{{'CLOSE' | translate}}</button>
+    <button type="button" class="btn t2m-btn t2m-btn-sm yellow" ng-click="vm.cancel()">{{'CLOSE' | translate}}</button>
     <!--<button type="button" class="btn btn-primary" ng-click="vm.ok()" style="text-transform:capitalize;" ng-disabled="false">{{'OK' | translate}}</button>-->
 </div>

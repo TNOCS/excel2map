@@ -36,6 +36,7 @@ module ZodkRightPanel {
     export interface IZodkRightPanelScope extends ng.IScope {
         vm: ZodkRightPanelCtrl;
         data: any;
+        disableEdit: boolean;
     }
 
     export class ZodkRightPanelCtrl {
@@ -101,6 +102,9 @@ module ZodkRightPanel {
             } else {
                 $scope.data = < any > par.data;
             }
+            if (!$scope.data) {
+                $scope.data = {};
+            }
 
             this.mBusHandles.push(this.messageBusService.subscribe('feature', (title, f) => {
                 this.featureMessageReceived(title, f);
@@ -133,6 +137,10 @@ module ZodkRightPanel {
         public init() {
             this.updateFilterCount();
             this.updateLayerCount();
+        }
+
+        private updateCanEdit() {
+            this.$scope.data.disableEdit = (this.layerService.project && this.layerService.project.id=='excel2map');            
         }
 
         private selectFeature(fts: IFeature[]) {
@@ -187,6 +195,8 @@ module ZodkRightPanel {
         public validateUser() {
             this.profileService.validateUser(this.userName, this.userPassword);
             this.userPassword = '';
+            this.updateCanEdit();
+            this.openProjectOverzicht();
         }
 
         public signupUser() {
@@ -197,6 +207,7 @@ module ZodkRightPanel {
             this.profileService.logoutUser();
             this.panel = Panel.none;
             this.updatePanel();
+            this.updateCanEdit();
         }
 
         public openData() {
@@ -256,6 +267,7 @@ module ZodkRightPanel {
         }
 
         private editProject() {
+            if (this.$scope.data.disableEdit) return;
             location.href = `/?dashboard=table2map&editproject=${this.layerService.project.id}`;
         }
 
@@ -346,6 +358,7 @@ module ZodkRightPanel {
         }
 
         private updateLayerCount() {
+            this.updateCanEdit();
             if (!this.layerService.project) return;
 
             this.layerCount = 0;
@@ -364,7 +377,5 @@ module ZodkRightPanel {
                 this.messageBusService.publish('dashboard-main', 'activated', db);
             }, 200);
         }
-
-
     }
 }

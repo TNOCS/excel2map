@@ -1006,7 +1006,7 @@ module Table2Map {
                 }
             }
             if (isNameLabel) {
-                itemsToSelect = [this.$translate.instant('SELECT_NAMELABEL')];
+                itemsToSelect = [this.$translate.instant('SELECT_NAMELABEL_COLUMN')];
                 selectedColumns = [_.find(this.headerCollection, (hObj) => {
                     return this.featureType.style.nameLabel === hObj.code;
                 })];
