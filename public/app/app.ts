@@ -128,13 +128,29 @@ module App {
                 }
             });
 
+            this.$messageBusService.subscribe('profileservice', (title, value: any) => {
+                switch (title) {
+                    case 'login':
+                        if (this.$location.$$search && this.$location.$$search.project) {
+                            this.$messageBusService.publish('zodk', 'open-data');
+                        } else {
+                            this.$messageBusService.publish('zodk', 'open-project-overzicht');
+                        }
+                        break;
+                    case 'logout':
+                        this.$messageBusService.publish('zodk', 'open-none');
+                        this.ZodkRightPanelVisible = true;
+                        break;
+                }
+            });
+
             //$messageBusService.subscribe('sidebar', this.sidebarMessageReceived);
             $messageBusService.subscribe('feature', this.featureMessageReceived);
             $messageBusService.subscribe('layer', this.layerMessageReceived);
 
             var rpt = csComp.Helpers.createRightPanelTab('zodkrightpanel', 'zodkrightpanel', null, 'Selected feature', '{{\'FEATURE_INFO\' | translate}}', 'info');
             this.$messageBusService.publish('rightpanel', 'activate', rpt);
-            if (this.profileService.isLoggedIn() && !(this.$location.$$search && this.$location.$$search.project)) {
+            if (!(this.$location.$$search && this.$location.$$search.project)) {
                 setTimeout(() => {
                     this.$messageBusService.publish('zodk', 'open-project-overzicht');
                 }, 200);

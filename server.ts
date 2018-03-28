@@ -8,7 +8,7 @@ import * as mongoose from 'mongoose';
 import * as bluebird from 'bluebird';
 import * as nodemailer from 'nodemailer'; // module hasn't been installed yet, only its typings
 import { IConfig } from './config/IConfig';
-import { NodeAuth, IPolicySet, PolicyStoreFactory, CRUD, User, IUser, initPEP, DecisionCombinator, Resource, IRule, Decision, IPrivilegeRequest, Subject, Action } from 'node_auth';
+import { NodeAuth, IPolicySet, PolicyStoreFactory, CRUD, User, IUser, initPEP, DecisionCombinator, Resource, IRule, Decision, IPrivilegeRequest, Subject, Action, INodeAuthOptions } from 'node_auth';
 import { sendInterceptor, IPolicyStore } from 'node_auth';
 
 const config: IConfig = require('config');
@@ -121,11 +121,12 @@ const policiesLoaded = (err: Error, ps: IPolicyStore) => {
     if (err) { throw err; }
     const policyStore = ps;
 
-    const auth = NodeAuth(cs.server, {
+    const auth = NodeAuth(cs.server, <INodeAuthOptions>{
         secretKey: 'MyBigSectetThatShouldBeReplacedInProduction',
         blockUnauthenticatedUser: false, // if true, default, no unauthenticated user will pass beyond this point
         policyStore: policyStore,
         api: deployPath + '/api',
+        expiresIn: '7d',
         verify: {
             route: true,
             baseUrl: 'WWW.MYDOMAIN.COM/api/activate',

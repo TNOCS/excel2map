@@ -173,6 +173,12 @@ module ZodkRightPanel {
                 case 'open-wizard':
                     this.openWizard();
                     break;
+                case 'open-data':
+                    this.openData();
+                    break;
+                case 'open-none':
+                    this.openNone();
+                    break;
             };
         }
 
@@ -196,7 +202,6 @@ module ZodkRightPanel {
             this.profileService.validateUser(this.userName, this.userPassword);
             this.userPassword = '';
             this.updateCanEdit();
-            this.openProjectOverzicht();
         }
 
         public signupUser() {
@@ -213,6 +218,11 @@ module ZodkRightPanel {
         public openData() {
             this.panel = Panel.info;
             this.$scope.$broadcast('onFilterRefresh', '');
+            this.updatePanel();
+        }
+
+        public openNone() {
+            this.panel = Panel.none;
             this.updatePanel();
         }
 
