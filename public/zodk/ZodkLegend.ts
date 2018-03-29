@@ -1,4 +1,4 @@
-module zodk {
+module Table2Map {
     /**
      * Config
      */

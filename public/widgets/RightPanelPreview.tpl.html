@@ -1,96 +1,52 @@
-<div data-ng-cloak class="rightpanel-content panel-border" id="featureprops-content">
-    <h4 class="rightpanel-header">
-        <!-- Show popup with complete title for long names -->
-        <div ng-show="vm.callOut.title.length >= 21" uib-popover="{{vm.callOut.title}}" popover-placement="bottom" popover-trigger="'mouseenter'"
-            popover-append-to-body="true" style="overflow: hidden;text-overflow: ellipsis;">
-            <img data-ng-show="vm.callOut.icon" ng-src="{{vm.callOut.icon}}" ng-style="{'background': ($parent.feature.effectiveStyle.fillColor ? $parent.feature.effectiveStyle.fillColor : 'none')}"
-                class="callout-icon" alt="Icon" /> &nbsp;&nbsp;{{vm.callOut.title}}
+<div data-ng-cloak class="rightpanel-content panel-border info" id="featureprops-content">
+    <div ng-show="true" class="header">
+        <div class="title">
+            {{vm.propertyTable.title}}
         </div>
-        <div ng-show="vm.callOut.title.length < 21">
-            <img data-ng-show="vm.callOut.icon" ng-src="{{vm.callOut.icon}}" ng-style="{'background': ($parent.feature.effectiveStyle.fillColor ? $parent.feature.effectiveStyle.fillColor : 'none')}"
-                class="callout-icon" alt="Icon" /> &nbsp;&nbsp;{{vm.callOut.title}}
+        <div class="subtitle" ng-show="false">
+            Op kaartlaag {{vm.propertyTable.layerTitle}}
         </div>
-    </h4>
-    <div class="container-fluid rightpanel-tabs" style="position: relative;height:45px">
-        <div class="row" style="overflow:hidden" ng-if="vm.callOut.sectionCount() < 3">
-            <!-- Nav tabs -->
-            <ul class="nav nav-tabs" id="featureTabs" style="margin-left:10px">
-                <li data-toggle="tab" data-ng-class="{active : $first}" data-ng-repeat="key in vm.callOut.sectionKeys" ng-show="vm.callOut.sections[key].hasProperties()">
-                    <a data-target="#rp-{{$index}}" data-toggle="tab" data-ng-show="vm.callOut.sections[key].showSectionIcon()" ng-click="featureTabActivated(key, vm.callOut.sections[key])"><i class="fa {{vm.callOut.sections[key].sectionIcon}}"></i></a>
-                    <a data-target="#rp-{{$index}}" data-toggle="tab" data-ng-show="!vm.callOut.sections[key].showSectionIcon()" ng-click="featureTabActivated(key, vm.callOut.sections[key])">{{key}}</a>
-                </li>
-            </ul>
-        </div>
-        <div class="row" ng-if="vm.callOut.sectionCount() >= 3">
-            <ul class="nav nav-tabs" id="featureTabs" style="margin-left:10px">
-                <li data-toggle="tab" class="active" ng-init="firstCallOutsection=vm.callOut.firstSection()">
-                    <a data-target="#rp-0" data-toggle="tab" data-ng-show="firstCallOutsection.showSectionIcon()">
-                        <i class="fa {{firstCallOutsection.sectionIcon}}"></i>
-                    </a>
-                </li>
-                <li class="dropdown" ng-init="selectedSection.title=vm.defaultDropdownTitle">
-                    <a class="dropdown-toggle" style="cursor:pointer" data-toggle="dropdown">{{selectedSection.title}} <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <!-- alphabetic sorting disappeared in 1.4 https://docs.angularjs.org/api/ng/directive/ngRepeat -->
-                        <li data-ng-repeat="key in vm.callOut.sectionKeys" ng-show="!($first && vm.callOut.hasInfoSection)">
-                            <a data-target="#rp-{{$index}}" ng-click="selectedSection.title = key" data-toggle="tab">{{key}}</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+        <div class="dataexport" ng-click="vm.openTable()" ng-show="false">
+            <span class="icon-downloaden"></span>
+            <span class="link">Data weergave en download</span>
         </div>
     </div>
-    <div class="tab-content" style="width: 100%;">
-        <div class="tab-pane" data-ng-class="{active : $first}" id="rp-{{$index}}" data-ng-repeat="key in vm.callOut.sectionKeys">
-            <div class="panel-group" id="accordion">
-                <form name="form" class="css-form" style="padding-bottom:40px" novalidate>
-                    <div class="panel feature-prop-property" uib-popover="{{(item.description) ? item.description : ''}}" popover-placement="left"
-                        popover-trigger="'mouseenter'" popover-append-to-body="true" data-ng-repeat="item in vm.callOut.sections[key].properties"
-                        style="position: relative">
-                        <!-- Currently-styled-property background gray -->
-                        <div class="panel-heading feature-prop-item" ng-style="(item.property === vm.selectedProp.property) && {'border':'1px solid blue', 'background': 'lightgray'}"
-                            ng-click="vm.editPropertyType(item)">
-                            <div data-ng-switch="item.propertyType.type">
-                                <div ng-switch-default>
-                                    <div class="feature-prop-title">{{item.propertyType.title}}</div>
-                                    <div data-ng-switch="item.propertyType.type" class="feature-prop-value">
-                                        <div ng-switch-when="date" class="feature-prop-value-align-right clickable-feature-prop" ng-click="vm.zoomToDate(item.feature.properties[item.property])">
-                                            {{item.value}}</div>
-                                        <div ng-switch-when="duration" class="feature-prop-value-align-right clickable-feature-prop">
-                                            {{item.value}}</div>
-                                        <div ng-switch-when="boolean" class="feature-prop-value-align-right">{{item.feature.properties[item.property]}}</div>
-                                        <div ng-switch-when="category" class="feature-prop-value-align-right">{{vm.toTrusted(item.feature.properties[item.property])}}</div>
-                                        <div ng-switch-when="textarea" class="enable-newlines" style="clear:both" data-ng-bind-html="vm.toTrusted(item.feature.properties[item.property])"></div>
-                                        <div ng-switch-when="textarea-right" class="enable-newlines" style="clear:both;text-align:right;" data-ng-bind-html="vm.toTrusted(item.feature.properties[item.property])"></div>
-                                        <div ng-switch-when="bbcode" class="feature-prop-value-align-right" ng-bind-html="vm.toTrusted(item.value)"></div>
-                                        <div ng-switch-when="feature" class="enable-newlines clickable-feature-prop" style="clear:both" ng-bind-html="vm.toTrusted(item.value)"
-                                            ng-click="vm.selectFeature(item.feature)"></div>
-                                        <div ng-switch-when="image"><img ng-click="vm.openImage(item.value)" ng-hide="item.propertyType.inlineImage"
-                                                ng-src="{{item.value}}" style="width:300px;float:left;margin:5px"></div>
-                                        <div ng-switch-when="media">
-                                            <!-- <img ng-src="{{item.feature.properties[item.property]}}" style="width:300px; float:left;margin:5px"></img> -->
-                                            <div style="cursor:pointer" ng-click="vm.openImage(media)" ng-repeat="media in item.feature.properties[item.property] track by $index">
-                                                <img ng-hide="item.propertyType.inlineImage" ng-src="{{media}}" style="width:300px;float:left;margin:5px">
-                                                <img ng-show="item.propertyType.inlineImage" ng-src="{{media}}" class="feature-prop-value-align-right">
-                                            </div>
-                                        </div>
-                                        <div ng-switch-default class="feature-prop-value-align-right" data-ng-bind-html="vm.toTrusted(item.value)"></div>
-                                    </div>
-                                    <!--<div class="feature-prop-content">
-                                        <div class="icons-on-hover">
-                                            <div class="property-action" style="left:10px" uib-tooltip="{{'EDIT_PROPERTYTYPE' | translate}}" tooltip-placement="top">
-                                                <a class="fa fa-pencil makeNarrow pointer" data-toggle="collapse" ng-click="vm.editPropertyType(item)"></a>
-                                            </div>
-                                        </div>
-                                    </div>-->
+    <div ng-show="true" class="ptable">
+        <div class="row">
+            <div class="row" ng-repeat="section in vm.propertyTable.sections track by $index">
+                <div data-toggle="collapse" data-target="#collapse-{{$index}}">
+                    <div class="title">{{section.title? section.title : 'Gegevens'}}
+                        <span class="fa fa-caret-up"></span>
+                        <span class="fa fa-caret-down"></span>
+                    </div>
+                </div>
+                <div ng-show="section.type==='table'" class="row collapse in" id="collapse-{{$index}}">
+                    <div class="row table" ng-repeat="row in section.rows">
+                        <div ng-show="row.type !== 'textarea'">
+                            <div class="col-xs-8">
+                                <div ng-if="true">
+                                    <a ng-click="vm.editProperty(row.coProperty)" ng-class="{'active-style': row.coProperty.feature._gui['style'][row.coProperty.property]}"
+                                        uib-popover="{{(row.description) ? row.description : ''}}" popover-placement="left" popover-trigger="'mouseenter'">{{row.title}}</a>
                                 </div>
                             </div>
+                            <div ng-show="row.values.length===1" class="col-xs-4 value" data-ng-bind-html="row.values[0] | trusted"></div>
+                            <div ng-show="row.values.length===2" class="col-xs-2 value" data-ng-bind-html="row.values[0] | trusted"></div>
+                            <div ng-show="row.values.length===2" class="col-xs-2 value" data-ng-bind-html="row.values[1] | trusted"></div>
                         </div>
-                        <a ng-hide="item.property === vm.selectedProp.property" class="fa fa-pencil pointer property-edit-pencil" data-toggle="collapse" ng-click="vm.editPropertyType(item)"></a>
+                        <div ng-show="row.type === 'textarea'">
+                            <div>{{row.title}}:</div>
+                            <div ng-repeat="val in row.values track by $index" data-ng-bind-html="val | trusted"></div>
+                        </div>
                     </div>
-                </form>
+                </div>
+                <div ng-show="section.type==='full-row'">
+                    <div class="row" ng-repeat="row in section.rows">
+                        <div>
+                            <div class="col-xs-12" data-ng-bind-html="row.values[0] | trusted"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!-- Treat last tab (filter) differently -->
         </div>
     </div>
 </div>

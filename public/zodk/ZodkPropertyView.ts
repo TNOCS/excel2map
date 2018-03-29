@@ -1,4 +1,4 @@
-module ZodkRightPanel {
+module Table2Map {
 
     var DEFAULT_SECTION_ID = '__info';
     var DEFAULT_SECTION_TYPE: IPropertyTableSectionType = 'table';

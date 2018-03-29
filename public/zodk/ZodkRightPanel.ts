@@ -1,4 +1,4 @@
-module ZodkRightPanel {
+module Table2Map {
     /** Config */
     var moduleName = 'csComp';
 

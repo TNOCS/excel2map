@@ -360,9 +360,9 @@
                     </div>
                 </div>
                 <!-- PROPERTY TYPES -->
-                <div class="row" ng-show="vm.t2mSvc.currentStep === 5">
+                <div class="row" ng-show="vm.t2mSvc.currentStep === 5" id="step5">
                     <h4 ng-hide="vm.t2mSvc.rowCollection.length > 0">{{'NO_DATA_TABLE' | translate}}</h4>
-                    <div ng-show="vm.t2mSvc.rowCollection.length > 0" class="col-xs-8  wizard-width-limit">
+                    <div ng-show="vm.t2mSvc.rowCollection.length > 0" class="col-xs-8 col-lg-7 wizard-width-limit">
                         <form id="propertySettingsForm">
                             <div class="form-group form-header">
                                 <h4>{{'PROPERTY_SETTINGS' | translate}}
@@ -483,7 +483,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="col-xs-4 col-lg-3 pull-right" ng-show="vm.t2mSvc.rowCollection.length > 0">
+                    <div class="col-xs-5 col-lg-4 pull-right" ng-show="vm.t2mSvc.rowCollection.length > 0">
                         <div class="row">
                             <div class="form-group">
                                 <label for="select-preview-f">{{'SELECT_FEATURE_TO_PREVIEW' | translate}}</label>
