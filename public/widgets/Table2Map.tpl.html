@@ -182,43 +182,61 @@
                     <h4 ng-hide="vm.t2mSvc.rowCollection.length > 0">{{'NO_DATA_TABLE' | translate}}</h4>
                     <div class="col-sm-8 wizard-width-limit" ng-show="vm.t2mSvc.rowCollection.length > 0">
                         <form class="form" id="style-settings-form">
-                            <div class="form-group">
-                                <label for="geo-type">{{'GEOMETRY_TYPE' | translate}}</label>
-                                <div>
-                                    <select class="form-control inline-select" id="geo-type" ng-change="vm.t2mSvc.selectGeoType(true)" ng-model="vm.t2mSvc.geometryTypeId" ng-options="id as type.name for (id, type) in geometryTypes"></select>
+                            <div class="row border-bottom">
+                                <div data-toggle="collapse" data-target="#geometrySettings" aria-expanded="true" aria-controls="geometrySettings">
+                                    <label class="pointer">{{'GEOMETRY' | translate}}
+                                        <span class="fa fa-caret-up"></span>
+                                        <span class="fa fa-caret-down"></span>
+                                    </label>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="geo-col">{{'SELECT_GEOMETRY_COLUMNS' | translate}}</label>
-                                <span><i class="fa fa-question-circle pointer" style="padding: 0 16px 0 12px;" aria-hidden="true" uib-tooltip="{{'SELECT_GEOMETRY_COLUMNS_HELP' | translate}}"></i></span>
-                                <div>
-                                    <button id="geo-col" class="btn t2m-btn t2m-btn-lg grey" style="width:100%" ng-click="vm.t2mSvc.openTable()">
-                                        <div class="zodk-in-btn-text" translate="SELECT_NR_COLUMNS" translate-values="{nr: nrSelectedGeometryColumns}"></div>
-                                        <span class="pull-right" style="padding: 0px 16px;"><i class="fa fa-table small-padding"></i>
-                                        {{'EDIT' | translate}}</span>
-                                    </button>
+                            <div class="collapse in" id="geometrySettings">
+                                <div class="form-group">
+                                    <label for="geo-type">{{'GEOMETRY_TYPE' | translate}}</label>
+                                    <div>
+                                        <select class="form-control inline-select" id="geo-type" ng-change="vm.t2mSvc.selectGeoType(true)" ng-model="vm.t2mSvc.geometryTypeId" ng-options="id as type.name for (id, type) in geometryTypes"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="geo-col">{{'SELECT_GEOMETRY_COLUMNS' | translate}}</label>
+                                    <span><i class="fa fa-question-circle pointer" style="padding: 0 16px 0 12px;" aria-hidden="true" uib-tooltip="{{'SELECT_GEOMETRY_COLUMNS_HELP' | translate}}"></i></span>
+                                    <div>
+                                        <button id="geo-col" class="btn t2m-btn t2m-btn-lg grey" style="width:100%" ng-click="vm.t2mSvc.openTable()">
+                                            <div class="zodk-in-btn-text" translate="SELECT_NR_COLUMNS" translate-values="{nr: nrSelectedGeometryColumns}"></div>
+                                            <span class="pull-right" style="padding: 0px 16px;"><i class="fa fa-table small-padding"></i>
+                                            {{'EDIT_COLS' | translate}}</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="namelabel-col">{{'SELECT_NAMELABEL_COLUMN' | translate}}</label>
+                                    <span><i class="fa fa-question-circle pointer" style="padding: 0 16px 0 12px;" aria-hidden="true" uib-tooltip="{{'SELECT_NAMELABEL_COLUMN_HELP' | translate}}"></i></span>
+                                    <div>
+                                        <button id="namelabel-col" class="btn t2m-btn t2m-btn-lg grey" style="width:100%" ng-click="vm.t2mSvc.openTable('col', 1, true)">
+                                            <div class="zodk-in-btn-text" ng-show="vm.t2mSvc.featureType.style.nameLabel" style="display: inline">{{vm.t2mSvc.getColumnTitle(vm.t2mSvc.featureType.style.nameLabel)}} ({{'COLUMN' | translate}} {{vm.t2mSvc.getColumnHeader(vm.t2mSvc.featureType.style.nameLabel)}})</div>
+                                            <div class="zodk-in-btn-text" ng-hide="vm.t2mSvc.featureType.style.nameLabel" style="display: inline">{{'NO_NAMELABEL_SELECTED' | translate}}</div>
+                                            <span class="pull-right" style="padding: 0px 16px;"><i class="fa fa-table small-padding"></i>{{'EDIT_COLS' | translate}}</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="add-info">{{'ADDITIONAL_INFO' | translate}}</label><span><i class="fa fa-question-circle pointer" style="padding: 0 16px 0 12px;" aria-hidden="true" uib-tooltip="{{'ADDITIONAL_INFO_COLUMN_HELP' | translate}}"></i></span>
+                                    <div ng-show="vm.t2mSvc.geometryType">
+                                        <select class="form-control inline-select" id="add-info" ng-model="vm.t2mSvc.additionalInfo" ng-options="info for info in vm.t2mSvc.geometryType.additionalInfo" ng-change="vm.t2mSvc.layerDataChanged(true)"
+                                            ng-disabled="!vm.t2mSvc.geometryType || vm.t2mSvc.geometryType.additionalInfo.length < 1"></select>
+                                        
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="namelabel-col">{{'SELECT_NAMELABEL_COLUMN' | translate}}</label>
-                                <span><i class="fa fa-question-circle pointer" style="padding: 0 16px 0 12px;" aria-hidden="true" uib-tooltip="{{'SELECT_NAMELABEL_COLUMN_HELP' | translate}}"></i></span>
-                                <div>
-                                     <button id="namelabel-col" class="btn t2m-btn t2m-btn-lg grey" style="width:100%" ng-click="vm.t2mSvc.openTable('col', 1, true)">
-                                        <div class="zodk-in-btn-text" ng-show="vm.t2mSvc.featureType.style.nameLabel" style="display: inline">{{vm.t2mSvc.getColumnTitle(vm.t2mSvc.featureType.style.nameLabel)}} ({{'EDIT_COLS' | translate}} {{vm.t2mSvc.featureType.style.nameLabel}})</div>
-                                        <div class="zodk-in-btn-text" ng-hide="vm.t2mSvc.featureType.style.nameLabel" style="display: inline">{{'NO_NAMELABEL_SELECTED' | translate}}</div>
-                                        <span class="pull-right" style="padding: 0px 16px;"><i class="fa fa-table small-padding"></i>{{'EDIT_COLS' | translate}}</span>
-                                    </button>
+                            <div class="row border-bottom">
+                                <div class="collapsed" data-toggle="collapse" data-target="#designSettings" aria-expanded="false" aria-controls="designSettings">
+                                    <label class="pointer">{{'DESIGN_OF_OBJECTS' | translate}}
+                                        <span class="fa fa-caret-up"></span>
+                                        <span class="fa fa-caret-down"></span>
+                                    </label>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="add-info">{{'ADDITIONAL_INFO' | translate}}</label><span><i class="fa fa-question-circle pointer" style="padding: 0 16px 0 12px;" aria-hidden="true" uib-tooltip="{{'ADDITIONAL_INFO_COLUMN_HELP' | translate}}"></i></span>
-                                <div ng-show="vm.t2mSvc.geometryType">
-                                    <select class="form-control inline-select" id="add-info" ng-model="vm.t2mSvc.additionalInfo" ng-options="info for info in vm.t2mSvc.geometryType.additionalInfo" ng-change="vm.t2mSvc.layerDataChanged(true)"
-                                        ng-disabled="!vm.t2mSvc.geometryType || vm.t2mSvc.geometryType.additionalInfo.length < 1"></select>
-                                    
-                                </div>
-                            </div>
-                            <div id="style-settings-section">
+                            <div class="collapse" id="designSettings">
                                 <div class="row">
                                     <div class="col-sm-6 form-group no-padding">
                                         <label for="f-icon">{{'ICON_IMAGE' | translate}}</label>
@@ -317,25 +335,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="pagination pull-right pointer">
-                                    <ul class="pagination">
-                                        <li>
-                                            <a type="button" data-toggle="collapse" data-target="#advancedIconSettings" aria-expanded="false" aria-controls="advancedIconSettings">
-                                                <i class="fa fa-chevron-up"></i>
-                                                <i class="fa fa-chevron-down"></i> {{'ADVANCED_SETTINGS' | translate}}
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a type="button">
-                                                <i class="fa fa-save"></i> {{'SAVE' | translate | titleCase}}
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a type="button" ng-click="vm.t2mSvc.convertAndOpen()">
-                                                <i class="fa fa-map-o"></i> {{'SAVE_AND_OPEN' | translate}}
-                                            </a>
-                                        </li>
-                                    </ul>
+                                <div class="row">
+                                    <div data-toggle="collapse" data-target="#advancedIconSettings" aria-expanded="false" aria-controls="advancedIconSettings">
+                                        <label class="pointer">{{'ADVANCED_SETTINGS' | translate}}
+                                            <span class="fa fa-caret-up"></span>
+                                            <span class="fa fa-caret-down"></span>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </form>
@@ -350,10 +356,10 @@
                             </div>
                         </div>
                         <div class="row">
-                            <label>{{'CURRENT_ZOOM' | translate}}: {{vm.t2mSvc.currentZoom}}</label>
-                            <span style="margin-left: 32px;">
-                                <label ng-show="vm.t2mSvc.feature.isSelected">{{'FEATURE_SELECTED' | translate}}</label>
-                                <label ng-hide="vm.t2mSvc.feature.isSelected">{{'FEATURE_DESELECTED' | translate}}</label>
+                            <label style="font-size: 14px;">{{'CURRENT_ZOOM' | translate}}: {{vm.t2mSvc.currentZoom}}</label>
+                            <span style="float: right">
+                                <label style="font-size: 14px;" ng-show="vm.t2mSvc.feature.isSelected">{{'FEATURE_SELECTED' | translate}}</label>
+                                <label style="font-size: 14px;" ng-hide="vm.t2mSvc.feature.isSelected">{{'FEATURE_DESELECTED' | translate}}</label>
                             </span>
                             <div id="previewMap"></div>
                         </div>
@@ -409,6 +415,14 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row border-bottom">
+                                <div class="collapsed" data-toggle="collapse" data-target="#advancedPropSettings" aria-expanded="false" aria-controls="advancedPropSettings">
+                                    <label class="pointer">{{'ADVANCED_SETTINGS' | translate}}
+                                        <span class="fa fa-caret-up"></span>
+                                        <span class="fa fa-caret-down"></span>
+                                    </label>
+                                </div>
+                            </div>
                             <div class="collapse" id="advancedPropSettings">
                                 <div class="form-group">
                                     <label for="p-sf">{{'STRINGFORMAT' | translate}}</label>
@@ -461,26 +475,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="pagination pull-right pointer">
-                                <ul class="pagination">
-                                    <li>
-                                        <a type="button" data-toggle="collapse" data-target="#advancedPropSettings" aria-expanded="false" aria-controls="advancedPropSettings">
-                                            <i class="fa fa-chevron-up"></i>
-                                            <i class="fa fa-chevron-down"></i> {{'ADVANCED_SETTINGS' | translate}}
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a type="button">
-                                            <i class="fa fa-save"></i> {{'SAVE' | translate}}
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a type="button" ng-click="vm.t2mSvc.convertAndOpen()">
-                                            <i class="fa fa-map-o"></i> {{'SAVE_AND_OPEN' | translate}}
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
+                            <!-- <div class="row">
+                                <div class="btn t2m-btn t2m-btn-lg yellow" ng-click="vm.t2mSvc.convertAndOpen()">
+                                    <i class="fa fa-map-o"></i> {{'SAVE_AND_OPEN' | translate}}
+                                </div>
+                            </div> -->
                         </form>
                     </div>
                     <div class="col-xs-5 col-lg-4 pull-right" ng-show="vm.t2mSvc.rowCollection.length > 0">
@@ -522,9 +521,14 @@
             <div class="col-sm-4 col-md-3 col-lg-2"></div>
             <div class="col-sm-8 col-md-9 col-lg-10">
                 <div class="row">
-                    <div class="col-sm-12 zodk-next-step">
-                        <div class="pointer" ng-click="vm.t2mSvc.currentStep=vm.t2mSvc.currentStep+1"  ng-hide="vm.t2mSvc.currentStep>=vm.t2mSvc.numberOfSteps">
+                    <div class="col-sm-8 zodk-next-step">
+                        <div class="pointer" style="text-shadow: 0.5px 0.5px #ccc;" ng-click="vm.t2mSvc.currentStep=vm.t2mSvc.currentStep+1"  ng-hide="vm.t2mSvc.currentStep>=vm.t2mSvc.numberOfSteps">
                             {{'NEXT_STEP' | translate}}
+                        </div>
+                    </div>
+                    <div class="col-sm-4 zodk-next-step">
+                        <div class="btn t2m-btn yellow" ng-click="vm.t2mSvc.convertAndOpen()" ng-disabled="(dropBox.$invalid||projectSettingsForm.$invalid||LayerSettingsOldForm.$invalid||!vm.t2mSvc.geometryInfoComplete)">
+                            <i class="fa fa-map-o"></i> {{'SAVE_AND_OPEN' | translate}}
                         </div>
                     </div>
                 </div>

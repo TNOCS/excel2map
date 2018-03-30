@@ -21,6 +21,9 @@
     .rightpanel-lg {
         max-width: $rightpanel-width-lg!important;
     }
+    .rightpanel-full {
+        max-width: 100%!important;
+    }
 }
 
 @media screen and (min-width: $rightpanel-width-full) {
@@ -254,8 +257,33 @@
     padding: 8px 0px;
 }
 
+#step5 .ptable {
+    font-size: 16px;
+    padding: 0!important;
+}
+
+#step5 .info .ptable .table {
+    border-bottom: solid 1px #ccc;
+    padding: 8px 12px;
+}
+
+#step5 .info .ptable .title {
+    padding: 4px 12px;
+}
+
+#step5 .info .ptable .table.row {
+}
+
+#step5 .info .ptable .table.row.active-style {
+    background-color: $t2m-yellow-disabled;
+}
+
+#rp-content .info .ptable .table .col-xs-11,
 #rp-content .info .ptable .table .col-xs-8,
-#rp-content .info .ptable .table .col-xs-4 {
+#rp-content .info .ptable .table .col-xs-7,
+#rp-content .info .ptable .table .col-xs-4,
+#rp-content .info .ptable .table .col-xs-2,
+#rp-content .info .ptable .table .col-xs-1 {
     padding: 0px;
 }
 

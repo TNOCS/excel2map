@@ -53,6 +53,7 @@ module Table2Map {
         isOk: boolean;
     }
 
+    export var DEFAULT_SECTION = 'Gegevens';
     export var CONVERSION_STEPS = ['Project titel en logo invoeren', 'Kaartlaag groep, titel en beschrijving invoeren', 'Data uploaden', 'Stijlinstellingen aanpassen', 'Data weergave'];
 
     /** Assumption of the number of columns before table is parsed. */
@@ -137,6 +138,7 @@ module Table2Map {
         private sections: INameValueObject < string > [] = [];
         private geometryType: ITable2MapGeometryType;
         private geometryTypeId: string;
+        private geometryInfoComplete: boolean = false;
         private additionalInfo: string;
         public geometryColumns: Dictionary < IHeaderObject > = {};
         public project: Project = < Project > {};
@@ -300,6 +302,25 @@ module Table2Map {
             this.getProject(projectId, (project) => {
                 if (project && !project.featurePropsDirective) {
                     project.featurePropsDirective = 'zodkrightpanel';
+                }
+                if (project && !project.widgets) {
+                    project.widgets = [];
+                }
+                if (project && !project.widgets.some((w) => {
+                    return w.id === "zodklayer";
+                })) {
+                    project.widgets.push({
+                        "id": "zodklayer",
+                        "directive": "zodklayer",
+                        "elementId": "widget-zodklayer",
+                        "enabled": true,
+                        "style": "vws2",
+                        "width": "300px",
+                        "bottom": "50px",
+                        "left": "500px",
+                        "position": "custom",
+                        "data": {}
+                    });
                 }
                 this.selectLayerForEditing(project);
             });
@@ -479,7 +500,11 @@ module Table2Map {
                         index: this.getColumnIndex(layerData.layerDefinition.parameter4)
                     };
                 }
-                // layerDef.data['layerDefinition']['parameter1'] = this.geometryColumns[this.geometryType.cols[0]].code;
+                if (this.geometryType && this.geometryType.cols.length === Object.keys(this.geometryColumns).length) {
+                    this.geometryInfoComplete = true;
+                } else {
+                    this.geometryInfoComplete = false;
+                }
             }
         }
 
@@ -1037,6 +1062,11 @@ module Table2Map {
                     console.log(`Selected ${JSON.stringify(selectedRowCol)}`);
                     if (this.currentStep === ConversionStep.StyleSettings) {
                         this.geometryColumns = < Dictionary < IHeaderObject >> _.object(this.geometryType.cols, selectedRowCol);
+                        if (this.geometryType && this.geometryType.cols.length === Object.keys(this.geometryColumns).length) {
+                            this.geometryInfoComplete = true;
+                        } else {
+                            this.geometryInfoComplete = false;
+                        }
                     }
                 } else if (selectionOption === 'row') {
                     console.log(`Selected ${JSON.stringify(selectedRowCol)}`);
@@ -1077,10 +1107,16 @@ module Table2Map {
         private selectGeoType(clearSelectedColumns: boolean = false) {
             if (clearSelectedColumns) {
                 this.geometryColumns = {};
+                this.geometryInfoComplete = false;
                 this.layerDataChanged(); // Layer data needs to be updated
             }
             this.geometryType = GEOMETRY_TYPES[this.geometryTypeId];
             this.featureType.style.drawingMode = this.geometryType.drawingMode;
+            if (this.geometryType && this.geometryType.cols.length === Object.keys(this.geometryColumns).length) {
+                this.geometryInfoComplete = true;
+            } else {
+                this.geometryInfoComplete = false;
+            }
             this.updateMarker();
         }
 
@@ -1106,6 +1142,12 @@ module Table2Map {
             } else {
                 return col;
             }
+        }
+
+        private getColumnHeader(col: string): string {
+            if (!this.layer) return;
+            let hash = this.layer.id.hashCode();
+            return col.replace(hash, '');
         }
 
         private getColumnIndex(col: string): number {
@@ -1140,11 +1182,26 @@ module Table2Map {
         private checkSections(newSection ? : string) {
             let section = newSection || this.pType.section;
             if (!section) return;
+            this.assertDefaultSection();
             if (_.pluck(this.sections, 'val').indexOf(section) >= 0) {
                 this.updatePropertyPreview();
             } else {
                 this.pType.section = section;
                 this.addSection(section);
+            }
+        }
+
+        private assertDefaultSection() {
+            if (!this.sections || _.isEmpty(this.sections)) {
+                this.sections = [{
+                    name: DEFAULT_SECTION,
+                    val: null
+                }];
+            } else if (!(_.pluck(this.sections, 'val').some((val) => { return val == null; }))) {
+                this.sections.push({
+                    name: DEFAULT_SECTION,
+                    val: null
+                });
             }
         }
 
@@ -1215,10 +1272,7 @@ module Table2Map {
                 type: 'number'
             });
             if (firstNumberType) this.defaultLegendProperty = firstNumberType.label;
-            this.sections = [{
-                name: 'Default',
-                val: null
-            }];
+            this.assertDefaultSection();
         }
 
         private determineDataType(pt: IPropertyType) {

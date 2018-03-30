@@ -17,7 +17,7 @@
             "borderWidth": 1,
             "background": "white"
         },
-        "transparent" : {
+        "transparent": {
             "borderWidth": 0,
             "background": "transparent"
         },
@@ -138,6 +138,97 @@
         "attribution": "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
         "preview": "http://a.basemaps.cartocdn.com/light_nolabels/11/673/1051.png"
     }],
-    "projects": [
-    ]
+    "defaultDashboards": [{
+            "id": "map",
+            "name": "Home",
+            "showMap": true,
+            "showTimeline": false,
+            "showLeftmenu": false,
+            "showLegend": false,
+            "showRightmenu": false,
+            "showBackgroundImage": false,
+            "widgets": [{
+                    "id": "zodklegend",
+                    "directive": "zodklegend",
+                    "elementId": "widget-zodklegend",
+                    "enabled": true,
+                    "style": "vws2",
+                    "width": "300px",
+                    "bottom": "50px",
+                    "left": "500px",
+                    "position": "custom",
+                    "data": {
+                        "layerId": "vluchtelingen",
+                        "rankingProperties": [
+                            "aantal Syriers (absoluut)",
+                            "aantal Syriërs per duizend inwoners"
+                        ]
+                    }
+                },
+                {
+                    "id": "zodkbaselayers",
+                    "directive": "zodkbaselayers",
+                    "elementId": "widget-zodkbaselayers",
+                    "enabled": true,
+                    "style": "vws2",
+                    "width": "300px",
+                    "bottom": "50px",
+                    "left": "500px",
+                    "position": "custom",
+                    "data": {
+                        "showLabels": true,
+                        "baselayers": [{
+                                "title": "Kaart",
+                                "layerWithoutLabels": "Positron",
+                                "layerWithLabels": "Positron with labels",
+                                "image": "http://a.basemaps.cartocdn.com/light_all/15/16779/10817.png"
+                            },
+                            {
+                                "title": "Satelliet",
+                                "layerWithoutLabels": "World Imagery",
+                                "image": "http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/15/10817/16779.png"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": "zodklayer",
+                    "directive": "zodklayer",
+                    "elementId": "widget-zodklayer",
+                    "enabled": true,
+                    "style": "vws2",
+                    "width": "300px",
+                    "bottom": "50px",
+                    "left": "500px",
+                    "position": "custom",
+                    "data": {}
+                }
+            ],
+            "mobile": true
+        },
+        {
+            "id": "zodkdatatable",
+            "name": "ZODKTABLE",
+            "showMap": true,
+            "showTimeline": false,
+            "showLeftmenu": false,
+            "showLegend": false,
+            "showRightmenu": false,
+            "showBackgroundImage": false,
+            "draggable": false,
+            "resizable": false,
+            "widgets": [{
+                "id": "zodkdatatable_id",
+                "directive": "zodkdatatable",
+                "elementId": "widget-datatable_id",
+                "enabled": true,
+                "width": "100%",
+                "height": "100%",
+                "zIndex": 1050,
+                "_interaction": false
+            }],
+            "mobile": true
+        }
+    ],
+    "projects": []
 }

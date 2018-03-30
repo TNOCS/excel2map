@@ -98,7 +98,7 @@ ul.SteppedProgress {
 }
 
 .SteppedProgress a {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
     display: inline-flex;
     width: 70%;
@@ -117,10 +117,15 @@ ul.SteppedProgress {
 	color: black;
 	background: $ProgressBase;
 	border-radius: 15px;
-	margin: 0 auto 64px;
+	margin: 0 auto 36px;
 	position: relative;
 	z-index: 1;
 }
+
+.SteppedProgress li:last-child:before {
+    margin-bottom: 4px;
+}
+
 /*progressbar connectors*/
 .SteppedProgress li:after {
 	content: '';

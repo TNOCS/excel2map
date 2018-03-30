@@ -15,27 +15,35 @@
         <div class="row">
             <div class="row" ng-repeat="section in vm.propertyTable.sections track by $index">
                 <div data-toggle="collapse" data-target="#collapse-{{$index}}">
-                    <div class="title">{{section.title? section.title : 'Gegevens'}}
+                    <div class="title">{{section.title? section.title : vm.DEFAULT_SECTION}}
                         <span class="fa fa-caret-up"></span>
                         <span class="fa fa-caret-down"></span>
                     </div>
                 </div>
                 <div ng-show="section.type==='table'" class="row collapse in" id="collapse-{{$index}}">
-                    <div class="row table" ng-repeat="row in section.rows">
+                    <div class="row table no-margin pointer" ng-repeat="row in section.rows" ng-class="{'active-style': vm.selectedProp.property == row.coProperty.property}" ng-click="vm.editPropertyType(row.coProperty)">
                         <div ng-show="row.type !== 'textarea'">
-                            <div class="col-xs-8">
+                            <div class="col-xs-7">
                                 <div ng-if="true">
-                                    <a ng-click="vm.editProperty(row.coProperty)" ng-class="{'active-style': row.coProperty.feature._gui['style'][row.coProperty.property]}"
+                                    <a ng-class="{'active-style': vm.selectedProp.property == row.coProperty.property}"
                                         uib-popover="{{(row.description) ? row.description : ''}}" popover-placement="left" popover-trigger="'mouseenter'">{{row.title}}</a>
                                 </div>
                             </div>
                             <div ng-show="row.values.length===1" class="col-xs-4 value" data-ng-bind-html="row.values[0] | trusted"></div>
                             <div ng-show="row.values.length===2" class="col-xs-2 value" data-ng-bind-html="row.values[0] | trusted"></div>
                             <div ng-show="row.values.length===2" class="col-xs-2 value" data-ng-bind-html="row.values[1] | trusted"></div>
+                            <div class="col-xs-1">
+                                <i class="fa fa-pencil pull-right"></i>
+                            </div>
                         </div>
                         <div ng-show="row.type === 'textarea'">
-                            <div>{{row.title}}:</div>
-                            <div ng-repeat="val in row.values track by $index" data-ng-bind-html="val | trusted"></div>
+                            <div class="col-xs-11">
+                                <div>{{row.title}}:</div>
+                                <div ng-repeat="val in row.values track by $index" data-ng-bind-html="val | trusted"></div>
+                            </div>
+                            <div class="col-xs-1">
+                                <i class="fa fa-pencil pull-right"></i>
+                            </div>
                         </div>
                     </div>
                 </div>

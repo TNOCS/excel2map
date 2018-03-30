@@ -35,7 +35,7 @@ module Table2Map {
                     ngModel.$formatters.push((value) => {
                         return ({
                             val: value,
-                            name: value || 'Default'
+                            name: value || Table2Map.DEFAULT_SECTION
                         });
                     });
                 }

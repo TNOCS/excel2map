@@ -1,0 +1,108 @@
+.data-table {
+    font-size: 18px;
+}
+
+.datatable-download {
+    background: $t2m-yellow-disabled;;
+    float: right;
+    text-align: right;
+}
+
+.datatable-download-text {
+    font-size: 18px;
+    font-style: italic;
+    line-height: 50px;
+}
+
+.datatable-download-text span {
+    text-decoration: underline;
+    vertical-align: middle;
+    font-style: normal;
+    cursor: pointer;
+}
+
+.datatable-download-text span.csv {
+    padding-left: 8px;
+}
+
+.datatable-download-text span.json {
+    padding-right: 8px;
+}
+
+.datatable-top-row-height {
+    height: 50px;
+}
+
+.datatable-download {
+    display: inline-block;
+    width: 100%;
+}
+
+.datatable-grey {
+    background: #f9f9f9;
+}
+
+.data-table .pointer {
+    float: right
+}
+
+.data-table select.form-control.tt-input {
+    height: 50px;
+    border-radius: 0px;
+    border: none;
+    color: black;
+    font-weight: bold;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    background: $t2m-yellow-disabled;
+}
+
+.data-table input.form-control.tt-input {
+    background: white;
+    height: 50px;
+    border-radius: 0px;
+    border: 1px solid black;
+    color: black;
+    font-weight: normal;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.data-table .navigation {
+    margin-bottom: 12px;
+}
+
+.data-table .navigation .searchicon {
+    padding-top: 8px;
+}
+
+.data-table .navigation .downloadbar {
+    background: $t2m-yellow-disabled;
+    height: 50px;
+}
+
+.data-table ul.datatable-padding-left {
+    font-size: 16px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-left: 15px;
+}
+
+.data-table ul.datatable-padding-left li {
+    white-space: nowrap;
+    padding-top: 2px;
+}
+
+.data-table ul.datatable-padding-left li .title {
+    display: inline;
+    padding: 0px 10px;
+}
+
+.data-table th {
+    white-space: nowrap;
+}
+
+.data-table div.closeicon {
+    padding-right: 15px;
+    float: right;
+}

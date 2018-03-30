@@ -62,6 +62,7 @@ module Table2Map {
         public userPassword: string;
 
         private hideSubNav: boolean = false;
+        private DEFAULT_SECTION = Table2Map.DEFAULT_SECTION;
 
         public static $inject = [
             '$scope',

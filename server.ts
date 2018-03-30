@@ -113,7 +113,7 @@ cs.server.route('*')
     .all((req, res, next) => {
         console.log(`${req.method}: ${req.url}`);
         if (req.body) { console.log(req.body); }
-        console.log(`HEADERS: ${JSON.stringify(req.headers, null, 2)}`);
+        // console.log(`HEADERS: ${JSON.stringify(req.headers, null, 2)}`);
         next();
     });
 

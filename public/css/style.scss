@@ -254,9 +254,6 @@ td.st-selected {
 #featureprops-content {
     background-color: white;
 }
-#step5 .ptable {
-    font-size: 16px;
-}
 
 input#create-project-title {
     line-height: 1.9;
@@ -278,6 +275,10 @@ input#create-project-title {
     height: 100%;
     max-width: 48px;
     min-width: 48px;
+}
+
+.border-bottom {
+    border-bottom: 1px solid grey;
 }
 
 .leaflet-control-zoom-display {
@@ -349,10 +350,10 @@ input#create-project-title {
     text-align: right;
 }
 
-#style-settings-section div {
+#designSettings div {
 }
 
-#style-settings-section input {
+#designSettings input {
     width: 92px;
 }
 
@@ -498,6 +499,7 @@ a:hover {
 }
 
 .t2m-btn {
+    color: black;
     font-size: 18px;
     font-weight: bold;
     border-radius: 0px;
@@ -507,6 +509,15 @@ a:hover {
     text-shadow: none;
     box-shadow: none;
     -webkit-box-shadow: none;
+}
+h4 {
+    color: black;
+}
+
+.panel-border {
+    border: 2px solid #ccc;
+    border-radius: 2px;
+    padding: 0px;
 }
 
 .t2m-btn-sm {
@@ -604,6 +615,7 @@ a:hover {
 @import 'styles/profile';
 @import 'styles/progress';
 @import 'styles/checkbox';
+@import 'styles/datatable';
 
  /*Force MCA*/
 #mca {
