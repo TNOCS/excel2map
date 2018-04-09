@@ -359,6 +359,15 @@ module App {
         zoomOut() {
             this.$mapService.getMap().zoomOut();
         }
+
+        openTable() {
+            this.$messageBusService.publish('zodk', 'closepanel');
+            this.$timeout(() => {
+                var db = this.$layerService.findDashboardById('zodkdatatable');
+                this.$messageBusService.publish('dashboard-main', 'activated', db);
+            }, 200);
+
+        }
     }
 
     // Start the application
