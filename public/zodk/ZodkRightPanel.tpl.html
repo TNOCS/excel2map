@@ -201,11 +201,11 @@
         <mca class="tab-pane" id="mca"></mca>
     </div>
 
-    <div ng-show="vm.panel == vm.Panel.overzicht" id="widget-zodkoverzicht-parent">
+    <div ng-show="vm.panel == vm.Panel.overzicht && vm.isLoggedIn()" id="widget-zodkoverzicht-parent">
         <projects-directive class="tab-pane" id="overzicht"></projects-directive>
     </div>
 
-    <div ng-show="vm.panel == vm.Panel.wizard" id="widget-zodkwizard-parent">
+    <div ng-show="vm.panel == vm.Panel.wizard && vm.isLoggedIn()" id="widget-zodkwizard-parent">
         <table-to-map class="tab-pane" id="wizard"></table-to-map>
     </div>
 </div>

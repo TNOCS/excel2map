@@ -4,6 +4,7 @@ $t2m-red: #ff4040;
 $t2m-yellow: #ffcf40;
 $t2m-yellow-disabled: #fff0c3;
 $t2m-grey: lightgrey;
+$t2m-hover-color: #fff0c2;
 $rightpanel-width-full: 1480px;
 $rightpanel-width-lg: 960px;
 $rightpanel-width: 460px;
@@ -457,7 +458,7 @@ div.ng-invalid.ng-touched {
 }
 
 .project-table.table-hover>tbody>tr:hover {
-    background-color: #acf
+    background-color: $t2m-hover-color;
 }
 
 .scrolling {

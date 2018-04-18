@@ -122,7 +122,7 @@ module Translations {
             EDIT_LAYER: 'Kies een kaartlaag om te bewerken',
             SAVE_AND_OPEN: 'Opslaan en resultaat bekijken',
             ERROR_GETTING_LAYER: 'Fout bij ophalen kaartlaag',
-            MANAGE_RIGHTS: 'Beheer rechten',
+            MANAGE_RIGHTS: 'Beheer project',
             NO_NAMELABEL_SELECTED: 'Geen titel geselecteerd',
             NO_LAYERS: 'Geen kaartlagen gevonden',
             COPY_LAYER: 'Dupliceer deze kaartlaag',
