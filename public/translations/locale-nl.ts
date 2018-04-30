@@ -26,6 +26,7 @@ module Translations {
             DECIMAL_CHARACTER: 'Decimaal teken',
             NO_DATA_TABLE: 'Geen tabulaire data gevonden. Ga terug naar stap 1.',
             UPLOAD_HELP: 'Sleep een bestand naar het tekstvak hieronder. Een andere optie is om de data via het klembord in het tekstvak te plakken.',
+            UPLOAD_ICON_HELP: 'Upload een icoon bestand (*.png, max. 50kb groot)',
             STYLE_PREVIEW: 'Preview',
             SELECTED_PROPERTY: 'Geselecteerde eigenschap',
             FEATURE_SELECTED: 'Object is geselecteerd',

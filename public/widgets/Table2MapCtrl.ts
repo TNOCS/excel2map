@@ -66,6 +66,7 @@ module Table2Map {
         geometryTypes: Dictionary < ITable2MapGeometryType > ;
         nrSelectedGeometryColumns: number;
         scrollTo: Function;
+        selectedProperty: string;
     }
 
     export class Table2MapCtrl {
@@ -147,6 +148,8 @@ module Table2Map {
 
             this.$messageBus.subscribe('table2map', (title, data) => {
                 switch (title) {
+                    case 'editPropertyType':
+                        $scope.selectedProperty = data.label;
                     case 'update-widget-scope':
                         this.updateWidgetScope();
                         break;
@@ -271,6 +274,10 @@ module Table2Map {
             if (this.msgBusHandle) {
                 this.$messageBus.unsubscribe(this.msgBusHandle);
             }
+        }
+
+        public selectProperty(property: string) {
+            this.$messageBus.publish('table2map', 'edit-property', property);
         }
 
         public updateWidgetScope() {

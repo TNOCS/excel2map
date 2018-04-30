@@ -24,6 +24,7 @@ module Translations {
             DECIMAL_CHARACTER: 'Decimal character',
             NO_DATA_TABLE: 'No tabular data found. Return to step 1',
             UPLOAD_HELP: 'Drag the file from your PC to the textarea below. Alternatively, paste the file content from the clipboard.',
+            UPLOAD_ICON_HELP: 'Upload an icon file (*.png, max. size 50kb)',
             STYLE_PREVIEW: 'Preview',
             SELECTED_PROPERTY: 'Selected property',
             FEATURE_SELECTED: 'Feature is selected',

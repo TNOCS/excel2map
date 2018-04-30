@@ -102,7 +102,7 @@ module Table2Map {
             let pTypesDict = _.object(_.pluck(pTypes, 'label'), pTypes);
             let linkedFeatures = [];
             pTypes.forEach((pt: IPropertyType) => {
-                if (pt.visibleInCallOut && virtualFeature.properties.hasOwnProperty(pt.label) && !(linkedFeatures.indexOf(pt.label) >= 0)) {
+                if (virtualFeature.properties.hasOwnProperty(pt.label) && !(linkedFeatures.indexOf(pt.label) >= 0)) {
                     let sectionId = pt.section || DEFAULT_SECTION_ID;
                     let section = this.findOrCreateSection(sectionId);
 

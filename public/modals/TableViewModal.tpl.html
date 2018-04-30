@@ -4,9 +4,9 @@
 <div class="modal-body scrollable-xy-table">
     <div class="small-padding" ng-show="vm.itemsToSelect">
         <div class="small-padding bold">{{'SELECT_THESE_ITEMS' | translate}}:
-            <span class="small-padding pointer" ng-click="vm.toggleTooltips()" style="float:right">
+            <!-- <span class="small-padding pointer" ng-click="vm.toggleTooltips()" style="float:right">
                     <a style="text-decoration: none"><i class="fa fa-eye-slash small-padding" aria-hidden="true"></i>{{'SHOW_HIDE_COLUMN_TITLES' | translate}}</a>
-            </span>
+            </span> -->
         </div>
         <!--<ul class="small-padding">
                 <li ng-repeat="item in vm.itemsToSelect">{{item}}</li>
@@ -14,11 +14,15 @@
         <div class="grey-border">
             <table>
                 <tbody>
-                    <tr class="row no-margin" ng-repeat="item in vm.itemsToSelect">
+                    <tr class="row no-margin" ng-repeat="item in vm.itemsToSelect track by $index">
                         <td class="small-padding bold">{{item}}</td>
-                        <td class="small-padding" ng-show="vm.selectedColumns.length > $index">{{'COLUMN' | translate}} {{vm.selectedColumns[$index].title}}</td>
+                        <td class="small-padding">
+                            <select ng-options="headerObj as headerObj.title for headerObj in vm.headerCollection"
+                                    ng-model="columnSelection[$index]" ng-change="vm.selectCol(columnSelection[$index], $index)"></select>
+                        </td>
+                        <!-- <td class="small-padding" ng-show="vm.selectedColumns.length > $index">{{'COLUMN' | translate}} {{vm.selectedColumns[$index].title}}</td>
                         <td class="small-padding" ng-hide="vm.selectedColumns.length > $index" style="min-width:120px">{{'NO_COLUMN_SELECTED' | translate}}</td>
-                        <td class="small-padding" ng-show="vm.selectedColumns.length > $index">({{vm.selectedColumns[$index].title}})</td>
+                        <td class="small-padding" ng-show="vm.selectedColumns.length > $index">({{vm.selectedColumns[$index].title}})</td> -->
                         <td ng-hide="$last || vm.selectedColumns.length - 1 <= $index" class="pointer" ng-click="vm.swapRows($index)" uib-tooltip="{{'SWAP_ROWS' | translate}}"><img class="swap-arrows" src="images/swap-arrows.png" /> </td>
                     </tr>
                 </tbody>
@@ -36,7 +40,7 @@
             </tr>
             <tr class="csv-table-header">
                 <!--st-sort="{{col}}"-->
-                <th ng-click="vm.selectCol(headerObj, $index)" ng-repeat="headerObj in vm.headerCollection" uib-tooltip="{{headerObj.title}}">
+                <th ng-repeat="headerObj in vm.headerCollection" uib-tooltip="{{headerObj.title}}">
                     {{headerObj.title}}</th>
             </tr>
             <tr>

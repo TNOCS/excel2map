@@ -107,6 +107,9 @@ module Table2Map {
 
             this.mBusHandles.push(this.messageBusService.subscribe('table2map', (title, data) => {
                 switch (title) {
+                    case 'edit-property':
+                        this.selectPropertyType(data);
+                        break;
                     case 'update-rightpanel':
                         this.$timeout(() => {
                             this.selectFeature( [< IFeature > data]);
@@ -156,6 +159,19 @@ module Table2Map {
         private editPropertyType(item: any) {
             this.selectedProp = item;
             this.messageBusService.publish('table2map', 'editPropertyType', item.propertyType);
+        }
+
+        private selectPropertyType(label: string) {
+            var foundRow: IPropertyTableRow;
+            _.find(this.propertyTable.sections, (section: IPropertyTableSection) => {
+                return _.find(section.rows || [], (row: IPropertyTableRow) => {
+                    if (row.label === label) foundRow = row;
+                    return row.label === label;
+                });
+            });
+            if (!foundRow) return;
+            this.selectedProp = foundRow.coProperty;
+            this.messageBusService.publish('table2map', 'editPropertyType', foundRow.coProperty.propertyType);
         }
     }
 }

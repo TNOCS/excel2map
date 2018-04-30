@@ -40,6 +40,7 @@ module ModalCtrls {
 
     export interface ITableViewModalScope extends ng.IScope {
         vm: TableViewModalCtrl;
+        columnSelection: Object;
     }
 
     export class TableViewModalCtrl {
@@ -74,6 +75,7 @@ module ModalCtrls {
             private showTooltips: boolean = false
         ) {
             $scope.vm = this;
+            $scope.columnSelection = {};
             if (!this.selectedColumns) this.selectedColumns = [];
             $timeout(() => {
                 this.preselectColumns();
@@ -81,11 +83,18 @@ module ModalCtrls {
         }
 
         private preselectColumns() {
-            this.selectedColumns.forEach((col) => {
+            this.selectedColumns.forEach((col, selColIndex) => {
                 if (col && col.hasOwnProperty('index')) {
                     $(`#st-datatable th:nth-child(${col.index + 1}), #st-datatable td:nth-child(${col.index + 1})`).toggleClass('st-selected', true);
+                    this.$scope.columnSelection[selColIndex] = _.findWhere(this.headerCollection, {'index': col.index});
                 }
             });
+            if (this.selectedColumns.length < this.itemsToSelect.length) {
+                let difference = this.itemsToSelect.length-this.selectedColumns.length;
+                for (let i=0; i < difference; i++) {
+                    this.selectedColumns.push(null);
+                }
+            }
         }
 
         public swapRows(rowIndex: number) {
@@ -93,6 +102,8 @@ module ModalCtrls {
             let hObjToSwap = JSON.parse(JSON.stringify(this.selectedColumns[keys[rowIndex]]));
             this.selectedColumns[keys[rowIndex]] = this.selectedColumns[keys[rowIndex + 1]];
             this.selectedColumns[keys[rowIndex + 1]] = hObjToSwap;
+            this.$scope.columnSelection[rowIndex] = this.selectedColumns[keys[rowIndex]];
+            this.$scope.columnSelection[rowIndex + 1] = this.selectedColumns[keys[rowIndex + 1]];
         }
 
         public toggleTooltips() {
@@ -108,29 +119,43 @@ module ModalCtrls {
         }
 
         public selectCol(col: Table2Map.IHeaderObject, index: number) {
-            index += 1;
-            if (this.selectionOption === 'col') {
-                this.selectedColumns = this.selectedColumns.filter((selCol) => {
-                    return selCol != null;
-                });
-                let foundIndex = _.findIndex(this.selectedColumns, (selCol) => {
-                    return selCol.code === col.code;
-                });
-                if (foundIndex >= 0) {
-                    console.log(`Deselect col ${col.code} / ${col.title} (${index})`);
-                    this.selectedColumns.splice(foundIndex, 1);
-                    $(`#st-datatable th:nth-child(${index}), #st-datatable td:nth-child(${index})`).toggleClass('st-selected', false);
-                    return;
-                } else if (this.selectedColumns.length >= this.selectionAmount) {
-                    this.$messageBusService.notifyWithTranslation('TOO_MANY_COLS', 'TOO_MANY_COLS_MSG');
-                    return;
-                } else {
-                    console.log(`Select col ${col.code} (${index})`);
-                    this.selectedColumns.push(col);
-                    $(`#st-datatable th:nth-child(${index}), #st-datatable td:nth-child(${index})`).toggleClass('st-selected', true);
+            if (this.selectionOption !== 'col') return;            
+            if (this.selectedColumns.length > index) {
+                if (this.selectedColumns[index]) {
+                    $(`#st-datatable th:nth-child(${this.selectedColumns[index].index+1}), #st-datatable td:nth-child(${this.selectedColumns[index].index+1})`).toggleClass('st-selected', false);
+                    console.log(`Replaced col ${this.selectedColumns[index].code} / ${this.selectedColumns[index].title} by ${col.code} / ${col.title} (${index+1})`);
                 }
+                this.selectedColumns.splice(index, 1, col);
+            } else {
+                console.log(`Unreachable code reached`);
             }
+            $(`#st-datatable th:nth-child(${col.index+1}), #st-datatable td:nth-child(${col.index+1})`).toggleClass('st-selected', true);
         }
+
+        // public selectCol(col: Table2Map.IHeaderObject, index: number) {
+        //     index += 1;
+        //     if (this.selectionOption === 'col') {
+        //         this.selectedColumns = this.selectedColumns.filter((selCol) => {
+        //             return selCol != null;
+        //         });
+        //         let foundIndex = _.findIndex(this.selectedColumns, (selCol) => {
+        //             return selCol.code === col.code;
+        //         });
+        //         if (foundIndex >= 0) {
+        //             console.log(`Deselect col ${col.code} / ${col.title} (${index})`);
+        //             this.selectedColumns.splice(foundIndex, 1);
+        //             $(`#st-datatable th:nth-child(${index}), #st-datatable td:nth-child(${index})`).toggleClass('st-selected', false);
+        //             return;
+        //         } else if (this.selectedColumns.length >= this.selectionAmount) {
+        //             this.$messageBusService.notifyWithTranslation('TOO_MANY_COLS', 'TOO_MANY_COLS_MSG');
+        //             return;
+        //         } else {
+        //             console.log(`Select col ${col.code} (${index})`);
+        //             this.selectedColumns.push(col);
+        //             $(`#st-datatable th:nth-child(${index}), #st-datatable td:nth-child(${index})`).toggleClass('st-selected', true);
+        //         }
+        //     }
+        // }
 
         public ok() {
             if (this.selectionOption === 'col') {

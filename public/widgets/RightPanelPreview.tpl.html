@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 <div ng-show="section.type==='table'" class="row collapse in" id="collapse-{{$index}}">
-                    <div class="row table no-margin pointer" ng-repeat="row in section.rows" ng-class="{'active-style': vm.selectedProp.property == row.coProperty.property}" ng-click="vm.editPropertyType(row.coProperty)">
+                    <div class="row table no-margin pointer" ng-repeat="row in section.rows" ng-class="{'active-style': vm.selectedProp.property == row.coProperty.property}" ng-click="vm.editPropertyType(row.coProperty)" ng-show="row.property.visibleInCallOut">
                         <div ng-show="row.type !== 'textarea'">
                             <div class="col-xs-7">
                                 <div ng-if="true">
@@ -33,7 +33,7 @@
                             <div ng-show="row.values.length===2" class="col-xs-2 value" data-ng-bind-html="row.values[0] | trusted"></div>
                             <div ng-show="row.values.length===2" class="col-xs-2 value" data-ng-bind-html="row.values[1] | trusted"></div>
                             <div class="col-xs-1">
-                                <i class="fa fa-pencil pull-right"></i>
+                                <i ng-show="false" class="fa fa-pencil pull-right"></i>
                             </div>
                         </div>
                         <div ng-show="row.type === 'textarea'">
