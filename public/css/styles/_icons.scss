@@ -1,5 +1,15 @@
 $icomoon-font-path: "fonts" !default;
 
+$icon-bewerken: \e91d;
+$icon-check_black: \e91e;
+$icon-ic_add_black: \e91f;
+$icon-ic_arrow_drop_down_black: \e920;
+$icon-ic_content_copy_black: \e921;
+$icon-ic_delete_forever_black: \e922;
+$icon-ic_edit_black: \e923;
+$icon-ic_error_outline_black: \e924;
+$icon-ic_help_outline_black: \e925;
+$icon-ic_person_black: \e926;
 $icon-filter: \e900;
 $icon-sluit: \e901;
 $icon-uniE902: \e902;
@@ -32,11 +42,11 @@ $icon-hulp_vraag: \e91c;
 
 @font-face {
   font-family: 'csWeb';
-  src:  url('#{$icomoon-font-path}/csWeb.eot?2qxslc');
-  src:  url('#{$icomoon-font-path}/csWeb.eot?2qxslc#iefix') format('embedded-opentype'),
-    url('#{$icomoon-font-path}/csWeb.ttf?2qxslc') format('truetype'),
-    url('#{$icomoon-font-path}/csWeb.woff?2qxslc') format('woff'),
-    url('#{$icomoon-font-path}/csWeb.svg?2qxslc#csWeb') format('svg');
+  src:  url('#{$icomoon-font-path}/csWeb.eot?6bxgxt');
+  src:  url('#{$icomoon-font-path}/csWeb.eot?6bxgxt#iefix') format('embedded-opentype'),
+    url('#{$icomoon-font-path}/csWeb.ttf?6bxgxt') format('truetype'),
+    url('#{$icomoon-font-path}/csWeb.woff?6bxgxt') format('woff'),
+    url('#{$icomoon-font-path}/csWeb.svg?6bxgxt#csWeb') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -60,6 +70,56 @@ $icon-hulp_vraag: \e91c;
   @return unquote("\"") + $str + unquote("\"");
 }
 
+.icon-bewerken {
+  &:before {
+    content: unicode($icon-bewerken);
+  }
+}
+.icon-check_black {
+  &:before {
+    content: unicode($icon-check_black);
+  }
+}
+.icon-ic_add_black {
+  &:before {
+    content: unicode($icon-ic_add_black);
+  }
+}
+.icon-ic_arrow_drop_down_black {
+  &:before {
+    content: unicode($icon-ic_arrow_drop_down_black);
+  }
+}
+.icon-ic_content_copy_black {
+  &:before {
+    content: unicode($icon-ic_content_copy_black);
+  }
+}
+.icon-ic_delete_forever_black {
+  &:before {
+    content: unicode($icon-ic_delete_forever_black);
+  }
+}
+.icon-ic_edit_black {
+  &:before {
+    content: unicode($icon-ic_edit_black);
+  }
+}
+.icon-ic_error_outline_black {
+  &:before {
+    content: unicode($icon-ic_error_outline_black);
+  }
+}
+.icon-ic_help_outline_black {
+  &:before {
+    content: unicode($icon-ic_help_outline_black);
+  }
+}
+.icon-ic_person_black {
+  &:before {
+    content: unicode($icon-ic_person_black);
+  }
+}
 .icon-filter {
   &:before {
     content: unicode($icon-filter);
@@ -205,4 +265,3 @@ $icon-hulp_vraag: \e91c;
     content: unicode($icon-hulp_vraag);
   }
 }
-

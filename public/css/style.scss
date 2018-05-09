@@ -5,10 +5,11 @@ $t2m-yellow: #ffcf40;
 $t2m-yellow-disabled: #fff0c3;
 $t2m-grey: lightgrey;
 $t2m-hover-color: #fff0c2;
+$t2m-success: #009900;
 $rightpanel-width-full: 1480px;
 $rightpanel-width-lg: 960px;
 $rightpanel-width: 460px;
-$bg-color: #f4f4f4;
+$wizard-bg-color: #f7f7f7;
 $info-bg-color: #f2eeee;
 $footer-bg-color: #757575;
 $info-link-color: rgb(12, 96, 163);
@@ -27,6 +28,9 @@ body {
     display: none;
 }
 
+.btn-default {
+    background-image: none;
+}
 
 /** T2M **/
 
@@ -133,24 +137,17 @@ td.st-selected {
     position: relative;
 }
 
-.fixed-widget-header {
-    height: 64px;
-}
 
 .fixed-widget-footer {
     height: 60px;
 }
 
-.scrollable-widget-content {
-    overflow: auto;
-    background: $bg-color;
-}
-
 .zodk-notification-box {
-    background: $info-bg-color;
+    background: #ededed;
     border: 1px solid #cccccc;
     font-size: 18px;
     padding: 14px 18px;
+    margin: 10px 0px;
 }
 
 .zodk-notification-text {
@@ -243,9 +240,14 @@ td.st-selected {
 }
 
 .modal-footer {
-    height: 60px;
-    border: none;
-    padding: 12px;
+    border-top: none;
+    padding: 0px 0px 0px 15px;
+}
+
+
+.modal-footer button {
+    margin-right: 10px;
+
 }
 
 .modal {
@@ -256,11 +258,7 @@ td.st-selected {
     background-color: white;
 }
 
-input#create-project-title {
-    line-height: 1.9;
-    min-width: 300px;
-    font-size: 20px;
-}
+
 
 .inline-select {
     display: inline-block;
@@ -335,11 +333,6 @@ input#create-project-title {
     font-size: 110%;
 }
 
-.wizard-title {
-    font-size: 28px;
-    font-weight: bold;
-    display: inline;
-}
 
 .manage-title {
     font-size: 22px;
@@ -499,18 +492,6 @@ a:hover {
     margin: 0 0 10px 0;
 }
 
-.t2m-btn {
-    color: black;
-    font-size: 18px;
-    font-weight: bold;
-    border-radius: 0px;
-    border: none;
-    background-color: #aad8fe;
-    background-image: none!important;
-    text-shadow: none;
-    box-shadow: none;
-    -webkit-box-shadow: none;
-}
 h4 {
     color: black;
 }
@@ -521,64 +502,7 @@ h4 {
     padding: 0px;
 }
 
-.t2m-btn-sm {
-    font-size: 16px;
-    height: 32px;
-    min-width: 72px;
-    padding: 6px;
-    margin: 1px 4px 1px 1px;
-}
 
-.t2m-btn-lg {
-    height: 48px;
-    min-width: 128px;
-    padding: 12px;
-    margin: 2px 8px 2px 2px;
-}
-
-.t2m-btn-square {
-    height: 48px;
-    width: 48px;
-    padding: 12px;
-    margin: 2px 8px 2px 2px;
-}
-
-.t2m-btn-height {
-    height: 48px;
-    line-height: 48px;
-}
-
-.t2m-btn.yellow {
-    background-color: $t2m-yellow;
-}
-
-.t2m-btn.red {
-    background-color: $t2m-red;
-}
-
-.t2m-btn.grey {
-    background-color: $t2m-grey;
-}
-
-.t2m-btn.green {
-    background-color: #dff0d8;
-}
-
-.t2m-btn.red {
-    background-color: #fecbbb;
-}
-
-.t2m-btn-icon {
-    padding: 4px 8px;
-    font-size: 110%;
-}
-
-.t2m-div-btn-style {
-    height: 48px;
-    padding: 12px;
-    margin: 2px 8px 2px 2px;
-    background: lightgrey;
-}
 
 .confirmation-popover {
     display: inline-block;
@@ -590,12 +514,9 @@ h4 {
     width: 100%;
 }
 
-.t2m-btn:hover {
-    outline: 2px #bbbbbb solid;
-}
 
 .ui-pnotify-container {
-    background: #fff296!important;
+    background: $t2m-yellow!important;
 }
 
 .create-project[disabled] {
@@ -617,6 +538,7 @@ h4 {
 @import 'styles/progress';
 @import 'styles/checkbox';
 @import 'styles/datatable';
+@import 'styles/wizard';
 
  /*Force MCA*/
 #mca {

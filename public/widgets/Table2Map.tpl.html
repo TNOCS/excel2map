@@ -21,8 +21,8 @@
         </div>-->
 
         <div class="row no-margin">
-                <div class="wizard-title">Nieuw project aanmaken  > {{vm.t2mSvc.currentStep}}. {{vm.t2mSvc.conversionSteps[vm.t2mSvc.currentStep - 1]}}
-                <span class="larger-font small-padding pull-right pointer" uib-tooltip="{{'EXIT_WIZARD' | translate}}" tooltip-placement="left" ng-click="vm.closeWizard()"><i class="fa fa-times"></i></span>
+                <div class="wizard-title">{{vm.t2mSvc.currentStep}}. {{vm.t2mSvc.conversionSteps[vm.t2mSvc.currentStep - 1]}}
+                <span class="larger-font small-padding pull-right pointer" uib-tooltip="{{'EXIT_WIZARD' | translate}}" tooltip-placement="left" ng-click="vm.closeWizard()"><span class="icon-sluit"></span></span>
                 <span class="larger-font small-padding pull-right pointer" style="margin-right:24px" ng-show="vm.t2mSvc.notFoundLocations" uib-tooltip="{{'DATA_NOT_CONVERTED_CORRECTLY' | translate}}" tooltip-placement="left" ng-click="vm.showMissingLocations()"><i class="fa fa-exclamation-triangle"></i></span>
                 <span class="pull-right" ng-show="vm.t2mSvc.rowCollection.length > 0">
                     <div style="margin-right: 24px;display: inline">
@@ -33,10 +33,10 @@
                     </div>
                 </span>
             </div>
-        </div> 
+        </div>
     </div>
     <div class="row" style="margin: 0px">
-        <div class="col-sm-4 col-md-3 col-lg-2">
+        <div class="col-sm-4 col-md-3 col-lg-2" id="progress-content">
             <ul class="SteppedProgress Vertical">
                 <li ng-repeat="step in vm.t2mSvc.conversionSteps track by $index" ng-class="{'complete': vm.t2mSvc.currentStep >= $index + 1}">
                     <a ng-click="vm.t2mSvc.currentStep = $index + 1" ng-disabled="(dropBox.$invalid||projectSettingsForm.$invalid||LayerSettingsOldForm.$invalid)">{{step}}</a>
@@ -48,7 +48,7 @@
                 </li>
             </ul> -->
         </div>
-        <div class="col-sm-8 col-md-9 col-lg-10">
+        <div class="col-sm-8 col-md-9 col-lg-10" id="wizard-content">
             <div class="scrollable-widget-content" style="padding:0px;font-size:12px;margin:0px;" ng-hide="minimized" resize resize-y="200"
                 resize-relative-to-screen="true">
                 <!-- PROJECT SETTINGS-PAGE -->
@@ -61,7 +61,9 @@
                                     <input type="text" id="pj-title" ng-model="vm.t2mSvc.project.title" class="form-control" />
                                 </div>
                                 <div class="form-group">
-                                    <label for="pj-logo">{{'PROJECT_LOGO' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'UPLOAD_ICON_HELP' | translate}}"></i></span></label>
+                                    <label for="pj-logo">{{'PROJECT_LOGO' | translate}}
+                                        <span class="icon-ic_help_outline_black help_icon" aria-hidden="true" uib-tooltip="{{'UPLOAD_ICON_HELP' | translate}}"></span>
+                                        </label>
                                     <div class="row fill-height">
                                         <div class="col-sm-7 fill-height" style="padding-left: 0px">
                                             <img class="t2m-logo-image grey-border" id="logoImage" ng-src="{{vm.t2mSvc.logoData}}" />
@@ -139,7 +141,7 @@
                     <div class="col-sm-12 fill-height wizard-width-limit">
                         <div class="row">
                             <div class="col-sm-12">
-                            <h4>{{'UPLOAD_TABULAR_DATA' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'UPLOAD_HELP' | translate}}"></i></span></h4>
+                            <h4>{{'UPLOAD_TABULAR_DATA' | translate}}<span class="icon-ic_help_outline_black help_icon" aria-hidden="true" uib-tooltip="{{'UPLOAD_HELP' | translate}}"></span></h4>
                             </div>
                         </div>
                         <div class="row">
@@ -155,9 +157,9 @@
                                     <i class="fa" ng-class="{'fa-check': vm.t2mSvc.uploadNotificationMessage.isOk, 'fa-times': !vm.t2mSvc.uploadNotificationMessage.isOk}"aria-hidden="true"></i>
                                     <div class="zodk-notification-text">
                                         <div class="zodk-notification-title">{{vm.t2mSvc.uploadNotificationMessage.title | translate}}</div>
-                                        <div class="zodk-notification-description">{{vm.t2mSvc.uploadNotificationMessage.description}}</div> 
+                                        <div class="zodk-notification-description">{{vm.t2mSvc.uploadNotificationMessage.description}}</div>
                                     </div>
-                                </div>                               
+                                </div>
                             </div>
                         </div>
                         <div class="row">
@@ -199,7 +201,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="geo-col">{{'SELECT_GEOMETRY_COLUMNS' | translate}}</label>
-                                    <span><i class="fa fa-question-circle pointer" style="padding: 0 16px 0 12px;" aria-hidden="true" uib-tooltip="{{'SELECT_GEOMETRY_COLUMNS_HELP' | translate}}"></i></span>
+                                    <span class="icon-ic_help_outline_black help_icon" aria-hidden="true" uib-tooltip="{{'SELECT_GEOMETRY_COLUMNS_HELP' | translate}}"></span>
                                     <div>
                                         <button id="geo-col" class="btn t2m-btn t2m-btn-lg grey" style="width:100%" ng-click="vm.t2mSvc.openTable()">
                                             <div class="zodk-in-btn-text" translate="SELECT_NR_COLUMNS" translate-values="{nr: nrSelectedGeometryColumns}"></div>
@@ -210,7 +212,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="namelabel-col">{{'SELECT_NAMELABEL_COLUMN' | translate}}</label>
-                                    <span><i class="fa fa-question-circle pointer" style="padding: 0 16px 0 12px;" aria-hidden="true" uib-tooltip="{{'SELECT_NAMELABEL_COLUMN_HELP' | translate}}"></i></span>
+                                    <span class="icon-ic_help_outline_black help_icon" aria-hidden="true" uib-tooltip="{{'SELECT_NAMELABEL_COLUMN_HELP' | translate}}"></span>
                                     <div>
                                         <button id="namelabel-col" class="btn t2m-btn t2m-btn-lg grey" style="width:100%" ng-click="vm.t2mSvc.openTable('col', 1, true)">
                                             <div class="zodk-in-btn-text" ng-show="vm.t2mSvc.featureType.style.nameLabel" style="display: inline">{{vm.t2mSvc.getColumnTitle(vm.t2mSvc.featureType.style.nameLabel)}} ({{'COLUMN' | translate}} {{vm.t2mSvc.getColumnHeader(vm.t2mSvc.featureType.style.nameLabel)}})</div>
@@ -220,11 +222,11 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="add-info">{{'ADDITIONAL_INFO' | translate}}</label><span><i class="fa fa-question-circle pointer" style="padding: 0 16px 0 12px;" aria-hidden="true" uib-tooltip="{{'ADDITIONAL_INFO_COLUMN_HELP' | translate}}"></i></span>
+                                    <label for="add-info">{{'ADDITIONAL_INFO' | translate}}</label><span class="icon-ic_help_outline_black help_icon" aria-hidden="true" uib-tooltip="{{'ADDITIONAL_INFO_COLUMN_HELP' | translate}}"></span>
                                     <div ng-show="vm.t2mSvc.geometryType">
                                         <select class="form-control inline-select" id="add-info" ng-model="vm.t2mSvc.additionalInfo" ng-options="info for info in vm.t2mSvc.geometryType.additionalInfo" ng-change="vm.t2mSvc.layerDataChanged(true)"
                                             ng-disabled="!vm.t2mSvc.geometryType || vm.t2mSvc.geometryType.additionalInfo.length < 1"></select>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -239,7 +241,7 @@
                             <div class="collapse" id="designSettings">
                                 <div class="row">
                                     <div class="col-sm-6 form-group no-padding">
-                                        <label for="f-icon">{{'ICON_IMAGE' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'UPLOAD_ICON_HELP' | translate}}"></i></span></label>
+                                        <label for="f-icon">{{'ICON_IMAGE' | translate}}<span class="icon-ic_help_outline_black help_icon" aria-hidden="true" uib-tooltip="{{'UPLOAD_ICON_HELP' | translate}}"></span></label>
                                         <div id="f-icon">
                                             <label class="file-upload-label btn t2m-btn t2m-btn-lg yellow" for="icon-upload" style="width: 172px"><i class="fa fa-picture-o small-padding" aria-hidden="true"></i><span>{{ 'UPLOAD_ICON' | translate}}</span>
                                                 <input type="file" accept="image/png" id="icon-upload" style="margin-top:8px" />
@@ -372,7 +374,7 @@
                         <form id="propertySettingsForm">
                             <div class="form-group form-header">
                                 <h4>{{'PROPERTY_SETTINGS' | translate}}
-                                    <span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'PROPERTY_SETTINGS_HELP' | translate}}"></i></span>
+                                    <span class="icon-ic_help_outline_black help_icon" aria-hidden="true" uib-tooltip="{{'PROPERTY_SETTINGS_HELP' | translate}}"></span>
                                 </h4>
                             </div>
                             <!--<div class="form-group larger-font bold">
@@ -470,7 +472,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="p-autofill-all">{{'AUTODETECT_TYPES' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'AUTODETECT_TYPES_HELP' | translate}}"></i></span></label>
+                                    <label for="p-autofill-all">{{'AUTODETECT_TYPES' | translate}}
+
+                                       <span class="icon-ic_help_outline_black help_icon" aria-hidden="true" uib-tooltip="{{'AUTODETECT_TYPES_HELP' | translate}}"></span></label>
                                     <div class="form-inline">
                                         <div class="row">
                                             <div class="col-xs-12 no-padding">

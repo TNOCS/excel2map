@@ -12,7 +12,7 @@
                     <tr>
                         <td class="create-project pointer" colspan="4" ng-click="vm.createProject()" ng-disabled="!vm.profileService.isLoggedIn()">
                             <span>
-                                <i class="fa fa-plus" style="margin: 0px 8px"></i>
+                                <span class="icon-ic_add_black" style="margin: 0px 8px"></span>
                             </span>{{'CREATE_NEW_PROJECT' | translate}}
                         </td>
                     </tr>
@@ -37,12 +37,12 @@
                         </td>
                         <td class="text-center">
                             <button class="btn btn-circle" ng-click="vm.editProject(project)" ng-disabled="!canEdit(project)">
-                                <i class="fa fa-pencil pointer"></i>
+                                <span class="icon-ic_edit_black"></span>
                             </button>
                         </td>
                         <td class="text-center">
                             <button class="btn btn-circle" ng-click="vm.manageProjectRights(project)" ng-disabled="!canManage(project)">
-                                <i class="fa fa-cog pointer"></i>
+                                <span class="icon-bewerken"></span>
                             </button>
                         </td>
                     </tr>

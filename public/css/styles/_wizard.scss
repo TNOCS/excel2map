@@ -1,0 +1,134 @@
+#widget-zodkoverzicht-parent, #widget-zodkwizard-parent {
+  font-family: "Franklin";
+  font-size: 18px;
+}
+
+.ui-select-bootstrap .ui-select-toggle > .caret {
+  right: 20px;
+}
+
+.caret {
+  border-top: 7px dashed;
+  border-right: 6px solid transparent;
+  border-left: 6px solid transparent;
+}
+
+
+.help_icon {
+  color: $t2m-yellow;
+  padding-left: 10px;
+  vertical-align: middle;
+  font-size: 18px;
+}
+
+.text-success {
+  color: $t2m-success;
+}
+
+.t2m-btn {
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 0px;
+    border: none;
+    background-color: #aad8fe;
+    background-image: none!important;
+    text-shadow: none;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.t2m-btn-sm {
+    font-size: 16px;
+    height: 32px;
+    min-width: 72px;
+    padding: 6px;
+}
+
+.t2m-btn-lg {
+    height: 48px;
+    min-width: 128px;
+    padding: 12px;
+}
+
+.t2m-btn-square {
+    height: 48px;
+    width: 48px;
+    padding: 12px;
+}
+
+.t2m-btn-height {
+    height: 48px;
+    line-height: 48px;
+}
+
+.t2m-btn.yellow {
+    background-color: $t2m-yellow;
+}
+
+.t2m-btn.red {
+    background-color: $t2m-red;
+}
+
+.t2m-btn.grey {
+    background-color: $t2m-grey;
+}
+
+.t2m-btn.green {
+    background-color: #dff0d8;
+}
+
+.t2m-btn.red {
+    background-color: #fecbbb;
+}
+
+.t2m-btn-icon {
+    padding: 4px 8px;
+    font-size: 110%;
+}
+
+.t2m-div-btn-style {
+    height: 48px;
+    padding: 12px;
+    margin: 2px 8px 2px 2px;
+    background: lightgrey;
+}
+
+.t2m-btn:hover {
+    outline: 2px #bbbbbb solid;
+}
+
+input#create-project-title {
+    line-height: 1.9;
+    min-width: 300px;
+    font-size: 20px;
+    padding-left: 10px;
+}
+
+
+.fixed-widget-header {
+  height: 48px;
+  border-bottom: solid 1px #ccc;
+}
+
+.wizard-title {
+  font-size: 24px;
+  font-weight: bold;
+  display: inline;
+}
+
+#progress-content {
+  padding-left: 0px;
+  margin-top: 25px;
+}
+
+#wizard-content {
+  padding-right: 0px;
+}
+
+.scrollable-widget-content {
+    overflow: auto;
+    background: $wizard-bg-color;
+}
+
+
