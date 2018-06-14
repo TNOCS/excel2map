@@ -8,13 +8,261 @@
     {
       "selection": [
         {
+          "order": 48,
+          "id": 9,
+          "name": "bewerken",
+          "prevSize": 32,
+          "code": 59677,
+          "tempChar": ""
+        },
+        {
+          "order": 37,
+          "id": 8,
+          "name": "check_black_24px",
+          "prevSize": 32,
+          "code": 59678,
+          "tempChar": ""
+        },
+        {
+          "order": 38,
+          "id": 7,
+          "name": "ic_add_black_24px",
+          "prevSize": 32,
+          "code": 59679,
+          "tempChar": ""
+        },
+        {
+          "order": 39,
+          "id": 6,
+          "name": "ic_arrow_drop_down_black_24px",
+          "prevSize": 32,
+          "code": 59680,
+          "tempChar": ""
+        },
+        {
+          "order": 40,
+          "id": 5,
+          "name": "ic_content_copy_black_24px",
+          "prevSize": 32,
+          "code": 59681,
+          "tempChar": ""
+        },
+        {
+          "order": 41,
+          "id": 4,
+          "name": "ic_delete_forever_black_24px",
+          "prevSize": 32,
+          "code": 59682,
+          "tempChar": ""
+        },
+        {
+          "order": 42,
+          "id": 3,
+          "name": "ic_edit_black_24px",
+          "prevSize": 32,
+          "code": 59683,
+          "tempChar": ""
+        },
+        {
+          "order": 43,
+          "id": 2,
+          "name": "ic_error_outline_black_24px",
+          "prevSize": 32,
+          "code": 59684,
+          "tempChar": ""
+        },
+        {
+          "order": 47,
+          "id": 1,
+          "name": "ic_help_outline_black_24px",
+          "prevSize": 32,
+          "code": 59685,
+          "tempChar": ""
+        },
+        {
+          "order": 45,
+          "id": 0,
+          "name": "ic_person_black_24px",
+          "prevSize": 32,
+          "code": 59686,
+          "tempChar": ""
+        }
+      ],
+      "id": 2,
+      "metadata": {
+        "name": "E2M",
+        "importSize": {
+          "width": 24,
+          "height": 24
+        }
+      },
+      "height": 1024,
+      "prevSize": 32,
+      "icons": [
+        {
+          "id": 9,
+          "paths": [
+            "M936.576 813.739l-243.925-243.925c34.048-46.037 54.4-102.827 54.4-164.48 0-153.173-128-277.333-277.333-277.333v85.333c106.667 0 192 86.229 192 192 0 105.813-85.76 192-192 192-104.576 0-189.696-84.309-191.659-188.459h-85.461c0.725 67.541 22.229 135.595 78.037 191.403 64.939 65.024 129.963 82.389 199.125 82.389 58.069 0 111.915-17.92 156.459-48.427l244.949 244.907 65.408-65.408z"
+          ],
+          "attrs": [
+            {}
+          ],
+          "isMulticolor": false,
+          "isMulticolor2": false,
+          "grid": 0,
+          "tags": [
+            "bewerken"
+          ]
+        },
+        {
+          "id": 8,
+          "paths": [
+            "M384 689.92l-177.92-177.92-60.587 60.16 238.507 238.507 512-512-60.16-60.16z"
+          ],
+          "attrs": [
+            {}
+          ],
+          "isMulticolor": false,
+          "isMulticolor2": false,
+          "grid": 0,
+          "tags": [
+            "check_black_24px"
+          ]
+        },
+        {
+          "id": 7,
+          "paths": [
+            "M810.667 554.667h-256v256h-85.333v-256h-256v-85.333h256v-256h85.333v256h256v85.333z"
+          ],
+          "attrs": [
+            {}
+          ],
+          "isMulticolor": false,
+          "isMulticolor2": false,
+          "grid": 0,
+          "tags": [
+            "ic_add_black_24px"
+          ]
+        },
+        {
+          "id": 6,
+          "paths": [
+            "M298.667 426.667l213.333 213.333 213.333-213.333z"
+          ],
+          "attrs": [
+            {}
+          ],
+          "isMulticolor": false,
+          "isMulticolor2": false,
+          "grid": 0,
+          "tags": [
+            "ic_arrow_drop_down_black_24px"
+          ]
+        },
+        {
+          "id": 5,
+          "paths": [
+            "M682.667 42.667h-512c-46.933 0-85.333 38.4-85.333 85.333v597.333h85.333v-597.333h512v-85.333zM810.667 213.333h-469.333c-46.933 0-85.333 38.4-85.333 85.333v597.333c0 46.933 38.4 85.333 85.333 85.333h469.333c46.933 0 85.333-38.4 85.333-85.333v-597.333c0-46.933-38.4-85.333-85.333-85.333zM810.667 896h-469.333v-597.333h469.333v597.333z"
+          ],
+          "attrs": [
+            {}
+          ],
+          "isMulticolor": false,
+          "isMulticolor2": false,
+          "grid": 0,
+          "tags": [
+            "ic_content_copy_black_24px"
+          ]
+        },
+        {
+          "id": 4,
+          "paths": [
+            "M256 810.667c0 46.933 38.4 85.333 85.333 85.333h341.333c46.933 0 85.333-38.4 85.333-85.333v-512h-512v512zM360.96 506.88l60.16-60.16 90.88 90.453 90.453-90.453 60.16 60.16-90.453 90.453 90.453 90.453-60.16 60.16-90.453-90.453-90.453 90.453-60.16-60.16 90.453-90.453-90.88-90.453zM661.333 170.667l-42.667-42.667h-213.333l-42.667 42.667h-149.333v85.333h597.333v-85.333z"
+          ],
+          "attrs": [
+            {}
+          ],
+          "isMulticolor": false,
+          "isMulticolor2": false,
+          "grid": 0,
+          "tags": [
+            "ic_delete_forever_black_24px"
+          ]
+        },
+        {
+          "id": 3,
+          "paths": [
+            "M128 736v160h160l471.893-471.893-160-160-471.893 471.893zM883.627 300.373c16.64-16.64 16.64-43.52 0-60.16l-99.84-99.84c-16.64-16.64-43.52-16.64-60.16 0l-78.080 78.080 160 160 78.080-78.080z"
+          ],
+          "attrs": [
+            {}
+          ],
+          "isMulticolor": false,
+          "isMulticolor2": false,
+          "grid": 0,
+          "tags": [
+            "ic_edit_black_24px"
+          ]
+        },
+        {
+          "id": 2,
+          "paths": [
+            "M469.333 640h85.333v85.333h-85.333zM469.333 298.667h85.333v256h-85.333zM511.573 85.333c-235.52 0-426.24 191.147-426.24 426.667s190.72 426.667 426.24 426.667c235.947 0 427.093-191.147 427.093-426.667s-191.147-426.667-427.093-426.667zM512 853.333c-188.587 0-341.333-152.747-341.333-341.333s152.747-341.333 341.333-341.333 341.333 152.747 341.333 341.333-152.747 341.333-341.333 341.333z"
+          ],
+          "attrs": [
+            {}
+          ],
+          "isMulticolor": false,
+          "isMulticolor2": false,
+          "grid": 0,
+          "tags": [
+            "ic_error_outline_black_24px"
+          ]
+        },
+        {
+          "id": 1,
+          "paths": [
+            "M469.333 768h85.333v-85.333h-85.333v85.333zM512 85.333c-235.52 0-426.667 191.147-426.667 426.667s191.147 426.667 426.667 426.667 426.667-191.147 426.667-426.667-191.147-426.667-426.667-426.667zM512 853.333c-188.16 0-341.333-153.173-341.333-341.333s153.173-341.333 341.333-341.333 341.333 153.173 341.333 341.333-153.173 341.333-341.333 341.333zM512 256c-94.293 0-170.667 76.373-170.667 170.667h85.333c0-46.933 38.4-85.333 85.333-85.333s85.333 38.4 85.333 85.333c0 85.333-128 74.667-128 213.333h85.333c0-96 128-106.667 128-213.333 0-94.293-76.373-170.667-170.667-170.667z"
+          ],
+          "attrs": [
+            {}
+          ],
+          "isMulticolor": false,
+          "isMulticolor2": false,
+          "grid": 0,
+          "tags": [
+            "ic_help_outline_black_24px"
+          ]
+        },
+        {
+          "id": 0,
+          "paths": [
+            "M512 512c94.293 0 170.667-76.373 170.667-170.667s-76.373-170.667-170.667-170.667-170.667 76.373-170.667 170.667 76.373 170.667 170.667 170.667zM512 597.333c-113.92 0-341.333 57.173-341.333 170.667v85.333h682.667v-85.333c0-113.493-227.413-170.667-341.333-170.667z"
+          ],
+          "attrs": [
+            {}
+          ],
+          "isMulticolor": false,
+          "isMulticolor2": false,
+          "grid": 0,
+          "tags": [
+            "ic_person_black_24px"
+          ]
+        }
+      ],
+      "invisible": false,
+      "colorThemes": []
+    },
+    {
+      "selection": [
+        {
           "id": 1,
           "order": 3,
           "ligatures": "",
           "prevSize": 32,
           "code": 59648,
           "name": "filter",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "id": 2,
@@ -23,7 +271,7 @@
           "prevSize": 32,
           "code": 59649,
           "name": "sluit",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "id": 3,
@@ -32,7 +280,7 @@
           "prevSize": 32,
           "code": 59650,
           "name": "uniE902",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "id": 4,
@@ -41,7 +289,7 @@
           "prevSize": 32,
           "code": 59651,
           "name": "hint",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "id": 5,
@@ -50,7 +298,7 @@
           "prevSize": 32,
           "code": 59652,
           "name": "kaartlagen",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "id": 6,
@@ -59,7 +307,7 @@
           "prevSize": 32,
           "code": 59653,
           "name": "marker",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "id": 7,
@@ -68,7 +316,7 @@
           "prevSize": 32,
           "code": 59654,
           "name": "zoom_in",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "id": 8,
@@ -77,7 +325,7 @@
           "prevSize": 32,
           "code": 59655,
           "name": "zoom_out",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "id": 10,
@@ -86,7 +334,7 @@
           "prevSize": 32,
           "code": 59657,
           "name": "downloaden",
-          "tempChar": ""
+          "tempChar": ""
         }
       ],
       "id": 1,
@@ -235,7 +483,7 @@
           "prevSize": 32,
           "code": 59656,
           "name": "donut",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "id": 2,
@@ -244,7 +492,7 @@
           "prevSize": 32,
           "code": 59658,
           "name": "donut_2",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "id": 3,
@@ -253,7 +501,7 @@
           "prevSize": 32,
           "code": 59659,
           "name": "download-csv",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "id": 5,
@@ -262,7 +510,7 @@
           "prevSize": 32,
           "code": 59660,
           "name": "download-geojson",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "id": 6,
@@ -271,7 +519,7 @@
           "prevSize": 32,
           "code": 59661,
           "name": "downloadpdf",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "id": 8,
@@ -280,7 +528,7 @@
           "prevSize": 32,
           "code": 59662,
           "name": "hulp",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "id": 9,
@@ -289,7 +537,7 @@
           "prevSize": 32,
           "code": 59663,
           "name": "info",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "id": 10,
@@ -298,7 +546,7 @@
           "prevSize": 32,
           "code": 59664,
           "name": "kaart",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "id": 12,
@@ -307,7 +555,7 @@
           "prevSize": 32,
           "code": 59665,
           "name": "legenda",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "id": 14,
@@ -316,7 +564,7 @@
           "prevSize": 32,
           "code": 59666,
           "name": "uniE912",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "id": 15,
@@ -325,7 +573,7 @@
           "prevSize": 32,
           "code": 59667,
           "name": "uniE913",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "id": 17,
@@ -334,7 +582,7 @@
           "prevSize": 32,
           "code": 59668,
           "name": "pijl_nav_links",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "id": 16,
@@ -343,16 +591,16 @@
           "prevSize": 32,
           "code": 59669,
           "name": "pdf",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "id": 18,
-          "order": 29,
+          "order": 35,
           "ligatures": "",
           "prevSize": 32,
           "code": 59670,
           "name": "pijl_nav_rechts",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "id": 19,
@@ -361,7 +609,7 @@
           "prevSize": 32,
           "code": 59671,
           "name": "printer",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "id": 20,
@@ -370,7 +618,7 @@
           "prevSize": 32,
           "code": 59672,
           "name": "refresh",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "id": 21,
@@ -379,7 +627,7 @@
           "prevSize": 32,
           "code": 59673,
           "name": "ster",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "id": 22,
@@ -388,7 +636,7 @@
           "prevSize": 32,
           "code": 59674,
           "name": "ster-vol",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "id": 23,
@@ -397,7 +645,7 @@
           "prevSize": 32,
           "code": 59675,
           "name": "woning",
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "id": 26,
@@ -406,7 +654,7 @@
           "prevSize": 32,
           "code": 59676,
           "name": "hulp_vraag",
-          "tempChar": ""
+          "tempChar": ""
         }
       ],
       "id": 0,
@@ -717,8 +965,8 @@
       "embed": false,
       "showSelector": true,
       "showMetrics": false,
-      "showVersion": false,
-      "showMetadata": false,
+      "showVersion": true,
+      "showMetadata": true,
       "cssVars": true,
       "cssVarsFormat": "scss"
     },
