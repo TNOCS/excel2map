@@ -1079,6 +1079,7 @@ module Table2Map {
         }
 
         public initPreviewMap() {
+            if (this.previewMap) return;
             this.previewMap = L.map('previewMap').setView(PREVIEW_COORDINATES_POINT, PREVIEW_ZOOMLEVEL);
             let baseLayer = new L.TileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
                 subdomains: ['a', 'b', 'c', 'd'],
@@ -1090,6 +1091,12 @@ module Table2Map {
             });
             baseLayer.addTo(this.previewMap);
             this.updateZoom();
+            this.updateMarker();
+        }
+
+        public updatePreviewMap() {
+            if (!this.previewMap) { return; }
+            this.previewMap.invalidateSize({});
         }
 
         private updateZoom() {
@@ -1377,7 +1384,7 @@ module Table2Map {
             if (!this.feature.geometry) this.feature.geometry = < csComp.Services.IGeoJsonGeometry > {};
             if (!this.feature || !this.featureType || !this.featureType.style || !this.featureType.style.drawingMode) return;
             let drawingMode = this.featureType.style.drawingMode;
-            if (this.marker) this.previewMap.removeLayer(this.marker);
+            if (this.marker && this.previewMap) this.previewMap.removeLayer(this.marker);
             this.feature.geometry.type = drawingMode;
             this.feature.properties = this.rowCollection[this.selectedRowIndex || 0] || {};
             this.feature['fType'] = this.featureType;
@@ -1404,7 +1411,9 @@ module Table2Map {
                     }, 0);
                 }
             });
-            this.marker.addTo(this.previewMap);
+            if (this.previewMap) {
+                this.marker.addTo(this.previewMap);
+            }
         }
 
         private selectFeature(f: IFeature) {

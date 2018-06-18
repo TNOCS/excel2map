@@ -67,7 +67,9 @@ module Translations {
             NO_FILTERS: 'U heeft geen filters actief',
             LAYERS: 'Layers',
             DATA: 'Data',
-            DOWNLOAD_SELECTION_AS: 'Download deze selectie als'
+            DOWNLOAD_SELECTION_AS: 'Download deze selectie als',
+            IE_DETECTED: 'Internet Explorer detected',
+            IE_DETECTED_MSG: 'Please use a modern browser (e.g. Chrome, Firefox, Opera) for optimal use of this application.'
         };
     }
 }

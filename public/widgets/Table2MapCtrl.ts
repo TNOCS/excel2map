@@ -143,6 +143,10 @@ module Table2Map {
                 console.log(`Select step ${this.t2mSvc.currentStep}`);
                 if (this.t2mSvc.currentStep === ConversionStep.FeatureProps) {
                     this.$messageBus.publish('table2map', 'update-rightpanel', this.t2mSvc.feature);
+                } else if (this.t2mSvc.currentStep === ConversionStep.StyleSettings) {
+                    this.$timeout(() => {
+                        this.t2mSvc.initPreviewMap();
+                    }, 200);
                 }
             });
 
@@ -202,7 +206,7 @@ module Table2Map {
             });
 
             this.disableInputs();
-            this.t2mSvc.initPreviewMap();
+            // this.t2mSvc.initPreviewMap();
         }
 
         private closeWizard() {

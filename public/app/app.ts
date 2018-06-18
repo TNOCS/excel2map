@@ -90,6 +90,10 @@ module App {
                 }, 20);
             });
 
+            if (navigator.appName === 'Microsoft Internet Explorer' || !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/rv:11/))) {
+                $messageBusService.notifyWithTranslation('IE_DETECTED', 'IE_DETECTED_MSG', null, csComp.Services.NotifyLocation.TopBar, csComp.Services.NotifyType.Info, 15000);
+            }
+
             $messageBusService.subscribe('project', (action: string) => {
                 if (action === 'loaded') {
                     this.$dashboardService.widgetTypes['e2muploadwidget'] = <csComp.Services.IWidget>{

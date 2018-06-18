@@ -285,7 +285,7 @@ const policiesLoaded = (err: Error, ps: IPolicyStore) => {
         });
 
     cs.server.use(ExpressStatic(path.resolve(__dirname, 'data')));
-    cs.server.use(ExpressStatic(path.resolve(__dirname, 'private', 'data', 'images')));
+    cs.server.use(ExpressStatic(path.resolve(deployPath, __dirname, 'private', 'data', 'images')));
     // cs.server.use(auth);
 
     var debug = true;
