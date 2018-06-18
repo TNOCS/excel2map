@@ -171,6 +171,9 @@ module ProjectsDirective {
                     console.log(`Could not find permissions for project ${p.title}`);
                 }
             });
+            this.projects = this.projects.sort((a: Project, b: Project) => {
+                return ((b.updated || Number.MIN_SAFE_INTEGER) - (a.updated || Number.MIN_SAFE_INTEGER));
+            });
         }
 
         private editProject(project: Project) {

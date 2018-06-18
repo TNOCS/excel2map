@@ -504,24 +504,35 @@
                         </div>
                     </div>
                 </div>
-                <!-- Layer settings -->
-                <!-- <div class="row" ng-show="vm.t2mSvc.currentStep === 4">
-                    <div class="col-xs-8 col-md-5 col-md-offset-1">
-                        <div class="form-group">
-                            <label for="convert-btn">{{'DATA_TO_MAP' | translate}}</label>
-                            <button id="convert-btn" class="btn btn-primary big-button" data-ng-click="vm.t2mSvc.convert()">{{'CONVERT' | translate}}</button>
+                <!-- UPLOAD-PAGE -->
+                <div class="row" ng-show="vm.t2mSvc.currentStep === 6">
+                    <div class="col-sm-12 fill-height wizard-width-limit">
+                        <div class="row">
+                            <div class="col-sm-12">
+                            <h4>{{'GENERATE_MAP' | translate}}</h4>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="show-project">{{'SHOW_PROJECT' | translate}}</label>
-                            <a style="font-size: 24px" id="show-project" target="_blank" ng-href="{{'http://localhost:3004/?project='+vm.t2mSvc.project.id}}">{{'SHOW_PROJECT' | translate}}</a>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div>{{'LAST_STEP_MSG' | translate}}</div>
+                            </div>
+                        </div>
+                        <div class="row small-margin-top">
+                            <div class="col-xs-12">
+                                <div class="btn t2m-btn t2m-btn-lg yellow" style="min-width: 200px" ng-click="vm.t2mSvc.convertOnly()" ng-disabled="(dropBox.$invalid||projectSettingsForm.$invalid||LayerSettingsOldForm.$invalid||!vm.t2mSvc.geometryInfoComplete)">
+                                    <i class="fa fa-cogs"></i> {{'CONVERT' | translate}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row small-margin-top">
+                            <div class="col-xs-12">
+                                <div class="btn t2m-btn t2m-btn-lg yellow" style="min-width: 200px" ng-click="vm.t2mSvc.openProject()" ng-disabled="!vm.t2mSvc.conversionReady">
+                                    <i class="fa fa-map-o"></i> {{'OPEN_RESULT' | translate}}
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-xs-4 col-lg-3">
-                        <div class="panel-border" style="min-height: 200px; margin-bottom: 24px">
-                            <layerlistpreview></layerlistpreview>
-                        </div>
-                    </div>
-                </div> -->
+                </div>
             </div>
         </div>
     </div>
@@ -530,16 +541,16 @@
             <div class="col-sm-4 col-md-3 col-lg-2"></div>
             <div class="col-sm-8 col-md-9 col-lg-10">
                 <div class="row">
-                    <div class="col-sm-8 zodk-next-step">
+                    <div class="col-sm-12 zodk-next-step">
                         <div class="pointer" style="text-shadow: 0.5px 0.5px #ccc;" ng-click="vm.t2mSvc.currentStep=vm.t2mSvc.currentStep+1"  ng-hide="vm.t2mSvc.currentStep>=vm.t2mSvc.numberOfSteps">
                             {{'NEXT_STEP' | translate}}
                         </div>
                     </div>
-                    <div class="col-sm-4 zodk-next-step">
+                    <!-- <div class="col-sm-4 zodk-next-step">
                         <div class="btn t2m-btn yellow" ng-click="vm.t2mSvc.convertAndOpen()" ng-disabled="(dropBox.$invalid||projectSettingsForm.$invalid||LayerSettingsOldForm.$invalid||!vm.t2mSvc.geometryInfoComplete)">
                             <i class="fa fa-map-o"></i> {{'SAVE_AND_OPEN' | translate}}
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

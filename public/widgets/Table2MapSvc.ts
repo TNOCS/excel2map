@@ -44,7 +44,8 @@ module Table2Map {
             LayerSettings = 2,
             UploadData = 3,
             StyleSettings = 4,
-            FeatureProps = 5
+            FeatureProps = 5,
+            Conversion = 6
     }
 
     export interface INotificationMsg {
@@ -54,7 +55,7 @@ module Table2Map {
     }
 
     export var DEFAULT_SECTION = 'Gegevens';
-    export var CONVERSION_STEPS = ['Project titel en logo invoeren', 'Kaartlaag groep, titel en beschrijving invoeren', 'Data uploaden', 'Stijlinstellingen aanpassen', 'Data weergave'];
+    export var CONVERSION_STEPS = ['Project titel en logo invoeren', 'Kaartlaag groep, titel en beschrijving invoeren', 'Data uploaden', 'Stijlinstellingen aanpassen', 'Data weergave', 'Conversie'];
 
     /** Assumption of the number of columns before table is parsed. */
     export var MAX_NR_COLUMNS = 128;
@@ -175,6 +176,7 @@ module Table2Map {
         private conversionSteps: string[] = CONVERSION_STEPS;
         public notFoundLocations: Record < string, any > ;
         private uploadNotificationMessage: INotificationMsg;
+        private conversionReady: boolean = false;
 
         public static $inject = [
             '$http',
@@ -763,9 +765,26 @@ module Table2Map {
         }
 
         private convertAndOpen() {
-            var featuresUpdated: boolean = true; // TODO: check whether feature geometries have changed
-            this.convert(featuresUpdated, () => {
+            var featuresUpdated = ((this.changedFiles & ChangedFiles.LayerData) > 0);
+            // var featuresUpdated: boolean = true; // TODO: check whether feature geometries have changed
+            this.convert(featuresUpdated, (err) => {
+                if (err) {
+                    this.$messageBus.notify('Error in conversion', err);
+                    return;
+                }
+                this.conversionReady = true;
                 this.openProject();
+            });
+        }
+
+        private convertOnly() {
+            var featuresUpdated = ((this.changedFiles & ChangedFiles.LayerData) > 0);
+            this.convert(featuresUpdated, (err) => {
+                if (err) {
+                    this.$messageBus.notify('Error in conversion', err);
+                    return;
+                }
+                this.conversionReady = true;
             });
         }
 
@@ -1107,6 +1126,7 @@ module Table2Map {
 
         private layerDataChanged() {
             this.changedFiles = (this.changedFiles | ChangedFiles.LayerData);
+            this.conversionReady = false;
         }
 
         /** When the geometry type is changed manually by the user, clear
