@@ -42,6 +42,8 @@
     <div class="navigation" ng-if="vm.isLoggedIn()">
 
         <div class="topnav">
+            <a ng-click="vm.privacyStatement()" ng-show="vm.hideSubNav">{{'PRIVACY_STATEMENT' | translate}}</a>
+
             <a ng-click="vm.newProject()" ng-show="vm.hideSubNav">{{'CREATE_NEW_PROJECT' | translate}}</a>
             <a ng-class="{'active': vm.panel == vm.Panel.overzicht}" ng-click="vm.openProjectOverzicht()">{{'PROJECTS_LIST' | translate}}</a>
             <a ng-click="vm.editProject()" ng-show="!vm.hideSubNav" ng-class="{disabled: data.disableEdit}">{{'EDIT_PROJECT' | translate}}</a>

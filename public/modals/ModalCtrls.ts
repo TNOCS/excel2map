@@ -119,7 +119,7 @@ module ModalCtrls {
         }
 
         public selectCol(col: Table2Map.IHeaderObject, index: number) {
-            if (this.selectionOption !== 'col') return;            
+            if (this.selectionOption !== 'col') return;
             if (this.selectedColumns.length > index) {
                 if (this.selectedColumns[index]) {
                     $(`#st-datatable th:nth-child(${this.selectedColumns[index].index+1}), #st-datatable td:nth-child(${this.selectedColumns[index].index+1})`).toggleClass('st-selected', false);
@@ -638,6 +638,33 @@ module ModalCtrls {
 
         public ok() {
             this.$uibModalInstance.close(true);
+        }
+
+        public cancel() {
+            this.$uibModalInstance.dismiss('cancel');
+        }
+    }
+
+    export interface IPrivacyStatementModalScope extends ng.IScope {
+        vm: PrivacyStatementModalCtrl;
+    }
+
+    export class PrivacyStatementModalCtrl {
+        public static $inject = [
+            '$scope',
+            '$uibModalInstance',
+        ];
+
+
+        constructor(
+            private $scope: IPrivacyStatementModalScope,
+            private $uibModalInstance: any,)
+        {
+            $scope.vm = this;
+        }
+
+        public ok() {
+            this.$uibModalInstance.close();
         }
 
         public cancel() {

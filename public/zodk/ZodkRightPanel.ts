@@ -141,7 +141,7 @@ module Table2Map {
         }
 
         private updateCanEdit() {
-            this.$scope.data.disableEdit = (this.layerService.project && this.layerService.project.id=='excel2map');            
+            this.$scope.data.disableEdit = (this.layerService.project && this.layerService.project.id=='excel2map');
         }
 
         private selectFeature(fts: IFeature[]) {
@@ -244,6 +244,14 @@ module Table2Map {
 
         public newProject() {
             this.publish('zodk', 'new-project');
+        }
+
+        public privacyStatement() {
+            var modalInstance = this.$uibModal.open({
+                templateUrl: 'modals/PrivacyStatementModal.tpl.html',
+                controller: 'PrivacyStatementModalCtrl',
+                resolve: {}
+            });
         }
 
         private updatePanel() {

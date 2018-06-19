@@ -181,7 +181,8 @@ module Translations {
             DATA: 'Informatie',
             DOWNLOAD_SELECTION_AS: 'Download deze selectie als',
             IE_DETECTED: 'Internet Explorer gedetecteerd',
-            IE_DETECTED_MSG: 'Gebruik aub een moderne browser (e.g. Chrome, Firefox, Opera) om optimaal gebruik te kunnen maken van deze applicatie.'
+            IE_DETECTED_MSG: 'Gebruik aub een moderne browser (e.g. Chrome, Firefox, Opera) om optimaal gebruik te kunnen maken van deze applicatie.',
+            PRIVACY_STATEMENT: 'Privacy Statement'
         };
     }
 }

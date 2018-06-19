@@ -473,5 +473,6 @@ module App {
         .controller('CreateProjectModalCtrl', ModalCtrls.CreateProjectModalCtrl)
         .controller('ManageProjectModalCtrl', ModalCtrls.ManageProjectModalCtrl)
         .controller('ChooseLayerModalCtrl', ModalCtrls.ChooseLayerModalCtrl)
-        .controller('MissingLocationModalCtrl', ModalCtrls.MissingLocationModalCtrl);
+        .controller('MissingLocationModalCtrl', ModalCtrls.MissingLocationModalCtrl)
+        .controller('PrivacyStatementModalCtrl', ModalCtrls.PrivacyStatementModalCtrl);
 }
