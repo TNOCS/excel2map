@@ -6,6 +6,8 @@ $t2m-yellow-disabled: #fff0c3;
 $t2m-grey: lightgrey;
 $t2m-hover-color: #fff0c2;
 $t2m-success: #009900;
+$t2m-danger: #ff4040;
+$t2m-info: #31708f;
 $rightpanel-width-full: 1480px;
 $rightpanel-width-lg: 960px;
 $rightpanel-width: 460px;
@@ -75,14 +77,6 @@ body {
     max-width: 360px;
 }
 
-.csv-settings {
-    padding: 32px;
-}
-
-.csv-settings input {
-    margin-right: 16px;
-}
-
 .csv-table-header {
     cursor: pointer;
 }
@@ -114,7 +108,7 @@ table.table.table-striped tr.st-selected td {
 tr.st-selected,
 th.st-selected,
 td.st-selected {
-    background: cornflowerblue;
+    background: $t2m-yellow-disabled;
 }
 
 .no-margin {
@@ -211,47 +205,6 @@ td.st-selected {
 
 .pagination {
     margin: 4px 0;
-}
-
-.scrollable-xy-table {
-    height: 80%;
-    width: 100%;
-    overflow: auto;
-}
-
-.modal-dialog {
-    height: 100%;
-    padding-bottom: 50px;
-}
-
-.modal-header {
-    height: 60px;
-    border: none;
-}
-
-.modal-content {
-    height: 100%;
-    border-radius: 0px;
-}
-
-.modal-title {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.modal-footer {
-    border-top: none;
-    padding: 0px 0px 0px 15px;
-}
-
-
-.modal-footer button {
-    margin-right: 10px;
-
-}
-
-.modal {
-    overflow-y: hidden!important;
 }
 
 #featureprops-content {
@@ -391,16 +344,6 @@ label {
     padding: 1px;
 }
 
-.zodk-next-step {
-    color: white;
-    font-size: 24px;
-    background: $footer-bg-color;
-    height: 50px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
-
 input.form-control, select.form-control, span.form-control {
     font-size: 18px;
     height: 52px;
@@ -477,11 +420,6 @@ a:hover {
     cursor: pointer;
 }
 
-@media(min-width: 1200px) {
-    .modal-lg {
-        width: 1160px;
-    }
-}
 
 .title-row > div {
     font-size: smaller;

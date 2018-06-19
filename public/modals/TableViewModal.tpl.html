@@ -1,9 +1,11 @@
-<div class="modal-header">
-    <h4 class="modal-title">{{'TABLE_LABEL' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'TABLE_HELP' | translate}}" tooltip-placement="bottom"></i></span></h4>
+<div class="modal-header modal-fullheight">
+    <h4 class="modal-title">{{'TABLE_LABEL' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'TABLE_HELP' | translate}}" tooltip-placement="bottom"></i></span><span class="icon-sluit t2mclose" ng-click="vm.cancel()"></span></h4>
 </div>
+
 <div class="modal-body scrollable-xy-table">
+
     <div class="small-padding" ng-show="vm.itemsToSelect">
-        <div class="small-padding bold">{{'SELECT_THESE_ITEMS' | translate}}:
+        <div class="bold">{{'SELECT_THESE_ITEMS' | translate}}:
             <!-- <span class="small-padding pointer" ng-click="vm.toggleTooltips()" style="float:right">
                     <a style="text-decoration: none"><i class="fa fa-eye-slash small-padding" aria-hidden="true"></i>{{'SHOW_HIDE_COLUMN_TITLES' | translate}}</a>
             </span> -->
@@ -12,12 +14,12 @@
                 <li ng-repeat="item in vm.itemsToSelect">{{item}}</li>
             </ul>-->
         <div class="grey-border">
-            <table>
+            <table class="data-table">
                 <tbody>
                     <tr class="row no-margin" ng-repeat="item in vm.itemsToSelect track by $index">
                         <td class="small-padding bold">{{item}}</td>
                         <td class="small-padding">
-                            <select ng-options="headerObj as headerObj.title for headerObj in vm.headerCollection"
+                            <select class="form-control tt-input" ng-options="headerObj as headerObj.title for headerObj in vm.headerCollection"
                                     ng-model="columnSelection[$index]" ng-change="vm.selectCol(columnSelection[$index], $index)"></select>
                         </td>
                         <!-- <td class="small-padding" ng-show="vm.selectedColumns.length > $index">{{'COLUMN' | translate}} {{vm.selectedColumns[$index].title}}</td>
@@ -29,6 +31,8 @@
             </table>
         </div>
     </div>
+
+
     <div class="small-padding" ng-hide="vm.itemsToSelect">
         <div class="small-padding">{{'NOTHING_TO_SELECT' | translate}}</div>
     </div>
@@ -61,14 +65,8 @@
         </tbody>
     </table>
 </div>
-<div class="modal-footer" ng-show="vm.selectionOption === 'none'">
-    <button type="button" class="btn btn-primary" ng-click="vm.cancel()">{{'CLOSE' | translate}}</button>
-</div>
-<div class="modal-footer" ng-show="vm.selectionOption.indexOf('col') >= 0">
-    <button type="button" class="btn btn-default" ng-click="vm.cancel()">{{'CLOSE' | translate}}</button>
-    <button type="button" class="btn btn-primary" ng-click="vm.ok()">{{'SELECT_COLS' | translate}}</button>
-</div>
-<div class="modal-footer" ng-show="vm.selectionOption.indexOf('row') >= 0">
-    <button type="button" class="btn btn-default" ng-click="vm.cancel()">{{'CLOSE' | translate}}</button>
-    <button type="button" class="btn btn-primary" ng-click="vm.ok()">{{'SELECT_ROW' | translate}}</button>
+
+<div class="modal-footer" >
+    <div class="t2m-btn yellow t2m-btn-inline" ng-click="vm.ok()" ng-show="vm.selectionOption.indexOf('col') >= 0" >{{'SELECT_COLS' | translate}}</div>
+    <div class="t2m-btn yellow t2m-btn-inline" ng-show="vm.selectionOption.indexOf('row') >= 0" ng-click="vm.ok()">{{'SELECT_ROW' | translate}}</div>
 </div>

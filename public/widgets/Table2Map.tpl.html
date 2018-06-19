@@ -22,11 +22,14 @@
 
         <div class="row no-margin">
                 <div class="wizard-title">{{vm.t2mSvc.currentStep}}. {{vm.t2mSvc.conversionSteps[vm.t2mSvc.currentStep - 1]}}
-                <span class="larger-font small-padding pull-right pointer" uib-tooltip="{{'EXIT_WIZARD' | translate}}" tooltip-placement="left" ng-click="vm.closeWizard()"><span class="icon-sluit"></span></span>
-                <span class="larger-font small-padding pull-right pointer" style="margin-right:24px" ng-show="vm.t2mSvc.notFoundLocations" uib-tooltip="{{'DATA_NOT_CONVERTED_CORRECTLY' | translate}}" tooltip-placement="left" ng-click="vm.showMissingLocations()"><i class="fa fa-exclamation-triangle"></i></span>
+
+                <span style="font-size: 16px; margin-top: 9px;" class="pull-right pointer" uib-tooltip="{{'EXIT_WIZARD' | translate}}" tooltip-placement="left" ng-click="vm.closeWizard()"><span class="icon-sluit"></span></span>
+
+                <span class="larger-font small-padding pull-right pointer" style="margin-right:30px" ng-show="vm.t2mSvc.notFoundLocations" uib-tooltip="{{'DATA_NOT_CONVERTED_CORRECTLY' | translate}}" tooltip-placement="left" ng-click="vm.showMissingLocations()"><i class="fa fa-exclamation-triangle"></i></span>
+
                 <span class="pull-right" ng-show="vm.t2mSvc.rowCollection.length > 0">
-                    <div style="margin-right: 24px;display: inline">
-                        <a class="label-text" ng-click="vm.t2mSvc.openTable('none', 0)" style="border-radius: 0.25em;">
+                    <div style="margin-right: 30px;">
+                        <a class="label-text" ng-click="vm.t2mSvc.openTable('none', 0)">
                             <i class="fa fa-table"></i>
                             <span class="small-padding-left">{{'SHOW_TABLE' | translate}}</span>
                         </a>
@@ -49,7 +52,7 @@
             </ul> -->
         </div>
         <div class="col-sm-8 col-md-9 col-lg-10" id="wizard-content">
-            <div class="scrollable-widget-content" style="padding:0px;font-size:12px;margin:0px;" ng-hide="minimized" resize resize-y="200"
+            <div class="scrollable-widget-content" ng-hide="minimized" resize resize-y="200"
                 resize-relative-to-screen="true">
                 <!-- PROJECT SETTINGS-PAGE -->
                 <div class="row" ng-show="vm.t2mSvc.currentStep === 1">
@@ -162,7 +165,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" style="padding-top: 10px;">
                             <div class="col-xs-12 text-center no-padding">
                                 <form name="dropBox">
                                     <textarea rows="16" class="fill-height" id="drop-box" style="width:95%;padding: 8px 12px;" placeholder="{{'DRAG_FILE' | translate}}"
@@ -172,9 +175,11 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-12 pull-right">
-                                <i class="fa fa-cog btn small-padding pointer" style="padding-left: 24px;" aria-hidden="true" uib-tooltip="{{'CSV_PARSE_SETTINGS' | translate}}"
-                                    ng-click="vm.t2mSvc.openParseSettings()"></i>
+                            <div class="col-xs-12">
+                                <div class="btn-circle yellow">
+                                <span class="icon-bewerken pointer" aria-hidden="true" uib-tooltip="{{'CSV_PARSE_SETTINGS' | translate}}"
+                                    ng-click="vm.t2mSvc.openParseSettings()"></span>
+                                    </div>
                             </div>
                         </div>
                     </div>
@@ -217,7 +222,7 @@
                                         <button id="namelabel-col" class="btn t2m-btn t2m-btn-lg grey" style="width:100%" ng-click="vm.t2mSvc.openTable('col', 1, true)">
                                             <div class="zodk-in-btn-text" ng-show="vm.t2mSvc.featureType.style.nameLabel" style="display: inline">{{vm.t2mSvc.getColumnTitle(vm.t2mSvc.featureType.style.nameLabel)}} ({{'COLUMN' | translate}} {{vm.t2mSvc.getColumnHeader(vm.t2mSvc.featureType.style.nameLabel)}})</div>
                                             <div class="zodk-in-btn-text" ng-hide="vm.t2mSvc.featureType.style.nameLabel" style="display: inline">{{'NO_NAMELABEL_SELECTED' | translate}}</div>
-                                            <span class="pull-right" style="padding: 0px 16px;"><i class="fa fa-table small-padding"></i>{{'EDIT_COLS' | translate}}</span>
+                                            <span class="pull-right" style="padding: 0px 16px;"><i class="fa fa-table small-padding"></i> {{'EDIT_COLS' | translate}}</span>
                                         </button>
                                     </div>
                                 </div>
@@ -542,7 +547,7 @@
             <div class="col-sm-8 col-md-9 col-lg-10">
                 <div class="row">
                     <div class="col-sm-12 zodk-next-step">
-                        <div class="pointer" style="text-shadow: 0.5px 0.5px #ccc;" ng-click="vm.t2mSvc.currentStep=vm.t2mSvc.currentStep+1"  ng-hide="vm.t2mSvc.currentStep>=vm.t2mSvc.numberOfSteps">
+                        <div class="pointer t2m-btn next-button" ng-click="vm.t2mSvc.currentStep=vm.t2mSvc.currentStep+1"  ng-hide="vm.t2mSvc.currentStep>=vm.t2mSvc.numberOfSteps">
                             {{'NEXT_STEP' | translate}}
                         </div>
                     </div>

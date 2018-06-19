@@ -1,8 +1,8 @@
 <div class="modal-header">
-    <h4 class="modal-title">{{'CSV_PARSE_SETTINGS' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'CSV_PARSE_SETTINGS_HELP' | translate}}" tooltip-placement="bottom"></i></span></h4>
+    <h4 class="modal-title">{{'CSV_PARSE_SETTINGS' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'CSV_PARSE_SETTINGS_HELP' | translate}}" tooltip-placement="bottom"></i></span><span class="icon-sluit t2mclose" ng-click="vm.cancel()"></span></h4>
 </div>
 <div class="modal-body">
-    <form class="form csv-settings">
+    <form class="form">
         <div class="form-group">
             <label for="hasHeader">{{'HAS_HEADER' | translate}}: </label>
             <input id="hasHeader" type="checkbox" ng-model="csvParseSettings.hasHeader" />
@@ -20,6 +20,5 @@
     </form>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-default" ng-click="vm.cancel()">{{'CLOSE' | translate}}</button>
-    <button type="button" class="btn btn-primary" ng-click="vm.ok()" style="text-transform:capitalize;">{{'SAVE' | translate}}</button>
+    <div class="t2m-btn yellow t2m-btn-inline" ng-click="vm.ok()">{{'SAVE' | translate}}</div>
 </div>

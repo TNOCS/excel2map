@@ -13,7 +13,6 @@
   border-left: 6px solid transparent;
 }
 
-
 .help_icon {
   color: $t2m-yellow;
   padding-left: 10px;
@@ -23,6 +22,14 @@
 
 .text-success {
   color: $t2m-success;
+}
+
+.text-info {
+  color: $t2m-info;
+}
+
+.text-danger {
+ color: $t2m-danger;
 }
 
 .t2m-btn {
@@ -62,7 +69,7 @@
     line-height: 48px;
 }
 
-.t2m-btn.yellow {
+.t2m-btn.yellow, .yellow {
     background-color: $t2m-yellow;
 }
 
@@ -95,7 +102,12 @@
 }
 
 .t2m-btn:hover {
-    outline: 2px #bbbbbb solid;
+    /*outline: 2px #bbbbbb solid;*/
+}
+
+.t2m-btn-inline {
+  display: inline-block;
+  padding: 8px 15px;
 }
 
 input#create-project-title {
@@ -132,3 +144,88 @@ input#create-project-title {
 }
 
 
+.zodk-next-step {
+    font-size: 24px;
+    background: $footer-bg-color;
+    height: 50px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 10px;
+}
+
+
+.next-button {
+    padding: 5px 20px;
+    background-color: $t2m-yellow;
+}
+
+
+/**
+  Step 3 upload
+*/
+
+#drop-box {
+  font-size: 12px;
+}
+
+
+/**
+  Modal
+*/
+
+
+.modal {
+    overflow-y: hidden!important;
+}
+
+.modal-body {
+  padding: 0px;
+  font-family: "Franklin";
+  font-size: 18px;
+}
+
+.modal-lg {
+    width: 95%;
+    height: 100%;
+    padding-bottom: 50px;
+}
+
+.modal-content {
+    height: 100%;
+    border-radius: 0px;
+    padding: 30px;
+}
+
+.modal-header {
+    padding: 0px 0px 15px 0px;
+    border: none;
+}
+
+.modal-header span.t2mclose {
+    float: right;
+    font-size: 2rem;
+}
+
+.modal-title {
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.modal-footer {
+    border-top: none;
+    padding: 0px 0px 0px 0px;
+    text-transform: capitalize;
+}
+
+.modal-footer .btn+.btn {
+    margin-left: 15px;
+}
+
+.scrollable-xy-table {
+    height: 90%;
+    width: 100%;
+    overflow: auto;
+    margin-bottom: 15px;
+}

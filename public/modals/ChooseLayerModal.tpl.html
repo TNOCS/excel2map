@@ -1,7 +1,6 @@
 <div class="modal-header">
-    <h4 class="modal-title">{{'EDIT_LAYER' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'EDIT_LAYER_HELP' | translate}}" tooltip-placement="bottom"></i></span></h4>
-</div>
-<div class="modal-body" style="height:80%;overflow-y:auto;">
+    <h4 class="modal-title">{{'EDIT_LAYER' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'EDIT_LAYER_HELP' | translate}}" tooltip-placement="bottom"></i></span><span class="icon-sluit t2mclose" ng-click="vm.cancel()"></span></h4>
+<div class="modal-body">
     <h4>{{vm.project.title}}</h4>
     <div class="panel panel-default" ng-repeat="group in vm.project.groups">
         <div class="panel-heading panel-title">
@@ -33,6 +32,6 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-default" ng-click="vm.cancel()">{{'CLOSE' | translate}}</button>
+<!--     <button type="button" class="btn btn-default" ng-click="vm.cancel()">{{'CLOSE' | translate}}</button> -->
     <!--<button type="button" class="btn btn-primary" ng-click="vm.ok()" style="text-transform:capitalize;" ng-disabled="!vm.activeId">{{'SELECT' | translate}}</button>-->
 </div>
