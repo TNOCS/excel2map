@@ -1,5 +1,7 @@
 <div class="modal-header">
-    <h4 class="modal-title">{{'EDIT_LAYER' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'EDIT_LAYER_HELP' | translate}}" tooltip-placement="bottom"></i></span><span class="icon-sluit t2mclose" ng-click="vm.cancel()"></span></h4>
+    <h4 class="modal-title">{{'EDIT_LAYER' | translate}}
+        <span class="icon-ic_help_outline_black pointer" aria-hidden="true" uib-tooltip="{{'EDIT_LAYER_HELP' | translate}}" tooltip-placement="bottom"></span>
+        <span class="icon-sluit t2mclose" ng-click="vm.cancel()"></span></h4>
 </div>
 
 <div class="modal-body" id="chooseLayer">
@@ -26,7 +28,7 @@
                 <button type="button" class="btn t2m-btn col-xs-6 lightgrey layertitle" ng-click="vm.selectLayer(group.id, layer.id, true)" ng-class="{'active': vm.activeId == layer.id}" uib-tooltip="{{'EDIT' | translate}}" tooltip-placement="bottom">                                    {{layer.title}}
                 </button>
 
-                <button type="button" class="btn t2m-btn lightgrey col-xs-2" vm.selectLayer(group.id, layer.id, true)" ng-class="{'active': vm.activeId == layer.id}" uib-tooltip="{{'COPY_LAYER' | translate}}" tooltip-placement="bottom">
+                <button type="button" class="btn t2m-btn lightgrey col-xs-2" ng-click="vm.selectLayer(group.id, layer.id, true)" ng-class="{'active': vm.activeId == layer.id}" uib-tooltip="{{'EDIT' | translate}}" tooltip-placement="bottom">
                     <span class="icon-ic_edit_black"></span>
                 </button>
 
