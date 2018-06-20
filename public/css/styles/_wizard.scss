@@ -231,6 +231,53 @@ input#create-project-title {
 }
 
 /**
+  Choose layer modal
+*/
+
+#chooseLayer div.header {
+  font-size: 14px;
+  padding: 5px 20px;
+}
+
+#chooseLayer div.group {
+  background-color: $t2m-lightgrey;
+  padding: 0px 20px 10px 20px;
+  margin-bottom: 20px;
+}
+
+#chooseLayer div.group .title {
+  font-weight: bold;
+  padding: 6px 0px;
+}
+
+#chooseLayer div.group .layer {
+  border-bottom: 1px solid lightgrey;
+}
+
+#chooseLayer div.group .t2m-btn.lightgrey {
+  text-align: center;
+  font-weight: normal;
+  padding: 6px 0px;
+  background-color: $t2m-lightgrey;
+}
+
+#chooseLayer div.group  .t2m-btn.yellow {
+ background-color: $t2m-yellow;
+}
+
+#chooseLayer div.group .t2m-btn.lightgrey.layertitle {
+  text-align: left;
+}
+
+#chooseLayer .addlayer {
+  margin-top: 10px;
+}
+
+#chooseLayer div.group span {
+  font-size: 20px;
+}
+
+/**
   confirmation-popover
 **/
 

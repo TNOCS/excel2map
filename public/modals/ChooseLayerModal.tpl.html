@@ -1,30 +1,56 @@
 <div class="modal-header">
     <h4 class="modal-title">{{'EDIT_LAYER' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'EDIT_LAYER_HELP' | translate}}" tooltip-placement="bottom"></i></span><span class="icon-sluit t2mclose" ng-click="vm.cancel()"></span></h4>
-<div class="modal-body">
-    <h4>{{vm.project.title}}</h4>
-    <div class="panel panel-default" ng-repeat="group in vm.project.groups">
-        <div class="panel-heading panel-title">
-            <div class="row no-margin">
-                <div class="col-sm-10">{{group.title}}</div>
-                <button type="button" class="btn t2m-btn green col-sm-1" ng-click="vm.renameGroupQuestion($event, group.id)"><i class="fa fa-pencil"></i>
-                </button>
-                <button type="button" class="btn t2m-btn red col-sm-1" ng-click="vm.removeGroupQuestion($event, group.id)" uib-tooltip="{{'DELETE' | translate}}" tooltip-placement="bottom"><i class="fa fa-trash-o"></i>
-            </div>
-        </div>
-        <div class="panel-body">
-            <div class="btn-group full-width" ng-repeat="layer in group.layers">
-                <button type="button" class="btn t2m-btn col-xs-10" ng-click="vm.selectLayer(group.id, layer.id, true)" ng-class="{'active': vm.activeId == layer.id}" style="text-align: left" uib-tooltip="{{'EDIT' | translate}}" tooltip-placement="bottom">                                    {{layer.title}} <span style="float: right;padding-right: 16px;"><i class="fa fa-pencil pointer"></i></span>
-                </button>
-                <button type="button" class="btn t2m-btn green col-xs-1" ng-click="vm.cloneLayer($event, group.id, layer.id)" uib-tooltip="{{'COPY_LAYER' | translate}}" tooltip-placement="bottom"><i class="fa fa-clone"></i>
-                </button>
-                <button type="button" class="btn t2m-btn red col-xs-1" ng-click="vm.removeLayerQuestion($event, group.id, layer.id)" uib-tooltip="{{'DELETE_LAYER' | translate}}" tooltip-placement="bottom"><i class="fa fa-trash-o"></i>
-                </button>
-            </div>
-        </div>
+</div>
+
+<div class="modal-body" id="chooseLayer">
+    <h3>{{vm.project.title}}</h3>
+
+    <div class="row no-margin header" ng-hide="vm.project.groups.length==0">
+        <div class="col-sm-6"></div>
+        <div class="col-sm-2">Bewerk</div>
+        <div class="col-sm-2">Dupliceer</div>
+        <div class="col-sm-2">Verwijder</div>
     </div>
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="panel-heading panel-title" ng-hide="vm.project.groups.length>0">{{'NO_LAYERS' | translate}}</div>
+
+    <div class="group" ng-repeat="group in vm.project.groups">
+
+        <div class="row layer">
+            <div class="col-sm-10 title">{{group.title}}</div>
+<!--             <button type="button" class="btn t2m-btn lightgrey col-sm-2" ng-click="vm.renameGroupQuestion($event, group.id)"><i class="fa fa-pencil"></i>
+            </button>
+ -->            <button type="button" class="btn t2m-btn lightgrey col-sm-2" ng-click="vm.removeGroupQuestion($event, group.id)" uib-tooltip="{{'DELETE' | translate}}" tooltip-placement="bottom"><span class="icon-ic_delete_forever_black"></span>
+        </div>
+
+        <div class="" ng-repeat="layer in group.layers">
+            <div class="row layer">
+                <button type="button" class="btn t2m-btn col-xs-6 lightgrey layertitle" ng-click="vm.selectLayer(group.id, layer.id, true)" ng-class="{'active': vm.activeId == layer.id}" uib-tooltip="{{'EDIT' | translate}}" tooltip-placement="bottom">                                    {{layer.title}}
+                </button>
+
+                <button type="button" class="btn t2m-btn lightgrey col-xs-2" vm.selectLayer(group.id, layer.id, true)" ng-class="{'active': vm.activeId == layer.id}" uib-tooltip="{{'COPY_LAYER' | translate}}" tooltip-placement="bottom">
+                    <span class="icon-ic_edit_black"></span>
+                </button>
+
+                <button type="button" class="btn t2m-btn lightgrey col-xs-2" ng-click="vm.cloneLayer($event, group.id, layer.id)" uib-tooltip="{{'COPY_LAYER' | translate}}" tooltip-placement="bottom">
+                    <span class="icon-ic_content_copy_black"></span>
+                </button>
+                <button type="button" class="btn t2m-btn lightgrey col-xs-2" ng-click="vm.removeLayerQuestion($event, group.id, layer.id)" uib-tooltip="{{'DELETE_LAYER' | translate}}" tooltip-placement="bottom">
+                    <span class="icon-ic_delete_forever_black"></span>
+                </button>
+            </div>
+        </div>
+
+        <div class="row addlayer">
+            <button type="button" class="btn t2m-btn t2m-btn-lg yellow col-xs-6" ng-click="vm.createLayer()"><i class="fa fa-plus t2m-btn-icon"></i>{{'CREATE_NEW_LAYER' | translate}}</button>
+        </div>
+
+
+
+    </div>
+
+    <div class="" ng-hide="vm.project.groups.length>0">
+        <div class="">
+            <div class="" >{{'NO_LAYERS' | translate}}</div>
+            <br>
             <div class="btn-group full-width">
                 <button type="button" class="btn t2m-btn t2m-btn-lg yellow col-xs-12" ng-click="vm.createLayer()"><i class="fa fa-plus t2m-btn-icon"></i>{{'CREATE_NEW_LAYER' | translate}}</button>
             </div>
