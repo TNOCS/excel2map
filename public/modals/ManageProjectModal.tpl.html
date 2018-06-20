@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h4 class="modal-title">{{'MANAGE_PROJECT' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'MANAGE_PROJECT_HELP' | translate}}" tooltip-placement="bottom"></i></span></h4>
+    <h4 class="modal-title">{{'MANAGE_PROJECT' | translate}}<span><i class="fa fa-question-circle pointer" style="padding-left: 12px;" aria-hidden="true" uib-tooltip="{{'MANAGE_PROJECT_HELP' | translate}}" tooltip-placement="bottom"></i></span><span class="icon-sluit t2mclose" ng-click="vm.cancel()"></span></h4>
 </div>
 <div class="modal-body">
     <div class="scrollable-widget-content manage-modal-content" resize resize-y="200" resize-relative-to-screen="true">
@@ -19,7 +19,9 @@
             <div class="col-sm-3"><div class="t2m-div-btn-style"><i class="fa fa-user padding-right" aria-hidden="true"></i>{{user.email}}</div></div>
             <div class="col-sm-4"><select class="form-control" ng-options="action.val as action.key for action in vm.actions" ng-model="user.rights"></select></div>
             <div class="col-sm-3"><button type="button" class="btn t2m-btn t2m-btn-lg yellow" ng-click="vm.updateUserRole(user)" ng-disabled="false"><i class="fa fa-wrench padding-right" aria-hidden="true"></i>{{'UPDATE' | translate}}</button></div>
-            <div class="col-sm-2"><button type="button" class="btn t2m-btn t2m-btn-square grey" ng-click="vm.deleteUserRole(user)" ng-disabled="false" uib-tooltip="{{'DELETE_USER_RIGHTS' | translate}}" tooltip-placement="bottom" tooltip-popup-delay="1000"><i class="fa fa-times"></i></button></div>
+            <div class="col-sm-2"><button type="button" class="btn t2m-btn t2m-btn-square grey" ng-click="vm.deleteUserRole(user)" ng-disabled="false" uib-tooltip="{{'DELETE_USER_RIGHTS' | translate}}" tooltip-placement="bottom" tooltip-popup-delay="1000">
+                <span class="icon-sluit"></span>
+            </button></div>
         </div>
 
         <div class="row title-row">
@@ -29,7 +31,7 @@
             <div class="col-sm-2"></div>
         </div>
         <div class="row">
-            <div class="col-sm-3"><input type="email" class="form-control" ng-model="vm.newUser.email" data-error="Ongeldig emailadres"></div>
+            <div class="col-sm-3"><input type="email" class="form-control" ng-model="vm.newUser.email" data-error="Ongeldig emailadres" placeholder="emailadres"></div>
             <div class="col-sm-4"><select class="form-control" ng-options="action.val as action.key for action in vm.actions" ng-model="vm.newUser.rights"></select></div>
             <div class="col-sm-3"><button type="button" class="btn t2m-btn t2m-btn-lg yellow" ng-click="vm.addNewUser(vm.newUser)" ng-disabled="!vm.newUser.email"><i class="fa fa-plus padding-right" aria-hidden="true"></i>{{'UPDATE' | translate}}</button></div>
             <div class="col-sm-2"></div>
@@ -51,10 +53,10 @@
                 <button class="btn t2m-btn t2m-btn-lg red" ng-click="vm.deleteProjectQuestion($event)" ng-disabled="false">{{'DELETE' | translate}}</button>
             </div>
         </div>
-    </div>  
+    </div>
 
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn t2m-btn t2m-btn-sm yellow" ng-click="vm.cancel()">{{'CLOSE' | translate}}</button>
+    <!-- <button type="button" class="btn t2m-btn t2m-btn-sm yellow" ng-click="vm.cancel()">{{'CLOSE' | translate}}</button> -->
     <!--<button type="button" class="btn btn-primary" ng-click="vm.ok()" style="text-transform:capitalize;" ng-disabled="false">{{'OK' | translate}}</button>-->
 </div>

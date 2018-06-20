@@ -229,3 +229,25 @@ input#create-project-title {
     overflow: auto;
     margin-bottom: 15px;
 }
+
+/**
+  confirmation-popover
+**/
+
+.confirmation-popover {
+  display: inline-block;
+  position: relative;
+}
+
+.popover {
+  max-width: 320px;
+  width: 100%;
+}
+
+.confirmation-popover .btn-group {
+  padding: 15px 0px 5px 0px;
+}
+
+.confirmation-popover .t2m-btn {
+  margin-right: 10px;
+}
