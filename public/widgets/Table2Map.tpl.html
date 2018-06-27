@@ -529,6 +529,21 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row small-margin-top" ng-show="vm.t2mSvc.conversionReady&&!vm.t2mSvc.notFoundLocations">
+                            <div class="col-xs-12">
+                                <div class="zodk-notification-box text-success" >
+                                    <i class="fa fa-check"></i> {{'DATA_CONVERTED_CORRECTLY' | translate}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row small-margin-top" ng-show="vm.t2mSvc.notFoundLocations">
+                            <div class="col-xs-12">
+                                <div class="zodk-notification-box text-danger" ng-click="vm.showMissingLocations()">
+                                    <i class="fa fa-exclamation-triangle"></i>{{'DATA_NOT_CONVERTED_CORRECTLY' | translate}}
+                                </div>
+                            </div>
+                        </div>
                         <div class="row small-margin-top">
                             <div class="col-xs-12">
                                 <div class="btn t2m-btn t2m-btn-lg yellow" style="min-width: 200px" ng-click="vm.t2mSvc.openProject()" ng-disabled="!vm.t2mSvc.conversionReady">

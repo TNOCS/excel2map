@@ -22,7 +22,7 @@
     "bluebird": "^3.5.0",
     "compression": "^1.7.1",
     "config": "^1.26.1",
-    "csweb": "^0.3.22",
+    "csweb": "^0.3.23",
     "kafka-node": "^2.2.3",
     "mongoose": "^4.10.5",
     "node_auth": "^0.3.1",

@@ -291,7 +291,7 @@ const policiesLoaded = (err: Error, ps: IPolicyStore) => {
     var debug = true;
     this.config = cs.config;
     this.config.add('server', (runOnZODKServer ? zodkServerAddress : 'http://localhost:') + port);
-    this.config.add('baseUrl', (runOnZODKServer ? deployPath + '/api' : null));
+    this.config.add('baseUrl', deployPath + '/api');
 
     cs.start(() => {
 
@@ -300,7 +300,7 @@ const policiesLoaded = (err: Error, ps: IPolicyStore) => {
 
         this.config = cs.config;
         this.config.add('server', (runOnZODKServer ? zodkServerAddress : 'http://localhost:') + port);
-        this.config.add('baseUrl', (runOnZODKServer ? deployPath + '/api' : null));
+        this.config.add('baseUrl', deployPath + '/api');
         const bagDatabase = new csweb.BagDatabase(csCconfig);
         const osmDatabase = new csweb.NominatimSource(this.config);
         const mapLayerFactory = new csweb.MapLayerFactory([

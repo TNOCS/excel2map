@@ -132,6 +132,12 @@ module Table2Map {
             drawingMode: 'Polygon',
             additionalInfo: ['', 'CBS']
         },
+        'Wijk(2014)': {
+            name: 'Wijk(2014)',
+            cols: ['Wijkcode'],
+            drawingMode: 'Polygon',
+            additionalInfo: []
+        },
         'Buurt(2016)': {
             name: 'Buurt(2016)',
             cols: ['Buurtcode'],
