@@ -16,7 +16,7 @@ const csCconfig = new csweb.ConfigurationService('./configuration.json');
 
 // Should be set to true for server on zodk
 const runOnZODKServer = true;
-const zodkServerAddress = 'http://www.zorgopdekaart.nl/zelfkaartenmaken';
+const zodkServerAddress = (runOnZODKServer ? 'http://www.zorgopdekaart.nl/zelfkaartenmaken' : '');
 const port = process.env.PORT || 3004;
 const deployPath = process.env.deployPath || '';
 console.log('Process env port: ' + port);
@@ -305,7 +305,7 @@ const policiesLoaded = (err: Error, ps: IPolicyStore) => {
         const osmDatabase = new csweb.NominatimSource(this.config);
         const mapLayerFactory = new csweb.MapLayerFactory([
             osmDatabase,
-            bagDatabase], cs.messageBus, cs.api, cs.dir);
+            bagDatabase], cs.messageBus, cs.api, cs.dir, (runOnZODKServer ? 'zelfkaartenmaken/api' : 'api'));
 
         const apiRoutes = Router();
         apiRoutes.route(deployPath + '/projecttemplate')

@@ -1,5 +1,7 @@
 {
     "title": "csMap",
+    "apiPath": "http://www.zorgopdekaart.nl/zelfkaartenmaken/api",
+    "apiPath": "api",
     "maxBounds": {
         "southWest": [-85, -180],
         "northEast": [85, 180]
