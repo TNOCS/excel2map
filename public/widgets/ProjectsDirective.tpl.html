@@ -28,7 +28,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="project in vm.projects">
+                    <tr ng-repeat="project in vm.projects" uib-tooltip="{{'LAST_UPDATED' | translate:project}}" tooltip-popup-delay='1000'>
                         <td>{{project.title}}</td>
                         <td class="text-center">
                             <button class="btn btn-circle" ng-click="vm.showProject(project)" ng-disabled="!canView(project)">

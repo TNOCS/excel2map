@@ -173,6 +173,9 @@ module ProjectsDirective {
             });
             this.projects = this.projects.sort((a: Project, b: Project) => {
                 return ((b.updated || Number.MIN_SAFE_INTEGER) - (a.updated || Number.MIN_SAFE_INTEGER));
+            }).map((p: Project) => {
+                p['_updatedString'] = (p.updated ? new Date(p.updated).toLocaleString() : '?');
+                return p;
             });
         }
 
