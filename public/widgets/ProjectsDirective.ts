@@ -184,7 +184,7 @@ module ProjectsDirective {
         }
 
         private showProject(project: Project) {
-            window.location.href = `/?project=${project.id}`;
+            window.location.href = `${Table2Map.DEPLOY_URL}?project=${project.id}`;
         }
 
         private manageProjectRights(project: Project) {

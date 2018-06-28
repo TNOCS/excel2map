@@ -58,7 +58,8 @@ module EditLayerHeaderDirective {
                 loggedIn = this.profileService.isLoggedIn();
             }
             if (!loggedIn) {
-                this.$messageBus.notifyWithTranslation('LOGIN_WARNING', 'LOGIN_FIRST');
+                // this.$messageBus.notifyWithTranslation('LOGIN_WARNING', 'LOGIN_FIRST');
+                console.warn('LOGIN FIRST');
             }
             return loggedIn;
         }
@@ -90,7 +91,7 @@ module EditLayerHeaderDirective {
         }
 
         private editProject() {
-            location.href = `/?dashboard=table2map&editproject=${this.$layerService.project.id}`;
+            location.href = `${Table2Map.DEPLOY_URL}?dashboard=table2map&editproject=${this.$layerService.project.id}`;
         }
     }
 }

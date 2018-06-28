@@ -287,7 +287,7 @@ module Table2Map {
 
         private editProject() {
             if (this.$scope.data.disableEdit) return;
-            location.href = `/?dashboard=table2map&editproject=${this.layerService.project.id}`;
+            location.href = `${Table2Map.DEPLOY_URL}?dashboard=table2map&editproject=${this.layerService.project.id}`;
         }
 
         public setStyle(g: csComp.Services.ProjectGroup, property: FeatureProps.CallOutProperty) {

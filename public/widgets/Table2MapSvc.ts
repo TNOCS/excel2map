@@ -351,7 +351,7 @@ module Table2Map {
             }) => {
                 if (this.layerService.project.activeDashboard.id !== 'table2map') {
                     let success = this.startWizard();
-                    if (!success) location.href = `/?dashboard=table2map&editproject=${this.layerService.project.id}`;
+                    if (!success) location.href = `${Table2Map.DEPLOY_URL}?dashboard=table2map&editproject=${this.layerService.project.id}`;
                 }
                 if (!result.layerId) {
                     this.resetVariables();
