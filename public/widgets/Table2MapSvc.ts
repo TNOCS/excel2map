@@ -654,7 +654,7 @@ module Table2Map {
                 selectedStrokeWidth: 3,
                 strokeColor: '#000',
                 selectedStrokeColor: '#00f',
-                fillColor: '#3f3',
+                fillColor: '#dfd5b2',
                 opacity: 1,
                 fillOpacity: 1,
                 nameLabel: ''
