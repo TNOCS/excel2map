@@ -374,7 +374,8 @@ module Table2Map {
             this.clusterOptions.clusterLevel = this.selectedGroup.clusterLevel;
             this.restApi.getLayer(project.id, layerId, (layer) => {
                 if (!layer) {
-                    this.$messageBus.notify('ERROR_GETTING_LAYER', 'ERROR_GETTING_LAYER');
+                    // this.$messageBus.notify('ERROR_GETTING_LAYER', 'ERROR_GETTING_LAYER');
+                    console.warn('ERROR_GETTING_LAYER');
                     return;
                 }
                 this.layer = layer;
@@ -382,7 +383,8 @@ module Table2Map {
                 this.changedFiles = (this.changedFiles & ~ChangedFiles.LayerData); // Layer data does not need to be updated
                 this.restApi.getResourceType(this.layer, (typeResource: csComp.Services.ITypesResource) => {
                     if (!typeResource) {
-                        this.$messageBus.notify('ERROR_GETTING_LAYER', 'ERROR_GETTING_FEATURE_TYPE');
+                        // this.$messageBus.notify('ERROR_GETTING_LAYER', 'ERROR_GETTING_FEATURE_TYPE');
+                        console.warn('ERROR_GETTING_FEATURE_TYPE');
                         return;
                     }
                     this.featureType = this.getFeatureTypeFromResourceType(typeResource, layer.typeUrl);
@@ -1567,7 +1569,8 @@ module Table2Map {
                     this.notFoundLocations = null;
                 } else {
                     this.notFoundLocations = result.data['notFound'];
-                    this.$messageBus.notify('Niet gevonden locaties:', Object.keys(this.notFoundLocations).join('\n'), csComp.Services.NotifyLocation.TopBar, csComp.Services.NotifyType.Normal, 10000);
+                    // this.$messageBus.notify('Niet gevonden locaties:', Object.keys(this.notFoundLocations).join('\n'), csComp.Services.NotifyLocation.TopBar, csComp.Services.NotifyType.Normal, 10000);
+                    console.log('notFoundLocations');
                 }
             }
         }

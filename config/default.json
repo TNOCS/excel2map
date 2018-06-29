@@ -1,3 +1,6 @@
 {
-  "mongodb": "mongodb://<dbuser>:<dbpassword>@ds129720.mlab.com:29720/commonsenseusers"
+  "mongodb": "mongodb://<dbuser>:<dbpassword>@ds129720.mlab.com:29720/commonsenseusers",
+  "adminUser": "admin",
+  "adminPassword": "password",
+  "nodeAuthSecretKey": "MyBigSectetThatShouldBeReplacedInProduction"
 }

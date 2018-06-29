@@ -6,4 +6,10 @@ export interface IConfig {
    * @memberOf IConfig
     */
   mongodb: string;
+  
+  adminUser: string;
+  
+  adminPassword: string;
+
+  nodeAuthSecretKey: string;
 }

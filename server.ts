@@ -30,23 +30,30 @@ console.log(config.mongodb.substring(0, 19));
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
-    console.log('DB: we are connected');
+    console.log('DB: we are connected ');
     User.find({ admin: true }, (err, res) => {
         if (err) { return console.error(err); }
         if (res.length === 0) {
             // No admin found: create one
             const user = new User(<IUser>{
-                name: 'admin',
+                name: config.adminUser,
                 email: 'admin@example.com',
                 verified: true,
-                password: 'password',
+                password: config.adminPassword,
                 admin: true
             });
             user.save(err => {
-                if (err) { return console.error(err); };
+                if (err) { return console.error('Err' + err); };
             });
         }
     });
+    // Delete admin
+    // User.findOneAndRemove({ admin: true }, (err, res) => {
+    //     if (err) { return console.error(err); }
+    //     if (res){
+    //         console.log(JSON.stringify(res));
+    //     }
+    // });
 });
 
 // Load of create a policy store
@@ -122,7 +129,7 @@ const policiesLoaded = (err: Error, ps: IPolicyStore) => {
     const policyStore = ps;
 
     const auth = NodeAuth(cs.server, <INodeAuthOptions>{
-        secretKey: 'MyBigSectetThatShouldBeReplacedInProduction',
+        secretKey: config.nodeAuthSecretKey,
         blockUnauthenticatedUser: false, // if true, default, no unauthenticated user will pass beyond this point
         policyStore: policyStore,
         api: deployPath + '/api',
@@ -132,12 +139,12 @@ const policiesLoaded = (err: Error, ps: IPolicyStore) => {
             baseUrl: 'WWW.MYDOMAIN.COM/api/activate',
             mailService: null,
             verifyMailOptions: {
-                from: 'erik.vullings@gmail.com',
+                from: 'randommail@randommail.com',
                 subject: 'Just verifying that your email is correct',
                 html: 'Hello'
             },
             confirmMailOptions: {
-                from: 'erik.vullings@gmail.com',
+                from: 'randommail@randommail.com',
                 subject: 'Just confirming that your account is setup and good to go',
                 html: 'Yay!'
             }
