@@ -13,12 +13,12 @@
                 <form name="loginForm" ng-submit="vm.validateUser()" novalidate>
 
                     <div class="form-group" ng-class="{ 'has-error': loginForm.userName.$invalid }">
-                        <span class="help-block" ng-show="loginForm.userName.$error.required">Not a valid username</span>
+                        <span class="help-block" ng-show="loginForm.userName.$error.required">Ongeldige gebruikersnaam</span>
                         <input type="text" class="" name="userName" id="userName" ng-model="vm.userName" placeholder="E-mail adres" required>
                     </div>
 
                     <div class="form-group" ng-class="{ 'has-error': loginForm.userPassword.$required }">
-                        <span class="help-block" ng-show="loginForm.userPassword.$error.required">Not a valid password</span>
+                        <span class="help-block" ng-show="loginForm.userPassword.$error.required">Ongeldig wachtwoord</span>
                         <input type="password" class="" name="userPassword" id="userPassword" ng-model="vm.userPassword" placeholder="Wachtwoord"
                             required>
                     </div>

@@ -16,6 +16,7 @@ module Translations {
             MANUAL_UPLOAD_MODE: 'Manual upload mode',
             TABLE2MAP: 'Table to map',
             HAS_HEADER: 'Data contains headers',
+            FORM_INCOMPLETE: 'Not all form fields have been filled in correctly',
             DELIMITER: 'Delimiter',
             CSV_PARSE_SETTINGS: 'Advanced: Configure the data import settings',
             SEARCH_IN_DATA: 'Search in the data',

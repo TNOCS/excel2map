@@ -72,6 +72,7 @@ module Translations {
             SELECT_OR_CREATE_GROUP: 'Kies of creëer een thema',
             SELECT_OR_CREATE_SECTION: 'Kies of creëer een sectie',
             SELECT_GEOMETRYTYPE_FIRST: 'Kies eerst een gebiedsindeling/geometrie',
+            FORM_INCOMPLETE: 'Nog niet alle velden zijn correct ingevuld',
             NOTHING_TO_SELECT: 'Er hoeft niets geselecteerd te worden',
             NO_COLUMN_SELECTED: 'niets geselecteerd',
             SELECT_NR_COLUMNS: '{{(nr == 1 ? nr + " kolom" : nr + " kolommen")}} geselecteerd',

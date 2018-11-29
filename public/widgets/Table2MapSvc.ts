@@ -229,7 +229,7 @@ module Table2Map {
                     case 'createproject':
                         this.createProject(data, (project) => {
                             this.project = project;
-                            this.startWizard();
+                            this.editProject(project.id, true);
                         });
                         break;
                 };
@@ -289,7 +289,7 @@ module Table2Map {
             return str.replace(new RegExp(this.escapeRegExp(find), 'g'), replace);
         }
 
-        private editProject(projectId: string) {
+        private editProject(projectId: string, isNew: boolean = false) {
             if (!this.isSecurityTokenSet) {
                 console.log('Security token not set yet');
                 this.securityTokenSubscription = () => {
@@ -297,10 +297,10 @@ module Table2Map {
                 };
                 return;
             }
-            this.editProjectWithToken(projectId);
+            this.editProjectWithToken(projectId, isNew);
         }
 
-        private editProjectWithToken(projectId: string) {
+        private editProjectWithToken(projectId: string, isNew: boolean = false) {
             this.getProject(projectId, (project) => {
                 if (project && !project.featurePropsDirective) {
                     project.featurePropsDirective = 'zodkrightpanel';
@@ -324,7 +324,11 @@ module Table2Map {
                         "data": {}
                     });
                 }
-                this.selectLayerForEditing(project);
+                if (!isNew) {
+                    this.selectLayerForEditing(project);
+                } else {
+                    this.startEditing(project);
+                }
             });
         }
 
@@ -349,22 +353,28 @@ module Table2Map {
                 layerId: string,
                 clone: boolean
             }) => {
-                if (this.layerService.project.activeDashboard.id !== 'table2map') {
-                    let success = this.startWizard();
-                    if (!success) location.href = `${Table2Map.DEPLOY_URL}?dashboard=table2map&editproject=${this.layerService.project.id}`;
-                }
-                if (!result.layerId) {
-                    this.resetVariables();
-                    this.project = project;
-                    this.selectedGroup = _.find(this.project.groups, (group) => {
-                        return group.id === result.groupId;
-                    });
-                } else {
-                    this.loadLayerForWizard(project, result.layerId, result.clone);
-                }
+                this.startEditing(project, result.groupId, result.layerId, result.clone);
             }, () => {
                 console.log('Modal dismissed at: ' + new Date());
             });
+        }
+
+        private startEditing(project: Project, groupId?: string, layerId?: string, clone: boolean = false) {
+            if (this.layerService.project.activeDashboard.id !== 'table2map') {
+                let success = this.startWizard();
+                if (!success) location.href = `${Table2Map.DEPLOY_URL}?dashboard=table2map&editproject=${this.layerService.project.id}`;
+            }
+            if (!layerId) {
+                this.layer = undefined;
+                this.resetVariables();
+                this.project = project;
+                this.selectedGroup = _.find(this.project.groups, (group) => {
+                    return group.id === groupId;
+                });
+                this.startWizard();
+            } else {
+                this.loadLayerForWizard(project, layerId, clone);
+            }
         }
 
         private loadLayerForWizard(project: Project, layerId: string, clone: boolean) {
@@ -640,6 +650,12 @@ module Table2Map {
         }
 
         private resetVariables() {
+            this.currentStep = ConversionStep.ProjectSettings;
+            this.uploadNotificationMessage = undefined;
+            this.textContent = undefined;
+            this.geometryType = undefined;
+            this.geometryTypeId = undefined;
+            this.geometryInfoComplete = false;
             this.iconData = Table2Map.getDefaultIconData();
             this.featureType = {};
             this.featureType.id = csComp.Helpers.getGuid();
@@ -669,6 +685,7 @@ module Table2Map {
             }
             if (!this.layer.id) this.layer.id = csComp.Helpers.getGuid();
             $('#iconImage').attr('src', DEFAULT_MARKER_ICON);
+            this.$messageBus.publish('table2map', 'reset-rightpanel');
         }
 
         /** Parse the uploaded csv data to JSON format, for displaying it in a html table. */
@@ -1272,7 +1289,7 @@ module Table2Map {
 
         private checkGroups(newTitle ? : string) {
             if (!this.project) return;
-            let title = newTitle || this.selectedGroup.title;
+            let title = newTitle || (this.selectedGroup ? this.selectedGroup.title : 'Groep');
             if (!title) return;
             let cleanId = this.cleanRegExp(title).toLowerCase(); //The id will be the title cleaned from non-word characters
             let existingGroup = _.find(this.project.groups, (g) => {
@@ -1558,6 +1575,36 @@ module Table2Map {
                 ( < any > this.previewMap).closePopup(this.popup);
                 this.popup = null;
             }
+        }
+
+        private nextStep() {
+            switch (this.currentStep) {
+                case ConversionStep.ProjectSettings:
+                    break;
+                case ConversionStep.LayerSettings:
+                    if (!this.layer || !this.layer.title || !this.selectedGroup || !this.selectedGroup.title) {
+                        this.$messageBus.notifyWithTranslation('FORM_INCOMPLETE', '');
+                        return;
+                    }
+                    break;
+                case ConversionStep.UploadData:
+                    if (!this.uploadNotificationMessage || !this.uploadNotificationMessage.isOk) {
+                        this.$messageBus.notifyWithTranslation('FORM_INCOMPLETE', '');
+                        return;
+                    }
+                    break;
+                case ConversionStep.StyleSettings:
+                    if (!this.geometryInfoComplete) {
+                        this.$messageBus.notifyWithTranslation('FORM_INCOMPLETE', '');
+                        return;
+                    }
+                    break;
+                case ConversionStep.FeatureProps:
+                    break;
+                default:
+                    break;
+            }
+            this.currentStep += 1;
         }
 
         private updateFeatureTooltip(e: L.LeafletMouseEvent) {

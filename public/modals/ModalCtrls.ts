@@ -195,7 +195,7 @@ module ModalCtrls {
         }
 
         private checkExistenceDebounced() {
-            if (this.title.length <= 1 || this.title.match(/\"/g)) {
+            if (!this.title || this.title.length <= 1 || this.title.match(/\"/g)) {
                 this.idStatus = 'invalid';
             } else {
                 this.idStatus = 'ok';

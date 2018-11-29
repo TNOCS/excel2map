@@ -42,7 +42,7 @@
         <div class="col-sm-4 col-md-3 col-lg-2" id="progress-content">
             <ul class="SteppedProgress Vertical">
                 <li ng-repeat="step in vm.t2mSvc.conversionSteps track by $index" ng-class="{'complete': vm.t2mSvc.currentStep >= $index + 1}">
-                    <a ng-click="vm.t2mSvc.currentStep = $index + 1" ng-disabled="(dropBox.$invalid||projectSettingsForm.$invalid||LayerSettingsOldForm.$invalid)">{{step}}</a>
+                    <a ng-click="vm.t2mSvc.currentStep = $index + 1" ng-disabled="((dropBox.$invalid||projectSettingsForm.$invalid||LayerSettingsOldForm.$invalid)&&$index!=0)">{{step}}</a>
                 </li>
             </ul>
             <!-- <ul class="cd-multi-steps text-bottom count">
@@ -118,8 +118,9 @@
                                                 <div class="zodk-checkbox">
                                                     <input type="checkbox" id="fitmap" data-ng-model="vm.t2mSvc.layer.fitToMap">
                                                     <label for="fitmap"></label>
-                                                    <div class="zodk-checkbox-text" uib-tooltip="{{'FIT_TO_MAP_HELP' | translate}}">
+                                                    <div class="zodk-checkbox-text">
                                                         {{'FIT_TO_MAP' | translate}}
+                                                        <span class="icon-ic_help_outline_black help_icon pointer" aria-hidden="true" uib-tooltip="{{'FIT_TO_MAP_HELP' | translate}}" tooltip-placement="bottom"></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -127,8 +128,9 @@
                                                 <div class="zodk-checkbox">
                                                     <input type="checkbox" id="l-enabled" data-ng-model="vm.t2mSvc.layer.enabled">
                                                     <label for="l-enabled"></label>
-                                                    <div class="zodk-checkbox-text" uib-tooltip="{{'ENABLED_HELP' | translate}}">
+                                                    <div class="zodk-checkbox-text">
                                                         {{'ENABLED' | translate}}
+                                                        <span class="icon-ic_help_outline_black help_icon pointer" aria-hidden="true" uib-tooltip="{{'ENABLED_HELP' | translate}}" tooltip-placement="bottom"></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -562,7 +564,7 @@
             <div class="col-sm-8 col-md-9 col-lg-10">
                 <div class="row">
                     <div class="col-sm-12 zodk-next-step">
-                        <div class="pointer t2m-btn next-button" ng-click="vm.t2mSvc.currentStep=vm.t2mSvc.currentStep+1"  ng-hide="vm.t2mSvc.currentStep>=vm.t2mSvc.numberOfSteps">
+                        <div class="pointer t2m-btn next-button" ng-click="vm.t2mSvc.nextStep()"  ng-hide="vm.t2mSvc.currentStep>=vm.t2mSvc.numberOfSteps">
                             {{'NEXT_STEP' | translate}}
                         </div>
                     </div>

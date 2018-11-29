@@ -102,8 +102,8 @@ module App {
                         description: 'A widget for uploading files/clipboard content to the web app.'
                     };
 
-                    this.areaFilter = new AreaFilter.AreaFilterModel();
-                    this.$layerService.addActionService(this.areaFilter);
+                    // this.areaFilter = new AreaFilter.AreaFilterModel();
+                    // this.$layerService.addActionService(this.areaFilter);
                     this.contourAction = new ContourAction.ContourActionModel();
                     this.$layerService.addActionService(this.contourAction);
 

@@ -9,7 +9,8 @@
     "email": "rinze.bruining@tno.nl"
   },
   "scripts": {
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "sass": "node-sass .\\public\\css\\style.scss .\\public\\css\\style.css"
   },
   "repository": {
     "type": "git",

@@ -1,6 +1,6 @@
 <div class="modal-header modal-fullheight">
     <h4 class="modal-title">{{'TABLE_LABEL' | translate}}
-        <span class="icon-ic_help_outline_black pointer" aria-hidden="true" uib-tooltip="{{'TABLE_HELP' | translate}}" tooltip-placement="bottom"></span>
+        <span class="icon-ic_help_outline_black help_icon pointer" aria-hidden="true" uib-tooltip="{{'TABLE_HELP' | translate}}" tooltip-placement="bottom"></span>
         <span class="icon-sluit t2mclose" ng-click="vm.cancel()"></span></h4>
 </div>
 
@@ -69,6 +69,6 @@
 </div>
 
 <div class="modal-footer" >
-    <div class="t2m-btn yellow t2m-btn-inline" ng-click="vm.ok()" ng-show="vm.selectionOption.indexOf('col') >= 0" >{{'SELECT_COLS' | translate}}</div>
-    <div class="t2m-btn yellow t2m-btn-inline" ng-show="vm.selectionOption.indexOf('row') >= 0" ng-click="vm.ok()">{{'SELECT_ROW' | translate}}</div>
+    <div class="t2m-btn yellow t2m-btn-inline pointer" ng-click="vm.ok()" ng-show="vm.selectionOption.indexOf('col') >= 0" >{{'SELECT_COLS' | translate}}</div>
+    <div class="t2m-btn yellow t2m-btn-inline pointer" ng-show="vm.selectionOption.indexOf('row') >= 0" ng-click="vm.ok()">{{'SELECT_ROW' | translate}}</div>
 </div>

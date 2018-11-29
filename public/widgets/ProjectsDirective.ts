@@ -202,7 +202,8 @@ module ProjectsDirective {
 
             modalInstance.result.then((finished: boolean) => {
                 if (!finished) return;
-                this.$messageBus.notify('table2map', `Update rights for project ${project.title}`);
+                // this.$messageBus.notify('table2map', `Update rights for project ${project.title}`);
+                console.log(`Update rights for project ${project.title}`);
                 this.getUserProjects();
             }, () => {
                 console.log('Modal dismissed at: ' + new Date());

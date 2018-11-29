@@ -115,6 +115,11 @@ module Table2Map {
                             this.selectFeature( [< IFeature > data]);
                         }, 0);
                         break;
+                    case 'reset-rightpanel':
+                        this.$timeout(() => {
+                            this.propertyTable = new PropertyTable(this.layerService, this.$timeout);
+                        }, 0);
+                        break;
                 }
             }));
 
