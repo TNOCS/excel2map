@@ -127,7 +127,7 @@ module widgets {
             var reader = new FileReader();
 
             reader.onload = (e) => {
-                this.textContent = reader.result;
+                this.textContent = reader.result.toString();
                 this.updatedContent();
             }
 

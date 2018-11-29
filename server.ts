@@ -1,4 +1,4 @@
-import { Application, Router, Request, Response, NextFunction, Send, static as ExpressStatic } from 'express';
+import { Application, Router, Request, Response, NextFunction, static as ExpressStatic } from 'express';
 import Winston = require('winston');
 import fs = require('fs');
 import path = require('path');
@@ -146,7 +146,7 @@ const policiesLoaded = (err: Error, ps: IPolicyStore) => {
             confirmMailOptions: {
                 from: 'randommail@randommail.com',
                 subject: 'Just confirming that your account is setup and good to go',
-                html: 'Yay!'
+                html: 'Welcome!'
             }
         },
         onUserChanged: (user: IUser, req: Request, change: CRUD) => {

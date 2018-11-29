@@ -607,7 +607,7 @@ module Table2Map {
                             console.log('Correctly parsed xlsx to csv');
                         }
                     } else {
-                        this.textContent = reader.result;
+                        this.textContent = reader.result.toString();
                     }
                     this.updatedContent();
                 } else if (fileType === 'icon') {
@@ -615,14 +615,14 @@ module Table2Map {
                         if (file.name && file.name.indexOf(this.layer.id) !== 0) {
                             this.featureType.style.iconUri = ['', 'zelfkaartenmaken', 'private', 'data', 'images', `${this.layer.id}__${file.name}`].join('/');
                         }
-                        this.iconData = reader.result;
+                        this.iconData = reader.result.toString();
                         this.updateMarker();
                     }, 0);
                 } else {
                     this.$timeout(() => {
                         if (this.project) {
                             this.project.logo = ['', 'zelfkaartenmaken', 'private', 'data', 'images', `${this.project.id}__${file.name}`].join('/');
-                            this.logoData = reader.result;
+                            this.logoData = reader.result.toString();;
                         }
                     }, 0);
                 }
