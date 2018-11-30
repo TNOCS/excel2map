@@ -24,7 +24,7 @@ module Translations {
             SHOW_NR_OF_TOTAL: 'Toon {{nr}} van de {{total}} rijen.',
             CSV_PARSE_SETTINGS_HELP: 'Geef aan of de data kopteksten bevat en wat voor scheidingstekens worden gebruikt tussen de kolommen.',
             DECIMAL_CHARACTER: 'Decimaal teken',
-            NO_DATA_TABLE: 'Geen tabulaire data gevonden. Ga terug naar stap 1.',
+            NO_DATA_TABLE: 'Geen tabulaire data gevonden. Ga terug naar stap 3.',
             UPLOAD_HELP: 'Sleep een bestand naar het tekstvak hieronder. Een andere optie is om de data via het klembord in het tekstvak te plakken.',
             UPLOAD_ICON_HELP: 'Upload een icoon bestand (*.png, max. 50kb groot)',
             STYLE_PREVIEW: 'Preview',

@@ -373,7 +373,7 @@
     <div id="floatnav" class="fullbox-shadow">
         <div id="widget-zodkbaselayers-parent" class="floatnav-content collapse fullbox-shadow">
         </div>
-        <span ng-click="vm.openTable()" uib-tooltip="Data weergave en download">
+        <span ng-if="vm && vm.hasTable()" ng-click="vm.openTable()" uib-tooltip="Data weergave en download">
             <img src="images/dataview_2.svg" class="fn-icon">
         </span>
         <span data-toggle="collapse" data-target="#widget-zodkbaselayers-parent" uib-tooltip="Kaartweergave">

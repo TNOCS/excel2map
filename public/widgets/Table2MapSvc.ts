@@ -366,6 +366,8 @@ module Table2Map {
             }
             if (!layerId) {
                 this.layer = undefined;
+                this.currentStep = ConversionStep.ProjectSettings;
+                this.textContent = undefined;
                 this.resetVariables();
                 this.project = project;
                 this.selectedGroup = _.find(this.project.groups, (group) => {
@@ -650,12 +652,11 @@ module Table2Map {
         }
 
         private resetVariables() {
-            this.currentStep = ConversionStep.ProjectSettings;
             this.uploadNotificationMessage = undefined;
-            this.textContent = undefined;
             this.geometryType = undefined;
             this.geometryTypeId = undefined;
             this.geometryInfoComplete = false;
+            this.geometryColumns = {};
             this.iconData = Table2Map.getDefaultIconData();
             this.featureType = {};
             this.featureType.id = csComp.Helpers.getGuid();
@@ -798,6 +799,11 @@ module Table2Map {
         }
 
         private convertOnly() {
+            const button = $('#t2m-convert-button');
+            if (!button || button.attr('disabled') === 'disabled') {
+                this.$messageBus.notifyWithTranslation('FORM_INCOMPLETE', '');
+                return;
+            }
             var featuresUpdated = ((this.changedFiles & ChangedFiles.LayerData) > 0);
             this.convert(featuresUpdated, (err) => {
                 if (err) {
@@ -1159,6 +1165,9 @@ module Table2Map {
                 this.layerDataChanged(); // Layer data needs to be updated
             }
             this.geometryType = GEOMETRY_TYPES[this.geometryTypeId];
+            if (!this.geometryType) {
+                console.log('Geometry type not found ' + this.geometryTypeId);
+            }
             this.featureType.style.drawingMode = this.geometryType.drawingMode;
             if (this.geometryType && this.geometryType.cols.length === Object.keys(this.geometryColumns).length) {
                 this.geometryInfoComplete = true;

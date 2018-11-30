@@ -102,6 +102,41 @@ module App {
                         description: 'A widget for uploading files/clipboard content to the web app.'
                     };
 
+                    this.$dashboardService.widgetTypes['zodkbaselayers'] = <csComp.Services.IWidget>{
+                        id: 'zodkbaselayers',
+                        icon: 'images/wereldbol.svg',
+                        description: 'A widget for changing baelayers.'
+                    };
+
+                    const db = this.$layerService.findDashboardById('main');
+                    db.widgets.push({
+                        "id": "zodkbaselayers",
+                        "directive": "zodkbaselayers",
+                        "elementId": "widget-zodkbaselayers",
+                        "enabled": true,
+                        "style": "vws2",
+                        "width": "300px",
+                        "bottom": "50px",
+                        "left": "500px",
+                        "position": "custom",
+                        "data": {
+                            "showLabels": true,
+                            "baselayers": [
+                                {
+                                    "title": "Kaart",
+                                    "layerWithoutLabels": "Positron",
+                                    "layerWithLabels": "Positron with labels",
+                                    "image": "http://a.basemaps.cartocdn.com/light_all/15/16779/10817.png"
+                                },
+                                {
+                                    "title": "Satelliet",
+                                    "layerWithoutLabels": "World Imagery",
+                                    "image": "http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/15/10817/16779.png"
+                                }
+                            ]
+                        }
+                    });
+
                     // this.areaFilter = new AreaFilter.AreaFilterModel();
                     // this.$layerService.addActionService(this.areaFilter);
                     this.contourAction = new ContourAction.ContourActionModel();
@@ -362,6 +397,10 @@ module App {
 
         zoomOut() {
             this.$mapService.getMap().zoomOut();
+        }
+
+        hasTable(): boolean {
+             return (this.$layerService.findDashboardById('zodkdatatable') ? true : false);
         }
 
         openTable() {

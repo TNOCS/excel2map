@@ -23,7 +23,7 @@ module Translations {
             SHOW_NR_OF_TOTAL: 'Show {{nr}} of {{total}} rows.',
             CSV_PARSE_SETTINGS_HELP: '',
             DECIMAL_CHARACTER: 'Decimal character',
-            NO_DATA_TABLE: 'No tabular data found. Return to step 1',
+            NO_DATA_TABLE: 'No tabular data found. Return to step 3',
             UPLOAD_HELP: 'Drag the file from your PC to the textarea below. Alternatively, paste the file content from the clipboard.',
             UPLOAD_ICON_HELP: 'Upload an icon file (*.png, max. size 50kb)',
             STYLE_PREVIEW: 'Preview',

@@ -42,7 +42,7 @@
         <div class="col-sm-4 col-md-3 col-lg-2" id="progress-content">
             <ul class="SteppedProgress Vertical">
                 <li ng-repeat="step in vm.t2mSvc.conversionSteps track by $index" ng-class="{'complete': vm.t2mSvc.currentStep >= $index + 1}">
-                    <a ng-click="vm.t2mSvc.currentStep = $index + 1" ng-disabled="((dropBox.$invalid||projectSettingsForm.$invalid||LayerSettingsOldForm.$invalid)&&$index!=0)">{{step}}</a>
+                    <a ng-click="vm.t2mSvc.currentStep = $index + 1" ng-disabled="((dropBox.$invalid||projectSettingsForm.$invalid||LayerSettingsOldForm.$invalid||!vm.t2mSvc.geometryInfoComplete)&&$index!=0)">{{step}}</a>
                 </li>
             </ul>
             <!-- <ul class="cd-multi-steps text-bottom count">
@@ -526,7 +526,7 @@
                         </div>
                         <div class="row small-margin-top">
                             <div class="col-xs-12">
-                                <div class="btn t2m-btn t2m-btn-lg yellow" style="min-width: 200px" ng-click="vm.t2mSvc.convertOnly()" ng-disabled="(dropBox.$invalid||projectSettingsForm.$invalid||LayerSettingsOldForm.$invalid||!vm.t2mSvc.geometryInfoComplete)">
+                                <div id="t2m-convert-button" class="btn t2m-btn t2m-btn-lg yellow" style="min-width: 200px" ng-click="vm.t2mSvc.convertOnly()" ng-disabled="(dropBox.$invalid||projectSettingsForm.$invalid||LayerSettingsOldForm.$invalid||!vm.t2mSvc.geometryInfoComplete)">
                                     <i class="fa fa-cogs"></i> {{'CONVERT' | translate}}
                                 </div>
                             </div>
@@ -541,7 +541,7 @@
                         </div>
                         <div class="row small-margin-top" ng-show="vm.t2mSvc.notFoundLocations">
                             <div class="col-xs-12">
-                                <div class="zodk-notification-box text-danger" ng-click="vm.showMissingLocations()">
+                                <div class="zodk-notification-box text-danger pointer" ng-click="vm.showMissingLocations()">
                                     <i class="fa fa-exclamation-triangle"></i>{{'DATA_NOT_CONVERTED_CORRECTLY' | translate}}
                                 </div>
                             </div>
