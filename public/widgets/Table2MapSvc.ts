@@ -434,6 +434,10 @@ module Table2Map {
             }
         }
 
+        private clearLegendProperty() {
+            this.defaultLegendProperty = undefined;
+        }
+
         private getFeatureTypeFromResourceType(typeResource: csComp.Services.ITypesResource, typeUrl: string): csComp.Services.IFeatureType {
             var id = typeUrl.split('/').pop();
             var fType = typeResource.featureTypes[id];
@@ -862,7 +866,7 @@ module Table2Map {
                 fitToMap: layer.fitToMap,
                 typeUrl: `${Table2Map.DEPLOY_PATH}/api/resources/${this.featureType.id}`,
                 defaultFeatureType: `${this.featureType.id}`,
-                defaultLegendProperty: `${Table2Map.DEPLOY_PATH}/api/resources/${this.featureType.id}#${this.defaultLegendProperty}`,
+                defaultLegendProperty: this.defaultLegendProperty ? `${Table2Map.DEPLOY_PATH}/api/resources/${this.featureType.id}#${this.defaultLegendProperty}` : undefined,
                 opacity: layer.opacity || 95,
                 url: `${Table2Map.DEPLOY_PATH}/api/layers/${layer.id}`,
                 data: layer.data || {}
@@ -882,6 +886,7 @@ module Table2Map {
             layerDef.data['propertyTypes'] = this.featureType.properties;
             var featuresAreUpdated = ((this.changedFiles & ChangedFiles.LayerData) > 0);
             layerDef['features'] = (featuresAreUpdated ? [] : layer.data.features);
+            layerDef.data['features'] = [];
             this.restApi.sendLayer(projectId, groupId, < any > layerDef, featuresAreUpdated, (err) => {
                 cb(err);
             });
@@ -1331,7 +1336,10 @@ module Table2Map {
             let firstNumberType = _.findWhere(this.featureType._propertyTypeData, {
                 type: 'number'
             });
-            if (firstNumberType) this.defaultLegendProperty = firstNumberType.label;
+            if (firstNumberType) {
+                console.log(`First property with number-type is ${firstNumberType.label}`);
+                // this.defaultLegendProperty = firstNumberType.label;
+            }
             this.assertDefaultSection();
         }
 

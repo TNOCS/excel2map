@@ -4,9 +4,11 @@
         <span class="icon-sluit t2mclose" ng-click="vm.cancel()"></span></h4>
 </div>
 <div class="modal-body">
-    <ul>
-        <li ng-repeat="(key, val) in vm.notFoundLocations">{{key}}</li>
-    </ul>
+    <div class="scrollable-widget-content manage-modal-content" resize resize-y="200" resize-relative-to-screen="true">
+        <ul>
+            <li ng-repeat="(key, val) in vm.notFoundLocations">{{key}}</li>
+        </ul>
+    </div>
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-primary" ng-click="vm.ok()" style="text-transform:capitalize;">{{'OK' | translate}}</button>

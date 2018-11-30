@@ -221,7 +221,8 @@ module ProjectsDirective {
             modalInstance.result.then((title: string) => {
                 if (!title) return;
                 this.$messageBus.publish('table2map', 'createproject', title);
-            }, () => {
+                setTimeout(() => {this.getUserProjects(), 500});
+        }, () => {
                 console.log('Modal dismissed at: ' + new Date());
             });
         }

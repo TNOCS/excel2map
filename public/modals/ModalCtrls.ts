@@ -631,7 +631,7 @@ module ModalCtrls {
         }
 
         private deleteProject() {
-            this.t2mSvc.restApi.deleteProject(this.project.id, (result) => {
+            this.t2mSvc.restApi.deleteProject(this.project.id, (err) => {
                 this.ok();
             });
         }

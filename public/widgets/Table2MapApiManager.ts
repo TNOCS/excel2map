@@ -63,6 +63,7 @@ module Table2Map {
             this.$http.delete(url, {
                 timeout: TIMEOUT
             }).then((result) => {
+                this.$messageBus.notifyWithTranslation('DELETED_PROJECT', '');
                 cb(null);
             }).catch((err) => {
                 cb(err);
@@ -131,6 +132,7 @@ module Table2Map {
             this.$http.delete(url, {
                 timeout: TIMEOUT
             }).then((result) => {
+                this.$messageBus.notifyWithTranslation('DELETED_GROUP', '');
                 cb(null);
             }).catch((err) => {
                 cb(err);

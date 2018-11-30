@@ -89,7 +89,7 @@
                         <div id="layer-settings" ng-class="{'disabled-form': !vm.t2mSvc.project}">
                             <form name="LayerSettingsOldForm">
                                 <div class="form-group">
-                                    <label for="l-group">{{'GROUP' | translate}}</label>
+                                    <label for="l-group">{{'GROUP' | translate}}</label><span class="icon-ic_help_outline_black help_icon" aria-hidden="true" uib-tooltip="{{'GROUP_HELP' | translate}}"></span>
                                     <ui-select select-group-on-blur ng-model="vm.t2mSvc.selectedGroup" ng-blur="vm.t2mSvc.checkGroups()" ng-keyup="$event.keyCode == 13 && vm.t2mSvc.checkGroups()"
                                         ng-class="{'ng-valid': vm.t2mSvc.selectedGroup.title, 'ng-invalid': !vm.t2mSvc.selectedGroup.title}">
                                         <ui-select-match placeholder="{{'SELECT_OR_CREATE_GROUP' | translate}}">
@@ -103,7 +103,7 @@
                                     <input type="text" id="dummy" ng-model="vm.t2mSvc.selectedGroup.title" style="display: none" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="l-title">{{'LAYER_TITLE' | translate}}</label>
+                                    <label for="l-title">{{'LAYER_TITLE' | translate}}</label><span class="icon-ic_help_outline_black help_icon" aria-hidden="true" uib-tooltip="{{'LAYER_TITLE_HELP' | translate}}"></span>
                                     <input type="text" id="l-title" placeholder="{{'LAYER_TITLE' | translate}}" ng-model="vm.t2mSvc.layer.title" class="form-control" required/>
                                 </div>
                                 <div class="form-group">
@@ -267,6 +267,7 @@
                                     <label for="f-default-style">{{'DEFAULT_STYLE_PROPERTY' | translate}}</label>
                                     <div>
                                         <select id="f-default-style" class="form-control full-width inline-select" ng-model="vm.t2mSvc.defaultLegendProperty" ng-options="hdr.code as hdr.title for hdr in vm.t2mSvc.headerCollection"></select>
+                                        <span class="icon-sluit t2mclose" ng-click="vm.t2mSvc.clearLegendProperty()"></span>
                                     </div>
                                 </div>
                                 <div class="collapse" id="advancedIconSettings">

@@ -210,7 +210,7 @@ module Table2Map {
         }
 
         private closeWizard() {
-            window.location.href = `/?dashboard=main`;
+            window.location.href = `${Table2Map.DEPLOY_PATH}/?dashboard=main`;
         }
 
         private showMissingLocations() {
