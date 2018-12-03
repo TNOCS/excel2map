@@ -302,7 +302,7 @@
                                                 <div class="col-sm-6 form-group">
                                                     <label for="stroke-col">{{'STROKE_COLOR' | translate}}</label>
                                                     <div>
-                                                        <spectrum-colorpicker name="stroke-col" data-ng-model="vm.t2mSvc.featureType.style['strokeColor']" options="{cancelText: 'Cancel', chooseText: 'OK', preferredFormat: 'hex'}"></spectrum-colorpicker>
+                                                        <spectrum-colorpicker name="stroke-col" data-ng-model="vm.t2mSvc.featureType.style['strokeColor']" options="{cancelText: 'Cancel', chooseText: 'OK', preferredFormat: 'hex', showInput: true}"></spectrum-colorpicker>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6 form-group">
@@ -314,7 +314,7 @@
                                                 <div class="col-sm-6 form-group">
                                                     <label for="sel-stroke-col">{{'SELECTED_STROKE_COLOR' | translate}}</label>
                                                     <div>
-                                                        <spectrum-colorpicker name="sel-stroke-col" data-ng-model="vm.t2mSvc.featureType.style['selectedStrokeColor']" options="{cancelText: 'Cancel', chooseText: 'OK', preferredFormat: 'hex'}"></spectrum-colorpicker>
+                                                        <spectrum-colorpicker name="sel-stroke-col" data-ng-model="vm.t2mSvc.featureType.style['selectedStrokeColor']" options="{cancelText: 'Cancel', chooseText: 'OK', preferredFormat: 'hex', showInput: true}"></spectrum-colorpicker>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6 form-group">
@@ -417,14 +417,14 @@
                                             <input type="checkbox" data-ng-model="vm.t2mSvc.pType.visibleInCallOut" id="p-callout" />
                                             <label for="p-callout"></label>
                                             <div class="zodk-checkbox-text">
-                                                {{'VISIBLE_IN_CALLOUT' | translate}}
+                                                {{'VISIBLE_IN_CALLOUT' | translate}}<span class="icon-ic_help_outline_black help_icon" aria-hidden="true" uib-tooltip="{{'CALLOUT_HELP' | translate}}"></span>
                                             </div>
                                         </div>
                                         <div class="col-xs-6 no-padding">
                                             <input type="checkbox" data-ng-model="vm.t2mSvc.pType.visibleInTooltip" id="p-tooltip" />
                                             <label for="p-tooltip"></label>
                                             <div class="zodk-checkbox-text">
-                                                {{'VISIBLE_IN_TOOLTIP' | translate}}
+                                                {{'VISIBLE_IN_TOOLTIP' | translate}}<span class="icon-ic_help_outline_black help_icon" aria-hidden="true" uib-tooltip="{{'TOOLTIP_HELP' | translate}}"></span>
                                             </div>
                                         </div>
                                     </div>

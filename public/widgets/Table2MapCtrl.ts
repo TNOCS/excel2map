@@ -140,6 +140,9 @@ module Table2Map {
             });
 
             $scope.$watch('vm.t2mSvc.currentStep', () => {
+                var featuresUpdated = ((this.t2mSvc.changedFiles & ChangedFiles.LayerData) > 0);
+                if (featuresUpdated) this.t2mSvc.notFoundLocations = undefined;
+                this.t2mSvc.conversionReady = false;
                 console.log(`Select step ${this.t2mSvc.currentStep}`);
                 if (this.t2mSvc.currentStep === ConversionStep.FeatureProps) {
                     this.$messageBus.publish('table2map', 'update-rightpanel', this.t2mSvc.feature);

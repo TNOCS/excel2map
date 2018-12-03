@@ -118,7 +118,7 @@ module Table2Map {
     import IGeoFeature = Helpers.IGeoFeature;
 
     export class Table2MapSvc {
-        private changedFiles: ChangedFiles = 255; //Set everything to changed
+        public changedFiles: ChangedFiles = 255; //Set everything to changed
         public restApi: Table2MapApiManager;
         private dataProperties: {
             [key: string]: any
@@ -176,7 +176,7 @@ module Table2Map {
         private conversionSteps: string[] = CONVERSION_STEPS;
         public notFoundLocations: Record < string, any > ;
         private uploadNotificationMessage: INotificationMsg;
-        private conversionReady: boolean = false;
+        public conversionReady: boolean = false;
 
         public static $inject = [
             '$http',
@@ -364,10 +364,10 @@ module Table2Map {
                 let success = this.startWizard();
                 if (!success) location.href = `${Table2Map.DEPLOY_URL}?dashboard=table2map&editproject=${this.layerService.project.id}`;
             }
+            this.layer = undefined;
+            this.currentStep = ConversionStep.ProjectSettings;
+            this.textContent = undefined;
             if (!layerId) {
-                this.layer = undefined;
-                this.currentStep = ConversionStep.ProjectSettings;
-                this.textContent = undefined;
                 this.resetVariables();
                 this.project = project;
                 this.selectedGroup = _.find(this.project.groups, (group) => {
