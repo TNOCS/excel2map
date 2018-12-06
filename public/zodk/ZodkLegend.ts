@@ -103,7 +103,7 @@ module Table2Map {
 
             this.mBusHandles.push(this.$messageBus.subscribe('updatelegend', (title: string, data: any) => {
                 // this.handleLegendUpdate(title, data);
-                this.handleLegendStyleUpdate(title, data);
+                this.handleLegendStyleUpdate();
             }));
 
             this.mBusHandles.push(this.$messageBus.subscribe('zodk', (title, data: any) => {
@@ -137,7 +137,8 @@ module Table2Map {
                 });
             }
             this.getActiveStyle();
-            this.$scope.activeStyleProperty = null;
+            // this.$scope.activeStyleProperty = null;
+            this.handleLegendStyleUpdate();
 
             this.updateLegendItemsUsingFeatures();
         }
@@ -426,7 +427,7 @@ module Table2Map {
         }
 
 
-        private handleLegendStyleUpdate(title: string, data ? : any) {
+        private handleLegendStyleUpdate() {
             this.leg = new csComp.Services.Legend();
 
             this.activeStyle = null;

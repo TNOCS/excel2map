@@ -16,7 +16,7 @@ const csCconfig = new csweb.ConfigurationService('./configuration.json');
 
 // Should be set to true for server on zodk
 const runOnZODKServer = true;
-const zodkServerAddress = (runOnZODKServer ? 'http://www.zorgopdekaart.nl/zelfkaartenmaken' : '');
+const zodkServerAddress = (runOnZODKServer ? 'https://www.zorgopdekaart.nl/zelfkaartenmaken' : '');
 const port = process.env.PORT || 3004;
 const deployPath = process.env.deployPath || '';
 console.log('Process env port: ' + port);

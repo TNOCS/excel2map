@@ -7,7 +7,7 @@ module Table2Map {
     import ProjectLayer = csComp.Services.ProjectLayer;
 
     var TIMEOUT = 30000;
-    export const DEPLOY_URL = 'http://www.zorgopdekaart.nl/zelfkaartenmaken/public/index.html' || '';
+    export const DEPLOY_URL = 'https://www.zorgopdekaart.nl/zelfkaartenmaken/public/index.html' || '';
     export const DEPLOY_PATH = '/zelfkaartenmaken' || '';
     const PROJECT_URL = DEPLOY_PATH + '/api/projects';
     const LAYER_URL = DEPLOY_PATH + '/api/layers';

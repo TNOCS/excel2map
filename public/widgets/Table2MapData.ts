@@ -120,6 +120,12 @@ module Table2Map {
             drawingMode: 'Polygon',
             additionalInfo: ['', 'CBS']
         },
+        'Gemeente(2018)': {
+            name: 'Gemeente(2018)',
+            cols: ['Gemeentenaam of -code'],
+            drawingMode: 'Polygon',
+            additionalInfo: ['', 'CBS']
+        },
         'Gemeente(2016)': {
             name: 'Gemeente(2016)',
             cols: ['Gemeentenaam of -code'],
@@ -177,6 +183,12 @@ module Table2Map {
         'RD_X_en_Y': {
             name: 'RD coordinaten',
             cols: ['X', 'Y'],
+            drawingMode: 'Point',
+            additionalInfo: []
+        },
+        'Plaatsnaam': {
+            name: 'Plaatsnaam',
+            cols: ['Plaatsnaam'],
             drawingMode: 'Point',
             additionalInfo: []
         },

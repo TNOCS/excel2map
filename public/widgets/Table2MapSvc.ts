@@ -3,6 +3,7 @@ module Table2Map {
         delimiter: string;
         decimalCharacter: string;
         hasHeader: boolean;
+        startRow: number;
     }
 
     export interface Table2MapData {
@@ -158,6 +159,7 @@ module Table2Map {
         private selectedGroup: ProjectGroup = < ProjectGroup > {};
         private csvParseSettings: ICSVParseSettings = {
             hasHeader: true,
+            startRow: 1,
             delimiter: 'auto',
             decimalCharacter: '.'
         };
@@ -726,12 +728,15 @@ module Table2Map {
                     })
                     .on('end_parsed', (jsonArr: any[]) => {
                         console.log(`Parsed ${jsonArr.length} lines`);
-                        if (!jsonArr || jsonArr.length === 0 || (this.csvParseSettings.hasHeader && jsonArr.length === 1)) {
+                        if (!jsonArr || jsonArr.length === 0 || (this.csvParseSettings.hasHeader && jsonArr.length <= this.csvParseSettings.startRow - 1)) {
                             console.warn(`Warning: parsing csv resulted in empty table`);
                             return;
                         }
                         this.layerDataChanged();
                         this.$timeout(() => {
+                            if (this.csvParseSettings.startRow > 1) {
+                                jsonArr = jsonArr.splice(this.csvParseSettings.startRow - 1);
+                            }
                             this.numberOfCols = Object.keys(jsonArr[0]).length;
                             if (this.numberOfCols > MAX_NR_COLUMNS) {
                                 console.error('Too many columns!');
@@ -1169,6 +1174,7 @@ module Table2Map {
                 this.geometryInfoComplete = false;
                 this.layerDataChanged(); // Layer data needs to be updated
             }
+            if (!this.geometryTypeId) return;
             this.geometryType = GEOMETRY_TYPES[this.geometryTypeId];
             if (!this.geometryType) {
                 console.log('Geometry type not found ' + this.geometryTypeId);

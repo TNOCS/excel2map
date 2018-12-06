@@ -109,33 +109,35 @@ module App {
                     };
 
                     const db = this.$layerService.findDashboardById('main');
-                    db.widgets.push({
-                        "id": "zodkbaselayers",
-                        "directive": "zodkbaselayers",
-                        "elementId": "widget-zodkbaselayers",
-                        "enabled": true,
-                        "style": "vws2",
-                        "width": "300px",
-                        "bottom": "50px",
-                        "left": "500px",
-                        "position": "custom",
-                        "data": {
-                            "showLabels": true,
-                            "baselayers": [
-                                {
-                                    "title": "Kaart",
-                                    "layerWithoutLabels": "Positron",
-                                    "layerWithLabels": "Positron with labels",
-                                    "image": "http://a.basemaps.cartocdn.com/light_all/15/16779/10817.png"
-                                },
-                                {
-                                    "title": "Satelliet",
-                                    "layerWithoutLabels": "World Imagery",
-                                    "image": "http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/15/10817/16779.png"
-                                }
-                            ]
-                        }
-                    });
+                    if (db && db.widgets) {
+                        db.widgets.push({
+                            "id": "zodkbaselayers",
+                            "directive": "zodkbaselayers",
+                            "elementId": "widget-zodkbaselayers",
+                            "enabled": true,
+                            "style": "vws2",
+                            "width": "300px",
+                            "bottom": "50px",
+                            "left": "500px",
+                            "position": "custom",
+                            "data": {
+                                "showLabels": true,
+                                "baselayers": [
+                                    {
+                                        "title": "Kaart",
+                                        "layerWithoutLabels": "Positron",
+                                        "layerWithLabels": "Positron with labels",
+                                        "image": "https://a.basemaps.cartocdn.com/light_all/15/16779/10817.png"
+                                    },
+                                    {
+                                        "title": "Satelliet",
+                                        "layerWithoutLabels": "World Imagery",
+                                        "image": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/15/10817/16779.png"
+                                    }
+                                ]
+                            }
+                        });
+                    }
 
                     // this.areaFilter = new AreaFilter.AreaFilterModel();
                     // this.$layerService.addActionService(this.areaFilter);
@@ -154,7 +156,7 @@ module App {
             this.$messageBusService.subscribe('zodk', (title, value: any) => {
                 switch (title) {
                     case 'home':
-                        location.href = 'http://www.zorgopdekaart.nl';
+                        location.href = 'https://www.zorgopdekaart.nl';
                         break;
                     case 'openpanel':
                         this.ZodkRightPanelVisible = true;

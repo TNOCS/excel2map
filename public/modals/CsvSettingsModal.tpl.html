@@ -6,8 +6,18 @@
 <div class="modal-body">
     <form class="form">
         <div class="form-group">
-            <label for="hasHeader">{{'HAS_HEADER' | translate}}: </label>
-            <input id="hasHeader" type="checkbox" ng-model="csvParseSettings.hasHeader" />
+            <div class="zodk-checkbox">
+                <input id="hasHeader" type="checkbox" ng-model="csvParseSettings.hasHeader" ng-change="vm.headerChanged()"/>
+                <label for="hasHeader"> </label>
+                <div class="zodk-checkbox-text">
+                    {{'HAS_HEADER' | translate}}
+                </div>
+            </div>
+        </div>
+        <div class="form-group" >
+            <label for="decimalChar">{{'START_FROM_ROW' | translate}}: <span class="icon-ic_help_outline_black pointer" aria-hidden="true" uib-tooltip="{{'START_FROM_ROW_HELP' | translate}}" tooltip-placement="bottom"></span></label>
+            <input class="form-control" id="startRow" type="number" min="1" max="50" step="1" ng-model="csvParseSettings.startRow"
+            ng-disabled="!csvParseSettings.hasHeader" />
         </div>
         <div class="form-group">
             <label for="delimiter">{{'DELIMITER' | translate}}: </label>

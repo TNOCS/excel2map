@@ -213,7 +213,7 @@ module Table2Map {
         }
 
         private closeWizard() {
-            window.location.href = `${Table2Map.DEPLOY_PATH}/?dashboard=main`;
+            window.location.href = `${Table2Map.DEPLOY_PATH}/public/index.html?dashboard=main`;
         }
 
         private showMissingLocations() {

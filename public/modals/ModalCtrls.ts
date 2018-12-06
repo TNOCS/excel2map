@@ -28,6 +28,12 @@ module ModalCtrls {
             $scope.csvParseSettings = csvParseSettings;
         }
 
+        public headerChanged() {
+            if (!this.$scope.csvParseSettings.hasHeader) {
+                this.$scope.csvParseSettings.startRow = 1;
+            }
+        }
+
         public ok() {
             this.$uibModalInstance.close(this.csvParseSettings);
         }
@@ -70,13 +76,14 @@ module ModalCtrls {
             private originalHeaders: string[] = [],
             private selectionOption: 'none' | 'row' | 'col',
             private selectionAmount: number,
-            private itemsToSelect: string[],
+            private itemsToSelect: string[] = [],
             private selectedColumns: Table2Map.IHeaderObject[],
             private showTooltips: boolean = false
         ) {
             $scope.vm = this;
             $scope.columnSelection = {};
             if (!this.selectedColumns) this.selectedColumns = [];
+            if (!this.itemsToSelect) this.itemsToSelect = [];
             $timeout(() => {
                 this.preselectColumns();
             }, 0);

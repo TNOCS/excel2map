@@ -1482,6 +1482,7 @@ li.zodk-checkbox {
   color: #ff4040; }
 
 .t2m-btn {
+  cursor: pointer;
   color: black;
   font-size: 18px;
   font-weight: bold;
