@@ -270,6 +270,23 @@
                                         <span class="icon-sluit t2mclose" ng-click="vm.t2mSvc.clearLegendProperty()"></span>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label for="legendColors">{{'LEGEND_COLORS' | translate}}</label>
+                                    <div id="legendColors" class="row">
+                                        <div class="col-sm-6 form-group">
+                                            <label for="f-fill-colors">{{'FROM' | translate}}</label>
+                                            <div id="f-fill-colors">
+                                                <spectrum-colorpicker name="fill-colors-1" data-ng-model="vm.t2mSvc.featureType.style['styleColors'][0]" options="{ cancelText: 'Cancel', chooseText: 'OK', preferredFormat: 'hex', showInput: true }"></spectrum-colorpicker>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 form-group">
+                                            <label for="f-fill-colors">{{'TO' | translate}}</label>
+                                            <div id="f-fill-colors">
+                                                <spectrum-colorpicker name="fill-colors-1" data-ng-model="vm.t2mSvc.featureType.style['styleColors'][1]" options="{ cancelText: 'Cancel', chooseText: 'OK', preferredFormat: 'hex', showInput: true }"></spectrum-colorpicker>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="collapse" id="advancedIconSettings">
                                     <div class="form-group">
                                         <label for="iconDimensions">{{'ICON_DIMENSIONS' | translate}}</label>
