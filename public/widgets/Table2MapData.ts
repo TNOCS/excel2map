@@ -126,6 +126,12 @@ module Table2Map {
             drawingMode: 'Polygon',
             additionalInfo: ['', 'CBS']
         },
+        'Gemeente(2017)': {
+            name: 'Gemeente(2017)',
+            cols: ['Gemeentenaam of -code'],
+            drawingMode: 'Polygon',
+            additionalInfo: ['', 'CBS']
+        },
         'Gemeente(2016)': {
             name: 'Gemeente(2016)',
             cols: ['Gemeentenaam of -code'],
@@ -138,9 +144,21 @@ module Table2Map {
             drawingMode: 'Polygon',
             additionalInfo: ['', 'CBS']
         },
+        'Wijk(2018)': {
+            name: 'Wijk(2018)',
+            cols: ['Wijkcode'],
+            drawingMode: 'Polygon',
+            additionalInfo: []
+        },
         'Wijk(2014)': {
             name: 'Wijk(2014)',
             cols: ['Wijkcode'],
+            drawingMode: 'Polygon',
+            additionalInfo: []
+        },
+        'Buurt(2018)': {
+            name: 'Buurt(2018)',
+            cols: ['Buurtcode'],
             drawingMode: 'Polygon',
             additionalInfo: []
         },
