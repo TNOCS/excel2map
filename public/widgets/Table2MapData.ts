@@ -120,6 +120,12 @@ module Table2Map {
             drawingMode: 'Polygon',
             additionalInfo: ['', 'CBS']
         },
+        'Gemeente(2019)': {
+            name: 'Gemeente(2019)',
+            cols: ['Gemeentenaam of -code'],
+            drawingMode: 'Polygon',
+            additionalInfo: ['', 'CBS']
+        },
         'Gemeente(2018)': {
             name: 'Gemeente(2018)',
             cols: ['Gemeentenaam of -code'],
